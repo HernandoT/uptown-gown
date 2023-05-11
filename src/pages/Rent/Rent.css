@@ -1,0 +1,54 @@
+.rent {
+    width: 100%;
+    height: 100%;
+}
+
+.rentContent {
+    margin: 6% 5%;
+    display: flex;
+    gap: 3%;
+}
+
+.filter {
+    flex: 1;
+}
+
+.filter>hr {
+    margin: 5% 0;
+}
+
+.colorsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.colors {
+    background: grey;
+    border-radius: 50%;
+    width: 3vw;
+    height: 3vw;
+    margin: 8px;
+}
+
+.checkboxContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    font-size: 1.1rem;
+    width: 10%;
+}
+
+.checkbox input[type="checkbox"] {
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.filterItems {
+    flex: 3;
+}

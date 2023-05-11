@@ -1,0 +1,44 @@
+.detailContent {
+  display: flex;
+  margin: 7% 5%;
+  gap: 5%;
+}
+
+.detailImage {
+  flex: 2;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  height: 80vh;
+  gap: 3%;
+}
+
+.detailImage1 {
+  grid-area: 1 / 1 / 4 / 4;
+  background-color: lightgray;
+  border-radius: 2%;
+}
+
+.detailImage2 {
+  background-color: lightgray;
+  border-radius: 5%;
+}
+
+.detailDesc {
+  flex: 3;
+}
+
+.detailTitle {
+  font-size: 3rem;
+  font-family: "Playfair Display", serif;
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 10vh;
+}
+
+.strip {
+  border: 1px solid #edbf52;
+  height: 4rem;
+  margin-right: 3%;
+}

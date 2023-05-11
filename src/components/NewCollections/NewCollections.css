@@ -1,0 +1,134 @@
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .newCollections {
+    margin: 45% 5%;
+  }
+  
+  .newCollectionsTitle {
+    font-size: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 5vh;
+  }
+  
+  .newCollectionStrip {
+    border: 1px solid #EDBF52;
+    height: 2rem;
+    margin-right: 3%;
+  }
+  
+  .newCollectionsTitle > p {
+    margin: 0;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .newCollections {
+    margin: 45% 5%;
+  }
+  
+  .newCollectionsTitle {
+    font-size: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 5vh;
+  }
+  
+  .newCollectionStrip {
+    border: 1px solid #EDBF52;
+    height: 2rem;
+    margin-right: 3%;
+  }
+  
+  .newCollectionsTitle > p {
+    margin: 0;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .newCollections {
+    margin: 45% 5%;
+  }
+  
+  .newCollectionsTitle {
+    font-size: 2rem;
+    font-family: 'Playfair Display', serif;
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 5vh;
+  }
+  
+  .newCollectionStrip {
+    border: 1px solid #EDBF52;
+    height: 3rem;
+    margin-right: 3%;
+  }
+  
+  .newCollectionsTitle > p {
+    margin: 0;
+  }
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .newCollections {
+    margin: 30% 5%;
+  }
+  
+  .newCollectionsTitle {
+    font-size: 2.5rem;
+    font-family: 'Playfair Display', serif;
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 5vh;
+  }
+  
+  .newCollectionStrip {
+    border: 1px solid #EDBF52;
+    height: 3.5rem;
+    margin-right: 3%;
+  }
+  
+  .newCollectionsTitle > p {
+    margin: 0;
+  }
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .newCollections {
+    margin: 20% 5%;
+  }
+  
+  .newCollectionsTitle {
+    font-size: 3rem;
+    font-family: 'Playfair Display', serif;
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 10vh;
+  }
+  
+  .newCollectionStrip {
+    border: 1px solid #EDBF52;
+    height: 4rem;
+    margin-right: 3%;
+  }
+  
+  .newCollectionsTitle > p {
+    margin: 0;
+  }
+}

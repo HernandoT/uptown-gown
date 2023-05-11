@@ -1,0 +1,89 @@
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .home {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .square {
+    background-color: #FDF9EE;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    width: 30vw;
+    height: 50vh;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .home {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .square {
+    background-color: #FDF9EE;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    width: 30vw;
+    height: 60vh;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .home {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .square {
+    background-color: #FDF9EE;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    width: 30vw;
+    height: 75vh;
+  }
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .home {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .square {
+    background-color: #FDF9EE;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    width: 30vw;
+    height: 80vh;
+  }
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .home {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .square {
+    background-color: #FDF9EE;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    width: 30vw;
+    height: 90vh;
+  }
+} 

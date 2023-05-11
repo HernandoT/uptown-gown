@@ -1,0 +1,54 @@
+.customContent {
+  margin: 6% 5%;
+  display: flex;
+  gap: 3%;
+}
+
+.customBox {
+  width: 100%;
+  background-color: #FDF9EE;
+  height: 80vh;
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3%;
+  border-radius: 2%;
+}
+
+.customLogo {
+  flex: 2;
+  background-color: #FFFFFF;
+  width: 10vw;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.customTitle {
+  flex: 1;
+  font-size: 2rem;
+  font-family: 'Playfair Display', serif;
+  display: flex;
+  align-items: center;
+}
+
+.customText {
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.customText > div {
+  margin: 10px 0;
+}
+
+.customButton {
+  background-color: #181308;
+  color: #FFFFFF;
+  height: 50px;
+  width: 50%;
+  border-radius: 5%;
+}

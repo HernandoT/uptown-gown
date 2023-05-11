@@ -1,0 +1,12 @@
+.paginationItems {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    gap: 2vw;
+    padding: 0 10px;
+}
+
+.paginationItem {
+    height: 400px;
+    background-color: lightgray;
+    border-radius: 5%;
+}
