@@ -12,7 +12,7 @@ import Appointment from "./pages/Appointment/Appointment";
 import About from "./pages/About/About";
 import Detail from "./pages/Detail/Detail";
 import History from "./pages/History/History";
-import SupportAdmin from "../src/SupportEngine";
+import SupportAdmin from "../src/SupportAdmin";
 import SupportEngine from "../src/SupportEngine";
 
 ReactDOM.render(
