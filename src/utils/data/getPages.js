@@ -21,8 +21,8 @@ let pages = [
   },
   {
     name: "History",
-    route: "/history"
-  }
+    route: "/history",
+  },
 ];
 
 export function getPages() {

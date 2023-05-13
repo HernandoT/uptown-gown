@@ -25,7 +25,7 @@ ReactDOM.render(
         <Route path="/appointment" element={<Appointment />} />
         <Route path="/about" element={<About />} />
         <Route path="/detail" element={<Detail />} />
-        <Route path="/history" elemement={<History />} />
+        <Route path="/history" element={<History />} />
         <Route path="/support" element={<SupportAdmin />} />
       </Routes>
       <SupportEngine />

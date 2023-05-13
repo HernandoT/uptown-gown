@@ -1,0 +1,8 @@
+.historyContent {
+    margin: 6% 15% 5% 5%;
+    gap: 5%;
+}
+
+.MuiTabs-flexContainer {
+    justify-content: space-around !important;
+}
