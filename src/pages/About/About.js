@@ -1,7 +1,6 @@
 import Banner from "../../components/Banner/Banner";
 import "./About.css";
 import logo from "../../utils/assets/logo.png";
-import map from "../../utils/assets/map.png"
 import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/Navbar/Navbar";
 

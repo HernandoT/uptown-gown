@@ -12,8 +12,8 @@ import Appointment from "./pages/Appointment/Appointment";
 import About from "./pages/About/About";
 import Detail from "./pages/Detail/Detail";
 import History from "./pages/History/History";
+import Login from "./pages/Login/Login";
 import SupportAdmin from "../src/SupportAdmin";
-import SupportEngine from "../src/SupportEngine";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -26,9 +26,9 @@ ReactDOM.render(
         <Route path="/about" element={<About />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/history" element={<History />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/support" element={<SupportAdmin />} />
       </Routes>
-      <SupportEngine />
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

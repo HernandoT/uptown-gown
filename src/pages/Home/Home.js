@@ -5,9 +5,12 @@ import NewCollections from "../../components/NewCollections/NewCollections";
 import PopularCollections from "../../components/PopularCollections/PopularCollections";
 import Slogan from "../../components/Slogan/Slogan";
 import Testimonials from "../../components/Testimonials/Testimonials";
+import SupportEngine from "../../SupportEngine";
 import "./Home.css";
 
 const Home = () => {
+  const isLoged = localStorage.getItem("isLoged");
+
   return (
     <div className="home">
       <Navbar />
@@ -18,6 +21,7 @@ const Home = () => {
       <PopularCollections />
       <Testimonials />
       <Footer />
+      {isLoged === "true" ? <SupportEngine /> : ""}
     </div>
   );
 };

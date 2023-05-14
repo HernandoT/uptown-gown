@@ -19,10 +19,10 @@ let pages = [
     name: "About",
     route: "/about",
   },
-  {
-    name: "History",
-    route: "/history",
-  },
+  // {
+  //   name: "History",
+  //   route: "/history",
+  // },
 ];
 
 export function getPages() {
