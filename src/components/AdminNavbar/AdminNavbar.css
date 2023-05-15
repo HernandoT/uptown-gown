@@ -1,0 +1,33 @@
+.App {
+  width: 20vw;
+}
+
+.menu-bar-icon {
+  font-size: 30px;
+  color: #3a8df4;
+  margin-right: 10px;
+  margin-top: 7px;
+  cursor: pointer;
+}
+.mobile-menu-area {
+  position: absolute;
+  width: 100%;
+  z-index: 100;
+}
+@media all and (min-width: 650px) {
+  .main-menu-desktop-mode {
+    display: block;
+  }
+  .main-menu-mobile-mode {
+    display: none;
+  }
+}
+
+@media all and (max-width: 649px) {
+  .main-menu-desktop-mode {
+    display: none;
+  }
+  .main-menu-mobile-mode {
+    display: block;
+  }
+}
