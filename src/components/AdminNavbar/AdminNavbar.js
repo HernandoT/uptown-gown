@@ -1,8 +1,11 @@
 import "./AdminNavbar.css";
 import logo from "../../utils/assets/logo.png";
 import { MultilevelMenu } from "react-multilevel-menu";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const AdminNavbar = () => {
+  const navigate = useNavigate();
+
   const list = [
     {
       label: "INBOX",
@@ -10,6 +13,9 @@ const AdminNavbar = () => {
         {
           label: "Chats",
           faIcon: "fa fa-weixin",
+          onSelected: function () {
+            navigate("/support");
+          },
         },
       ],
     },
@@ -19,6 +25,9 @@ const AdminNavbar = () => {
         {
           label: "Popular Collections",
           faIcon: "fa fa-star-o",
+          onSelected: function () {
+            navigate("/popular-collection");
+          },
         },
         {
           label: "Filters",
@@ -70,12 +79,13 @@ const AdminNavbar = () => {
     },
   ];
 
-  const selectedItem = (event) => {
-    console.log(event);
+  const selectedItem = () => {
+    console.log("test");
   };
 
   const config = {
     paddingAtStart: true,
+    collapseOnSelect: true,
     classname: "my-custom-class",
     fontColor: "grey",
     selectedListFontColor: "black",
@@ -84,15 +94,16 @@ const AdminNavbar = () => {
 
   return (
     <div className="admin-navbar">
-      <img src={logo} alt="logo" className="icon" />
+      <img src={logo} alt="logo" className="admin-navbar-icon" />
       <div className="main-menu">
         <MultilevelMenu
           list={list}
           configuration={config}
           selectedListItem={selectedItem}
-          selectedLabel={selectedItem}
+          // selectedLabel={selectedItem}
         />
       </div>
+      <Outlet />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextField } from "@mui/material";
 import logo from "../../utils/assets/logo.png";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 import "./AdminLogin.css";
 
@@ -97,6 +97,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <Outlet />
     </div>
   );
 };

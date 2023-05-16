@@ -1,0 +1,8 @@
+.support-admin {
+  display: flex;
+}
+
+.support-admin-content {
+  width: 80vw;
+  height: 100vh;
+}
