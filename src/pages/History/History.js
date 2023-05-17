@@ -1,4 +1,4 @@
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box, Tab } from "@mui/material";
 import { TabPanel, TabList, TabContext } from "@mui/lab";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";

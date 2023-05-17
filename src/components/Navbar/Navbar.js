@@ -2,7 +2,6 @@ import "./Navbar.css";
 import { NavLink } from "react-router-dom";
 import { getPages } from "../../utils/data/getPages";
 import logo from "../../utils/assets/logo.png";
-import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const pages = getPages();

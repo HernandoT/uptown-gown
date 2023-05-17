@@ -8,7 +8,6 @@ import "./Login.css";
 const Login = () => {
   const navigate = useNavigate();
   const [errorMessages, setErrorMessages] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const database = [
     {
@@ -45,7 +44,6 @@ const Login = () => {
         // Invalid password
         setErrorMessages({ name: "pass", message: errors.pass });
       } else {
-        setIsSubmitted(true);
         localStorage.setItem("isLoged", true);
         goPreviousPage();
       }
