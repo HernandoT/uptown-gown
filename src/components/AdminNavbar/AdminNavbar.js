@@ -14,7 +14,7 @@ const AdminNavbar = () => {
           label: "Chats",
           faIcon: "fa fa-weixin",
           onSelected: function () {
-            navigate("/support");
+            navigate("support");
           },
         },
       ],
@@ -26,16 +26,22 @@ const AdminNavbar = () => {
           label: "Popular Collections",
           faIcon: "fa fa-star-o",
           onSelected: function () {
-            navigate("/popular-collection");
+            navigate("popular-collection");
           },
         },
         {
           label: "Filters",
           faIcon: "fa fa-filter",
+          onSelected: function () {
+            navigate("filter");
+          },
         },
         {
           label: "All Collections",
           faIcon: "fa fa-book",
+          onSelected: function () {
+            navigate("collection");
+          },
         },
       ],
     },
@@ -45,22 +51,37 @@ const AdminNavbar = () => {
         {
           label: "Customer",
           faIcon: "fa fa-users",
+          onSelected: function () {
+            navigate("customer");
+          },
         },
         {
           label: "Appointment",
           faIcon: "fa fa-calendar",
+          onSelected: function () {
+            navigate("appointment");
+          },
         },
         {
           label: "Invoice",
           faIcon: "fa fa-file-text-o",
+          onSelected: function () {
+            navigate("invoice");
+          },
         },
         {
           label: "Expense",
           faIcon: "fa fa-usd",
+          onSelected: function () {
+            navigate("expense");
+          },
         },
         {
           label: "Reports",
           faIcon: "fa fa-bar-chart",
+          onSelected: function () {
+            navigate("report");
+          },
         },
       ],
     },
@@ -70,10 +91,16 @@ const AdminNavbar = () => {
         {
           label: "Change Password",
           faIcon: "fa fa-lock",
+          onSelected: function () {
+            navigate("change-password");
+          },
         },
         {
           label: "Log Out",
           faIcon: "fa fa-sign-out",
+          onSelected: function () {
+            navigate("admin-login");
+          },
         },
       ],
     },
@@ -93,15 +120,17 @@ const AdminNavbar = () => {
   };
 
   return (
-    <div className="admin-navbar">
-      <img src={logo} alt="logo" className="admin-navbar-icon" />
-      <div className="main-menu">
-        <MultilevelMenu
-          list={list}
-          configuration={config}
-          selectedListItem={selectedItem}
-          // selectedLabel={selectedItem}
-        />
+    <div>
+      <div className="admin-navbar">
+        <img src={logo} alt="logo" className="admin-navbar-icon" />
+        <div className="main-menu">
+          <MultilevelMenu
+            list={list}
+            configuration={config}
+            selectedListItem={selectedItem}
+            // selectedLabel={selectedItem}
+          />
+        </div>
       </div>
       <Outlet />
     </div>

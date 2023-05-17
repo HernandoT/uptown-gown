@@ -8,7 +8,7 @@ import "./SupportAdmin.css";
 const SupportAdmin = () => {
   return (
     <div className="support-admin">
-      <AdminNavbar />
+      {/* <AdminNavbar /> */}
       <div className="support-admin-content">
         <ChatEngine
           projectID={process.env.REACT_APP_CE_PROJECT_ID}

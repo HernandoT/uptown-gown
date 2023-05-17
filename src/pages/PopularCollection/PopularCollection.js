@@ -2,8 +2,11 @@ import AdminNavbar from "../../components/AdminNavbar/AdminNavbar";
 
 const PopularCollection = () => {
   return (
-    <AdminNavbar />
-  )
-}
+    <div>
+      {/* <AdminNavbar /> */}
+      <div>Popular Collection Content</div>
+    </div>
+  );
+};
 
 export default PopularCollection;

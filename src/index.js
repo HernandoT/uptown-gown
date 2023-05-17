@@ -4,7 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 
 import "./index.css";
-import "font-awesome/css/font-awesome.min.css";
 
 import Home from "./pages/Home/Home";
 import Rent from "./pages/Rent/Rent";
@@ -20,6 +19,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLogin from "./pages/AdminLogin/AdminLogin";
 import PopularCollection from "./pages/PopularCollection/PopularCollection";
 import SupportAdmin from "../src/SupportAdmin";
+import AdminNavbar from "./components/AdminNavbar/AdminNavbar";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -34,8 +34,10 @@ ReactDOM.render(
         <Route path="/history" element={<History />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin-login" element={<AdminLogin />} />
-        <Route path="/support" element={<SupportAdmin />} />
-        <Route path="/popular-collection" element={<PopularCollection />} />
+        <Route path="/admin" element={<AdminNavbar />}>
+          <Route path="support" element={<SupportAdmin />} />
+          <Route path="popular-collection" element={<PopularCollection />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

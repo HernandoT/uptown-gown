@@ -1,6 +1,7 @@
 .admin-navbar {
   width: 20vw;
   height: 100vh;
+  float: left;
   border-right: 2px solid lightgrey;
   display: flex;
   flex-direction: column;
