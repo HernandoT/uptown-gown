@@ -20,6 +20,14 @@ import AdminLogin from "./pages/AdminLogin/AdminLogin";
 import PopularCollection from "./pages/PopularCollection/PopularCollection";
 import SupportAdmin from "../src/SupportAdmin";
 import AdminNavbar from "./components/AdminNavbar/AdminNavbar";
+import Filters from "./pages/Filters/Filters";
+import Collections from "./pages/Collections/Collections";
+import Customer from "./pages/Customer/Customer";
+import Appointments from "./pages/Appointments/Appointments";
+import Invoice from "./pages/Invoice/Invoice";
+import Expense from "./pages/Expense/Expense";
+import Reports from "./pages/Reports/Reports";
+import ChangePassword from "./pages/ChangePassword/ChangePassword";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -37,6 +45,14 @@ ReactDOM.render(
         <Route path="/admin" element={<AdminNavbar />}>
           <Route path="support" element={<SupportAdmin />} />
           <Route path="popular-collection" element={<PopularCollection />} />
+          <Route path="filters" element={<Filters />} />
+          <Route path="collections" element={<Collections />} />
+          <Route path="customer" element={<Customer />} />
+          <Route path="appointment" element={<Appointments />} />
+          <Route path="invoice" element={<Invoice />} />
+          <Route path="expense" element={<Expense />} />
+          <Route path="reports" element={<Reports />} />
+          <Route path="change-password" element={<ChangePassword />} />
         </Route>
       </Routes>
     </BrowserRouter>

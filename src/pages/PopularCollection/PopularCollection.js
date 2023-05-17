@@ -1,9 +1,8 @@
-import AdminNavbar from "../../components/AdminNavbar/AdminNavbar";
+import "./PopularCollection.css";
 
 const PopularCollection = () => {
   return (
-    <div>
-      {/* <AdminNavbar /> */}
+    <div className="popular-collection">
       <div>Popular Collection Content</div>
     </div>
   );

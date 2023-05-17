@@ -33,14 +33,14 @@ const AdminNavbar = () => {
           label: "Filters",
           faIcon: "fa fa-filter",
           onSelected: function () {
-            navigate("filter");
+            navigate("filters");
           },
         },
         {
           label: "All Collections",
           faIcon: "fa fa-book",
           onSelected: function () {
-            navigate("collection");
+            navigate("collections");
           },
         },
       ],
@@ -80,7 +80,7 @@ const AdminNavbar = () => {
           label: "Reports",
           faIcon: "fa fa-bar-chart",
           onSelected: function () {
-            navigate("report");
+            navigate("reports");
           },
         },
       ],
