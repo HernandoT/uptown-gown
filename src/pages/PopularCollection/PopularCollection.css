@@ -1,0 +1,17 @@
+.popular-collection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  float: right;
+  width: 70vw;
+  padding: 4%;
+}
+
+.popular-collection-selector {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  height: 50vh;
+  justify-content: space-around;
+  align-items: center;
+}

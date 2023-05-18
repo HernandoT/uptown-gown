@@ -28,9 +28,14 @@ const Appointment = () => {
             eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
           </p>
           <p>
-            <b>Check appointment availability on calendar ...</b>
+            <b>Waktu appointment yang tersedia dapat dipilih pada kalender</b>
           </p>
           <button className="appointmentButton">BOOK APPOINTMENT NOW!</button>
+          <input
+            type="text"
+            placeholder="Keterangan"
+            className="appointment-keterangan"
+          ></input>
         </div>
       </div>
       <Footer />
