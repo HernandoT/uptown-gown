@@ -7,55 +7,58 @@ const Custom = () => {
     <div className="custom">
       <Navbar />
       <div className="customContent">
-        <div className="customBox">
-          <div className="customLogo">X</div>
-          <div className="customTitle">Custom Rent</div>
-          <div className="customText">
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        <div className="custom-desc">
+          <div className="customBox">
+            <div className="customLogo">X</div>
+            <div className="customTitle">Custom Rent</div>
+            <div className="customText">
+              <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </div>
+              <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </div>
+              <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </div>
+              <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </div>
             </div>
           </div>
-          <button className="customButton">BOOK APPOINTMENT NOW!</button>
+          <div className="customBox">
+            <div className="customLogo">X</div>
+            <div className="customTitle">Custom Made</div>
+            <div className="customText">
+              <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </div>
+              <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </div>
+              <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </div>
+              <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="customBox">
-          <div className="customLogo">X</div>
-          <div className="customTitle">Custom Made</div>
-          <div className="customText">
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </div>
-          </div>
-          <button className="customButton">BOOK APPOINTMENT NOW!</button>
+        <div className="custom-button">
+          <button className="appointment-button">BUAT APPOINTMENT SEKARANG!</button>
+          <div>Ingin berdiskusi lebih lanjut? <strong>Hubungi melalui Whatsapp</strong></div>
         </div>
       </div>
-      
-      
+
       <Footer />
     </div>
   );
