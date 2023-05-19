@@ -2,11 +2,14 @@ import { Box, Tab } from "@mui/material";
 import { TabPanel, TabList, TabContext } from "@mui/lab";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
+import SupportEngine from "../../SupportEngine";
 
 import "./History.css";
 import { useState } from "react";
 
 const History = () => {
+  const isLoged = localStorage.getItem("isLoged");
+
   const [currentTab, setCurrentTab] = useState("1");
 
   const handleTabClick = (e) => {
@@ -29,6 +32,7 @@ const History = () => {
         </TabContext>
       </div>
       <Footer />
+      {isLoged === "true" ? <SupportEngine /> : ""}
     </div>
   );
 };

@@ -1,8 +1,11 @@
 import "./Custom.css";
 import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/Navbar/Navbar";
+import SupportEngine from "../../SupportEngine";
 
 const Custom = () => {
+  const isLoged = localStorage.getItem("isLoged");
+
   return (
     <div className="custom">
       <Navbar />
@@ -55,11 +58,12 @@ const Custom = () => {
         </div>
         <div className="custom-button">
           <button className="appointment-button">BUAT APPOINTMENT SEKARANG!</button>
-          <div>Ingin berdiskusi lebih lanjut? <strong>Hubungi melalui Whatsapp</strong></div>
+          <div>Ingin berdiskusi lebih lanjut? <a href="https://wa.me/+6282167798500" target="_blank"><b>Hubungi melalui Whatsapp</b></a></div>
         </div>
       </div>
 
       <Footer />
+      {isLoged === "true" ? <SupportEngine /> : ""}
     </div>
   );
 };

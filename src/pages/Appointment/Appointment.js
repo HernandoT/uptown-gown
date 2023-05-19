@@ -4,8 +4,11 @@ import "./Appointment.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Navbar from "../../components/Navbar/Navbar";
+import SupportEngine from "../../SupportEngine";
 
 const Appointment = () => {
+  const isLoged = localStorage.getItem("isLoged");
+
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [displayDate, setDisplayDate] = useState("");
 
@@ -51,6 +54,7 @@ const Appointment = () => {
         </div>
       </div>
       <Footer />
+      {isLoged === "true" ? <SupportEngine /> : ""}
     </div>
   );
 };

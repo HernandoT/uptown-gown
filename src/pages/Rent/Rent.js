@@ -2,8 +2,11 @@ import "./Rent.css";
 import Footer from "../../components/Footer/Footer";
 import PaginatedItems from "../../components/Pagination/PaginatedItems";
 import Navbar from "../../components/Navbar/Navbar";
+import SupportEngine from "../../SupportEngine";
 
 const Rent = () => {
+  const isLoged = localStorage.getItem("isLoged");
+
   return (
     <div className="rent">
       <Navbar />
@@ -68,6 +71,7 @@ const Rent = () => {
         </div>
       </div>
       <Footer />
+      {isLoged === "true" ? <SupportEngine /> : ""}
     </div>
   );
 };
