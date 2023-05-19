@@ -6,7 +6,7 @@
 }
 
 .paginationItem {
-    height: 400px;
+    height: 40vh;
     background-color: lightgray;
     border-radius: 5%;
 }
