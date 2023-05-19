@@ -1,9 +1,10 @@
 import "./Filters.css";
+import AdminTitle from "../../components/AdminTitle/AdminTitle";
 
 const Filters = () => {
   return (
     <div className="filters">
-      <div>Filters Content</div>
+      <AdminTitle props={"Filters"}/>
     </div>
   );
 };

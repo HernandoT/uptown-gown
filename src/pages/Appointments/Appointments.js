@@ -1,9 +1,10 @@
+import AdminTitle from "../../components/AdminTitle/AdminTitle";
 import "./Appointments.css";
 
 const Appointments = () => {
   return (
     <div className="appointments">
-      <div>Appointments Content</div>
+      <AdminTitle props={"Appoinment"} />
     </div>
   );
 };

@@ -1,9 +1,10 @@
+import AdminTitle from "../../components/AdminTitle/AdminTitle";
 import "./Collections.css";
 
 const Collections = () => {
   return (
     <div className="collections">
-      <div>Collections Content</div>
+      <AdminTitle props={"All Collections"}/>
     </div>
   );
 };

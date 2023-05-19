@@ -1,9 +1,10 @@
+import AdminTitle from "../../components/AdminTitle/AdminTitle";
 import "./ChangePassword.css";
 
 const ChangePassword = () => {
   return (
     <div className="change-password">
-      <div>Change Password Content</div>
+      <AdminTitle props={"Change Password"} />
     </div>
   );
 };

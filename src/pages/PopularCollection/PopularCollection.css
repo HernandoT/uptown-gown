@@ -3,8 +3,8 @@
   flex-direction: column;
   justify-content: center;
   float: right;
-  width: 70vw;
-  padding: 4%;
+  width: 75vw;
+  padding: 2%;
 }
 
 .popular-collection-content {
@@ -13,7 +13,7 @@
 }
 
 .popular-collection-selector {
-  flex: 4;
+  flex: 5;
   display: flex;
   flex-direction: column;
   height: 60vh;
@@ -27,12 +27,12 @@
   background-color: #181308;
   color: #ffffff;
   height: 50px;
-  width: 30%;
+  width: 40%;
   border-radius: 5%;
 }
 
 .popular-collection-display {
-  flex: 6;
+  flex: 5;
   display: grid;
   grid-template-columns: auto auto;
   gap: 10px;

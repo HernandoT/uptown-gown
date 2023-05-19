@@ -1,10 +1,11 @@
+import AdminTitle from "../../components/AdminTitle/AdminTitle";
 import "./PopularCollection.css";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 const PopularCollection = () => {
   return (
     <div className="popular-collection">
-      <div>Popular Collection</div>
+      <AdminTitle props={"Popular Collection"} />
       <div className="popular-collection-content">
         <div className="popular-collection-selector">
           <FormControl fullWidth>
