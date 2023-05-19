@@ -160,7 +160,7 @@
     position: absolute;
     z-index: 1;
     top: 0;
-    width: 90%;
+    width: 95%;
   }
   
   .icon {
@@ -183,5 +183,21 @@
     text-decoration: none;
     padding: 1%;
     color: #181308;
+  }
+
+  .login-button {
+    float: right;
+    border: 1px solid black;
+    padding: 5px 20px;
+    color: white;
+    background-color: #181308;
+    text-decoration: none;
+    border-radius: 5%;
+  }
+
+  .profile-button {
+    float: right;
+    color: #181308;
+    margin-right: 2%;
   }
 } 

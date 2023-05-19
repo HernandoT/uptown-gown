@@ -28,19 +28,21 @@ const Navbar = () => {
             >
               History
             </NavLink>
-            <button
+            <i
+              className="fa fa-sign-out fa-2x"
               onClick={() => {
                 localStorage.setItem("isLoged", false);
                 window.location.reload();
               }}
               style={{ float: "right" }}
-            >
-              Logout
-            </button>
+            ></i>
+            <NavLink to="/profile" className="profile-button">
+              <i class="fa fa-user-circle-o fa-2x" aria-hidden="true"></i>
+            </NavLink>
           </>
         ) : (
-          <NavLink to="/login" style={{ float: "right" }}>
-            Login
+          <NavLink to="/login" className="login-button">
+            LOGIN
           </NavLink>
         )}
       </nav>

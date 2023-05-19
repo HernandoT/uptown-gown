@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 
 import "./index.css";
+import "font-awesome/css/font-awesome.min.css";
 
 import Home from "./pages/Home/Home";
 import Rent from "./pages/Rent/Rent";
