@@ -6,7 +6,15 @@ import "react-datepicker/dist/react-datepicker.css";
 import Navbar from "../../components/Navbar/Navbar";
 
 const Appointment = () => {
-  const [startDate, setStartDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [displayDate, setDisplayDate] = useState("");
+
+  const changeDisplayDate = (selectedDate) => {
+    const date = selectedDate.getDate();
+    const month = selectedDate.getMonth() + 1;
+    const year = selectedDate.getFullYear();
+    setDisplayDate(date + '/' + month + '/' + year)
+  }
 
   return (
     <div className="content">
@@ -14,8 +22,11 @@ const Appointment = () => {
       <div className="appointmentContent">
         <div className="appointmentCalendar">
           <DatePicker
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
+            selected={selectedDate}
+            onChange={(date) => {
+              setSelectedDate(date);
+              changeDisplayDate(date);
+            }}
             inline
             minDate={new Date()}
             // excludeDates={[new Date(), subDays(new Date(), 1)]}
@@ -30,12 +41,13 @@ const Appointment = () => {
           <p>
             <b>Waktu appointment yang tersedia dapat dipilih pada kalender</b>
           </p>
-          <button className="appointmentButton">BOOK APPOINTMENT NOW!</button>
+          <input value={displayDate} disabled className="appointment-keterangan" placeholder="Pilih tanggal pada kalender"></input>
           <input
             type="text"
             placeholder="Keterangan"
             className="appointment-keterangan"
           ></input>
+          <button className="appointmentButton">BOOK APPOINTMENT NOW!</button>
         </div>
       </div>
       <Footer />
