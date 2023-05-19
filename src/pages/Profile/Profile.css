@@ -1,0 +1,32 @@
+.profile-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 6% 25% 5% 25%;
+    gap: 5%;
+    height: 50vh;
+    justify-content: space-evenly;
+}
+
+.profile-title {
+    font-size: 3rem;
+    font-family: 'Playfair Display', serif;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.profile-simpan {
+    width: 100%;
+    height: 5vh;
+    background-color: black;
+    color: white;
+}  
+
+.profile-ubah-kata-sandi {
+    width: 100%;
+    height: 5vh;
+    background-color: white;
+    border: 1px solid black;
+}

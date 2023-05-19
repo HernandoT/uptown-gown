@@ -29,6 +29,7 @@ import Invoice from "./pages/Invoice/Invoice";
 import Expense from "./pages/Expense/Expense";
 import Reports from "./pages/Reports/Reports";
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
+import Profile from "./pages/Profile/Profile";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -41,6 +42,7 @@ ReactDOM.render(
         <Route path="/about" element={<About />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/history" element={<History />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminNavbar />}>
