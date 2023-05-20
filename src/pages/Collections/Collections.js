@@ -1,8 +1,9 @@
-import { useState } from "react";
 import AdminTitle from "../../components/AdminTitle/AdminTitle";
 import "./Collections.css";
+import { useState } from "react";
 import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { DataGrid } from "@mui/x-data-grid";
 
 const Collections = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -10,6 +11,28 @@ const Collections = () => {
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
+
+  const columns = [
+    { field: "nama", headerName: "Nama", width: 200 },
+    { field: "warna", headerName: "Warna", width: 100 },
+    { field: "kategori", headerName: "Kategori", width: 100 },
+    { field: "jenis", headerName: "Jenis", width: 100 },
+    { field: "deskripsi", headerName: "Deskripsi", width: 200 },
+    { field: "status", headerName: "Status", width: 100 },
+    { field: "action", headerName: "Action", width: 100 },
+  ];
+
+  const rows = [
+    { id: 1, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available"},
+    { id: 2, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available" },
+    { id: 3, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available" },
+    { id: 4, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available" },
+    { id: 5, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available" },
+    { id: 6, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available" },
+    { id: 7, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available" },
+    { id: 8, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available" },
+    { id: 9, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available" },
+  ];
 
   return (
     <div className="collections">
@@ -33,6 +56,19 @@ const Collections = () => {
             }}
           />
           <button className="collections-add">+ TAMBAH BARANG</button>
+        </div>
+        <div style={{ height: 400, width: "100%" }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 10 },
+              },
+            }}
+            pageSizeOptions={[5, 10, 15]}
+            style={{ marginTop: "3%", border: "none", height: "70vh" }}
+          />
         </div>
       </div>
     </div>
