@@ -6,3 +6,27 @@
   width: 75vw;
   padding: 2%;
 }
+
+.collections-content {
+  margin: 3% 2% 3% 0;
+}
+
+.collections-search {
+  display: flex;
+  height: auto;
+}
+
+.collections-search-input {
+  flex: 70;
+}
+
+.collections-add {
+  height: auto;
+  margin-left: 2%;
+  flex: 30;
+  font-size: larger;
+  font-family: 'Poppins', sans-serif !important;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+}
