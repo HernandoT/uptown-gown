@@ -19,15 +19,15 @@ const Customer = () => {
   ];
 
   const rows = [
-    { id: 1, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789", jenis: "Wanita", deskripsi: "Gaun nama pastel pink dengan", status: "Available"},
-    { id: 2, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789", jenis: "Wanita", deskripsi: "Gaun nama pastel pink dengan", status: "Available" },
-    { id: 3, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789", jenis: "Wanita", deskripsi: "Gaun nama pastel pink dengan", status: "Available" },
-    { id: 4, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789", jenis: "Wanita", deskripsi: "Gaun nama pastel pink dengan", status: "Available" },
-    { id: 5, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789", jenis: "Wanita", deskripsi: "Gaun nama pastel pink dengan", status: "Available" },
-    { id: 6, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789", jenis: "Wanita", deskripsi: "Gaun nama pastel pink dengan", status: "Available" },
-    { id: 7, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789", jenis: "Wanita", deskripsi: "Gaun nama pastel pink dengan", status: "Available" },
-    { id: 8, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789", jenis: "Wanita", deskripsi: "Gaun nama pastel pink dengan", status: "Available" },
-    { id: 9, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789", jenis: "Wanita", deskripsi: "Gaun nama pastel pink dengan", status: "Available" },
+    { id: 1, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789"},
+    { id: 2, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789"},
+    { id: 3, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789"},
+    { id: 4, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789"},
+    { id: 5, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789"},
+    { id: 6, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789"},
+    { id: 7, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789"},
+    { id: 8, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789"},
+    { id: 9, email: "janedoe@gmail.com", nama: "Jane Doe", nomorTelepon: "0813123456789"},
   ];
 
   return (

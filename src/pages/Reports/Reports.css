@@ -3,6 +3,34 @@
   flex-direction: column;
   justify-content: center;
   float: right;
-  width: 75vw;
+  width: 74vw;
   padding: 2%;
+}
+
+.reports-content {
+  margin: 3% 2% 3% 0;
+}
+
+.reports-search {
+  display: flex;
+  height: auto;
+}
+
+.reports-date-filter {
+  flex: 80;
+}
+
+.reports-datepicker {
+  width: 30vw;
+}
+
+.reports-add {
+  height: auto;
+  margin-left: 2%;
+  flex: 20;
+  font-size: larger;
+  font-family: 'Poppins', sans-serif !important;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
 }
