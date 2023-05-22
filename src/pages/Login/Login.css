@@ -8,13 +8,12 @@
   background-color: #FDF9EE;
 }
 
-input[type="text"],
-input[type="password"] {
-  height: 25px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+.button-container {
+  display: flex;
+  justify-content: center;
 }
 
-input[type="submit"] {
+.button-submit {
   margin-top: 10px;
   cursor: pointer;
   font-size: 15px;
@@ -22,19 +21,6 @@ input[type="submit"] {
   border: 1px solid black;
   color: white;
   padding: 10px 20px;
-}
-
-input[type="submit"]:hover {
-  color: black;
-  background: white;
-}
-
-.button-container {
-  display: flex;
-  justify-content: center;
-}
-
-.buttonSubmit {
   width: 100%;
 }
 

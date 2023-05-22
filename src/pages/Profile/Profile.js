@@ -21,34 +21,34 @@ const Profile = () => {
             id="outlined-adornment-amount"
             startAdornment={
               <InputAdornment position="start">
-                <i class="fa fa-user-circle-o fa-2x"></i>
+                <i class="fa fa-envelope fa-2x"></i>
               </InputAdornment>
             }
             label="Email"
           />
         </FormControl>
         <FormControl fullWidth>
-          <InputLabel htmlFor="outlined-adornment-amount">Email</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-amount">Nama</InputLabel>
           <OutlinedInput
             id="outlined-adornment-amount"
             startAdornment={
               <InputAdornment position="start">
-                <i class="fa fa-user-circle-o fa-2x"></i>
+                <i class="fa fa-user fa-2x"></i>
               </InputAdornment>
             }
-            label="Email"
+            label="Nama"
           />
         </FormControl>
         <FormControl fullWidth>
-          <InputLabel htmlFor="outlined-adornment-amount">Email</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-amount">Nomor Telepon</InputLabel>
           <OutlinedInput
             id="outlined-adornment-amount"
             startAdornment={
               <InputAdornment position="start">
-                <i class="fa fa-user-circle-o fa-2x"></i>
+                <i class="fa fa-phone fa-2x"></i>
               </InputAdornment>
             }
-            label="Email"
+            label="Nomor Telepon"
           />
         </FormControl>
         <button className="profile-simpan">SIMPAN</button>

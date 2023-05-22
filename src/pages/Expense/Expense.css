@@ -1,4 +1,4 @@
-.customer {
+.expense {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -7,20 +7,20 @@
   padding: 2%;
 }
 
-.customer-content {
+.expense-content {
   margin: 3% 2% 3% 0;
 }
 
-.customer-search {
+.expense-search {
   display: flex;
   height: auto;
 }
 
-.customer-search-input {
+.expense-search-input {
   flex: 70;
 }
 
-.customer-add {
+.expense-add {
   height: auto;
   margin-left: 2%;
   flex: 30;

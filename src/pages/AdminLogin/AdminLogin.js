@@ -1,13 +1,29 @@
 import React, { useState } from "react";
-import { TextField } from "@mui/material";
+import {
+  TextField,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+  FormControl
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import logo from "../../utils/assets/logo.png";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "./AdminLogin.css";
 
 const Login = () => {
   const navigate = useNavigate();
   const [errorMessages, setErrorMessages] = useState({});
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const database = [
     {
@@ -78,17 +94,33 @@ const Login = () => {
                 {renderErrorMessage("uname")}
               </div>
               <div className="input-container">
-                <TextField
-                  id="outlined-basic"
-                  label="Password"
-                  variant="outlined"
-                  type="password"
-                  name="pass"
-                />
+                <FormControl variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Password
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={showPassword ? "text" : "password"}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Password"
+                    name="pass"
+                  />
+                </FormControl>
                 {renderErrorMessage("pass")}
               </div>
               <div className="button-container">
-                <input type="submit" value="LOGIN" className="buttonSubmit" />
+                <input type="submit" value="LOGIN" className="button-submit" />
               </div>
             </form>
           </div>
@@ -97,7 +129,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <Outlet />
     </div>
   );
 };
