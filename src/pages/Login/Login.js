@@ -27,18 +27,18 @@ const Login = () => {
 
   const database = [
     {
-      username: "user1",
+      email: "user1@gmail.com",
       password: "pass1",
     },
     {
-      username: "user2",
+      email: "user2@gmail.com",
       password: "pass2",
     },
   ];
 
   const errors = {
-    uname: "invalid username",
-    pass: "invalid password",
+    email: "invalid email",
+    password: "invalid password",
   };
 
   const goPreviousPage = () => {
@@ -49,23 +49,24 @@ const Login = () => {
     //Prevent page reload
     event.preventDefault();
 
-    var { uname, pass } = document.forms[0];
+    var { email, password } = document.forms[0];
 
     // Find user login info
-    const userData = database.find((user) => user.username === uname.value);
+    const userData = database.find((user) => user.email === email.value);
 
     // Compare user info
     if (userData) {
-      if (userData.password !== pass.value) {
+      if (userData.password !== password.value) {
         // Invalid password
-        setErrorMessages({ name: "pass", message: errors.pass });
+        setErrorMessages({ name: "password", message: errors.password });
       } else {
         localStorage.setItem("isLoged", true);
+        localStorage.setItem("email", email.value)
         goPreviousPage();
       }
     } else {
       // Username not found
-      setErrorMessages({ name: "uname", message: errors.uname });
+      setErrorMessages({ name: "email", message: errors.email });
     }
   };
 
@@ -87,11 +88,11 @@ const Login = () => {
               <div className="input-container">
                 <TextField
                   id="outlined-basic"
-                  label="Username"
+                  label="Email"
                   variant="outlined"
-                  name="uname"
+                  name="email"
                 />
-                {renderErrorMessage("uname")}
+                {renderErrorMessage("email")}
               </div>
               <div className="input-container">
                 <FormControl variant="outlined">
@@ -114,10 +115,10 @@ const Login = () => {
                       </InputAdornment>
                     }
                     label="Password"
-                    name="pass"
+                    name="password"
                   />
                 </FormControl>
-                {renderErrorMessage("pass")}
+                {renderErrorMessage("password")}
               </div>
               <div className="button-container">
                 <input type="submit" value="LOGIN" className="button-submit" />

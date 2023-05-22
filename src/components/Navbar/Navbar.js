@@ -32,6 +32,7 @@ const Navbar = () => {
               className="fa fa-sign-out fa-2x"
               onClick={() => {
                 localStorage.setItem("isLoged", false);
+                localStorage.setItem("email", "");
                 window.location.reload();
               }}
               style={{ float: "right" }}

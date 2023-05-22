@@ -71,13 +71,14 @@ export const styles = {
         fontSize: '24px', 
         fontWeight: '600',
     },
-    emailInput: { 
+    buttonStart: { 
         width: '66%',
         textAlign: 'center',
         outline: 'none',
         padding: '12px',
         borderRadius: '12px',
-        border: '1px solid black',
+        color: 'white',
+        backgroundColor: 'black',
     },
     bottomText: { 
         position: 'absolute', 
@@ -85,7 +86,7 @@ export const styles = {
         top: '60%', 
         color: '#EDBF52', 
         fontSize: '24px', 
-        fontWeight: '600' 
+        fontWeight: '600',
     },
     loadingDiv: { 
         position: 'absolute', 

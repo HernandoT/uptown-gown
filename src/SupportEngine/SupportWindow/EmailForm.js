@@ -112,21 +112,22 @@ const EmailForm = (props) => {
         <div style={styles.topText}>
           Welcome to <br /> Uptown Gown 👋
         </div>
-
+        <div style={styles.bottomText}>
+          Any question? <br /> Just contact us 🤙
+        </div>
         <form
           onSubmit={(e) => handleSubmit(e)}
-          style={{ position: "relative", width: "100%", top: "19.75%" }}
+          style={{ position: "relative", width: "100%", top: "50%" }}
         >
-          <input
+          <button type="submit" onClick={() => setEmail(localStorage.getItem("email"))} style={styles.buttonStart}>Start Chat</button>
+          {/* <input
             placeholder="Your Email"
             onChange={(e) => setEmail(e.target.value)}
             style={styles.emailInput}
-          />
+          /> */}
         </form>
 
-        <div style={styles.bottomText}>
-          Enter your email <br /> to get started.
-        </div>
+        
       </div>
     </div>
   );
