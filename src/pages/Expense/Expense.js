@@ -16,19 +16,78 @@ const Expense = () => {
     { field: "tanggal", headerName: "Tanggal", minWidth: 200, flex: 1 },
     { field: "nominal", headerName: "Nominal", minWidth: 200, flex: 1 },
     { field: "keterangan", headerName: "Keterangan", minWidth: 600, flex: 3 },
-    { field: "action", headerName: "Action", minWidth: 50, flex: 0.5 },
+    {
+      field: "action",
+      headerName: "Action",
+      minWidth: 50,
+      flex: 0.5,
+      renderCell: (cellValues) => {
+        return (
+          <i
+            class="fa fa-pencil"
+            aria-hidden="true"
+            onClick={() => console.log(cellValues)}
+          ></i>
+        );
+      },
+    },
   ];
 
   const rows = [
-    { id: 1, tanggal: "01/03/2023", nominal: "Rp. 500.000", keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000"},
-    { id: 2, tanggal: "01/03/2023", nominal: "Rp. 500.000", keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000"},
-    { id: 3, tanggal: "01/03/2023", nominal: "Rp. 500.000", keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000"},
-    { id: 4, tanggal: "01/03/2023", nominal: "Rp. 500.000", keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000"},
-    { id: 5, tanggal: "01/03/2023", nominal: "Rp. 500.000", keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000"},
-    { id: 6, tanggal: "01/03/2023", nominal: "Rp. 500.000", keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000"},
-    { id: 7, tanggal: "01/03/2023", nominal: "Rp. 500.000", keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000"},
-    { id: 8, tanggal: "01/03/2023", nominal: "Rp. 500.000", keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000"},
-    { id: 9, tanggal: "01/03/2023", nominal: "Rp. 500.000", keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000"},
+    {
+      id: 1,
+      tanggal: "01/03/2023",
+      nominal: "Rp. 500.000",
+      keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
+    },
+    {
+      id: 2,
+      tanggal: "01/03/2023",
+      nominal: "Rp. 500.000",
+      keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
+    },
+    {
+      id: 3,
+      tanggal: "01/03/2023",
+      nominal: "Rp. 500.000",
+      keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
+    },
+    {
+      id: 4,
+      tanggal: "01/03/2023",
+      nominal: "Rp. 500.000",
+      keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
+    },
+    {
+      id: 5,
+      tanggal: "01/03/2023",
+      nominal: "Rp. 500.000",
+      keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
+    },
+    {
+      id: 6,
+      tanggal: "01/03/2023",
+      nominal: "Rp. 500.000",
+      keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
+    },
+    {
+      id: 7,
+      tanggal: "01/03/2023",
+      nominal: "Rp. 500.000",
+      keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
+    },
+    {
+      id: 8,
+      tanggal: "01/03/2023",
+      nominal: "Rp. 500.000",
+      keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
+    },
+    {
+      id: 9,
+      tanggal: "01/03/2023",
+      nominal: "Rp. 500.000",
+      keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
+    },
   ];
 
   return (

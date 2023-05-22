@@ -19,19 +19,105 @@ const Collections = () => {
     { field: "jenis", headerName: "Jenis", minWidth: 100, flex: 1 },
     { field: "deskripsi", headerName: "Deskripsi", minWidth: 200, flex: 2 },
     { field: "status", headerName: "Status", minWidth: 100, flex: 1 },
-    { field: "action", headerName: "Action", minWidth: 50, flex: 0.5 },
+    {
+      field: "action",
+      headerName: "Action",
+      minWidth: 50,
+      flex: 0.5,
+      renderCell: (cellValues) => {
+        return (
+          <i
+            class="fa fa-pencil"
+            aria-hidden="true"
+            onClick={() => console.log(cellValues)}
+          ></i>
+        );
+      },
+    },
   ];
 
   const rows = [
-    { id: 1, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available"},
-    { id: 2, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available" },
-    { id: 3, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available" },
-    { id: 4, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available" },
-    { id: 5, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available" },
-    { id: 6, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available" },
-    { id: 7, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available" },
-    { id: 8, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available" },
-    { id: 9, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available" },
+    {
+      id: 1,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
+    {
+      id: 2,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
+    {
+      id: 3,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
+    {
+      id: 4,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
+    {
+      id: 5,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
+    {
+      id: 6,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
+    {
+      id: 7,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
+    {
+      id: 8,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
+    {
+      id: 9,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
   ];
 
   return (
