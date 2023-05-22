@@ -6,3 +6,7 @@
 .MuiTabs-flexContainer {
     justify-content: space-around !important;
 }
+
+.history-tab-list {
+    font-weight: bolder;
+}
