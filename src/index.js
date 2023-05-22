@@ -45,7 +45,14 @@ ReactDOM.render(
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin-login" element={<AdminLogin />} />
-        <Route path="/admin" element={<AdminNavbar />}>
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminNavbar />
+            </ProtectedRoute>
+          }
+        >
           <Route path="support" element={<SupportAdmin />} />
           <Route path="popular-collection" element={<PopularCollection />} />
           <Route path="filters" element={<Filters />} />

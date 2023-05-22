@@ -99,7 +99,8 @@ const AdminNavbar = () => {
           label: "Log Out",
           faIcon: "fa fa-sign-out",
           onSelected: function () {
-            navigate("admin-login");
+            localStorage.setItem("isAdmin", false);
+            navigate("/admin-login");
           },
         },
       ],

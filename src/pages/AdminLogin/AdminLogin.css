@@ -1,4 +1,4 @@
-.login {
+.admin-login {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,7 +24,7 @@
   width: 100%;
 }
 
-.login-form {
+.admin-login-form {
   display: flex;
   justify-content: center;
   align-items: center;

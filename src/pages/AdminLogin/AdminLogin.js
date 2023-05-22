@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./AdminLogin.css";
 
-const Login = () => {
+const AdminLogin = () => {
   const navigate = useNavigate();
   const [errorMessages, setErrorMessages] = useState({});
 
@@ -27,18 +27,14 @@ const Login = () => {
 
   const database = [
     {
-      username: "user1",
-      password: "pass1",
-    },
-    {
-      username: "user2",
-      password: "pass2",
+      username: "uptowngown",
+      password: "uptowngown",
     },
   ];
 
   const errors = {
-    uname: "invalid username",
-    pass: "invalid password",
+    username: "invalid username",
+    password: "invalid password",
   };
 
   const goPreviousPage = () => {
@@ -49,23 +45,23 @@ const Login = () => {
     //Prevent page reload
     event.preventDefault();
 
-    var { uname, pass } = document.forms[0];
+    var { username, password } = document.forms[0];
 
     // Find user login info
-    const userData = database.find((user) => user.username === uname.value);
+    const userData = database.find((user) => user.username === username.value);
 
     // Compare user info
     if (userData) {
-      if (userData.password !== pass.value) {
+      if (userData.password !== password.value) {
         // Invalid password
-        setErrorMessages({ name: "pass", message: errors.pass });
+        setErrorMessages({ name: "password", message: errors.password });
       } else {
-        localStorage.setItem("isLoged", true);
+        localStorage.setItem("isAdmin", true);
         goPreviousPage();
       }
     } else {
       // Username not found
-      setErrorMessages({ name: "uname", message: errors.uname });
+      setErrorMessages({ name: "username", message: errors.username });
     }
   };
 
@@ -75,8 +71,8 @@ const Login = () => {
     );
 
   return (
-    <div className="login">
-      <div className="login-form">
+    <div className="admin-login">
+      <div className="admin-login-form">
         <div className="logo">
           <img src={logo} alt="logo" className="logoImage"></img>
         </div>
@@ -89,9 +85,9 @@ const Login = () => {
                   id="outlined-basic"
                   label="Username"
                   variant="outlined"
-                  name="uname"
+                  name="username"
                 />
-                {renderErrorMessage("uname")}
+                {renderErrorMessage("username")}
               </div>
               <div className="input-container">
                 <FormControl variant="outlined">
@@ -114,18 +110,15 @@ const Login = () => {
                       </InputAdornment>
                     }
                     label="Password"
-                    name="pass"
+                    name="password"
                   />
                 </FormControl>
-                {renderErrorMessage("pass")}
+                {renderErrorMessage("password")}
               </div>
               <div className="button-container">
                 <input type="submit" value="LOGIN" className="button-submit" />
               </div>
             </form>
-          </div>
-          <div>
-            Belum punya akun? <strong>Sign Up</strong>
           </div>
         </div>
       </div>
@@ -133,4 +126,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;
