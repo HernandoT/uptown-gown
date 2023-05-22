@@ -13,14 +13,14 @@ const Invoice = () => {
   };
 
   const columns = [
-    { field: "email", headerName: "Email", width: 200 },
-    { field: "nama", headerName: "Nama", width: 150 },
-    { field: "nomorTelepon", headerName: "Nomor Telepon", width: 150 },
-    { field: "jenis", headerName: "Jenis", width: 120 },
-    { field: "tanggalAcara", headerName: "Tanggal Acara", width: 120 },
-    { field: "hargaTotal", headerName: "Harga Total", width: 120 },
-    { field: "status", headerName: "Status Pelunasan", width: 150 },
-    { field: "action", headerName: "Action", width: 50 },
+    { field: "email", headerName: "Email", minWidth: 200, flex: 1 },
+    { field: "nama", headerName: "Nama", minWidth: 150, flex: 1 },
+    { field: "nomorTelepon", headerName: "Nomor Telepon", minWidth: 150, flex: 1 },
+    { field: "jenis", headerName: "Jenis", minWidth: 120, flex: 1 },
+    { field: "tanggalAcara", headerName: "Tanggal Acara", minWidth: 120, flex: 1 },
+    { field: "hargaTotal", headerName: "Harga Total", minWidth: 120, flex: 1 },
+    { field: "status", headerName: "Status Pelunasan", minWidth: 150, flex: 1 },
+    { field: "action", headerName: "Action", minWidth: 50, flex: 0.5 },
   ];
 
   const rows = [

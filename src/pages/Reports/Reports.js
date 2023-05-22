@@ -12,10 +12,10 @@ const Reports = () => {
   const [value, setValue] = useState(dayjs("2022-04-17"));
 
   const columns = [
-    { field: "tanggal", headerName: "Tanggal", width: 150 },
-    { field: "keterangan", headerName: "Keterangan", width: 500 },
-    { field: "debit", headerName: "Debit", width: 200 },
-    { field: "kredit", headerName: "Kredit", width: 200 },
+    { field: "tanggal", headerName: "Tanggal", minWidth: 150, flex: 1 },
+    { field: "keterangan", headerName: "Keterangan", minWidth: 500, flex: 3 },
+    { field: "debit", headerName: "Debit", minWidth: 200, flex: 2 },
+    { field: "kredit", headerName: "Kredit", minWidth: 200, flex: 2 },
   ];
 
   const rows = [

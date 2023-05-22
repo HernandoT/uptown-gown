@@ -13,9 +13,9 @@ const Customer = () => {
   };
 
   const columns = [
-    { field: "email", headerName: "Email", width: 200 },
-    { field: "nama", headerName: "Nama", width: 200 },
-    { field: "nomorTelepon", headerName: "Nomor Telepon", width: 200 },
+    { field: "email", headerName: "Email", minWidth: 200, flex: 1 },
+    { field: "nama", headerName: "Nama", minWidth: 200, flex: 1 },
+    { field: "nomorTelepon", headerName: "Nomor Telepon", minWidth: 200, flex: 1 },
   ];
 
   const rows = [

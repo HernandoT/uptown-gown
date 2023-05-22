@@ -13,25 +13,25 @@ const Collections = () => {
   };
 
   const columns = [
-    { field: "nama", headerName: "Nama", width: 200 },
-    { field: "warna", headerName: "Warna", width: 100 },
-    { field: "kategori", headerName: "Kategori", width: 100 },
-    { field: "jenis", headerName: "Jenis", width: 100 },
-    { field: "deskripsi", headerName: "Deskripsi", width: 200 },
-    { field: "status", headerName: "Status", width: 100 },
-    { field: "action", headerName: "Action", width: 100 },
+    { field: "nama", headerName: "Nama", minWidth: 200, flex: 1 },
+    { field: "warna", headerName: "Warna", minWidth: 100, flex: 1 },
+    { field: "kategori", headerName: "Kategori", minWidth: 100, flex: 1 },
+    { field: "jenis", headerName: "Jenis", minWidth: 100, flex: 1 },
+    { field: "deskripsi", headerName: "Deskripsi", minWidth: 200, flex: 2 },
+    { field: "status", headerName: "Status", minWidth: 100, flex: 1 },
+    { field: "action", headerName: "Action", minWidth: 50, flex: 0.5 },
   ];
 
   const rows = [
-    { id: 1, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available"},
-    { id: 2, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available" },
-    { id: 3, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available" },
-    { id: 4, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available" },
-    { id: 5, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available" },
-    { id: 6, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available" },
-    { id: 7, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available" },
-    { id: 8, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available" },
-    { id: 9, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan", status: "Available" },
+    { id: 1, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available"},
+    { id: 2, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available" },
+    { id: 3, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available" },
+    { id: 4, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available" },
+    { id: 5, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available" },
+    { id: 6, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available" },
+    { id: 7, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available" },
+    { id: 8, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available" },
+    { id: 9, nama: "Pastel Pink Floral", warna: "Pink", kategori: "Party", jenis: "Wanita", deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru", status: "Available" },
   ];
 
   return (

@@ -13,10 +13,10 @@ const Expense = () => {
   };
 
   const columns = [
-    { field: "tanggal", headerName: "Tanggal", width: 200 },
-    { field: "nominal", headerName: "Nominal", width: 200 },
-    { field: "keterangan", headerName: "Keterangan", width: 600 },
-    { field: "action", headerName: "Action", width: 50 },
+    { field: "tanggal", headerName: "Tanggal", minWidth: 200, flex: 1 },
+    { field: "nominal", headerName: "Nominal", minWidth: 200, flex: 1 },
+    { field: "keterangan", headerName: "Keterangan", minWidth: 600, flex: 3 },
+    { field: "action", headerName: "Action", minWidth: 50, flex: 0.5 },
   ];
 
   const rows = [
