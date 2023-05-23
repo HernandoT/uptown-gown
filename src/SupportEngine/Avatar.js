@@ -1,34 +1,34 @@
 import React, { useState } from "react";
 
-import { styles } from './styles'
+import { styles } from "./styles";
 
-const Avatar = props => {
-    const [hovered, setHovered] = useState(false)
+const Avatar = (props) => {
+  const [hovered, setHovered] = useState(false);
 
-    return (
-        <div style={props.style}>
-            <div 
-                className='transition-3'
-                style={{
-                    ...styles.avatarHello,
-                    ...{ opacity: hovered ? '1' : '0' }
-                }}
-            >
-                Feel free to ask. 🤙
-            </div>
+  return (
+    <div style={props.style}>
+      <div
+        className="transition-3"
+        style={{
+          ...styles.avatarHello,
+          ...{ opacity: hovered ? "1" : "0" },
+        }}
+      >
+        Feel free to ask. 🤙 bos
+      </div>
 
-            <div 
-                onMouseEnter={() => setHovered(true)}
-                onMouseLeave={() => setHovered(false)}
-                onClick={() => props.onClick && props.onClick()}
-                className='transition-3'
-                style={{
-                    ...styles.chatWithMeButton,
-                    ...{ border: hovered ? '1px solid #EDBF52' : '4px solid #EDBF52' }
-                }}
-            />
-        </div>
-    )
-}
+      <div
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onClick={() => props.onClick && props.onClick()}
+        className="transition-3"
+        style={{
+          ...styles.chatWithMeButton,
+          ...{ border: hovered ? "1px solid #EDBF52" : "4px solid #EDBF52" },
+        }}
+      />
+    </div>
+  );
+};
 
 export default Avatar;
