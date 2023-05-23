@@ -1,6 +1,8 @@
-import { Flex, Modal, Paper } from "@mantine/core";
-import { Button, TextField } from "@mui/material";
+import { Flex, Paper, Text } from "@mantine/core";
+import { Button, Modal, TextField } from "@mui/material";
 import * as React from "react";
+import Separator from "../../components/separator";
+import { notifications } from "@mantine/notifications";
 
 export default function CustomerForm({
   data = { email: "", name: "", phoneNumber: "" },
@@ -12,9 +14,9 @@ export default function CustomerForm({
   const [phoneNumber, setPhoneNumber] = React.useState(data.password);
 
   const onSubmit = React.useCallback(
-    (e) => async () => {
+    (e) => {
+      e.preventDefault();
       try {
-        e.preventDefault();
         const data = {
           name,
           email,
@@ -23,34 +25,70 @@ export default function CustomerForm({
         };
 
         console.log(data);
+        notifications.show({
+          title: "Tambah User",
+          message: "Customer telah berhasil ditambahkan",
+          color: "teal",
+        });
+        onClose();
       } catch {
+        notifications.show({
+          title: "Tambah User",
+          message: "Customer gagal ditambahkan",
+          color: "red",
+        });
       } finally {
       }
     },
-    [email, name, phoneNumber]
+    [email, name, onClose, phoneNumber]
   );
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <Paper>
+    <Modal open={open}>
+      <Paper
+        p={36}
+        miw={400}
+        style={{
+          transform: "translate(-50%, -50%)",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+        }}
+      >
         <form onSubmit={onSubmit}>
-          <Flex>
+          <Flex direction="column">
+            <Text fz={20} fw={600}>
+              Tambah Customer
+            </Text>
+            <Separator _gap={24} />
+
             <TextField
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              label="email"
+              label="Email"
             />
+            <Separator _gap={24} />
             <TextField
               value={name}
               onChange={(e) => setName(e.target.value)}
-              label="name"
+              label="Nama"
             />
+            <Separator _gap={24} />
             <TextField
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
-              label="phone"
+              label="Nomor Telepon"
             />
-            <Button variant="contained">Tambah Customer</Button>
+            <Separator _gap={24} />
+
+            <Flex justify="flex-end">
+              <Button variant="text" color="error" onClick={onClose}>
+                Batal
+              </Button>
+              <Button variant="text" type="submit">
+                Simpan
+              </Button>
+            </Flex>
           </Flex>
         </form>
       </Paper>
