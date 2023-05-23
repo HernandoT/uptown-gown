@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   TextField,
   InputLabel,
   OutlinedInput,
   InputAdornment,
   IconButton,
-  FormControl
+  FormControl,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import logo from "../../utils/assets/logo.png";
@@ -13,10 +13,14 @@ import { useNavigate } from "react-router-dom";
 
 import "./Login.css";
 
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../services/firebase";
+
 const Login = () => {
   const navigate = useNavigate();
-  const [errorMessages, setErrorMessages] = useState({});
 
+  const [customer, setCustomer] = useState([]);
+  const [errorMessages, setErrorMessages] = useState({});
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -25,16 +29,19 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const database = [
-    {
-      email: "user1@gmail.com",
-      password: "pass1",
-    },
-    {
-      email: "user2@gmail.com",
-      password: "pass2",
-    },
-  ];
+  const fetchCustomer = async () => {
+    await getDocs(collection(db, "customer")).then((querySnapshot) => {
+      const newData = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setCustomer(newData);
+    });
+  };
+
+  useEffect(() => {
+    fetchCustomer();
+  }, []);
 
   const errors = {
     email: "invalid email",
@@ -46,13 +53,12 @@ const Login = () => {
   };
 
   const handleSubmit = (event) => {
-    //Prevent page reload
     event.preventDefault();
 
     var { email, password } = document.forms[0];
 
     // Find user login info
-    const userData = database.find((user) => user.email === email.value);
+    const userData = customer.find((cust) => cust.email === email.value);
 
     // Compare user info
     if (userData) {
@@ -61,7 +67,7 @@ const Login = () => {
         setErrorMessages({ name: "password", message: errors.password });
       } else {
         localStorage.setItem("isLoged", true);
-        localStorage.setItem("email", email.value)
+        localStorage.setItem("email", email.value);
         goPreviousPage();
       }
     } else {
