@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Button } from "./style";
 
 const Example = () => {
   const [email, setEmail] = React.useState("");
@@ -41,6 +42,7 @@ const Example = () => {
         onChange={(e) => setPhone(e.target.value)}
       />
       <input type="submit" />
+      <Button>asdfasds</Button>
     </form>
   );
 };
