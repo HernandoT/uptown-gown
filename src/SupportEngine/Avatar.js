@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { styles } from "./styles";
 
-const Avatar = (props) => {
+const Avatar = props => {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -11,10 +11,10 @@ const Avatar = (props) => {
         className="transition-3"
         style={{
           ...styles.avatarHello,
-          ...{ opacity: hovered ? "1" : "0" },
+          ...{ opacity: hovered ? '1' : '0' },
         }}
       >
-        Feel free to ask. 🤙 bos
+        Feel free to ask. 🤙
       </div>
 
       <div

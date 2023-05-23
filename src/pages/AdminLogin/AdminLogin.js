@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   TextField,
   InputLabel,
   OutlinedInput,
   InputAdornment,
   IconButton,
-  FormControl
+  FormControl,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import logo from "../../utils/assets/logo.png";
@@ -13,24 +13,35 @@ import { useNavigate } from "react-router-dom";
 
 import "./AdminLogin.css";
 
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../services/firebase";
+
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const [errorMessages, setErrorMessages] = useState({});
 
+  const [user, setUser] = useState([]);
+  const [errorMessages, setErrorMessages] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+
+  const fetchUser = async () => {
+    await getDocs(collection(db, "user")).then((querySnapshot) => {
+      const newData = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setUser(newData);
+    });
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
-  const database = [
-    {
-      username: "uptowngown",
-      password: "uptowngown",
-    },
-  ];
 
   const errors = {
     username: "invalid username",
@@ -48,7 +59,7 @@ const AdminLogin = () => {
     var { username, password } = document.forms[0];
 
     // Find user login info
-    const userData = database.find((user) => user.username === username.value);
+    const userData = user.find((user) => user.username === username.value);
 
     // Compare user info
     if (userData) {
