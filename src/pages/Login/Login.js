@@ -10,6 +10,7 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import logo from "../../utils/assets/logo.png";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import "./Login.css";
 
@@ -48,10 +49,6 @@ const Login = () => {
     password: "invalid password",
   };
 
-  const goPreviousPage = () => {
-    navigate(-1);
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -68,7 +65,7 @@ const Login = () => {
       } else {
         localStorage.setItem("isLoged", true);
         localStorage.setItem("email", email.value);
-        goPreviousPage();
+        navigate("/");
       }
     } else {
       // Username not found
@@ -132,7 +129,7 @@ const Login = () => {
             </form>
           </div>
           <div>
-            Belum punya akun? <strong>Sign Up</strong>
+            Belum punya akun? <Link to="/signup" style={{textDecoration: "none", color: "black"}}><strong>Sign Up</strong></Link>
           </div>
         </div>
       </div>

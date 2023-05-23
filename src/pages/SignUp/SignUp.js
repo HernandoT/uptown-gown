@@ -1,22 +1,26 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   TextField,
   InputLabel,
   OutlinedInput,
   InputAdornment,
   IconButton,
-  FormControl
+  FormControl,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import logo from "../../utils/assets/logo.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./SignUp.css";
 
+import { collection, getDocs, addDoc } from "firebase/firestore";
+import { db } from "../../services/firebase";
+
 const SignUp = () => {
   const navigate = useNavigate();
-  const [errorMessages, setErrorMessages] = useState({});
 
+  const [customer, setCustomer] = useState([]);
+  const [errorMessages, setErrorMessages] = useState({});
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -25,48 +29,53 @@ const SignUp = () => {
     event.preventDefault();
   };
 
-  const database = [
-    {
-      email: "user1@gmail.com",
-      password: "pass1",
-    },
-    {
-      email: "user2@gmail.com",
-      password: "pass2",
-    },
-  ];
-
-  const errors = {
-    email: "invalid email",
-    password: "invalid password",
+  const fetchCustomer = async () => {
+    await getDocs(collection(db, "customer")).then((querySnapshot) => {
+      const newData = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setCustomer(newData);
+    });
   };
 
-  const goPreviousPage = () => {
-    navigate(-1);
+  useEffect(() => {
+    fetchCustomer();
+  }, []);
+
+  const insertCustomer = async (email, nama, nomor, password) => {
+    try {
+      await addDoc(collection(db, "customer"), {
+        email: email,
+        nama: nama,
+        nomor_telepon: nomor,
+        password: password,
+      });
+      console.log(email, nama, nomor, password);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const errors = {
+    email: "email telah terdaftar",
   };
 
   const handleSubmit = (event) => {
     //Prevent page reload
     event.preventDefault();
 
-    var { email, password } = document.forms[0];
+    var { email, nama, nomor, password } = document.forms[0];
 
     // Find user signup info
-    const userData = database.find((user) => user.email === email.value);
+    const userData = customer.find((cust) => cust.email === email.value);
 
     // Compare user info
     if (userData) {
-      if (userData.password !== password.value) {
-        // Invalid password
-        setErrorMessages({ name: "password", message: errors.password });
-      } else {
-        localStorage.setItem("isLoged", true);
-        localStorage.setItem("email", email.value)
-        goPreviousPage();
-      }
-    } else {
-      // Username not found
       setErrorMessages({ name: "email", message: errors.email });
+    } else {
+      insertCustomer(email.value, nama.value, nomor.value, password.value);
+      navigate("/login");
     }
   };
 
@@ -137,12 +146,22 @@ const SignUp = () => {
                 {renderErrorMessage("password")}
               </div>
               <div className="button-container">
-                <input type="submit" value="LOGIN" className="button-submit" />
+                <input
+                  type="submit"
+                  value="BUAT AKUN"
+                  className="button-submit"
+                />
               </div>
             </form>
           </div>
           <div>
-            Sudah punya akun? <strong>Log In</strong>
+            Sudah punya akun?{" "}
+            <Link
+              to="/login"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <strong>Log In</strong>
+            </Link>
           </div>
         </div>
       </div>

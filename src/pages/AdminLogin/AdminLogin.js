@@ -48,10 +48,6 @@ const AdminLogin = () => {
     password: "invalid password",
   };
 
-  const goPreviousPage = () => {
-    navigate(-1);
-  };
-
   const handleSubmit = (event) => {
     //Prevent page reload
     event.preventDefault();
@@ -68,7 +64,7 @@ const AdminLogin = () => {
         setErrorMessages({ name: "password", message: errors.password });
       } else {
         localStorage.setItem("isAdmin", true);
-        goPreviousPage();
+        navigate("/admin");
       }
     } else {
       // Username not found
