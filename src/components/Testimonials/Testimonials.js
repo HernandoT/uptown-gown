@@ -4,18 +4,18 @@ import { useEffect } from "react";
 
 const Testimonials = () => {
   useEffect(() => {
-    const script = document.createElement('script');
-  
+    const script = document.createElement("script");
+
     script.src = "https://apps.elfsight.com/p/platform.js";
     script.async = true;
-  
+
     document.body.appendChild(script);
-  
+
     return () => {
       document.body.removeChild(script);
-    }
+    };
   }, []);
-  
+
   return (
     <div className="testimonials">
       <div className="testimonialsTitle">
@@ -35,6 +35,7 @@ const Testimonials = () => {
         ))} */}
         <div className="elfsight-app-9a5e0f8d-c007-4fb8-abc5-895f8e6331a0"></div>
       </div>
+      s
     </div>
   );
 };
