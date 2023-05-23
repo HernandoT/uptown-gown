@@ -14,6 +14,7 @@ import About from "./pages/About/About";
 import Detail from "./pages/Detail/Detail";
 import History from "./pages/History/History";
 import Login from "./pages/Login/Login";
+import SignUp from "./pages/SignUp/SignUp";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -44,6 +45,7 @@ ReactDOM.render(
         <Route path="/history" element={<History />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route
           path="/admin"
