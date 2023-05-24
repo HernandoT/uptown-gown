@@ -39,7 +39,9 @@ const Filters = () => {
       <div className="filters-content">
         <div style={{ margin: "20px 0 10px" }}>
           <b>Warna</b>
-          <button style={{ marginLeft: "20px" }} onClick={open}>+</button>
+          <button style={{ marginLeft: "20px" }} onClick={open}>
+            +
+          </button>
         </div>
         <Stack direction="row" flexWrap="wrap">
           {colors.map((color) => {

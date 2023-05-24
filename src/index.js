@@ -33,6 +33,7 @@ import ChangePassword from "./pages/ChangePassword/ChangePassword";
 import Profile from "./pages/Profile/Profile";
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
+import Example from "./pages/Example/example";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -44,6 +45,7 @@ ReactDOM.render(
     />
     <BrowserRouter>
       <Routes>
+        <Route path="/example" element={<Example />} />
         <Route path="/" element={<Home />} />
         <Route path="/rent" element={<Rent />} />
         <Route path="/custom" element={<Custom />} />

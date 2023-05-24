@@ -1,10 +1,21 @@
 import * as React from "react";
 import { Button } from "./style";
+import { getDocs } from "firebase/firestore";
+import { customerIndex } from "../../repository/db";
 
 const Example = () => {
   const [email, setEmail] = React.useState("");
   const [name, setName] = React.useState("");
   const [phone, setPhone] = React.useState("");
+
+  React.useEffect(() => {
+    const fetchCustomer = async () => {
+      const rest = await getDocs(customerIndex);
+      console.log(rest.docs.map((doc) => doc.data()));
+    };
+
+    fetchCustomer();
+  }, []);
 
   const onSubmit = React.useCallback(
     (e) => async () => {
