@@ -1,6 +1,5 @@
 import AdminTitle from "../../components/AdminTitle/AdminTitle";
 import "./Customer.css";
-import { useState } from "react";
 import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { DataGrid } from "@mui/x-data-grid";
@@ -9,82 +8,42 @@ import * as React from "react";
 import { useDisclosure } from "@mantine/hooks";
 import CustomerForm from "./CustomerForm";
 
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../services/firebase";
+
 const Customer = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [customer, setCustomer] = React.useState([]);
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [opened, { open, close }] = useDisclosure(false);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
+  
+  const fetchCustomer = async () => {
+    await getDocs(collection(db, "customer")).then((querySnapshot) => {
+      const newData = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setCustomer(newData);
+    });
+  };
+
+  React.useEffect(() => {
+    fetchCustomer();
+  }, []);
 
   const columns = [
     { field: "email", headerName: "Email", minWidth: 200, flex: 1 },
     { field: "nama", headerName: "Nama", minWidth: 200, flex: 1 },
     {
-      field: "nomorTelepon",
+      field: "nomor_telepon",
       headerName: "Nomor Telepon",
       minWidth: 200,
       flex: 1,
     },
   ];
-
-  const rows = [
-    {
-      id: 1,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-    },
-    {
-      id: 2,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-    },
-    {
-      id: 3,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-    },
-    {
-      id: 4,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-    },
-    {
-      id: 5,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-    },
-    {
-      id: 6,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-    },
-    {
-      id: 7,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-    },
-    {
-      id: 8,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-    },
-    {
-      id: 9,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-    },
-  ];
-
-  const [opened, { open, close }] = useDisclosure(false);
 
   return (
     <div className="customer">
@@ -113,7 +72,7 @@ const Customer = () => {
         </div>
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
-            rows={rows}
+            rows={customer}
             columns={columns}
             initialState={{
               pagination: {

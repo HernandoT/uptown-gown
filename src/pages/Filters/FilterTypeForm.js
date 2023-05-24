@@ -7,22 +7,17 @@ import { notifications } from "@mantine/notifications";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../services/firebase";
 
-const CustomerForm = ({
-  data = { email: "", name: "", phoneNumber: "" },
+const FilterTypeForm = ({
+  data = { nama: "" },
   open = true,
   onClose,
 }) => {
-  const [email, setEmail] = React.useState(data.email);
-  const [name, setName] = React.useState(data.name);
-  const [phoneNumber, setPhoneNumber] = React.useState(data.phoneNumber);
+  const [nama, setNama] = React.useState(data.nama);
 
-  const insertCustomer = async (email, nama, nomor, password) => {
+  const insertType = async (nama) => {
     try {
-      await addDoc(collection(db, "customer"), {
-        email: email,
-        nama: nama,
-        nomor_telepon: nomor,
-        password: password,
+      await addDoc(collection(db, "jenis"), {
+        nama_jenis: nama,
       });
     } catch (err) {
       console.log(err);
@@ -33,23 +28,23 @@ const CustomerForm = ({
     (e) => {
       e.preventDefault();
       try {
-        insertCustomer(email, name, phoneNumber, "123456");
+        insertType(nama);
         notifications.show({
-          title: "Tambah User",
-          message: "Customer telah berhasil ditambahkan",
+          title: "Tambah Jenis",
+          message: "Jenis baru telah berhasil ditambahkan",
           color: "teal",
         });
         onClose();
       } catch {
         notifications.show({
-          title: "Tambah User",
-          message: "Customer gagal ditambahkan",
+          title: "Tambah Jenis",
+          message: "Jenis baru gagal ditambahkan",
           color: "red",
         });
       } finally {
       }
     },
-    [email, name, onClose, phoneNumber]
+    [nama]
   );
 
   return (
@@ -67,28 +62,14 @@ const CustomerForm = ({
         <form onSubmit={onSubmit}>
           <Flex direction="column">
             <Text fz={20} fw={600}>
-              Tambah Customer
+              Tambah Jenis
             </Text>
             <Separator _gap={24} />
 
             <TextField
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              label="Email"
-              required
-            />
-            <Separator _gap={24} />
-            <TextField
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              label="Nama"
-              required
-            />
-            <Separator _gap={24} />
-            <TextField
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              label="Nomor Telepon"
+              value={nama}
+              onChange={(e) => setNama(e.target.value)}
+              label="Nama Jenis"
               required
             />
             <Separator _gap={24} />
@@ -108,4 +89,4 @@ const CustomerForm = ({
   );
 };
 
-export default CustomerForm;
+export default FilterTypeForm;

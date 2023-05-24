@@ -1,23 +1,58 @@
 import "./Filters.css";
 import AdminTitle from "../../components/AdminTitle/AdminTitle";
 import { Chip, Stack } from "@mui/material";
+import * as React from "react";
+import { useDisclosure } from "@mantine/hooks";
+import FilterColorForm from "./FilterColorForm";
+import FilterTypeForm from "./FilterTypeForm";
+import FilterCategoryForm from "./FilterCategoryForm";
+
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../services/firebase";
 
 const Filters = () => {
-  const colors = [
-    { nama: "White", kode: "#FFFFFF" },
-    { nama: "Beige", kode: "#F5F5DC" },
-    { nama: "Gold", kode: "#DEBA5C" },
-    { nama: "Pink", kode: "#FFC0CB" },
-    { nama: "Red", kode: "#E24040" },
-    { nama: "Black", kode: "#000000" },
-    { nama: "Grey", kode: "#C0C0C0" },
-    { nama: "Purple", kode: "#B9A9E8" },
-    { nama: "Blue", kode: "#9FE6F0" },
-    { nama: "Green", kode: "#267355" },
-  ];
+  const [colors, setColors] = React.useState([]);
+  const [categories, setCategories] = React.useState([]);
+  const [types, setTypes] = React.useState([]);
+  const [openedColor, { open: openColor, close: closeColor }] = useDisclosure(false);
+  const [openedCategory, { open: openCategory, close: closeCategory }] = useDisclosure(false);
+  const [openedType, { open: openType, close: closeType }] = useDisclosure(false);
 
-  const categories = ["Cheongsam/Changsan", "Party", "Wedding"];
-  const types = ["Pria", "Wanita"];
+  const fetchColors = async () => {
+    await getDocs(collection(db, "warna")).then((querySnapshot) => {
+      const newData = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setColors(newData);
+    });
+  };
+
+  const fetchCategories = async () => {
+    await getDocs(collection(db, "kategori")).then((querySnapshot) => {
+      const newData = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setCategories(newData);
+    });
+  };
+
+  const fetchTypes = async () => {
+    await getDocs(collection(db, "jenis")).then((querySnapshot) => {
+      const newData = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setTypes(newData);
+    });
+  };
+
+  React.useEffect(() => {
+    fetchColors();
+    fetchCategories();
+    fetchTypes();
+  }, []);
 
   const handleClick = () => {
     console.info("You clicked the Chip.");
@@ -29,10 +64,13 @@ const Filters = () => {
       <div className="filters-content">
         <div style={{ margin: "20px 0 10px" }}>
           <b>Warna</b>
+          <button style={{ marginLeft: "20px", width: "40px" }} onClick={openColor}>
+            +
+          </button>
         </div>
         <Stack direction="row" flexWrap="wrap">
           {colors.map((color) => {
-            const label = color.nama + " " + color.kode;
+            const label = color.nama_warna + " " + color.kode_hex;
             return (
               <Chip
                 label={label}
@@ -45,12 +83,13 @@ const Filters = () => {
         </Stack>
         <div style={{ margin: "20px 0 10px" }}>
           <b>Kategori</b>
+          <button style={{ marginLeft: "20px", width: "40px" }} onClick={openCategory}>+</button>
         </div>
         <Stack direction="row" flexWrap="wrap">
           {categories.map((category) => {
             return (
               <Chip
-                label={category}
+                label={category.nama_kategori}
                 variant="outlined"
                 onClick={handleClick}
                 className="filters-chip"
@@ -60,12 +99,13 @@ const Filters = () => {
         </Stack>
         <div style={{ margin: "20px 0 10px" }}>
           <b>Jenis</b>
+          <button style={{ marginLeft: "20px", width: "40px" }} onClick={openType}>+</button>
         </div>
         <Stack direction="row" flexWrap="wrap">
           {types.map((type) => {
             return (
               <Chip
-                label={type}
+                label={type.nama_jenis}
                 variant="outlined"
                 onClick={handleClick}
                 className="filters-chip"
@@ -74,6 +114,9 @@ const Filters = () => {
           })}
         </Stack>
       </div>
+      <FilterColorForm onClose={closeColor} open={openedColor} />
+      <FilterCategoryForm onClose={closeCategory} open={openedCategory} />
+      <FilterTypeForm onClose={closeType} open={openedType} />
     </div>
   );
 };

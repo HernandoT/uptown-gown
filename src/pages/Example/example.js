@@ -1,5 +1,7 @@
 import * as React from "react";
 import { Button } from "./style";
+import { useQuery } from "@tanstack/react-query";
+import { getCustomers } from "../../services/customer";
 
 const Example = () => {
   const [email, setEmail] = React.useState("");
@@ -24,6 +26,7 @@ const Example = () => {
     },
     [email, name, phone]
   );
+
   return (
     <form onSubmit={onSubmit}>
       <input
