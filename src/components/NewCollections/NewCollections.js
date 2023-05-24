@@ -24,7 +24,7 @@ const NewCollections = () => {
         activeSlideIndex={activeSlide}
         activeSlideProps={{
           style: {
-            background: "blue",
+            background: "grey",
           },
         }}
         onRequestChange={setActiveSlide}
@@ -75,7 +75,7 @@ const NewCollections = () => {
         {Array.from({ length: 10 }).map((item, index) => (
           <div
             style={{
-              background: "yellow",
+              background: "lightgrey",
               width: "20vw",
               height: "20vw",
               border: "20px solid white",

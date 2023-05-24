@@ -10,7 +10,7 @@ const Slogan = () => {
         <p className="desc">Description - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
       </div>
 
-      <img src={img} alt="" className="img" />
+      <div className="img" />
     </div>
   );
 };
