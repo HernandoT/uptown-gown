@@ -1,7 +1,6 @@
 import {
   addDoc,
   collection,
-  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -44,14 +43,6 @@ export const updateType = async (id = "", { nama_jenis = "" }) => {
     await updateDoc(await getDoc(doc(db, field.type, id)), {
       nama_jenis,
     });
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-export const deleteType = async (id = "") => {
-  try {
-    await deleteDoc(await getDoc(doc(db, field.type, id)));
   } catch (e) {
     console.log(e);
   }

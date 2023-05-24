@@ -1,7 +1,6 @@
 import {
   addDoc,
   collection,
-  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -49,14 +48,6 @@ export const updateColor = async (
       nama_warna,
       kode_hex,
     });
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-export const deleteColor = async (id = "") => {
-  try {
-    await deleteDoc(await getDoc(doc(db, field.color, id)));
   } catch (e) {
     console.log(e);
   }
