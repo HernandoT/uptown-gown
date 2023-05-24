@@ -16,12 +16,13 @@
 .button-submit {
   margin-top: 10px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 1rem;
   background: black;
   border: 1px solid black;
   color: white;
   padding: 10px 20px;
   width: 100%;
+  border-radius: 4px;
 }
 
 .signup-form {
@@ -29,8 +30,9 @@
   justify-content: center;
   align-items: center;
   background-color: white;
-  padding: 2rem;
+  padding: 4rem 4rem 4rem 2rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 8px;
 }
 
 .logo {
@@ -63,8 +65,9 @@
 }
 
 .title {
-  font-size: 25px;
-  margin-bottom: 20px;
+  font-size: 2rem;
+  margin-bottom: 16px;
+  font-family: 'Playfair Display', serif;
 }
 
 .input-container {

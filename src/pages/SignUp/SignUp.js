@@ -154,7 +154,7 @@ const SignUp = () => {
               </div>
             </form>
           </div>
-          <div>
+          <div style={{marginTop: "2rem", fontSize: "0.9rem"}}>
             Sudah punya akun?{" "}
             <Link
               to="/login"
