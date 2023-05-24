@@ -4,27 +4,36 @@ import * as React from "react";
 import Separator from "../../components/separator";
 import { notifications } from "@mantine/notifications";
 
-export default function CustomerForm({
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../../services/firebase";
+
+const CustomerForm = ({
   data = { email: "", name: "", phoneNumber: "" },
   open = true,
   onClose,
-}) {
+}) => {
   const [email, setEmail] = React.useState(data.email);
   const [name, setName] = React.useState(data.name);
-  const [phoneNumber, setPhoneNumber] = React.useState(data.password);
+  const [phoneNumber, setPhoneNumber] = React.useState(data.phoneNumber);
+
+  const insertCustomer = async (email, nama, nomor, password) => {
+    try {
+      await addDoc(collection(db, "customer"), {
+        email: email,
+        nama: nama,
+        nomor_telepon: nomor,
+        password: password,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const onSubmit = React.useCallback(
     (e) => {
       e.preventDefault();
       try {
-        const data = {
-          name,
-          email,
-          phoneNumber,
-          password: 123456,
-        };
-
-        console.log(data);
+        insertCustomer(email, name, phoneNumber, "123456");
         notifications.show({
           title: "Tambah User",
           message: "Customer telah berhasil ditambahkan",
@@ -94,4 +103,6 @@ export default function CustomerForm({
       </Paper>
     </Modal>
   );
-}
+};
+
+export default CustomerForm;
