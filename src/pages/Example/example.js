@@ -6,10 +6,10 @@ import ColorSelectInput from "../../components/Select/color-select-input";
 import TypeSelectInput from "../../components/Select/type-select-input";
 import CategorySelectInput from "../../components/Select/category-select-input";
 
-// const Example = () => {
-//   const [email, setEmail] = React.useState("");
-//   const [name, setName] = React.useState("");
-//   const [phone, setPhone] = React.useState("");
+const Example = () => {
+  const [email, setEmail] = React.useState("");
+  const [name, setName] = React.useState("");
+  const [phone, setPhone] = React.useState("");
 
   const onSubmit = React.useCallback(
     (e) => async () => {
@@ -59,4 +59,4 @@ import CategorySelectInput from "../../components/Select/category-select-input";
   );
 };
 
-// export default Example;
+export default Example;
