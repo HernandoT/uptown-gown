@@ -10,29 +10,21 @@ import CustomerForm from "./CustomerForm";
 
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../services/firebase";
+import { getCustomers } from "../../services/customer";
+import { useQuery } from "@tanstack/react-query";
 
 const Customer = () => {
-  const [customer, setCustomer] = React.useState([]);
+  // const [customer, setCustomer] = React.useState([]);
   const [searchTerm, setSearchTerm] = React.useState("");
   const [opened, { open, close }] = useDisclosure(false);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
-  
-  const fetchCustomer = async () => {
-    await getDocs(collection(db, "customer")).then((querySnapshot) => {
-      const newData = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setCustomer(newData);
-    });
-  };
 
-  React.useEffect(() => {
-    fetchCustomer();
-  }, []);
+  const { data, isFetching } = useQuery(["get-customers"], () =>
+    getCustomers()
+  );
 
   const columns = [
     { field: "email", headerName: "Email", minWidth: 200, flex: 1 },
@@ -72,7 +64,9 @@ const Customer = () => {
         </div>
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
-            rows={customer}
+            rows={(data?.data || []).filter((customer) =>
+              customer.nama.toLowerCase().includes(searchTerm.toLowerCase())
+            )}
             columns={columns}
             initialState={{
               pagination: {

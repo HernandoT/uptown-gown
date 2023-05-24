@@ -6,6 +6,7 @@ import { notifications } from "@mantine/notifications";
 
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../services/firebase";
+import { queryClient } from "../../services/query-client";
 
 const CustomerForm = ({
   data = { email: "", name: "", phoneNumber: "" },
@@ -24,6 +25,8 @@ const CustomerForm = ({
         nomor_telepon: nomor,
         password: password,
       });
+
+      queryClient.refetchQueries(["get-customers"]);
     } catch (err) {
       console.log(err);
     }
