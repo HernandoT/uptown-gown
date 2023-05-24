@@ -7,22 +7,19 @@ import { notifications } from "@mantine/notifications";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../services/firebase";
 
-const CustomerForm = ({
-  data = { email: "", name: "", phoneNumber: "" },
+const FilterColorForm = ({
+  data = { nama: "", kode: "" },
   open = true,
   onClose,
 }) => {
-  const [email, setEmail] = React.useState(data.email);
-  const [name, setName] = React.useState(data.name);
-  const [phoneNumber, setPhoneNumber] = React.useState(data.phoneNumber);
+  const [nama, setNama] = React.useState(data.nama);
+  const [kode, setKode] = React.useState(data.kode);
 
-  const insertCustomer = async (email, nama, nomor, password) => {
+  const insertColor = async (nama, kode) => {
     try {
-      await addDoc(collection(db, "customer"), {
-        email: email,
-        nama: nama,
-        nomor_telepon: nomor,
-        password: password,
+      await addDoc(collection(db, "warna"), {
+        nama_warna: nama,
+        kode_hex: kode,
       });
     } catch (err) {
       console.log(err);
@@ -33,23 +30,23 @@ const CustomerForm = ({
     (e) => {
       e.preventDefault();
       try {
-        insertCustomer(email, name, phoneNumber, "123456");
+        insertColor(nama, kode);
         notifications.show({
-          title: "Tambah User",
-          message: "Customer telah berhasil ditambahkan",
+          title: "Tambah Warna",
+          message: "Warna baru telah berhasil ditambahkan",
           color: "teal",
         });
         onClose();
       } catch {
         notifications.show({
-          title: "Tambah User",
-          message: "Customer gagal ditambahkan",
+          title: "Tambah Warna",
+          message: "Warna baru gagal ditambahkan",
           color: "red",
         });
       } finally {
       }
     },
-    [email, name, onClose, phoneNumber]
+    [nama, kode]
   );
 
   return (
@@ -67,28 +64,21 @@ const CustomerForm = ({
         <form onSubmit={onSubmit}>
           <Flex direction="column">
             <Text fz={20} fw={600}>
-              Tambah Customer
+              Tambah Warna
             </Text>
             <Separator _gap={24} />
 
             <TextField
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              label="Email"
+              value={nama}
+              onChange={(e) => setNama(e.target.value)}
+              label="Nama Warna"
               required
             />
             <Separator _gap={24} />
             <TextField
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              label="Nama"
-              required
-            />
-            <Separator _gap={24} />
-            <TextField
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              label="Nomor Telepon"
+              value={kode}
+              onChange={(e) => setKode(e.target.value)}
+              label="Kode Hex"
               required
             />
             <Separator _gap={24} />
@@ -108,4 +98,4 @@ const CustomerForm = ({
   );
 };
 
-export default CustomerForm;
+export default FilterColorForm;

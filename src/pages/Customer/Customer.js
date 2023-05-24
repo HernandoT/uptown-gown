@@ -14,6 +14,7 @@ import { db } from "../../services/firebase";
 const Customer = () => {
   const [customer, setCustomer] = React.useState([]);
   const [searchTerm, setSearchTerm] = React.useState("");
+  const [opened, { open, close }] = useDisclosure(false);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -43,8 +44,6 @@ const Customer = () => {
       flex: 1,
     },
   ];
-
-  const [opened, { open, close }] = useDisclosure(false);
 
   return (
     <div className="customer">
