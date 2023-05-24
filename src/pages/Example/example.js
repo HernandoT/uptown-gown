@@ -1,7 +1,10 @@
 import * as React from "react";
 import { Button } from "./style";
-import { useQuery } from "@tanstack/react-query";
-import { getCustomers } from "../../services/customer";
+import CustomerSelectInput from "../../components/Select/customer-select-input";
+import { Flex } from "@mantine/core";
+import ColorSelectInput from "../../components/Select/color-select-input";
+import TypeSelectInput from "../../components/Select/type-select-input";
+import CategorySelectInput from "../../components/Select/category-select-input";
 
 const Example = () => {
   const [email, setEmail] = React.useState("");
@@ -44,6 +47,12 @@ const Example = () => {
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
       />
+      <Flex>
+        <CustomerSelectInput />
+        <ColorSelectInput />
+        <TypeSelectInput />
+        <CategorySelectInput />
+      </Flex>
       <input type="submit" />
       <Button>asdfasds</Button>
     </form>
