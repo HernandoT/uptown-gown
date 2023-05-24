@@ -1,21 +1,12 @@
 import * as React from "react";
 import { Button } from "./style";
-import { getDocs } from "firebase/firestore";
-import { customerIndex } from "../../repository/db";
+import { useQuery } from "@tanstack/react-query";
+import { getCustomers } from "../../services/customer";
 
 const Example = () => {
   const [email, setEmail] = React.useState("");
   const [name, setName] = React.useState("");
   const [phone, setPhone] = React.useState("");
-
-  React.useEffect(() => {
-    const fetchCustomer = async () => {
-      const rest = await getDocs(customerIndex);
-      console.log(rest.docs.map((doc) => doc.data()));
-    };
-
-    fetchCustomer();
-  }, []);
 
   const onSubmit = React.useCallback(
     (e) => async () => {
@@ -35,6 +26,7 @@ const Example = () => {
     },
     [email, name, phone]
   );
+
   return (
     <form onSubmit={onSubmit}>
       <input

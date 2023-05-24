@@ -6,7 +6,6 @@ import { auth, db } from "./firebase";
 import {
   addDoc,
   collection,
-  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -81,14 +80,6 @@ export const updateCustomer = async (
       password,
       nama,
     });
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-export const deleteCustomer = async (id = "") => {
-  try {
-    await deleteDoc(await getDoc(doc(db, field.customer, id)));
   } catch (e) {
     console.log(e);
   }
