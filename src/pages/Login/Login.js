@@ -128,7 +128,7 @@ const Login = () => {
               </div>
             </form>
           </div>
-          <div>
+          <div style={{marginTop: "2rem", fontSize: "0.9rem"}}>
             Belum punya akun? <Link to="/signup" style={{textDecoration: "none", color: "black"}}><strong>Sign Up</strong></Link>
           </div>
         </div>

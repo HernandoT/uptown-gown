@@ -1,4 +1,7 @@
 import { useState } from "react";
+import {
+  TextField,
+} from "@mui/material";
 import Footer from "../../components/Footer/Footer";
 import "./Appointment.css";
 import DatePicker from "react-datepicker";
@@ -38,19 +41,28 @@ const Appointment = () => {
         <div className="appointmentText">
           <p className="appointmentTitle">Make an appointment</p>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
+          Uptown Gown selalu memberikan yang terbaik untuk acara spesialmu. 
+          Kami memiliki layanan sewa gaun pesta dan custom terbaik dengan harga yang terjangkau dan kualitas 
+          yang bagus dari bahan yang dipilih oleh designer profesional kami secara langsung.  
+          Kami memberikan yang terbaik untuk gaun pesta di hari specialmu dan juga merancang sekaligus membuat gaun 
+          pesta terbaik untukmu. Booking appointment sekarang dan wujudkan gaun impianmu!{" "}
           </p>
           <p>
             <b>Waktu appointment yang tersedia dapat dipilih pada kalender</b>
           </p>
-          <input value={displayDate} disabled className="appointment-keterangan" placeholder="Pilih tanggal pada kalender"></input>
-          <input
-            type="text"
-            placeholder="Keterangan"
-            className="appointment-keterangan"
-          ></input>
-          <button className="appointmentButton">BOOK APPOINTMENT NOW!</button>
+          <div className="appointment-input-container">
+            <TextField 
+              disabled 
+              id="outlined-disabled" 
+              label={displayDate=== "" ? "Pilih tanggal pada kalender": ""}
+              value={displayDate} 
+              InputLabelProps={{shrink: false}}
+            />
+          </div>
+          <div className="appointment-input-container">
+            <TextField id="outlined-basic" label="Keterangan" variant="outlined" />
+          </div>
+          <button className="appointmentButton">AJUKAN APPOINTMENT</button>
         </div>
       </div>
       <Footer />
