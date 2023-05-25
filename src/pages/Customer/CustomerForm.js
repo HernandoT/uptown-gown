@@ -99,11 +99,15 @@ const CustomerForm = ({
             Tambah Customer
           </Text>
           <Separator _gap={24} />
-          <TextInputField label="email" name="email" placeholder="email" />
+          <TextInputField label="Email" name="email" placeholder="email" />
           <Separator _gap={24} />
-          <TextInputField name="name" placeholder="Nama" />
+          <TextInputField label="Nama" name="name" placeholder="Nama" />
           <Separator _gap={24} />
-          <TextInputField name="phoneNumber" placeholder="Nomor Telepon" />
+          <TextInputField
+            label="Nomor Telepon"
+            name="phoneNumber"
+            placeholder="Nomor Telepon"
+          />
           <Separator _gap={24} />
           <Flex justify="flex-end">
             <Button variant="text" color="error" onClick={onClose}>
