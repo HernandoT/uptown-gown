@@ -7,6 +7,7 @@ const PasswordInputField = ({
   name = "",
   required = false,
   disabled = false,
+  size = "xl",
   ...rest
 }) => {
   const { control } = useFormContext();
@@ -21,6 +22,7 @@ const PasswordInputField = ({
       placeholder={placeholder}
       withAsterisk={required}
       disabled={disabled}
+      size={size}
     />
   );
 };

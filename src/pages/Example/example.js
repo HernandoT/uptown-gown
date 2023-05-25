@@ -50,9 +50,14 @@ const Example = () => {
 
   return (
     <Form onSubmit={onSubmit} methods={methods}>
-      <TextInputField name="name" placeholder="name" required />
+      <TextInputField name="name" label="name" placeholder="name" required />
+      <PasswordInputField
+        type="password"
+        name="password"
+        placeholder="password"
+        required
+      />
       <DateInputField name="date" type="range" placeholder="date" required />
-      <PasswordInputField name="password" placeholder="password" required />
       <NumberInputField
         isCurrency
         name="rupiah"
@@ -70,6 +75,7 @@ const Example = () => {
       />
       <SelectField
         name="gender"
+        label="Gender"
         options={[
           { value: "male", label: "Pria" },
           { value: "female", label: "Wanita" },

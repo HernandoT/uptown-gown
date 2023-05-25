@@ -7,6 +7,7 @@ const TextAreaInputField = ({
   name = "",
   required = false,
   disabled = false,
+  size = "xl",
   ...rest
 }) => {
   const { control } = useFormContext();
@@ -18,6 +19,7 @@ const TextAreaInputField = ({
       inputWrapperOrder={["label", "input", "description", "error"]}
       error={fieldState.error?.message}
       label={label}
+      size={size}
       placeholder={placeholder}
       withAsterisk={required}
       disabled={disabled}

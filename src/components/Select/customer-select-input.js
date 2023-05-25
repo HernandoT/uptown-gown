@@ -1,12 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 import { getCustomers } from "../../services/customer";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 import * as React from "react";
+import { useController, useFormContext } from "react-hook-form";
+import SelectField from "../field/select";
 
-const CustomerSelectInput = ({ onChange }) => {
-  const [value, setValue] = React.useState(null);
-  const [user, setUser] = React.useState();
+const CustomerSelectInput = ({
+  label = "Customer",
+  placeholder = "Pilih Customer",
+  name = "",
+  required = false,
+  disabled = false,
+  helperText,
+  onAfterDetail,
+  ...rest
+}) => {
+  const { control } = useFormContext();
+  const { field } = useController({
+    control,
+    name,
+  });
   const { data: customerList } = useQuery(["get-customers"], () =>
     getCustomers()
   );
@@ -14,7 +27,7 @@ const CustomerSelectInput = ({ onChange }) => {
   const options = React.useMemo(
     () =>
       (customerList?.data || []).map((_data) => ({
-        id: _data.id,
+        value: _data.id,
         label: [_data.nama, _data.nomor_telepon]
           .filter((val) => !!val)
           .join(" - "),
@@ -23,36 +36,23 @@ const CustomerSelectInput = ({ onChange }) => {
     [customerList]
   );
 
-  const handleChange = React.useCallback((e) => {
-    setValue(e.target.value);
-  }, []);
-
   React.useEffect(() => {
-    if (!!value) {
-      const currentUser = options.find((option) => option.id === value);
-      currentUser && setUser(currentUser);
+    if (!!field.value) {
+      const currentUser = options.find((option) => option.id === field.value);
+      onAfterDetail?.(currentUser);
     }
-  }, [options, value]);
-
-  console.log(options);
+  }, [options, field, onAfterDetail]);
 
   return (
-    <FormControl variant="outlined" fullWidth>
-      <InputLabel htmlFor="outlined-adornment-select">Customer</InputLabel>
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={value}
-        label="Age"
-        onChange={handleChange}
-      >
-        {options.map((option) => (
-          <MenuItem key={option.id} value={option.id}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <SelectField
+      name={name}
+      helperText={helperText}
+      required={required}
+      placeholder={placeholder}
+      label={label}
+      options={options}
+      {...rest}
+    />
   );
 };
 

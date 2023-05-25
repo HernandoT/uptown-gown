@@ -1,53 +1,54 @@
 import { useQuery } from "@tanstack/react-query";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 import * as React from "react";
 import { getTypes } from "../../services/type";
+import { useController, useFormContext } from "react-hook-form";
+import SelectField from "../field/select";
 
-const TypeSelectInput = ({ onChange }) => {
-  const [value, setValue] = React.useState(null);
-  const [type, setType] = React.useState();
+const TypeSelectInput = ({
+  label = "Jenis",
+  placeholder = "Pilih Jenis",
+  name = "",
+  required = false,
+  disabled = false,
+  helperText,
+  onAfterDetail,
+  ...rest
+}) => {
+  const { control } = useFormContext();
+  const { field } = useController({
+    control,
+    name,
+  });
   const { data: typeList } = useQuery(["get-types"], () => getTypes());
 
   const options = React.useMemo(
     () =>
       (typeList?.data || []).map((_data) => ({
-        id: _data.id,
+        value: _data.id,
         label: _data.nama_jenis,
         extra: _data,
       })),
     [typeList]
   );
 
-  const handleChange = React.useCallback((e) => {
-    setValue(e.target.value);
-  }, []);
-
   React.useEffect(() => {
-    if (!!value) {
-      const currentType = options.find((option) => option.id === value);
-      currentType && setType(currentType);
+    if (!!field.value) {
+      const currentType = options.find((option) => option.id === field.value);
+      onAfterDetail?.(currentType);
     }
-  }, [options, value]);
+  }, [options, field.value, onAfterDetail]);
 
-  console.log(type);
   return (
-    <FormControl variant="outlined" fullWidth>
-      <InputLabel htmlFor="outlined-adornment-select">Jenis</InputLabel>
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={value}
-        label="Age"
-        onChange={handleChange}
-      >
-        {options.map((option) => (
-          <MenuItem key={option.id} value={option.id}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <SelectField
+      name={name}
+      helperText={helperText}
+      required={required}
+      placeholder={placeholder}
+      label={label}
+      options={options}
+      {...rest}
+    />
   );
 };
 

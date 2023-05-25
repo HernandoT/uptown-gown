@@ -1,4 +1,4 @@
-import { TextInput } from "@mantine/core";
+import { TextField } from "@mui/material";
 import { useController, useFormContext } from "react-hook-form";
 
 const TextInputField = ({
@@ -7,20 +7,22 @@ const TextInputField = ({
   name = "",
   required = false,
   disabled = false,
+  multiline = false,
   ...rest
 }) => {
   const { control } = useFormContext();
   const { field, fieldState } = useController({ name, control });
   return (
-    <TextInput
-      {...rest}
+    <TextField
       {...field}
-      inputWrapperOrder={["label", "input", "description", "error"]}
-      error={fieldState.error?.message}
+      error={!!fieldState.error?.message}
+      helperText={fieldState.error?.message}
       label={label}
       placeholder={placeholder}
-      withAsterisk={required}
+      required={required}
       disabled={disabled}
+      multiline={multiline}
+      {...rest}
     />
   );
 };

@@ -12,6 +12,7 @@ import useYupValidationResolver from "../../hooks/use-yup-resolver";
 import { useForm } from "react-hook-form";
 import Form from "../../components/field/form";
 import TextInputField from "../../components/field/text-input";
+
 const CustomerForm = ({
   data = { email: "", name: "", phoneNumber: "", password: "123456", id: "" },
   onClose,
@@ -98,7 +99,7 @@ const CustomerForm = ({
             Tambah Customer
           </Text>
           <Separator _gap={24} />
-          <TextInputField name="email" placeholder="email" />
+          <TextInputField label="email" name="email" placeholder="email" />
           <Separator _gap={24} />
           <TextInputField name="name" placeholder="Nama" />
           <Separator _gap={24} />

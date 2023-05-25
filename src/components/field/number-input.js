@@ -9,6 +9,7 @@ const NumberInputField = ({
   disabled = false,
   hideControls = true,
   isCurrency = false,
+  size = "xl",
   ...rest
 }) => {
   const { control } = useFormContext();
@@ -24,6 +25,7 @@ const NumberInputField = ({
       withAsterisk={required}
       disabled={disabled}
       hideControls={hideControls}
+      size={size}
       {...(isCurrency
         ? {
             parser: (value) => value.replace(/\$\s?|(,*)/g, ""),

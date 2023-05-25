@@ -10,6 +10,7 @@ const DateInputField = ({
   required = false,
   disabled = false,
   valueFormat = "DD MMM YYYY",
+  size = "xl",
   ...rest
 }) => {
   const { control } = useFormContext();
@@ -26,6 +27,7 @@ const DateInputField = ({
       disabled={disabled}
       type={type}
       valueFormat={valueFormat}
+      size={size}
       format
     />
   );

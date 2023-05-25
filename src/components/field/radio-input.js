@@ -21,6 +21,7 @@ const RadioInputField = ({
       withAsterisk={required}
       disabled={disabled}
       error={fieldState.error?.message}
+      {...rest}
     >
       {options.map((option) => (
         <Radio value={option.value} label={option.label} />

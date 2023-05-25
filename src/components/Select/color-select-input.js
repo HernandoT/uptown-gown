@@ -1,18 +1,31 @@
 import { useQuery } from "@tanstack/react-query";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 import * as React from "react";
 import { getColors } from "../../services/color";
+import SelectField from "../field/select";
+import { useController, useFormContext } from "react-hook-form";
 
-const ColorSelectInput = ({ onChange }) => {
-  const [value, setValue] = React.useState(null);
-  const [color, setColor] = React.useState();
+const ColorSelectInput = ({
+  label = "Warna",
+  placeholder = "Pilih Warna",
+  name = "",
+  required = false,
+  disabled = false,
+  helperText,
+  onAfterDetail,
+  ...rest
+}) => {
+  const { control } = useFormContext();
+  const { field } = useController({
+    control,
+    name,
+  });
   const { data: colorList } = useQuery(["get-color"], () => getColors());
 
   const options = React.useMemo(
     () =>
       (colorList?.data || []).map((_data) => ({
-        id: _data.id,
+        value: _data.id,
         label: [_data.nama_warna, _data.kode_hex]
           .filter((val) => !!val)
           .join(" - "),
@@ -21,34 +34,23 @@ const ColorSelectInput = ({ onChange }) => {
     [colorList]
   );
 
-  const handleChange = React.useCallback((e) => {
-    setValue(e.target.value);
-  }, []);
-
   React.useEffect(() => {
-    if (!!value) {
-      const currentColor = options.find((option) => option.id === value);
-      currentColor && setColor(currentColor);
+    if (!!field.value) {
+      const currentColor = options.find((option) => option.id === field.value);
+      onAfterDetail?.(currentColor);
     }
-  }, [options, value]);
+  }, [options, field, onAfterDetail]);
 
   return (
-    <FormControl variant="outlined" fullWidth>
-      <InputLabel htmlFor="outlined-adornment-select">Warna</InputLabel>
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={value}
-        label="Age"
-        onChange={handleChange}
-      >
-        {options.map((option) => (
-          <MenuItem key={option.id} value={option.id}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <SelectField
+      name={name}
+      helperText={helperText}
+      required={required}
+      placeholder={placeholder}
+      label={label}
+      options={options}
+      {...rest}
+    />
   );
 };
 
