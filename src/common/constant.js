@@ -3,4 +3,5 @@ export const field = {
   color: "warna",
   category: "kategori",
   type: "jenis",
+  expense: "pengeluaran",
 };
