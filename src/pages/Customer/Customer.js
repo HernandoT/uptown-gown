@@ -5,7 +5,6 @@ import {
   InputAdornment,
   CircularProgress,
   Button,
-  Modal,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { DataGrid } from "@mui/x-data-grid";
@@ -18,7 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import { deleteEntity } from "../../services/firebase";
 import { field } from "../../common/constant";
 import { queryClient } from "../../services/query-client";
-import { Flex, Text, Paper } from "@mantine/core";
+import { Flex, Text, Paper, Modal } from "@mantine/core";
 import Separator from "../../components/separator";
 
 const defaultValues = {
@@ -173,7 +172,7 @@ const Customer = () => {
           )}
         </div>
       </div>
-      <Modal open={opened}>
+      <Modal opened={opened} centered>
         <CustomerForm data={currentData} onClose={close} isEdit={isEdit} />
       </Modal>
     </div>

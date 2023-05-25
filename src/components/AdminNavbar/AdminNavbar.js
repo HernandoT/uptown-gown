@@ -2,6 +2,7 @@ import "./AdminNavbar.css";
 import logo from "../../utils/assets/logo.png";
 import { MultilevelMenu } from "react-multilevel-menu";
 import { Outlet, useNavigate } from "react-router-dom";
+import { MantineProvider } from "@mantine/core";
 
 const AdminNavbar = () => {
   const navigate = useNavigate();
@@ -125,12 +126,14 @@ const AdminNavbar = () => {
       <div className="admin-navbar">
         <img src={logo} alt="logo" className="admin-navbar-icon" />
         <div className="main-menu">
-          <MultilevelMenu
-            list={list}
-            configuration={config}
-            selectedListItem={selectedItem}
-            // selectedLabel={selectedItem}
-          />
+          <MantineProvider>
+            <MultilevelMenu
+              list={list}
+              configuration={config}
+              selectedListItem={selectedItem}
+              // selectedLabel={selectedItem}
+            />
+          </MantineProvider>
         </div>
       </div>
       <Outlet />

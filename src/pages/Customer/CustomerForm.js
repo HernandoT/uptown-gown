@@ -53,16 +53,7 @@ const CustomerForm = ({
   );
 
   return (
-    <Paper
-      p={36}
-      miw={400}
-      style={{
-        transform: "translate(-50%, -50%)",
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-      }}
-    >
+    <Paper p={36} miw={400}>
       <form onSubmit={onSubmit}>
         <Flex direction="column">
           <Text fz={20} fw={600}>
