@@ -15,6 +15,9 @@ import { useDisclosure } from "@mantine/hooks";
 import CustomerForm from "./CustomerForm";
 import { getCustomers } from "../../services/customer";
 import { useQuery } from "@tanstack/react-query";
+import { deleteEntity } from "../../services/firebase";
+import { field } from "../../common/constant";
+import { queryClient } from "../../services/query-client";
 
 const defaultValues = {
   email: "",
@@ -49,8 +52,8 @@ const Customer = () => {
       flex: 1,
     },
     {
-      field: "action",
-      headerName: "Action",
+      field: "edit",
+      headerName: "Edit",
       sortable: false,
       renderCell: ({ row }) => {
         const onClick = () => {
@@ -65,6 +68,19 @@ const Customer = () => {
           setIsEdit(true);
         };
         return <Button onClick={onClick}>Edit</Button>;
+      },
+    },
+
+    {
+      field: "delete",
+      headerName: "Delete",
+      sortable: false,
+      renderCell: ({ row }) => {
+        const onClick = () => {
+          deleteEntity({ id: row.id, entity: field.customer });
+          queryClient.refetchQueries(["get-customers"]);
+        };
+        return <Button onClick={onClick}>Delete</Button>;
       },
     },
   ];

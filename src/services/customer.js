@@ -79,10 +79,11 @@ export const updateCustomer = async (
   { email = "", password = "", nama = "", nomor_telepon = "" }
 ) => {
   try {
-    await updateDoc(await getDoc(doc(db, field.customer, id)), {
+    await updateDoc(doc(db, field.customer, id), {
       email,
       password,
       nama,
+      nomor_telepon,
     });
     queryClient.refetchQueries(["get-customers"]);
   } catch (e) {

@@ -46,7 +46,7 @@ export const updateColor = async (
   { nama_warna = "", kode_hex = "" }
 ) => {
   try {
-    await updateDoc(await getDoc(doc(db, field.color, id)), {
+    await updateDoc(doc(db, field.color, id), {
       nama_warna,
       kode_hex,
     });

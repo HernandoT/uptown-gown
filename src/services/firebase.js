@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { deleteDoc, doc, getDoc, getFirestore } from "firebase/firestore";
+import { deleteDoc, doc, getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 
@@ -23,7 +23,7 @@ export const auth = getAuth(app);
 
 export const deleteEntity = async ({ id = "", entity = "" }) => {
   try {
-    await deleteDoc(await getDoc(doc(db, entity, id)));
+    await deleteDoc(doc(db, entity, id));
   } catch (e) {
     console.log(e);
   }

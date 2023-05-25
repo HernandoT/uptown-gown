@@ -42,7 +42,7 @@ export const createCategory = async ({ nama_category = "" }) => {
 
 export const updateCategory = async (id = "", { nama_category = "" }) => {
   try {
-    await updateDoc(await getDoc(doc(db, field.category, id)), {
+    await updateDoc(doc(db, field.category, id), {
       nama_category,
     });
     queryClient.refetchQueries(["get-categories"]);

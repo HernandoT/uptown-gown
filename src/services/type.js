@@ -40,7 +40,7 @@ export const createType = async ({ nama_jenis = "" }) => {
 
 export const updateType = async (id = "", { nama_jenis = "" }) => {
   try {
-    await updateDoc(await getDoc(doc(db, field.type, id)), {
+    await updateDoc(doc(db, field.type, id), {
       nama_jenis,
     });
   } catch (e) {
