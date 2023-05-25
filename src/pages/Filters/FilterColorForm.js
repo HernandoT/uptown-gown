@@ -4,8 +4,7 @@ import * as React from "react";
 import Separator from "../../components/separator";
 import { notifications } from "@mantine/notifications";
 
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../services/firebase";
+import { createColor } from "../../services/color";
 
 const FilterColorForm = ({
   data = { nama: "", kode: "" },
@@ -15,22 +14,11 @@ const FilterColorForm = ({
   const [nama, setNama] = React.useState(data.nama);
   const [kode, setKode] = React.useState(data.kode);
 
-  const insertColor = async (nama, kode) => {
-    try {
-      await addDoc(collection(db, "warna"), {
-        nama_warna: nama,
-        kode_hex: kode,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const onSubmit = React.useCallback(
     (e) => {
       e.preventDefault();
       try {
-        insertColor(nama, kode);
+        createColor({ nama_warna: nama, kode_hex: kode });
         notifications.show({
           title: "Tambah Warna",
           message: "Warna baru telah berhasil ditambahkan",
@@ -46,7 +34,7 @@ const FilterColorForm = ({
       } finally {
       }
     },
-    [nama, kode]
+    [nama, kode, onClose]
   );
 
   return (

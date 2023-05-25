@@ -6,53 +6,25 @@ import { useDisclosure } from "@mantine/hooks";
 import FilterColorForm from "./FilterColorForm";
 import FilterTypeForm from "./FilterTypeForm";
 import FilterCategoryForm from "./FilterCategoryForm";
-
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../services/firebase";
+import { useQuery } from "@tanstack/react-query";
+import { getColors } from "../../services/color";
+import { getCategories } from "../../services/category";
+import { getTypes } from "../../services/type";
 
 const Filters = () => {
-  const [colors, setColors] = React.useState([]);
-  const [categories, setCategories] = React.useState([]);
-  const [types, setTypes] = React.useState([]);
-  const [openedColor, { open: openColor, close: closeColor }] = useDisclosure(false);
-  const [openedCategory, { open: openCategory, close: closeCategory }] = useDisclosure(false);
-  const [openedType, { open: openType, close: closeType }] = useDisclosure(false);
+  const [openedColor, { open: openColor, close: closeColor }] =
+    useDisclosure(false);
+  const [openedCategory, { open: openCategory, close: closeCategory }] =
+    useDisclosure(false);
+  const [openedType, { open: openType, close: closeType }] =
+    useDisclosure(false);
 
-  const fetchColors = async () => {
-    await getDocs(collection(db, "warna")).then((querySnapshot) => {
-      const newData = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setColors(newData);
-    });
-  };
-
-  const fetchCategories = async () => {
-    await getDocs(collection(db, "kategori")).then((querySnapshot) => {
-      const newData = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setCategories(newData);
-    });
-  };
-
-  const fetchTypes = async () => {
-    await getDocs(collection(db, "jenis")).then((querySnapshot) => {
-      const newData = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setTypes(newData);
-    });
-  };
-
-  React.useEffect(() => {
-    fetchColors();
-    fetchCategories();
-    fetchTypes();
-  }, []);
+  const { data: colorList } = useQuery(["get-colors", () => getColors()]);
+  const { data: categoryList } = useQuery([
+    "get-categories",
+    () => getCategories(),
+  ]);
+  const { data: typeList } = useQuery(["get-types", () => getTypes()]);
 
   const handleClick = () => {
     console.info("You clicked the Chip.");
@@ -64,12 +36,15 @@ const Filters = () => {
       <div className="filters-content">
         <div style={{ margin: "20px 0 10px" }}>
           <b>Warna</b>
-          <button style={{ marginLeft: "20px", width: "40px" }} onClick={openColor}>
+          <button
+            style={{ marginLeft: "20px", width: "40px" }}
+            onClick={openColor}
+          >
             +
           </button>
         </div>
         <Stack direction="row" flexWrap="wrap">
-          {colors.map((color) => {
+          {(colorList?.data || []).map((color) => {
             const label = color.nama_warna + " " + color.kode_hex;
             return (
               <Chip
@@ -83,10 +58,15 @@ const Filters = () => {
         </Stack>
         <div style={{ margin: "20px 0 10px" }}>
           <b>Kategori</b>
-          <button style={{ marginLeft: "20px", width: "40px" }} onClick={openCategory}>+</button>
+          <button
+            style={{ marginLeft: "20px", width: "40px" }}
+            onClick={openCategory}
+          >
+            +
+          </button>
         </div>
         <Stack direction="row" flexWrap="wrap">
-          {categories.map((category) => {
+          {(categoryList?.data || []).map((category) => {
             return (
               <Chip
                 label={category.nama_kategori}
@@ -99,10 +79,15 @@ const Filters = () => {
         </Stack>
         <div style={{ margin: "20px 0 10px" }}>
           <b>Jenis</b>
-          <button style={{ marginLeft: "20px", width: "40px" }} onClick={openType}>+</button>
+          <button
+            style={{ marginLeft: "20px", width: "40px" }}
+            onClick={openType}
+          >
+            +
+          </button>
         </div>
         <Stack direction="row" flexWrap="wrap">
-          {types.map((type) => {
+          {(typeList?.data || []).map((type) => {
             return (
               <Chip
                 label={type.nama_jenis}

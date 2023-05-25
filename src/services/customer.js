@@ -12,6 +12,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { field } from "../common/constant";
+import { queryClient } from "./query-client";
 
 export const signUp = async ({ email = "", password = "" }) => {
   try {
@@ -58,13 +59,16 @@ export const createCustomer = async ({
   email = "",
   password = "",
   nama = "",
+  nomor_telepon = "",
 }) => {
   try {
     await addDoc(collection(db, field.customer), {
       email,
       password,
       nama,
+      nomor_telepon,
     });
+    queryClient.refetchQueries(["get-customers"]);
   } catch (e) {
     console.log(e);
   }
@@ -72,7 +76,7 @@ export const createCustomer = async ({
 
 export const updateCustomer = async (
   id = "",
-  { email = "", password = "", nama = "" }
+  { email = "", password = "", nama = "", nomor_telepon = "" }
 ) => {
   try {
     await updateDoc(await getDoc(doc(db, field.customer, id)), {
@@ -80,6 +84,7 @@ export const updateCustomer = async (
       password,
       nama,
     });
+    queryClient.refetchQueries(["get-customers"]);
   } catch (e) {
     console.log(e);
   }

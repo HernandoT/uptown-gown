@@ -8,6 +8,7 @@ import {
 } from "firebase/firestore";
 import { field } from "../common/constant";
 import { db } from "./firebase";
+import { queryClient } from "./query-client";
 
 export const getColors = async () => {
   try {
@@ -34,6 +35,7 @@ export const createColor = async ({ nama_warna = "", kode_hex = "" }) => {
       nama_warna,
       kode_hex,
     });
+    queryClient.refetchQueries(["get-colors"]);
   } catch (e) {
     console.log(e);
   }
@@ -48,6 +50,7 @@ export const updateColor = async (
       nama_warna,
       kode_hex,
     });
+    queryClient.refetchQueries(["get-colors"]);
   } catch (e) {
     console.log(e);
   }

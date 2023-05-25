@@ -8,6 +8,7 @@ import {
 } from "firebase/firestore";
 import { field } from "../common/constant";
 import { db } from "./firebase";
+import { queryClient } from "./query-client";
 
 export const getCategories = async () => {
   try {
@@ -33,6 +34,7 @@ export const createCategory = async ({ nama_category = "" }) => {
     await addDoc(collection(db, field.category), {
       nama_category,
     });
+    queryClient.refetchQueries(["get-categories"]);
   } catch (e) {
     console.log(e);
   }
@@ -43,6 +45,7 @@ export const updateCategory = async (id = "", { nama_category = "" }) => {
     await updateDoc(await getDoc(doc(db, field.category, id)), {
       nama_category,
     });
+    queryClient.refetchQueries(["get-categories"]);
   } catch (e) {
     console.log(e);
   }

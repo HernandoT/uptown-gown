@@ -4,31 +4,26 @@ import * as React from "react";
 import Separator from "../../components/separator";
 import { notifications } from "@mantine/notifications";
 
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../services/firebase";
+import { createType } from "../../services/type";
 
-const FilterCategoryForm = ({
-  data = { nama: "" },
-  open = true,
-  onClose,
-}) => {
+const FilterCategoryForm = ({ data = { nama: "" }, open = true, onClose }) => {
   const [nama, setNama] = React.useState(data.nama);
 
-  const insertType = async (nama) => {
-    try {
-      await addDoc(collection(db, "kategori"), {
-        nama_kategori: nama,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const insertType = async (nama) => {
+  //   try {
+  //     await addDoc(collection(db, "kategori"), {
+  //       nama_kategori: nama,
+  //     });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const onSubmit = React.useCallback(
     (e) => {
       e.preventDefault();
       try {
-        insertType(nama);
+        createType({ nama_jenis: nama });
         notifications.show({
           title: "Tambah Kategori",
           message: "Kategori baru telah berhasil ditambahkan",
@@ -44,7 +39,7 @@ const FilterCategoryForm = ({
       } finally {
       }
     },
-    [nama]
+    [nama, onClose]
   );
 
   return (
