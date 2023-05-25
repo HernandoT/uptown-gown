@@ -18,6 +18,8 @@ import { useQuery } from "@tanstack/react-query";
 import { deleteEntity } from "../../services/firebase";
 import { field } from "../../common/constant";
 import { queryClient } from "../../services/query-client";
+import { Flex, Text, Paper } from "@mantine/core";
+import Separator from "../../components/separator";
 
 const defaultValues = {
   email: "",
@@ -31,6 +33,8 @@ const Customer = () => {
 
   const [searchTerm, setSearchTerm] = React.useState("");
   const [opened, { open, close }] = useDisclosure(false);
+  const [openDeleteDialog, { open: openDelete, close: closeDelete }] =
+    useDisclosure(false);
   const [currentData, setCurrentData] = React.useState(defaultValues);
   const [isEdit, setIsEdit] = React.useState(false);
 
@@ -53,7 +57,7 @@ const Customer = () => {
     },
     {
       field: "edit",
-      headerName: "Edit",
+      headerName: "",
       sortable: false,
       renderCell: ({ row }) => {
         const onClick = () => {
@@ -67,20 +71,53 @@ const Customer = () => {
           open();
           setIsEdit(true);
         };
-        return <Button onClick={onClick}>Edit</Button>;
+        return (
+          <>
+            <Button onClick={onClick}>Edit</Button>
+          </>
+        );
       },
     },
 
     {
       field: "delete",
-      headerName: "Delete",
+      headerName: "",
       sortable: false,
       renderCell: ({ row }) => {
-        const onClick = () => {
+        const onDelete = () => {
           deleteEntity({ id: row.id, entity: field.customer });
           queryClient.refetchQueries(["get-customers"]);
+          closeDelete();
         };
-        return <Button onClick={onClick}>Delete</Button>;
+        return (
+          <>
+            <Button onClick={openDelete}>Delete</Button>
+            <Modal onClose={closeDelete} open={openDeleteDialog}>
+              <Paper
+                p={24}
+                miw={400}
+                style={{
+                  transform: "translate(-50%, -50%)",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                }}
+              >
+                <Text>
+                  Are you sure delete customer "
+                  {[row.nama, row.nomor_telepon].join(" - ")}"
+                </Text>
+                <Separator _gap={36} />
+                <Flex direction="row" justify="flex-end">
+                  <Button color="error" onClick={closeDelete}>
+                    No
+                  </Button>
+                  <Button onClick={onDelete}>Yes</Button>
+                </Flex>
+              </Paper>
+            </Modal>
+          </>
+        );
       },
     },
   ];
