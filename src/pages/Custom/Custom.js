@@ -2,6 +2,7 @@ import "./Custom.css";
 import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/Navbar/Navbar";
 import SupportEngine from "../../SupportEngine";
+import { GiLargeDress, GiSewingMachine } from "react-icons/gi";
 
 const Custom = () => {
   const isLoged = localStorage.getItem("isLoged");
@@ -12,53 +13,45 @@ const Custom = () => {
       <div className="customContent">
         <div className="custom-desc">
           <div className="customBox">
-            <div className="customLogo">X</div>
+            <div className="customLogo"><GiLargeDress className="customIcon"/></div>
             <div className="customTitle">Custom Rent</div>
             <div className="customText">
               <div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Custom Rent memungkinkan kamu untuk mendapatkan gaun impian kamu. Kamu bisa memilih dari berbagai jenis 
+              bahan, model, dan ukuran yang sesuai dengan selera dan kebutuhan.
               </div>
               <div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </div>
-              <div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </div>
-              <div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Dengan layanan Custom Rent, kamu tidak perlu khawatir tentang membeli gaun yang mahal untuk hanya dipakai 
+              sekali atau dua kali. Kamu bisa menyesuaikan gaun dengan acara yang kamu hadiri dan membuat penampilan 
+              kamu tampak lebih menarik.
               </div>
             </div>
           </div>
           <div className="customBox">
-            <div className="customLogo">X</div>
+            <div className="customLogo"><GiSewingMachine className="customIcon"/></div>
             <div className="customTitle">Custom Made</div>
             <div className="customText">
               <div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Ingin memiliki gaun pesta yang benar-benar sesuai dengan selera dan kebutuhan kamu? 
+              Kamu dapat memilih layanan Custom Made yang dapat memberikan kamu gaun pesta impian 
+              dengan desain yang unik dan hanya untuk kamu.
               </div>
               <div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </div>
-              <div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </div>
-              <div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Layanan pembuatan gaun custom made memungkinkan kamu untuk mengambil bagian dalam 
+                proses desain gaun, mulai dari memilih jenis kain, warna, hingga detail kecil seperti 
+                hiasan dan potongan yang kamu inginkan. Kamu bisa bekerja sama dengan desainer untuk 
+                menciptakan gaun yang benar-benar unik dan hanya untuk kamu.
               </div>
             </div>
           </div>
         </div>
         <div className="custom-button">
           <button className="appointment-button">BUAT APPOINTMENT SEKARANG!</button>
-          <div>Ingin berdiskusi lebih lanjut? <a href="https://wa.me/+6282167798500" target="_blank"><b>Hubungi melalui Whatsapp</b></a></div>
+          <div style={{marginTop: "2rem", fontSize: "1rem"}}>Ingin berdiskusi lebih lanjut? 
+            <a href="https://wa.me/+6282167798500" target="_blank"  style={{textDecoration: "none", color: "black", paddingLeft: "4px"}}>
+              <b>Hubungi melalui Whatsapp</b>
+              </a>
+            </div>
         </div>
       </div>
 
