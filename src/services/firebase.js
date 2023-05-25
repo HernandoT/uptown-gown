@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { deleteDoc, doc, getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import { getStorage, ref } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
@@ -18,6 +18,7 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
 export const storage = getStorage(app);
+export const storageImageRef = ref(storage, "image");
 
 export const auth = getAuth(app);
 

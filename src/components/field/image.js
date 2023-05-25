@@ -5,6 +5,14 @@ import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import Resizer from "react-image-file-resizer";
 
 import * as React from "react";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  uploadString,
+} from "firebase/storage";
+import { storage, storageImageRef } from "../../services/firebase";
+import { v4 } from "uuid";
 
 const resizeFile = (file) =>
   new Promise((resolve) => {
@@ -13,7 +21,7 @@ const resizeFile = (file) =>
       300,
       300,
       "JPEG",
-      100,
+      80,
       0,
       (uri) => {
         resolve(uri);
@@ -55,8 +63,18 @@ const ImagesInputField = () => {
 
   React.useEffect(() => {
     files.map(async (file) => {
+      //result base64
       const result = await resizeFile(file);
+
       console.log(result);
+      // console.log(result);
+      // const imageRef = ref(storage, `images/${v4()}.jpeg`);
+      // const test = await uploadString(
+      //   imageRef,
+      //   result.replace("data:image/jpeg;base64,", ""),
+      //   "base64"
+      // );
+      // const url = await getDownloadURL(test.ref);
     });
   }, [files]);
 
