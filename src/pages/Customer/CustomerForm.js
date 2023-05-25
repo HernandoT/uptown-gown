@@ -1,36 +1,74 @@
 import { Flex, Paper, Text } from "@mantine/core";
-import { Button, TextField } from "@mui/material";
+import { Button } from "@mui/material";
 import * as React from "react";
 import Separator from "../../components/separator";
 import { notifications } from "@mantine/notifications";
 
 import { createCustomer, updateCustomer } from "../../services/customer";
+import { v4 } from "uuid";
 
+import * as Yup from "yup";
+import useYupValidationResolver from "../../hooks/use-yup-resolver";
+import { useForm } from "react-hook-form";
+import Form from "../../components/field/form";
+import TextInputField from "../../components/field/text-input";
 const CustomerForm = ({
   data = { email: "", name: "", phoneNumber: "", password: "123456", id: "" },
   onClose,
   isEdit = false,
 }) => {
-  const [email, setEmail] = React.useState(data.email);
-  const [name, setName] = React.useState(data.name);
-  const [phoneNumber, setPhoneNumber] = React.useState(data.phoneNumber);
+  const defaultValues = React.useMemo(
+    () => ({
+      email: data?.email || "",
+      password: data?.name || "123456",
+      phoneNumber: data?.phoneNumber || "",
+      name: data?.name || "",
+      id: v4(),
+    }),
+    [data]
+  );
+
+  const yupSchema = React.useMemo(
+    () =>
+      Yup.object().shape({
+        email: Yup.string()
+          .email("Email Tidak Valid")
+          .required("Email Wajib Diisi"),
+        password: Yup.string().required("Password Wajib Diisi"),
+        phoneNumber: Yup.string()
+          .required("Nomor Telepon Wajib Diisi")
+          .matches(
+            /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+            "Nomor Telepon Tidak Valid"
+          ),
+        name: Yup.string().required("Nama Wajib Diisi"),
+      }),
+    []
+  );
+
+  const resolver = useYupValidationResolver(yupSchema);
+
+  const methods = useForm({
+    defaultValues,
+    resolver,
+    mode: "onChange",
+  });
 
   const onSubmit = React.useCallback(
-    (e) => {
-      e.preventDefault();
+    async (values) => {
       try {
         isEdit
           ? updateCustomer(data.id, {
-              email,
-              nama: name,
-              nomor_telepon: phoneNumber,
-              password: data.password,
+              email: values.email,
+              nama: values.name,
+              nomor_telepon: values.phoneNumber,
+              password: values.password,
             })
           : createCustomer({
-              email,
-              nama: name,
-              nomor_telepon: phoneNumber,
-              password: data.password,
+              email: values.email,
+              nama: values.name,
+              nomor_telepon: values.phoneNumber,
+              password: values.password,
             });
         notifications.show({
           title: isEdit ? "Edit User" : "Tambah User",
@@ -49,40 +87,23 @@ const CustomerForm = ({
       } finally {
       }
     },
-    [data, email, isEdit, name, onClose, phoneNumber]
+    [data.id, isEdit, onClose]
   );
 
   return (
     <Paper p={36} miw={400}>
-      <form onSubmit={onSubmit}>
+      <Form onSubmit={onSubmit} methods={methods}>
         <Flex direction="column">
           <Text fz={20} fw={600}>
             Tambah Customer
           </Text>
           <Separator _gap={24} />
-
-          <TextField
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            label="Email"
-            required
-          />
+          <TextInputField name="email" placeholder="email" />
           <Separator _gap={24} />
-          <TextField
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            label="Nama"
-            required
-          />
+          <TextInputField name="name" placeholder="Nama" />
           <Separator _gap={24} />
-          <TextField
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            label="Nomor Telepon"
-            required
-          />
+          <TextInputField name="phoneNumber" placeholder="Nomor Telepon" />
           <Separator _gap={24} />
-
           <Flex justify="flex-end">
             <Button variant="text" color="error" onClick={onClose}>
               Batal
@@ -92,7 +113,7 @@ const CustomerForm = ({
             </Button>
           </Flex>
         </Flex>
-      </form>
+      </Form>
     </Paper>
   );
 };

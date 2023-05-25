@@ -91,17 +91,13 @@ const Customer = () => {
         return (
           <>
             <Button onClick={openDelete}>Delete</Button>
-            <Modal onClose={closeDelete} open={openDeleteDialog}>
-              <Paper
-                p={24}
-                miw={400}
-                style={{
-                  transform: "translate(-50%, -50%)",
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                }}
-              >
+            <Modal
+              onClose={closeDelete}
+              opened={openDeleteDialog}
+              withCloseButton={false}
+              centered
+            >
+              <Paper p={24} miw={400}>
                 <Text>
                   Are you sure delete customer "
                   {[row.nama, row.nomor_telepon].join(" - ")}"
