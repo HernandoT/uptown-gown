@@ -1,5 +1,5 @@
 import { Flex, Paper, Text } from "@mantine/core";
-import { Button, Modal, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import * as React from "react";
 import Separator from "../../components/separator";
 import { notifications } from "@mantine/notifications";
@@ -7,12 +7,14 @@ import { notifications } from "@mantine/notifications";
 import { createColor } from "../../services/color";
 
 const FilterColorForm = ({
-  data = { nama: "", kode: "" },
+  data = { nama_warna: "", kode_hex: "", id: "" },
   open = true,
   onClose,
 }) => {
-  const [nama, setNama] = React.useState(data.nama);
-  const [kode, setKode] = React.useState(data.kode);
+  const [nama, setNama] = React.useState(data.nama_warna);
+  const [kode, setKode] = React.useState(data.kode_hex);
+
+  console.log(data);
 
   const onSubmit = React.useCallback(
     (e) => {
@@ -38,51 +40,49 @@ const FilterColorForm = ({
   );
 
   return (
-    <Modal open={open}>
-      <Paper
-        p={36}
-        miw={400}
-        style={{
-          transform: "translate(-50%, -50%)",
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-        }}
-      >
-        <form onSubmit={onSubmit}>
-          <Flex direction="column">
-            <Text fz={20} fw={600}>
-              Tambah Warna
-            </Text>
-            <Separator _gap={24} />
+    <Paper
+      p={36}
+      miw={400}
+      style={{
+        transform: "translate(-50%, -50%)",
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+      }}
+    >
+      <form onSubmit={onSubmit}>
+        <Flex direction="column">
+          <Text fz={20} fw={600}>
+            Tambah Warna
+          </Text>
+          <Separator _gap={24} />
 
-            <TextField
-              value={nama}
-              onChange={(e) => setNama(e.target.value)}
-              label="Nama Warna"
-              required
-            />
-            <Separator _gap={24} />
-            <TextField
-              value={kode}
-              onChange={(e) => setKode(e.target.value)}
-              label="Kode Hex"
-              required
-            />
-            <Separator _gap={24} />
+          <TextField
+            value={nama}
+            onChange={(e) => setNama(e.target.value)}
+            label="Nama Warna"
+            required
+          />
+          <Separator _gap={24} />
+          <TextField
+            value={kode}
+            onChange={(e) => setKode(e.target.value)}
+            label="Kode Hex"
+            required
+          />
+          <Separator _gap={24} />
 
-            <Flex justify="flex-end">
-              <Button variant="text" color="error" onClick={onClose}>
-                Batal
-              </Button>
-              <Button variant="text" type="submit">
-                Simpan
-              </Button>
-            </Flex>
+          <Flex justify="flex-end">
+            <Button variant="text" color="error" onClick={onClose}>
+              Batal
+            </Button>
+            <Button variant="text" type="submit">
+              Simpan
+            </Button>
           </Flex>
-        </form>
-      </Paper>
-    </Modal>
+        </Flex>
+      </form>
+    </Paper>
   );
 };
 

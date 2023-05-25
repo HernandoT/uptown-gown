@@ -1,6 +1,6 @@
 import "./Filters.css";
 import AdminTitle from "../../components/AdminTitle/AdminTitle";
-import { Chip, Stack } from "@mui/material";
+import { Chip, Modal, Stack } from "@mui/material";
 import * as React from "react";
 import { useDisclosure } from "@mantine/hooks";
 import FilterColorForm from "./FilterColorForm";
@@ -11,6 +11,10 @@ import { getColors } from "../../services/color";
 import { getCategories } from "../../services/category";
 import { getTypes } from "../../services/type";
 
+const defaultValueColor = { nama: "", kode: "" };
+const defaultValueCategory = { nama: "" };
+const defaultValueType = { name: "" };
+
 const Filters = () => {
   const [openedColor, { open: openColor, close: closeColor }] =
     useDisclosure(false);
@@ -19,16 +23,44 @@ const Filters = () => {
   const [openedType, { open: openType, close: closeType }] =
     useDisclosure(false);
 
-  const { data: colorList } = useQuery(["get-colors", () => getColors()]);
-  const { data: categoryList } = useQuery([
-    "get-categories",
-    () => getCategories(),
-  ]);
-  const { data: typeList } = useQuery(["get-types", () => getTypes()]);
+  const [currentColor, setCurrentColor] = React.useState(defaultValueColor);
+  const [currentType, setCurrentType] = React.useState(defaultValueType);
+  const [currentCategory, setCurrentCategory] =
+    React.useState(defaultValueCategory);
 
-  const handleClick = () => {
-    console.info("You clicked the Chip.");
-  };
+  const { data: colorList } = useQuery(["get-colors"], () => getColors());
+  const { data: categoryList } = useQuery(["get-categories"], () =>
+    getCategories()
+  );
+  const { data: typeList } = useQuery(["get-types"], () => getTypes());
+
+  const handleClick = React.useCallback(
+    (type = "", data = "") =>
+      () => {
+        const isEmpty = typeof data === "string";
+        switch (type) {
+          case "color":
+            isEmpty
+              ? setCurrentColor(defaultValueColor)
+              : setCurrentColor(data);
+            openColor();
+            break;
+          case "type":
+            isEmpty ? setCurrentType(defaultValueType) : setCurrentType(data);
+            openType();
+            break;
+          case "category":
+            isEmpty
+              ? setCurrentCategory(defaultValueCategory)
+              : setCurrentCategory(data);
+            openCategory();
+            break;
+          default:
+            break;
+        }
+      },
+    [openCategory, openColor, openType]
+  );
 
   return (
     <div className="filters">
@@ -50,7 +82,7 @@ const Filters = () => {
               <Chip
                 label={label}
                 variant="outlined"
-                onClick={handleClick}
+                onClick={handleClick("color", color)}
                 className="filters-chip"
               />
             );
@@ -71,7 +103,7 @@ const Filters = () => {
               <Chip
                 label={category.nama_kategori}
                 variant="outlined"
-                onClick={handleClick}
+                onClick={handleClick("category", category)}
                 className="filters-chip"
               />
             );
@@ -92,16 +124,34 @@ const Filters = () => {
               <Chip
                 label={type.nama_jenis}
                 variant="outlined"
-                onClick={handleClick}
+                onClick={handleClick("type", type)}
                 className="filters-chip"
               />
             );
           })}
         </Stack>
       </div>
-      <FilterColorForm onClose={closeColor} open={openedColor} />
-      <FilterCategoryForm onClose={closeCategory} open={openedCategory} />
-      <FilterTypeForm onClose={closeType} open={openedType} />
+      <Modal open={openedColor}>
+        <FilterColorForm
+          data={currentColor}
+          onClose={closeColor}
+          open={openedColor}
+        />
+      </Modal>
+      <Modal open={openedCategory}>
+        <FilterCategoryForm
+          data={currentCategory}
+          onClose={closeCategory}
+          open={openedCategory}
+        />
+      </Modal>
+      <Modal open={openedType}>
+        <FilterTypeForm
+          data={currentType}
+          onClose={closeType}
+          open={openedType}
+        />
+      </Modal>
     </div>
   );
 };
