@@ -6,15 +6,20 @@ import { notifications } from "@mantine/notifications";
 import { Timestamp } from "@firebase/firestore";
 
 import { createExpense, updateExpense } from "../../services/expense";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 
 const ExpenseForm = ({
-  data = { date: Timestamp.now(), nominal: 0, description: "" },
+  data = { date: "Test", nominal: 0, description: "Test" },
   onClose,
   isEdit = false,
 }) => {
   const [date, setDate] = React.useState(data.date);
   const [nominal, setNominal] = React.useState(data.nominal);
-  const [description, setDescription] = React.useState(data.phoneNumber);
+  const [description, setDescription] = React.useState(data.description);
+  console.log(data)
 
   const onSubmit = React.useCallback(
     (e) => {
@@ -31,15 +36,17 @@ const ExpenseForm = ({
               nominal,
               keterangan: description,
             });
+        console.log(date, nominal, description);
         notifications.show({
           title: isEdit ? "Edit Pengeluaran" : "Tambah Pengeluaran",
           message: isEdit
             ? "Pengeluaran telah berhasil diupdate"
-            : "Pengeluaran baru telah berhasil diedit",
+            : "Pengeluaran baru telah berhasil ditambah",
           color: "teal",
         });
         onClose();
-      } catch {
+      } catch (err) {
+        console.log(err);
         notifications.show({
           title: "Tambah Pengeluaran",
           message: "Pengeluaran baru gagal ditambahkan",
@@ -59,13 +66,14 @@ const ExpenseForm = ({
             Tambah Pengeluaran
           </Text>
           <Separator _gap={24} />
-
-          <TextField
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            label="Tanggal"
-            required
-          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              value={date}
+              onChange={(date) => setDate(Timestamp.fromDate(new Date(date)))}
+              label="Tanggal"
+              required
+            />
+          </LocalizationProvider>
           <Separator _gap={24} />
           <TextField
             value={nominal}

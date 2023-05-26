@@ -10,11 +10,12 @@ import {
 } from "firebase/firestore";
 import { field } from "../common/constant";
 import { queryClient } from "./query-client";
+import dayjs from "dayjs";
 
 export const getExpenses = async () => {
   try {
     const result = await getDocs(collection(db, field.expense));
-    const data = result.docs.map((doc) => ({ ...doc.data(), tanggal: doc.data().tanggal.toDate().toDateString(), id: doc.id }));
+    const data = result.docs.map((doc) => ({ ...doc.data(), tanggal: dayjs(doc.data().tanggal.toDate()).format("DD/MM/YYYY"), id: doc.id }));
     return { data };
   } catch (e) {
     console.log(e);
@@ -32,7 +33,7 @@ export const getExpense = async (id = "") => {
 
 export const createExpense = async ({
   tanggal = Timestamp.now(),
-  nominal = "",
+  nominal = 0,
   keterangan = "",
 }) => {
   try {

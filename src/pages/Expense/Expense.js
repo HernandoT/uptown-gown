@@ -8,7 +8,7 @@ import { getExpenses } from "../../services/expense";
 import { useDisclosure } from "@mantine/hooks";
 import { Flex, Text, Paper, Modal } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
-import CustomerForm from "../Customer/CustomerForm";
+import ExpenseForm from "./ExpenseForm";
 
 const defaultValues = {
   date: "",
@@ -62,63 +62,6 @@ const Expense = () => {
     },
   ];
 
-  // const rows = [
-  //   {
-  //     id: 1,
-  //     tanggal: "01/03/2023",
-  //     nominal: "Rp. 500.000",
-  //     keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
-  //   },
-  //   {
-  //     id: 2,
-  //     tanggal: "01/03/2023",
-  //     nominal: "Rp. 500.000",
-  //     keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
-  //   },
-  //   {
-  //     id: 3,
-  //     tanggal: "01/03/2023",
-  //     nominal: "Rp. 500.000",
-  //     keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
-  //   },
-  //   {
-  //     id: 4,
-  //     tanggal: "01/03/2023",
-  //     nominal: "Rp. 500.000",
-  //     keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
-  //   },
-  //   {
-  //     id: 5,
-  //     tanggal: "01/03/2023",
-  //     nominal: "Rp. 500.000",
-  //     keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
-  //   },
-  //   {
-  //     id: 6,
-  //     tanggal: "01/03/2023",
-  //     nominal: "Rp. 500.000",
-  //     keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
-  //   },
-  //   {
-  //     id: 7,
-  //     tanggal: "01/03/2023",
-  //     nominal: "Rp. 500.000",
-  //     keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
-  //   },
-  //   {
-  //     id: 8,
-  //     tanggal: "01/03/2023",
-  //     nominal: "Rp. 500.000",
-  //     keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
-  //   },
-  //   {
-  //     id: 9,
-  //     tanggal: "01/03/2023",
-  //     nominal: "Rp. 500.000",
-  //     keterangan: "Kain lapis 150000, kain motif 200000, fee jahit baju 150000",
-  //   },
-  // ];
-
   return (
     <div className="expense">
       <AdminTitle props={"Expense"} />
@@ -166,7 +109,7 @@ const Expense = () => {
           )}
         </div>
         <Modal opened={opened} centered onClose={close} withCloseButton={false}>
-          <CustomerForm data={currentData} onClose={close} isEdit={isEdit} />
+          <ExpenseForm data={currentData} onClose={close} isEdit={isEdit} />
         </Modal>
       </div>
     </div>
