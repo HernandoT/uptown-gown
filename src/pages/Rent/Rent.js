@@ -3,9 +3,35 @@ import Footer from "../../components/Footer/Footer";
 import PaginatedItems from "../../components/Pagination/PaginatedItems";
 import Navbar from "../../components/Navbar/Navbar";
 import SupportEngine from "../../SupportEngine";
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import { getColors } from "../../services/color";
+import { getCategories } from "../../services/category";
+import { getTypes } from "../../services/type";
+import { useQuery } from "@tanstack/react-query";
 
 const Rent = () => {
   const isLoged = localStorage.getItem("isLoged");
+
+  const { data: colorList } = useQuery(["get-colors"], () => getColors());
+  const { data: categoryList } = useQuery(["get-categories"], () =>
+    getCategories()
+  );
+  const { data: typeList } = useQuery(["get-types"], () => getTypes());
+
+  function StyledRadio(props) {
+    return (
+      <Radio
+        disableRipple
+        checkedIcon={<span className= "styled-checkedIcon"/>}
+        icon={<span/>}
+        {...props}
+      />
+    );
+  }
 
   return (
     <div className="rent">
@@ -19,51 +45,63 @@ const Rent = () => {
             <p style={{ alignSelf: "flexEnd" }}>Clear All</p>
           </div>
           <hr />
-          <div>
-            <p>
-              <b>Colors</b>
-            </p>
-            <div className="colorsContainer">
-              {Array.from({ length: 10 }).map((item, index) => (
-                <div className="colors" />
-              ))}
-            </div>
-          </div>
+          <FormControl style={{marginBottom: "0.5rem"}}>
+            <FormLabel><p className="rent-filter-title">Warna</p></FormLabel>
+            <RadioGroup
+              row
+              aria-label="radio-buttons-group-label"
+              style={{display:"flex", flexWrap: "wrap", marginLeft: "0.5rem"}}
+            >
+              {(colorList?.data || []).map((color)=> {
+                const kodehex = color.kode_hex;
+                return (
+                  <FormControlLabel 
+                  value={color.id} 
+                  control={
+                    <StyledRadio className="radio-color" sx={{
+                      backgroundColor: kodehex,
+                      width: "2.5rem",
+                      height: "2.5rem",
+                      outline: "grey solid 2px",
+                      margin: "0.6rem",}}
+                    />}
+                  />
+                )
+              })}
+            </RadioGroup>
+          </FormControl>
           <hr />
-          <p>
-            <b>Category</b>
-          </p>
-          <div className="checkboxContainer">
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span style={{ marginLeft: "5px" }}>Label</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span style={{ marginLeft: "5px" }}>Label</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span style={{ marginLeft: "5px" }}>Label</span>
-            </label>
-          </div>
+          <FormControl style={{marginBottom: "0.5rem"}}>
+            <FormLabel><p className="rent-filter-title">Kategori</p></FormLabel>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              name="radio-buttons-group"
+            >
+              {(categoryList?.data || []).map((category)=>{
+                return(
+                  <FormControlLabel value={category.id} control={<Radio />} label={<span className="rent-radio-label">{category.nama_kategori}</span>}/>
+                )
+              }
+              )}
+            </RadioGroup>
+          </FormControl>
           <hr />
-          <p>
-            <b>Category</b>
-          </p>
-          <div className="checkboxContainer">
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span style={{ marginLeft: "5px" }}>Label</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span style={{ marginLeft: "5px" }}>Label</span>
-            </label>
-            <label className="checkbox">
-              <input type="checkbox" />
-              <span style={{ marginLeft: "5px" }}>Label</span>
-            </label>
+          <FormControl>
+            <FormLabel><p className="rent-filter-title">Jenis</p></FormLabel>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              name="radio-buttons-group"
+            >
+              {(typeList?.data || []).map((type)=>{
+                return(
+                  <FormControlLabel value={type.id} control={<Radio />} label={<span className="rent-radio-label">{type.nama_jenis}</span>}/>
+                )
+              }
+              )}
+            </RadioGroup>
+          </FormControl>
+          <div style={{marginTop: "0.5rem"}}>
+            <button className="filterButton">FILTER</button>
           </div>
         </div>
         <div className="filterItems">
