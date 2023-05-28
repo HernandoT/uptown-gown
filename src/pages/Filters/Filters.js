@@ -1,6 +1,7 @@
 import "./Filters.css";
 import AdminTitle from "../../components/AdminTitle/AdminTitle";
-import { Chip, Modal, Stack } from "@mui/material";
+import { Chip, Stack } from "@mui/material";
+import { Modal } from "@mantine/core";
 import * as React from "react";
 import { useDisclosure } from "@mantine/hooks";
 import FilterColorForm from "./FilterColorForm";
@@ -11,7 +12,7 @@ import { getColors } from "../../services/color";
 import { getCategories } from "../../services/category";
 import { getTypes } from "../../services/type";
 
-const defaultValueColor = { nama: "", kode: "" };
+const defaultValueColor = { nama_warna: "", kode_hex: "" };
 const defaultValueCategory = { nama: "" };
 const defaultValueType = { name: "" };
 
@@ -27,6 +28,7 @@ const Filters = () => {
   const [currentType, setCurrentType] = React.useState(defaultValueType);
   const [currentCategory, setCurrentCategory] =
     React.useState(defaultValueCategory);
+  const [isEdit, setIsEdit] = React.useState(false);
 
   const { data: colorList } = useQuery(["get-colors"], () => getColors());
   const { data: categoryList } = useQuery(["get-categories"], () =>
@@ -34,33 +36,51 @@ const Filters = () => {
   );
   const { data: typeList } = useQuery(["get-types"], () => getTypes());
 
-  const handleClick = React.useCallback(
-    (type = "", data = "") =>
-      () => {
-        const isEmpty = typeof data === "string";
-        switch (type) {
-          case "color":
-            isEmpty
-              ? setCurrentColor(defaultValueColor)
-              : setCurrentColor(data);
-            openColor();
-            break;
-          case "type":
-            isEmpty ? setCurrentType(defaultValueType) : setCurrentType(data);
-            openType();
-            break;
-          case "category":
-            isEmpty
-              ? setCurrentCategory(defaultValueCategory)
-              : setCurrentCategory(data);
-            openCategory();
-            break;
-          default:
-            break;
-        }
-      },
-    [openCategory, openColor, openType]
-  );
+  const onClickAddColor = React.useCallback(() => {
+    setCurrentColor(defaultValueColor);
+    setIsEdit(false);
+    openColor();
+  }, [openColor]);
+
+  const onClickAddCategory = React.useCallback(() => {
+    setCurrentCategory(defaultValueCategory);
+    setIsEdit(false);
+    openCategory();
+  }, [openCategory]);
+
+  const onClickAddType = React.useCallback(() => {
+    setCurrentType(defaultValueType);
+    setIsEdit(false);
+    openType();
+  }, [openType]);
+
+  const onClickEditColor = (color) => {
+    setCurrentColor({
+      nama_warna: color.nama_warna,
+      kode_hex: color.kode_hex,
+      id: color.id
+    });
+    openColor();
+    setIsEdit(true);
+  };
+
+  const onClickEditCategory = (category) => {
+    setCurrentCategory({
+      nama_kategori: category.nama_kategori,
+      id: category.id
+    });
+    openCategory();
+    setIsEdit(true);
+  };
+
+  const onClickEditType = (type) => {
+    setCurrentType({
+      nama_jenis: type.nama_jenis,
+      id: type.id
+    });
+    openType();
+    setIsEdit(true);
+  };
 
   return (
     <div className="filters">
@@ -70,7 +90,7 @@ const Filters = () => {
           <b>Warna</b>
           <button
             style={{ marginLeft: "20px", width: "40px" }}
-            onClick={openColor}
+            onClick={onClickAddColor}
           >
             +
           </button>
@@ -82,7 +102,7 @@ const Filters = () => {
               <Chip
                 label={label}
                 variant="outlined"
-                onClick={handleClick("color", color)}
+                onClick={() => onClickEditColor(color)}
                 className="filters-chip"
               />
             );
@@ -92,7 +112,7 @@ const Filters = () => {
           <b>Kategori</b>
           <button
             style={{ marginLeft: "20px", width: "40px" }}
-            onClick={openCategory}
+            onClick={onClickAddCategory}
           >
             +
           </button>
@@ -103,7 +123,7 @@ const Filters = () => {
               <Chip
                 label={category.nama_kategori}
                 variant="outlined"
-                onClick={handleClick("category", category)}
+                onClick={() => onClickEditCategory(category)}
                 className="filters-chip"
               />
             );
@@ -113,7 +133,7 @@ const Filters = () => {
           <b>Jenis</b>
           <button
             style={{ marginLeft: "20px", width: "40px" }}
-            onClick={openType}
+            onClick={onClickAddType}
           >
             +
           </button>
@@ -124,32 +144,47 @@ const Filters = () => {
               <Chip
                 label={type.nama_jenis}
                 variant="outlined"
-                onClick={handleClick("type", type)}
+                onClick={() => onClickEditType(type)}
                 className="filters-chip"
               />
             );
           })}
         </Stack>
       </div>
-      <Modal open={openedColor}>
+      <Modal
+        opened={openedColor}
+        centered
+        onClose={closeColor}
+        withCloseButton={false}
+      >
         <FilterColorForm
           data={currentColor}
           onClose={closeColor}
-          open={openedColor}
+          isEdit={isEdit}
         />
       </Modal>
-      <Modal open={openedCategory}>
+      <Modal
+        opened={openedCategory}
+        centered
+        onClose={closeCategory}
+        withCloseButton={false}
+      >
         <FilterCategoryForm
           data={currentCategory}
           onClose={closeCategory}
-          open={openedCategory}
+          isEdit={isEdit}
         />
       </Modal>
-      <Modal open={openedType}>
+      <Modal
+        opened={openedType}
+        centered
+        onClose={closeType}
+        withCloseButton={false}
+      >
         <FilterTypeForm
           data={currentType}
           onClose={closeType}
-          open={openedType}
+          isEdit={isEdit}
         />
       </Modal>
     </div>

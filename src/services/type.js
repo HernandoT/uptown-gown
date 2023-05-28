@@ -8,6 +8,7 @@ import {
 } from "firebase/firestore";
 import { field } from "../common/constant";
 import { db } from "./firebase";
+import { queryClient } from "./query-client";
 
 export const getTypes = async () => {
   try {
@@ -22,6 +23,7 @@ export const getTypes = async () => {
 export const getType = async (id = "") => {
   try {
     const type = (await getDoc(doc(db, field.type, id))).data();
+    queryClient.refetchQueries(["get-types"]);
     return { type };
   } catch (e) {
     console.log(e);
@@ -33,6 +35,7 @@ export const createType = async ({ nama_jenis = "" }) => {
     await addDoc(collection(db, field.type), {
       nama_jenis,
     });
+    queryClient.refetchQueries(["get-types"]);
   } catch (e) {
     console.log(e);
   }
@@ -43,6 +46,7 @@ export const updateType = async (id = "", { nama_jenis = "" }) => {
     await updateDoc(doc(db, field.type, id), {
       nama_jenis,
     });
+    queryClient.refetchQueries(["get-types"]);
   } catch (e) {
     console.log(e);
   }

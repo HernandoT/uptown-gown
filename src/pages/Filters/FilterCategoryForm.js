@@ -1,32 +1,62 @@
 import { Flex, Paper, Text } from "@mantine/core";
-import { Button, TextField } from "@mui/material";
+import { Button } from "@mui/material";
 import * as React from "react";
 import Separator from "../../components/separator";
 import { notifications } from "@mantine/notifications";
 
-import { createType } from "../../services/type";
+import { createCategory, updateCategory } from "../../services/category";
+import { v4 } from "uuid";
 
-const FilterCategoryForm = ({ data = { nama: "" }, open = true, onClose }) => {
-  const [nama, setNama] = React.useState(data.nama);
+import * as Yup from "yup";
+import useYupValidationResolver from "../../hooks/use-yup-resolver";
+import { useForm } from "react-hook-form";
+import Form from "../../components/field/form";
+import TextInputField from "../../components/field/text-input";
 
-  // const insertType = async (nama) => {
-  //   try {
-  //     await addDoc(collection(db, "kategori"), {
-  //       nama_kategori: nama,
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+const FilterCategoryForm = ({
+  data = { nama_kategori: "", id: "" },
+  onClose,
+  isEdit = false,
+}) => {
+  const defaultValues = React.useMemo(
+    () => ({
+      nama_kategori: data?.nama_kategori || "",
+      id: v4(),
+    }),
+    [data]
+  );
+
+  const yupSchema = React.useMemo(
+    () =>
+      Yup.object().shape({
+        nama_kategori: Yup.string().required("Nama Kategori Wajib Diisi"),
+      }),
+    []
+  );
+
+  const resolver = useYupValidationResolver(yupSchema);
+
+  const methods = useForm({
+    defaultValues,
+    resolver,
+    mode: "onChange",
+  });
 
   const onSubmit = React.useCallback(
-    (e) => {
-      e.preventDefault();
+    async (values) => {
       try {
-        createType({ nama_jenis: nama });
+        isEdit
+          ? updateCategory(data.id, {
+              nama_kategori: values.nama_kategori,
+            })
+          : createCategory({
+              nama_kategori: values.nama_kategori,
+            });
         notifications.show({
-          title: "Tambah Kategori",
-          message: "Kategori baru telah berhasil ditambahkan",
+          title: isEdit ? "Edit Kategori" : "Tambah Kategori",
+          message: isEdit
+            ? "Kategori telah berhasil diupdate"
+            : "Kategori telah berhasil diedit",
           color: "teal",
         });
         onClose();
@@ -39,35 +69,19 @@ const FilterCategoryForm = ({ data = { nama: "" }, open = true, onClose }) => {
       } finally {
       }
     },
-    [nama, onClose]
+    [data.id, isEdit, onClose]
   );
 
   return (
-    <Paper
-      p={36}
-      miw={400}
-      style={{
-        transform: "translate(-50%, -50%)",
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-      }}
-    >
-      <form onSubmit={onSubmit}>
+    <Paper p={36} miw={400}>
+      <Form onSubmit={onSubmit} methods={methods}>
         <Flex direction="column">
           <Text fz={20} fw={600}>
-            Tambah Kategori
+            {isEdit ? "Edit Kategori" : "Tambah Kategori"}
           </Text>
           <Separator _gap={24} />
-
-          <TextField
-            value={nama}
-            onChange={(e) => setNama(e.target.value)}
-            label="Nama Kategori"
-            required
-          />
+          <TextInputField label="Nama Kategori" name="nama_kategori" placeholder="Nama Kategori" />
           <Separator _gap={24} />
-
           <Flex justify="flex-end">
             <Button variant="text" color="error" onClick={onClose}>
               Batal
@@ -77,7 +91,7 @@ const FilterCategoryForm = ({ data = { nama: "" }, open = true, onClose }) => {
             </Button>
           </Flex>
         </Flex>
-      </form>
+      </Form>
     </Paper>
   );
 };

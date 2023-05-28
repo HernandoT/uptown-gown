@@ -29,10 +29,10 @@ export const getCategory = async (id = "") => {
   }
 };
 
-export const createCategory = async ({ nama_category = "" }) => {
+export const createCategory = async ({ nama_kategori = "" }) => {
   try {
     await addDoc(collection(db, field.category), {
-      nama_category,
+      nama_kategori,
     });
     queryClient.refetchQueries(["get-categories"]);
   } catch (e) {
@@ -40,10 +40,10 @@ export const createCategory = async ({ nama_category = "" }) => {
   }
 };
 
-export const updateCategory = async (id = "", { nama_category = "" }) => {
+export const updateCategory = async (id = "", { nama_kategori = "" }) => {
   try {
     await updateDoc(doc(db, field.category, id), {
-      nama_category,
+      nama_kategori,
     });
     queryClient.refetchQueries(["get-categories"]);
   } catch (e) {

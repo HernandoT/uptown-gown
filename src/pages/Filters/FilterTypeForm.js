@@ -1,32 +1,62 @@
 import { Flex, Paper, Text } from "@mantine/core";
-import { Button, TextField } from "@mui/material";
+import { Button } from "@mui/material";
 import * as React from "react";
 import Separator from "../../components/separator";
 import { notifications } from "@mantine/notifications";
 
-import { createType } from "../../services/type";
+import { createType, updateType } from "../../services/type";
+import { v4 } from "uuid";
 
-const FilterTypeForm = ({ data = { nama: "" }, open = true, onClose }) => {
-  const [nama, setNama] = React.useState(data.nama);
+import * as Yup from "yup";
+import useYupValidationResolver from "../../hooks/use-yup-resolver";
+import { useForm } from "react-hook-form";
+import Form from "../../components/field/form";
+import TextInputField from "../../components/field/text-input";
 
-  // const insertType = async (nama) => {
-  //   try {
-  //     await addDoc(collection(db, "jenis")ß {
-  //       nama_jenis: nama,
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+const FilterTypeForm = ({
+  data = { nama_jenis: "", id: "" },
+  onClose,
+  isEdit = false,
+}) => {
+  const defaultValues = React.useMemo(
+    () => ({
+      nama_jenis: data?.nama_jenis || "",
+      id: v4(),
+    }),
+    [data]
+  );
+
+  const yupSchema = React.useMemo(
+    () =>
+      Yup.object().shape({
+        nama_jenis: Yup.string().required("Nama Jenis Wajib Diisi"),
+      }),
+    []
+  );
+
+  const resolver = useYupValidationResolver(yupSchema);
+
+  const methods = useForm({
+    defaultValues,
+    resolver,
+    mode: "onChange",
+  });
 
   const onSubmit = React.useCallback(
-    (e) => {
-      e.preventDefault();
+    async (values) => {
       try {
-        createType({ nama_jenis: nama });
+        isEdit
+          ? updateType(data.id, {
+              nama_jenis: values.nama_jenis,
+            })
+          : createType({
+              nama_jenis: values.nama_jenis,
+            });
         notifications.show({
-          title: "Tambah Jenis",
-          message: "Jenis baru telah berhasil ditambahkan",
+          title: isEdit ? "Edit Jenis" : "Tambah Jenis",
+          message: isEdit
+            ? "Jenis telah berhasil diupdate"
+            : "Jenis telah berhasil diedit",
           color: "teal",
         });
         onClose();
@@ -39,35 +69,19 @@ const FilterTypeForm = ({ data = { nama: "" }, open = true, onClose }) => {
       } finally {
       }
     },
-    [nama, onClose]
+    [data.id, isEdit, onClose]
   );
 
   return (
-    <Paper
-      p={36}
-      miw={400}
-      style={{
-        transform: "translate(-50%, -50%)",
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-      }}
-    >
-      <form onSubmit={onSubmit}>
+    <Paper p={36} miw={400}>
+      <Form onSubmit={onSubmit} methods={methods}>
         <Flex direction="column">
           <Text fz={20} fw={600}>
-            Tambah Jenis
+            {isEdit ? "Edit Jenis" : "Tambah Jenis"}
           </Text>
           <Separator _gap={24} />
-
-          <TextField
-            value={nama}
-            onChange={(e) => setNama(e.target.value)}
-            label="Nama Jenis"
-            required
-          />
+          <TextInputField label="Nama Jenis" name="nama_jenis" placeholder="Nama Jenis" />
           <Separator _gap={24} />
-
           <Flex justify="flex-end">
             <Button variant="text" color="error" onClick={onClose}>
               Batal
@@ -77,7 +91,7 @@ const FilterTypeForm = ({ data = { nama: "" }, open = true, onClose }) => {
             </Button>
           </Flex>
         </Flex>
-      </form>
+      </Form>
     </Paper>
   );
 };

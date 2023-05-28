@@ -96,10 +96,10 @@ const CustomerForm = ({
       <Form onSubmit={onSubmit} methods={methods}>
         <Flex direction="column">
           <Text fz={20} fw={600}>
-            Tambah Customer
+            {isEdit ? "Edit Customer" : "Tambah Customer"}
           </Text>
           <Separator _gap={24} />
-          <TextInputField label="Email" name="email" placeholder="email" />
+          <TextInputField label="Email" name="email" placeholder="Email" />
           <Separator _gap={24} />
           <TextInputField label="Nama" name="name" placeholder="Nama" />
           <Separator _gap={24} />
