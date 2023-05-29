@@ -9,19 +9,19 @@ import { useDisclosure } from "@mantine/hooks";
 import { Flex, Text, Paper, Modal } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import ExpenseForm from "./ExpenseForm";
+import dayjs from "dayjs";
 
 const defaultValues = {
-  date: "",
+  tanggal: new Date(),
   nominal: 0,
-  description: "",
+  keterangan: "",
 };
 
 const Expense = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
+  const [opened, { open, close }] = useDisclosure(false);
   const [currentData, setCurrentData] = React.useState(defaultValues);
   const [isEdit, setIsEdit] = React.useState(false);
-
-  const [opened, { open, close }] = useDisclosure(false);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -36,27 +36,38 @@ const Expense = () => {
   }, [open]);
 
   const columns = [
-    { field: "tanggal", headerName: "Tanggal", minWidth: 200, flex: 1 },
+    {
+      field: "tanggal",
+      headerName: "Tanggal",
+      minWidth: 200,
+      flex: 1,
+      renderCell: ({ row }) => {
+        return <>{dayjs(row.tanggal).format("DD/MM/YYYY")}</>;
+      },
+    },
     { field: "nominal", headerName: "Nominal", minWidth: 200, flex: 1 },
-    { field: "keterangan", headerName: "Keterangan", minWidth: 600, flex: 3 },
+    { field: "keterangan", headerName: "Keterangan", minWidth: 400, flex: 3 },
     {
       field: "action",
       headerName: "Action",
       minWidth: 50,
       flex: 0.5,
+      sortable: false,
       renderCell: ({ row }) => {
         const onClick = () => {
           setCurrentData({
-            date: row.tanggal,
+            tanggal: row.tanggal,
             nominal: row.nominal,
-            description: row.keterangan,
+            keterangan: row.keterangan,
             id: row.id,
           });
           open();
           setIsEdit(true);
         };
         return (
-          <i class="fa fa-pencil" aria-hidden="true" onClick={onClick}></i>
+          <>
+            <i class="fa fa-pencil" aria-hidden="true" onClick={onClick}></i>
+          </>
         );
       },
     },

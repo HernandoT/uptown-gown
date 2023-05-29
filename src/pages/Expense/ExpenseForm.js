@@ -1,52 +1,82 @@
 import { Flex, Paper, Text } from "@mantine/core";
-import { Button, TextField } from "@mui/material";
+import { Button } from "@mui/material";
 import * as React from "react";
 import Separator from "../../components/separator";
 import { notifications } from "@mantine/notifications";
-import { Timestamp } from "@firebase/firestore";
 
 import { createExpense, updateExpense } from "../../services/expense";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { v4 } from "uuid";
+
+import * as Yup from "yup";
+import useYupValidationResolver from "../../hooks/use-yup-resolver";
+import { useForm } from "react-hook-form";
+import Form from "../../components/field/form";
+import TextInputField from "../../components/field/text-input";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { Timestamp } from "firebase/firestore";
 import dayjs from "dayjs";
+import DateInputField from "../../components/field/date-input";
 
 const ExpenseForm = ({
-  data = { date: "Test", nominal: 0, description: "Test" },
+  data = { keterangan: "", nominal: 0, tanggal: new Date(), id: "" },
   onClose,
   isEdit = false,
 }) => {
-  const [date, setDate] = React.useState(data.date);
-  const [nominal, setNominal] = React.useState(data.nominal);
-  const [description, setDescription] = React.useState(data.description);
-  console.log(data)
+  const defaultValues = React.useMemo(
+    () => ({
+      keterangan: data?.keterangan || "",
+      nominal: data?.nominal || 0,
+      tanggal: data?.tanggal || new Date(),
+      id: v4(),
+    }),
+    [data]
+  );
+
+  const [date, setDate] = React.useState(defaultValues.tanggal);
+
+  const yupSchema = React.useMemo(
+    () =>
+      Yup.object().shape({
+        keterangan: Yup.string().required("Keterangan Wajib Diisi"),
+        nominal: Yup.number().required().positive().integer().typeError("Nominal Wajib diisi dengan Angka"),
+        tanggal: Yup.date().required(),
+      }),
+    []
+  );
+
+  const resolver = useYupValidationResolver(yupSchema);
+
+  const methods = useForm({
+    defaultValues,
+    resolver,
+    mode: "onChange",
+  });
 
   const onSubmit = React.useCallback(
-    (e) => {
-      e.preventDefault();
+    async (values) => {
       try {
         isEdit
           ? updateExpense(data.id, {
-              tanggal: date,
-              nominal,
-              keterangan: description,
+              keterangan: values.keterangan,
+              nominal: values.nominal,
+              tanggal: Timestamp.fromDate(new Date(date)),
             })
           : createExpense({
-              tanggal: date,
-              nominal,
-              keterangan: description,
+              keterangan: values.keterangan,
+              nominal: values.nominal,
+              tanggal: Timestamp.fromDate(new Date(date)),
             });
-        console.log(date, nominal, description);
         notifications.show({
           title: isEdit ? "Edit Pengeluaran" : "Tambah Pengeluaran",
           message: isEdit
             ? "Pengeluaran telah berhasil diupdate"
-            : "Pengeluaran baru telah berhasil ditambah",
+            : "Pengeluaran baru telah berhasil ditambahkan",
           color: "teal",
         });
         onClose();
-      } catch (err) {
-        console.log(err);
+      } catch {
         notifications.show({
           title: "Tambah Pengeluaran",
           message: "Pengeluaran baru gagal ditambahkan",
@@ -55,41 +85,33 @@ const ExpenseForm = ({
       } finally {
       }
     },
-    [isEdit, data.id, date, nominal, description, onClose]
+    [data.id, isEdit, onClose, date]
   );
 
   return (
     <Paper p={36} miw={400}>
-      <form onSubmit={onSubmit}>
+      <Form onSubmit={onSubmit} methods={methods}>
         <Flex direction="column">
           <Text fz={20} fw={600}>
-            Tambah Pengeluaran
+            {isEdit ? "Edit Expense" : "Tambah Expense"}
           </Text>
           <Separator _gap={24} />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              value={date}
-              onChange={(date) => setDate(Timestamp.fromDate(new Date(date)))}
-              label="Tanggal"
-              required
-            />
+            <DatePicker value={dayjs(data.tanggal)} format="DD/MM/YYYY" onChange={(date) => setDate(date)}/>
           </LocalizationProvider>
           <Separator _gap={24} />
-          <TextField
-            value={nominal}
-            onChange={(e) => setNominal(e.target.value)}
+          <TextInputField
             label="Nominal"
-            required
+            name="nominal"
+            placeholder="Nominal"
           />
           <Separator _gap={24} />
-          <TextField
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+          <TextInputField
             label="Keterangan"
-            required
+            name="keterangan"
+            placeholder="Keterangan"
           />
           <Separator _gap={24} />
-
           <Flex justify="flex-end">
             <Button variant="text" color="error" onClick={onClose}>
               Batal
@@ -99,7 +121,7 @@ const ExpenseForm = ({
             </Button>
           </Flex>
         </Flex>
-      </form>
+      </Form>
     </Paper>
   );
 };

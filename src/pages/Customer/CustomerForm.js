@@ -75,7 +75,7 @@ const CustomerForm = ({
           title: isEdit ? "Edit User" : "Tambah User",
           message: isEdit
             ? "Customer telah berhasil diupdate"
-            : "Customer telah berhasil diedit",
+            : "Customer telah berhasil ditambahkan",
           color: "teal",
         });
         onClose();

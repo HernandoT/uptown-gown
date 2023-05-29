@@ -6,7 +6,7 @@ import {
   getDoc,
   getDocs,
   updateDoc,
-  Timestamp
+  Timestamp,
 } from "firebase/firestore";
 import { field } from "../common/constant";
 import { queryClient } from "./query-client";
@@ -15,7 +15,11 @@ import dayjs from "dayjs";
 export const getExpenses = async () => {
   try {
     const result = await getDocs(collection(db, field.expense));
-    const data = result.docs.map((doc) => ({ ...doc.data(), tanggal: dayjs(doc.data().tanggal.toDate()).format("DD/MM/YYYY"), id: doc.id }));
+    const data = result.docs.map((doc) => ({
+      ...doc.data(),
+      tanggal: dayjs(doc.data().tanggal.toDate()),
+      id: doc.id,
+    }));
     return { data };
   } catch (e) {
     console.log(e);
