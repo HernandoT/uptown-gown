@@ -48,7 +48,7 @@ const Custom = () => {
         <div className="custom-button">
           <button className="appointment-button">BUAT APPOINTMENT SEKARANG!</button>
           <div style={{marginTop: "2rem", fontSize: "1rem"}}>Ingin berdiskusi lebih lanjut? 
-            <a href="https://wa.me/+6282167798500" target="_blank"  style={{textDecoration: "none", color: "black", paddingLeft: "4px"}}>
+            <a href="https://wa.me/+6282167798500" target="_blank" rel="noreferrer" style={{textDecoration: "none", color: "black", paddingLeft: "4px"}}>
               <b>Hubungi melalui Whatsapp</b>
               </a>
             </div>

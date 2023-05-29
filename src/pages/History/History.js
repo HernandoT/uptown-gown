@@ -53,6 +53,7 @@ const History = () => {
               <img
                 src={invoice}
                 style={{ width: "50vw", height: "50vh" }}
+                alt="No Invoice"
               ></img>
             </div>
           </TabPanel>
@@ -70,6 +71,7 @@ const History = () => {
               <img
                 src={appointment}
                 style={{ width: "50vw", height: "50vh" }}
+                alt="No Appointments"
               ></img>
             </div>
           </TabPanel>

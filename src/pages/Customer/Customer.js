@@ -28,8 +28,6 @@ const defaultValues = {
 };
 
 const Customer = () => {
-  // const [customer, setCustomer] = React.useState([]);
-
   const [searchTerm, setSearchTerm] = React.useState("");
   const [opened, { open, close }] = useDisclosure(false);
   const [openDeleteDialog, { open: openDelete, close: closeDelete }] =

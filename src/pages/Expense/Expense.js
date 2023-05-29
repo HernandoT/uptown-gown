@@ -6,7 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { DataGrid } from "@mui/x-data-grid";
 import { getExpenses } from "../../services/expense";
 import { useDisclosure } from "@mantine/hooks";
-import { Flex, Text, Paper, Modal } from "@mantine/core";
+import { Modal } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import ExpenseForm from "./ExpenseForm";
 import dayjs from "dayjs";
@@ -45,7 +45,18 @@ const Expense = () => {
         return <>{dayjs(row.tanggal).format("DD/MM/YYYY")}</>;
       },
     },
-    { field: "nominal", headerName: "Nominal", minWidth: 200, flex: 1 },
+    {
+      field: "nominal",
+      headerName: "Nominal",
+      minWidth: 200,
+      flex: 1,
+      renderCell: ({ row }) => {
+        function currencyFormat(num) {
+          return "Rp. " + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+        }
+        return <>{currencyFormat(row.nominal)}</>;
+      },
+    },
     { field: "keterangan", headerName: "Keterangan", minWidth: 400, flex: 3 },
     {
       field: "action",
@@ -53,6 +64,8 @@ const Expense = () => {
       minWidth: 50,
       flex: 0.5,
       sortable: false,
+      disableColumnMenu: true,
+      headerAlign: "center",
       renderCell: ({ row }) => {
         const onClick = () => {
           setCurrentData({
@@ -65,9 +78,9 @@ const Expense = () => {
           setIsEdit(true);
         };
         return (
-          <>
-            <i class="fa fa-pencil" aria-hidden="true" onClick={onClick}></i>
-          </>
+          <div onClick={onClick} style={{display: "flex", justifyContent: "center", width: "100%"}}>
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </div>
         );
       },
     },

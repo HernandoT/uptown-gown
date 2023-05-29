@@ -35,7 +35,6 @@ const Testimonials = () => {
         ))} */}
         <div className="elfsight-app-9a5e0f8d-c007-4fb8-abc5-895f8e6331a0"></div>
       </div>
-      s
     </div>
   );
 };
