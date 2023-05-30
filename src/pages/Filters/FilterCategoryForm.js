@@ -80,7 +80,7 @@ const FilterCategoryForm = ({
             {isEdit ? "Edit Kategori" : "Tambah Kategori"}
           </Text>
           <Separator _gap={24} />
-          <TextInputField label="Nama Kategori" name="nama_kategori" placeholder="Nama Kategori" />
+          <TextInputField label="Nama Kategori" name="nama_kategori" />
           <Separator _gap={24} />
           <Flex justify="flex-end">
             <Button variant="text" color="error" onClick={onClose}>

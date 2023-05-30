@@ -99,15 +99,11 @@ const CustomerForm = ({
             {isEdit ? "Edit Customer" : "Tambah Customer"}
           </Text>
           <Separator _gap={24} />
-          <TextInputField label="Email" name="email" placeholder="Email" />
+          <TextInputField label="Email" name="email" />
           <Separator _gap={24} />
-          <TextInputField label="Nama" name="name" placeholder="Nama" />
+          <TextInputField label="Nama" name="name" />
           <Separator _gap={24} />
-          <TextInputField
-            label="Nomor Telepon"
-            name="phoneNumber"
-            placeholder="Nomor Telepon"
-          />
+          <TextInputField label="Nomor Telepon" name="phoneNumber" />
           <Separator _gap={24} />
           <Flex justify="flex-end">
             <Button variant="text" color="error" onClick={onClose}>

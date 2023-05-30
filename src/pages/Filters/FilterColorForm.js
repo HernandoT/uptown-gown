@@ -84,9 +84,9 @@ const FilterColorForm = ({
             {isEdit ? "Edit Warna" : "Tambah Warna"}
           </Text>
           <Separator _gap={24} />
-          <TextInputField label="Nama Warna" name="nama_warna" placeholder="Nama Warna" />
+          <TextInputField label="Nama Warna" name="nama_warna" />
           <Separator _gap={24} />
-          <TextInputField label="Kode Hex" name="kode_hex" placeholder="Kode Hex" />
+          <TextInputField label="Kode Hex" name="kode_hex" />
           <Separator _gap={24} />
           <Flex justify="flex-end">
             <Button variant="text" color="error" onClick={onClose}>

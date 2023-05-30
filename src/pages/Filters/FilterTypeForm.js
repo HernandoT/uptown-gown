@@ -80,7 +80,7 @@ const FilterTypeForm = ({
             {isEdit ? "Edit Jenis" : "Tambah Jenis"}
           </Text>
           <Separator _gap={24} />
-          <TextInputField label="Nama Jenis" name="nama_jenis" placeholder="Nama Jenis" />
+          <TextInputField label="Nama Jenis" name="nama_jenis" />
           <Separator _gap={24} />
           <Flex justify="flex-end">
             <Button variant="text" color="error" onClick={onClose}>

@@ -39,7 +39,11 @@ const ExpenseForm = ({
     () =>
       Yup.object().shape({
         keterangan: Yup.string().required("Keterangan Wajib Diisi"),
-        nominal: Yup.number().required().positive("Angka Wajib diatas 0").integer().typeError("Nominal Wajib diisi dengan Angka"),
+        nominal: Yup.number()
+          .required()
+          .positive("Angka Wajib diatas 0")
+          .integer()
+          .typeError("Nominal Wajib diisi dengan Angka"),
         tanggal: Yup.date().required(),
       }),
     []
@@ -96,20 +100,17 @@ const ExpenseForm = ({
           </Text>
           <Separator _gap={24} />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker label="Tanggal Pengeluaran" value={dayjs(data.tanggal)} format="DD/MM/YYYY" onChange={(date) => setDate(date)}/>
+            <DatePicker
+              label="Tanggal Pengeluaran"
+              value={dayjs(data.tanggal)}
+              format="DD/MM/YYYY"
+              onChange={(date) => setDate(date)}
+            />
           </LocalizationProvider>
           <Separator _gap={24} />
-          <TextInputField
-            label="Nominal"
-            name="nominal"
-            placeholder="Nominal"
-          />
+          <TextInputField label="Nominal" name="nominal" />
           <Separator _gap={24} />
-          <TextInputField
-            label="Keterangan"
-            name="keterangan"
-            placeholder="Keterangan"
-          />
+          <TextInputField label="Keterangan" name="keterangan" multiline={true} rows={3}/>
           <Separator _gap={24} />
           <Flex justify="flex-end">
             <Button variant="text" color="error" onClick={onClose}>
