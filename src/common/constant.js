@@ -4,4 +4,5 @@ export const field = {
   category: "kategori",
   type: "jenis",
   expense: "pengeluaran",
+  appointment: "appointment",
 };
