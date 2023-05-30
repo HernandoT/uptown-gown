@@ -8,8 +8,27 @@ import {
 import Navbar from "../../components/Navbar/Navbar";
 import "./Profile.css";
 import Footer from "../../components/Footer/Footer";
+import * as React from "react";
+import { useDisclosure } from "@mantine/hooks";
+import { Modal } from "@mantine/core";
+import ProfilePassword from "./ProfilePassword";
+
+// const defaultValues = {
+//   email: "",
+//   name: "",
+//   password: "123456",
+//   phoneNumber: "",
+// };
 
 const Profile = () => {
+  const [opened, { open, close }] = useDisclosure(false);
+  // const [currentData, setCurrentData] = React.useState(defaultValues);
+
+  const onClickChangePass = React.useCallback(() => {
+    // setCurrentData(defaultValues);
+    open();
+  }, [open]);
+
   return (
     <div className="profile">
       <Navbar />
@@ -53,9 +72,14 @@ const Profile = () => {
           />
         </FormControl>
         <button className="profile-simpan">SIMPAN</button>
-        <button className="profile-ubah-kata-sandi">UBAH KATA SANDI</button>
+        <button className="profile-ubah-kata-sandi" onClick={onClickChangePass}>UBAH KATA SANDI</button>
       </div>
       <Footer />
+      <Modal opened={opened} centered onClose={close} withCloseButton={false}>
+        <ProfilePassword 
+        // data={currentData} 
+        onClose={close} />
+      </Modal>
     </div>
   );
 };
