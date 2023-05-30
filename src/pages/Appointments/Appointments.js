@@ -4,8 +4,10 @@ import { useState } from "react";
 import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { DataGrid } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
 
 const Appointments = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleChange = (event) => {
@@ -155,7 +157,7 @@ const Appointments = () => {
               ),
             }}
           />
-          <button className="appointments-add">+ TAMBAH APPOINTMENT</button>
+          <button className="appointments-add" onClick={() => navigate("/admin/add-appointment")}>+ TAMBAH APPOINTMENT</button>
         </div>
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid

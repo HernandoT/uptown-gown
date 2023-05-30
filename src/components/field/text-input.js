@@ -8,6 +8,7 @@ const TextInputField = ({
   required = false,
   disabled = false,
   multiline = false,
+  rows = 1,
   ...rest
 }) => {
   const { control } = useFormContext();
@@ -22,6 +23,7 @@ const TextInputField = ({
       required={required}
       disabled={disabled}
       multiline={multiline}
+      rows={rows}
       {...rest}
     />
   );

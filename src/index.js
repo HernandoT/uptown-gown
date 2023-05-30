@@ -35,6 +35,7 @@ import { Notifications } from "@mantine/notifications";
 import Example from "./pages/Example/example";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./services/query-client";
+import AppointmentForm from "./pages/Appointments/AppointmentForm";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -73,6 +74,7 @@ ReactDOM.render(
             <Route path="collections" element={<Collections />} />
             <Route path="customer" element={<Customer />} />
             <Route path="appointment" element={<Appointments />} />
+            <Route path="add-appointment" element={<AppointmentForm />} />
             <Route path="invoice" element={<Invoice />} />
             <Route path="expense" element={<Expense />} />
             <Route path="reports" element={<Reports />} />

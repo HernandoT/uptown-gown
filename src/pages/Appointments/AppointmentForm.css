@@ -1,0 +1,37 @@
+.appointment-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  float: right;
+  width: 74vw;
+  padding: 2%;
+}
+
+.appointment-form-content {
+  margin: 3% 2% 3% 0;
+}
+
+.appointment-form-customer {
+  display: flex;
+  height: auto;
+}
+
+.appointment-form-customer-add {
+  height: auto;
+  margin-left: 2%;
+  flex: 30;
+  font-size: larger;
+  font-family: 'Poppins', sans-serif !important;
+  background-color: white;
+  color: black;
+  border-radius: 5px;
+}
+
+.appointment-form-simpan {
+  width: 25%;
+  height: 50px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
