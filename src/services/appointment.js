@@ -1,5 +1,6 @@
 import { db } from "./firebase";
 import {
+  Timestamp,
   addDoc,
   collection,
   doc,
@@ -9,54 +10,59 @@ import {
 } from "firebase/firestore";
 import { field } from "../common/constant";
 import { queryClient } from "./query-client";
+import dayjs from "dayjs";
 
-export const getExpenses = async () => {
+export const getAppointments = async () => {
   try {
-    const result = await getDocs(collection(db, field.expense));
-    const data = result.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const result = await getDocs(collection(db, field.appointment));
+    const data = result.docs.map((doc) => ({
+      ...doc.data(),
+      tanggal: dayjs(doc.data().tanggal.toDate()),
+      id: doc.id,
+    }));
     return { data };
   } catch (e) {
     console.log(e);
   }
 };
 
-export const getExpense = async (id = "") => {
+export const getAppointment = async (id = "") => {
   try {
-    const user = (await getDoc(doc(db, field.expense, id))).data();
+    const user = (await getDoc(doc(db, field.appointment, id))).data();
     return { user };
   } catch (e) {
     console.log(e);
   }
 };
 
-export const createExpense = async ({
+export const createAppointment = async ({
   id_customer = "",
-  tanggal = "",
+  tanggal = Timestamp.now(),
   keterangan = "",
 }) => {
   try {
-    await addDoc(collection(db, field.expense), {
+    await addDoc(collection(db, field.appointment), {
       id_customer,
       tanggal,
       keterangan,
     });
-    queryClient.refetchQueries(["get-expenses"]);
+    queryClient.refetchQueries(["get-appointments"]);
   } catch (e) {
     console.log(e);
   }
 };
 
-export const updateExpense = async (
+export const updateAppointment = async (
   id = "",
   { id_customer = "", tanggal = "", keterangan = "" }
 ) => {
   try {
-    await updateDoc(doc(db, field.expense, id), {
-        id_customer,
-        tanggal,
-        keterangan,
+    await updateDoc(doc(db, field.appointment, id), {
+      id_customer,
+      tanggal,
+      keterangan,
     });
-    queryClient.refetchQueries(["get-expenses"]);
+    queryClient.refetchQueries(["get-appointments"]);
   } catch (e) {
     console.log(e);
   }
