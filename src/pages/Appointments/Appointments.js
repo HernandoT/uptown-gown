@@ -41,7 +41,7 @@ const Appointments = () => {
       });
       setIsLoading(false);
     }
-  }, [data, isFetching, isFetchingCustomers, dataCustomers.data]);
+  }, [isFetching, isFetchingCustomers]);
 
   const columns = [
     { field: "email", headerName: "Email", minWidth: 100, flex: 1 },
