@@ -41,7 +41,7 @@ const Appointments = () => {
       });
       setIsLoading(false);
     }
-  }, [data, isFetching, isFetchingCustomers]);
+  }, [data, isFetching, isFetchingCustomers, dataCustomers.data]);
 
   const columns = [
     { field: "email", headerName: "Email", minWidth: 100, flex: 1 },
@@ -68,12 +68,12 @@ const Appointments = () => {
       minWidth: 100,
       flex: 1,
       renderCell: ({ row }) => {
-        if (row.status == 1)
+        if (row.status === 1)
+          return <div style={{ color: "orange" }}>PENDING</div>;
+        else if (row.status === 2)
           return <div style={{ color: "green" }}>TERIMA</div>;
-        else if (row.status == 2)
+        else if (row.status === 3)
           return <div style={{ color: "red" }}>TOLAK</div>;
-        else if (row.status == 3)
-          return <div style={{ color: "yellow" }}>PENDING</div>;
       },
     },
     {

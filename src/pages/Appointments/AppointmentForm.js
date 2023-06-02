@@ -23,7 +23,6 @@ import dayjs from "dayjs";
 import { createAppointment } from "../../services/appointment";
 
 const AppointmentForm = () => {
-  const [customer, setCustomer] = React.useState();
   const [opened, { open, close }] = useDisclosure(false);
 
   const navigate = useNavigate();
@@ -56,12 +55,14 @@ const AppointmentForm = () => {
         keterangan: values.keterangan,
         id_customer: values.customer,
         tanggal: Timestamp.fromDate(new Date(values.tanggal)),
+        status: 1,
       });
       notifications.show({
         title: "Tambah Appointment",
         message: "Pengeluaran baru telah berhasil ditambahkan",
         color: "teal",
       });
+      navigate("/admin/appointment");
     } catch (e) {
       notifications.show({
         title: "Tambah Appointment",
@@ -70,7 +71,7 @@ const AppointmentForm = () => {
       });
     } finally {
     }
-  }, []);
+  }, [navigate]);
 
   const onClickAdd = React.useCallback(() => {
     open();

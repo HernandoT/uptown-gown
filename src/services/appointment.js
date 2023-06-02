@@ -39,12 +39,14 @@ export const createAppointment = async ({
   id_customer = "",
   tanggal = Timestamp.now(),
   keterangan = "",
+  status = 1,
 }) => {
   try {
     await addDoc(collection(db, field.appointment), {
       id_customer,
       tanggal,
       keterangan,
+      status
     });
     queryClient.refetchQueries(["get-appointments"]);
   } catch (e) {
@@ -54,13 +56,14 @@ export const createAppointment = async ({
 
 export const updateAppointment = async (
   id = "",
-  { id_customer = "", tanggal = "", keterangan = "" }
+  { id_customer = "", tanggal = "", keterangan = "" , status = ""}
 ) => {
   try {
     await updateDoc(doc(db, field.appointment, id), {
       id_customer,
       tanggal,
       keterangan,
+      status
     });
     queryClient.refetchQueries(["get-appointments"]);
   } catch (e) {
