@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getCustomers } from "../../services/customer";
 
 import * as React from "react";
-import { useController, useFormContext } from "react-hook-form";
 import SelectField from "../field/select";
 
 const CustomerSelectInput = ({
@@ -12,7 +11,7 @@ const CustomerSelectInput = ({
   required = false,
   disabled = false,
   helperText,
-  onAfterDetail,
+  onAfterChangeDetail,
   options = [],
   value = "",
   ...rest
@@ -20,7 +19,7 @@ const CustomerSelectInput = ({
   const [_options, setOptions] = React.useState(options);
   const [isInitiate, setIsInitiate] = React.useState(false);
 
-  const { data: customerList } = useQuery(["get-customers"], () =>
+  const { data: customerList, isFetching } = useQuery(["get-customers"], () =>
     getCustomers()
   );
 
@@ -36,21 +35,31 @@ const CustomerSelectInput = ({
     }
   }, [customerList?.data, isInitiate]);
 
-  React.useEffect(() => {
-    if (!!value) {
-      const currentUser = _options.find((_option) => _option.value === value);
-      onAfterDetail?.(currentUser);
-    }
-  }, [onAfterDetail, _options, value]);
+  if (isFetching) {
+    return (
+      <SelectField
+        key="disabled"
+        name={name}
+        placeholder={placeholder}
+        label={label}
+        options={_options}
+        disabled={true}
+        onAfterChangeDetail={onAfterChangeDetail}
+        {...rest}
+      />
+    );
+  }
 
   return (
     <SelectField
+      key="enabled"
       name={name}
       helperText={helperText}
       required={required}
       placeholder={placeholder}
       label={label}
       options={_options}
+      onAfterChangeDetail={onAfterChangeDetail}
       {...rest}
     />
   );

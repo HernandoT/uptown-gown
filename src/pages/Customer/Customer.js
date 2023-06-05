@@ -19,6 +19,7 @@ import { field } from "../../common/constant";
 import { queryClient } from "../../services/query-client";
 import { Flex, Text, Paper, Modal } from "@mantine/core";
 import Separator from "../../components/separator";
+import DetailButton from "../../components/DetailButton";
 
 const defaultValues = {
   email: "",
@@ -70,7 +71,7 @@ const Customer = () => {
         };
         return (
           <>
-            <Button onClick={onClick}>Edit</Button>
+            <DetailButton onClick={onClick} />
           </>
         );
       },

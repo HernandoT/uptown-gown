@@ -4,6 +4,7 @@ import { useState } from "react";
 import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { DataGrid } from "@mui/x-data-grid";
+import DetailButton from "../../components/DetailButton";
 
 const Collections = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,13 +26,8 @@ const Collections = () => {
       minWidth: 50,
       flex: 0.5,
       renderCell: (cellValues) => {
-        return (
-          <i
-            class="fa fa-pencil"
-            aria-hidden="true"
-            onClick={() => console.log(cellValues)}
-          ></i>
-        );
+        const onClick = () => {};
+        return <DetailButton onClick={onClick} />;
       },
     },
   ];

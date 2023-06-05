@@ -10,6 +10,7 @@ import { Modal } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import ExpenseForm from "./ExpenseForm";
 import dayjs from "dayjs";
+import DetailButton from "../../components/DetailButton";
 
 const defaultValues = {
   tanggal: new Date(),
@@ -52,7 +53,9 @@ const Expense = () => {
       flex: 1,
       renderCell: ({ row }) => {
         function currencyFormat(num) {
-          return "Rp. " + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+          return (
+            "Rp. " + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+          );
         }
         return <>{currencyFormat(row.nominal)}</>;
       },
@@ -77,11 +80,7 @@ const Expense = () => {
           open();
           setIsEdit(true);
         };
-        return (
-          <div onClick={onClick} style={{display: "flex", justifyContent: "center", width: "100%"}}>
-            <i class="fa fa-pencil" aria-hidden="true"></i>
-          </div>
-        );
+        return <DetailButton onClick={onClick} />;
       },
     },
   ];

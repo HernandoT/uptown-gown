@@ -9,11 +9,13 @@ import { getAppointments } from "../../services/appointment";
 import { getCustomers } from "../../services/customer";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import DetailButton from "../../components/DetailButton";
 
 const Appointments = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = React.useState("");
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isInitiate, setIsInitiate] = React.useState(false);
+  const [appointments, setAppointments] = React.useState([]);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -29,8 +31,8 @@ const Appointments = () => {
   );
 
   React.useEffect(() => {
-    if (!isFetching && !isFetchingCustomers) {
-      data.data.map((appointment) => {
+    if (!isFetching && !isFetchingCustomers && !isInitiate) {
+      const _appointments = data?.data.map((appointment) => {
         const cust = dataCustomers.data.find((customer) => {
           return customer.id === appointment.id_customer;
         });
@@ -39,9 +41,16 @@ const Appointments = () => {
         appointment.nomor_telepon = cust.nomor_telepon;
         return appointment;
       });
-      setIsLoading(false);
+      setAppointments(_appointments);
+      setIsInitiate(true);
     }
-  }, [isFetching, isFetchingCustomers]);
+  }, [
+    data?.data,
+    dataCustomers?.data,
+    isFetching,
+    isFetchingCustomers,
+    isInitiate,
+  ]);
 
   const columns = [
     { field: "email", headerName: "Email", minWidth: 100, flex: 1 },
@@ -88,14 +97,7 @@ const Appointments = () => {
         const onClick = () => {
           navigate(`/admin/appointment/${row.id}`);
         };
-        return (
-          <div
-            onClick={onClick}
-            style={{ display: "flex", justifyContent: "center", width: "100%" }}
-          >
-            <i class="fa fa-pencil" aria-hidden="true"></i>
-          </div>
-        );
+        return <DetailButton onClick={onClick} />;
       },
     },
   ];
@@ -129,16 +131,13 @@ const Appointments = () => {
           </button>
         </div>
         <div style={{ height: 400, width: "100%" }}>
-          {isLoading ? (
+          {!isInitiate ? (
             <CircularProgress color="secondary" />
           ) : (
             <DataGrid
-              rows={
-                data?.data || []
-                //   .filter((appointment) => {
-                //   appointment.nomor_telepon.includes(searchTerm);
-                // })
-              }
+              rows={appointments.filter((appointment) =>
+                appointment.nomor_telepon.includes(searchTerm)
+              )}
               columns={columns}
               initialState={{
                 pagination: {

@@ -108,9 +108,7 @@ const AdminNavbar = () => {
     },
   ];
 
-  const selectedItem = () => {
-    // console.log("test");
-  };
+  const selectedItem = () => {};
 
   const config = {
     paddingAtStart: true,

@@ -22,7 +22,7 @@ const Profile = () => {
             id="outlined-adornment-amount"
             startAdornment={
               <InputAdornment position="start">
-                <i class="fa fa-envelope fa-lg"></i>
+                <i className="fa fa-envelope fa-lg"></i>
               </InputAdornment>
             }
             label="Email"
@@ -34,19 +34,21 @@ const Profile = () => {
             id="outlined-adornment-amount"
             startAdornment={
               <InputAdornment position="start">
-                <i class="fa fa-user fa-lg"></i>
+                <i className="fa fa-user fa-lg"></i>
               </InputAdornment>
             }
             label="Nama"
           />
         </FormControl>
         <FormControl fullWidth>
-          <InputLabel htmlFor="outlined-adornment-amount">Nomor Telepon</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-amount">
+            Nomor Telepon
+          </InputLabel>
           <OutlinedInput
             id="outlined-adornment-amount"
             startAdornment={
               <InputAdornment position="start">
-                <i class="fa fa-phone fa-lg"></i>
+                <i className="fa fa-phone fa-lg"></i>
               </InputAdornment>
             }
             label="Nomor Telepon"

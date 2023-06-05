@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AdminTitle from "../../components/AdminTitle/AdminTitle";
 import "./AppointmentForm.css";
 import { Flex, Modal } from "@mantine/core";
@@ -14,24 +14,40 @@ import Form from "../../components/field/form";
 import { useForm } from "react-hook-form";
 import CustomerSelectInput from "../../components/Select/customer-select-input";
 
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import TextInputField from "../../components/field/text-input";
 import { Timestamp } from "firebase/firestore";
-import dayjs from "dayjs";
-import { createAppointment } from "../../services/appointment";
+import { createAppointment, getAppointment } from "../../services/appointment";
 import DateInputField from "../../components/field/date-input";
+import BackButton from "../../components/BackButton";
+import useGetAppointmentedDate from "../../hooks/use-get-appointmented-date";
+import { useQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
 
 const AppointmentForm = () => {
   const [opened, { open, close }] = useDisclosure(false);
+  //Get Detail
+  const { id } = useParams();
+  const { data, isSuccess, isFetching } = useQuery(
+    ["get-appointment", id],
+    () => getAppointment(id || ""),
+    { enabled: !!id }
+  );
+
+  //Get list of appointmented date
+  const { listAppointmented } = useGetAppointmentedDate();
 
   const navigate = useNavigate();
 
   const defaultValues = React.useMemo(
-    () => ({ tanggal: new Date(), keterangan: "" }),
-    []
+    () => ({
+      customer: data?.appointment.id_customer || null,
+      tanggal: data?.appointment.tanggal.toDate() || new Date(),
+      keterangan: data?.appointment.keterangan,
+    }),
+    [data]
   );
+
+  console.log(defaultValues);
 
   const yupSchema = React.useMemo(
     () =>
@@ -81,17 +97,40 @@ const AppointmentForm = () => {
     open();
   }, [open]);
 
+  const shouldDisableDate = React.useCallback(
+    (day) => {
+      const formatedDate = day.format("DD/MM/YYYY");
+      const currentDate = dayjs(methods.getValues("tanggal")).format(
+        "DD/MM/YYYY"
+      );
+
+      if (formatedDate === currentDate) {
+        return false;
+      }
+
+      const isDisabled =
+        !!listAppointmented[formatedDate] &&
+        listAppointmented[formatedDate] > 2;
+      return isDisabled;
+    },
+    [listAppointmented, methods]
+  );
+
+  //set value when get detail
+  React.useEffect(() => {
+    if (isSuccess) {
+      methods.reset(defaultValues);
+    }
+  }, [defaultValues, isSuccess, methods]);
+
+  if (isFetching) {
+    return null;
+  }
+
   return (
     <div className="appointment-form">
       <AdminTitle props={"Appointment"} />
-      <div onClick={() => navigate(-1)} style={{ cursor: "pointer" }}>
-        <i
-          class="fa fa-chevron-left"
-          aria-hidden="true"
-          style={{ margin: "1%" }}
-        ></i>
-        Kembali
-      </div>
+      <BackButton />
       <div className="appointment-form-content">
         <Form onSubmit={onSubmit} methods={methods}>
           <div className="appointment-form-customer">
@@ -104,7 +143,11 @@ const AppointmentForm = () => {
             </button>
           </div>
           <Separator _gap={24} />
-          <DateInputField label="Tanggal Pengeluaran" />
+          <DateInputField
+            shouldDisableDate={shouldDisableDate}
+            name="tanggal"
+            label="Tanggal Pengeluaran"
+          />
           <Separator _gap={24} />
           <TextInputField
             label="Keterangan"

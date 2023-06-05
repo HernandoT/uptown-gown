@@ -51,7 +51,6 @@ const ImagesInputField = () => {
   const previews = files.map((file, index) => {
     const imageUrl = URL.createObjectURL(file);
 
-    console.log(imageUrl);
     return (
       <Image
         key={index}
@@ -66,7 +65,6 @@ const ImagesInputField = () => {
       //result base64
       const result = await resizeFile(file);
 
-      console.log(result);
       // console.log(result);
       // const imageRef = ref(storage, `images/${v4()}.jpeg`);
       // const test = await uploadString(
