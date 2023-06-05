@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AdminTitle from "../../components/AdminTitle/AdminTitle";
 import "./EditAppointmentForm.css";
 import { Flex } from "@mantine/core";
@@ -18,14 +18,25 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import TextInputField from "../../components/field/text-input";
 import { Timestamp } from "firebase/firestore";
 import dayjs from "dayjs";
-import { createAppointment } from "../../services/appointment";
+import { createAppointment, getAppointment } from "../../services/appointment";
+import { useQuery } from "@tanstack/react-query";
 
 const EditAppointmentForm = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const { data, isSuccess, isFetching } = useQuery(
+    ["get-appointment", id],
+    () => getAppointment(id || "")
+  );
 
+  console.log(data, id);
   const defaultValues = React.useMemo(
-    () => ({ tanggal: new Date(), keterangan: "" }),
-    []
+    () => ({
+      customer: data?.appointment.id_customer,
+      tanggal: dayjs(data?.appointment.tanggal).toDate() || new Date(),
+      keterangan: data?.appointment.keterangan,
+    }),
+    [data]
   );
 
   const yupSchema = React.useMemo(
@@ -45,29 +56,42 @@ const EditAppointmentForm = () => {
     mode: "onChange",
   });
 
-  const onSubmit = React.useCallback(async (values) => {
-    try {
-      // createAppointment({
-      //   keterangan: values.keterangan,
-      //   id_customer: values.customer,
-      //   tanggal: Timestamp.fromDate(new Date(values.tanggal)),
-      //   status: 1,
-      // });
-      // notifications.show({
-      //   title: "Tambah Appointment",
-      //   message: "Pengeluaran baru telah berhasil ditambahkan",
-      //   color: "teal",
-      // });
-      navigate("/admin/appointment");
-    } catch (e) {
-      notifications.show({
-        title: "Tambah Appointment",
-        message: "Appointment baru gagal ditambahkan",
-        color: "red",
-      });
-    } finally {
+  const onSubmit = React.useCallback(
+    async (values) => {
+      try {
+        // createAppointment({
+        //   keterangan: values.keterangan,
+        //   id_customer: values.customer,
+        //   tanggal: Timestamp.fromDate(new Date(values.tanggal)),
+        //   status: 1,
+        // });
+        // notifications.show({
+        //   title: "Tambah Appointment",
+        //   message: "Pengeluaran baru telah berhasil ditambahkan",
+        //   color: "teal",
+        // });
+        navigate("/admin/appointment");
+      } catch (e) {
+        notifications.show({
+          title: "Tambah Appointment",
+          message: "Appointment baru gagal ditambahkan",
+          color: "red",
+        });
+      } finally {
+      }
+    },
+    [navigate]
+  );
+
+  React.useEffect(() => {
+    if (isSuccess) {
+      methods.reset(defaultValues);
     }
-  }, [navigate]);
+  }, [defaultValues, isSuccess, methods]);
+
+  if (isFetching) {
+    return null;
+  }
 
   return (
     <div className="edit-appointment-form">

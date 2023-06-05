@@ -16,6 +16,7 @@ const SelectField = ({
   const { control } = useFormContext();
   const { field, fieldState } = useController({ name, control });
 
+  // console.log(options);
   return (
     <TextField
       {...field}

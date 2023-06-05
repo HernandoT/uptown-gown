@@ -13,35 +13,35 @@ const CustomerSelectInput = ({
   disabled = false,
   helperText,
   onAfterDetail,
+  options = [],
+  value = "",
   ...rest
 }) => {
-  const { control } = useFormContext();
-  const { field } = useController({
-    control,
-    name,
-  });
+  const [_options, setOptions] = React.useState(options);
+  const [isInitiate, setIsInitiate] = React.useState(false);
+
   const { data: customerList } = useQuery(["get-customers"], () =>
     getCustomers()
   );
 
-  const options = React.useMemo(
-    () =>
-      (customerList?.data || []).map((_data) => ({
-        value: _data.id,
-        label: [_data.nama, _data.nomor_telepon]
-          .filter((val) => !!val)
-          .join(" - "),
-        extra: _data,
-      })),
-    [customerList]
-  );
+  React.useEffect(() => {
+    if (!isInitiate && customerList?.data) {
+      const transformOptions = customerList.data.map((data) => ({
+        value: data.id,
+        label: data.nama,
+        extra: data,
+      }));
+      setOptions(transformOptions);
+      setIsInitiate(true);
+    }
+  }, [customerList?.data, isInitiate]);
 
   React.useEffect(() => {
-    if (!!field.value) {
-      const currentUser = options.find((option) => option.id === field.value);
+    if (!!value) {
+      const currentUser = _options.find((_option) => _option.value === value);
       onAfterDetail?.(currentUser);
     }
-  }, [options, field, onAfterDetail]);
+  }, [onAfterDetail, _options, value]);
 
   return (
     <SelectField
@@ -50,7 +50,7 @@ const CustomerSelectInput = ({
       required={required}
       placeholder={placeholder}
       label={label}
-      options={options}
+      options={_options}
       {...rest}
     />
   );

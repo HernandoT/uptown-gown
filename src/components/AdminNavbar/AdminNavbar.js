@@ -109,7 +109,7 @@ const AdminNavbar = () => {
   ];
 
   const selectedItem = () => {
-    console.log("test");
+    // console.log("test");
   };
 
   const config = {

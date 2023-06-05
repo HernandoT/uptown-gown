@@ -76,7 +76,7 @@ ReactDOM.render(
             <Route path="customer" element={<Customer />} />
             <Route path="appointment" element={<Appointments />} />
             <Route path="add-appointment" element={<AppointmentForm />} />
-            <Route path="edit-appointment" element={<EditAppointmentForm />} />
+            <Route path="appointment/:id" element={<EditAppointmentForm />} />
             <Route path="invoice" element={<Invoice />} />
             <Route path="expense" element={<Expense />} />
             <Route path="reports" element={<Reports />} />

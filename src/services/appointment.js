@@ -28,8 +28,8 @@ export const getAppointments = async () => {
 
 export const getAppointment = async (id = "") => {
   try {
-    const user = (await getDoc(doc(db, field.appointment, id))).data();
-    return { user };
+    const appointment = (await getDoc(doc(db, field.appointment, id))).data();
+    return { appointment };
   } catch (e) {
     console.log(e);
   }
@@ -46,7 +46,7 @@ export const createAppointment = async ({
       id_customer,
       tanggal,
       keterangan,
-      status
+      status,
     });
     queryClient.refetchQueries(["get-appointments"]);
   } catch (e) {
@@ -56,14 +56,14 @@ export const createAppointment = async ({
 
 export const updateAppointment = async (
   id = "",
-  { id_customer = "", tanggal = "", keterangan = "" , status = ""}
+  { id_customer = "", tanggal = "", keterangan = "", status = "" }
 ) => {
   try {
     await updateDoc(doc(db, field.appointment, id), {
       id_customer,
       tanggal,
       keterangan,
-      status
+      status,
     });
     queryClient.refetchQueries(["get-appointments"]);
   } catch (e) {

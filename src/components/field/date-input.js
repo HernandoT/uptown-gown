@@ -1,35 +1,43 @@
-import { DatePickerInput } from "@mantine/dates";
-
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 import { useController, useFormContext } from "react-hook-form";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 
 const DateInputField = ({
-  label = "",
+  label = "Tanggal",
   placeholder = "",
   name = "",
   type = "default",
-  required = false,
   disabled = false,
-  valueFormat = "DD MMM YYYY",
-  size = "xl",
+  required = false,
+  format = "DD/MM/YYYY",
   ...rest
 }) => {
   const { control } = useFormContext();
   const { field, fieldState } = useController({ name, control });
   return (
-    <DatePickerInput
-      {...rest}
-      {...field}
-      inputWrapperOrder={["label", "input", "description", "error"]}
-      error={fieldState.error?.message}
-      label={label}
-      placeholder={placeholder}
-      withAsterisk={required}
-      disabled={disabled}
-      type={type}
-      valueFormat={valueFormat}
-      size={size}
-      format
-    />
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DemoContainer components={["DatePicker"]}>
+        <DatePicker
+          {...field}
+          label={label}
+          placeholder={placeholder}
+          required={required}
+          format={format}
+          value={field.value && dayjs(field.value)}
+          error={!!fieldState.error?.message}
+          helperText={fieldState.error?.message}
+          disabled={disabled}
+          //default styles
+          sx={{
+            width: "100%",
+          }}
+          {...rest}
+        />
+      </DemoContainer>
+    </LocalizationProvider>
   );
 };
 

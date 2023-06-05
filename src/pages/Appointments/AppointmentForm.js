@@ -21,6 +21,7 @@ import TextInputField from "../../components/field/text-input";
 import { Timestamp } from "firebase/firestore";
 import dayjs from "dayjs";
 import { createAppointment } from "../../services/appointment";
+import DateInputField from "../../components/field/date-input";
 
 const AppointmentForm = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -49,29 +50,32 @@ const AppointmentForm = () => {
     mode: "onChange",
   });
 
-  const onSubmit = React.useCallback(async (values) => {
-    try {
-      createAppointment({
-        keterangan: values.keterangan,
-        id_customer: values.customer,
-        tanggal: Timestamp.fromDate(new Date(values.tanggal)),
-        status: 1,
-      });
-      notifications.show({
-        title: "Tambah Appointment",
-        message: "Pengeluaran baru telah berhasil ditambahkan",
-        color: "teal",
-      });
-      navigate("/admin/appointment");
-    } catch (e) {
-      notifications.show({
-        title: "Tambah Appointment",
-        message: "Appointment baru gagal ditambahkan",
-        color: "red",
-      });
-    } finally {
-    }
-  }, [navigate]);
+  const onSubmit = React.useCallback(
+    async (values) => {
+      try {
+        createAppointment({
+          keterangan: values.keterangan,
+          id_customer: values.customer,
+          tanggal: Timestamp.fromDate(new Date(values.tanggal)),
+          status: 1,
+        });
+        notifications.show({
+          title: "Tambah Appointment",
+          message: "Pengeluaran baru telah berhasil ditambahkan",
+          color: "teal",
+        });
+        navigate("/admin/appointment");
+      } catch (e) {
+        notifications.show({
+          title: "Tambah Appointment",
+          message: "Appointment baru gagal ditambahkan",
+          color: "red",
+        });
+      } finally {
+      }
+    },
+    [navigate]
+  );
 
   const onClickAdd = React.useCallback(() => {
     open();
@@ -100,13 +104,7 @@ const AppointmentForm = () => {
             </button>
           </div>
           <Separator _gap={24} />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Tanggal Pengeluaran"
-              format="DD/MM/YYYY"
-              value={dayjs(new Date())}
-            />
-          </LocalizationProvider>
+          <DateInputField label="Tanggal Pengeluaran" />
           <Separator _gap={24} />
           <TextInputField
             label="Keterangan"

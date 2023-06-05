@@ -85,7 +85,9 @@ const Appointments = () => {
       disableColumnMenu: true,
       headerAlign: "center",
       renderCell: ({ row }) => {
-        const onClick = () => {};
+        const onClick = () => {
+          navigate(`/admin/appointment/${row.id}`);
+        };
         return (
           <div
             onClick={onClick}
@@ -131,11 +133,12 @@ const Appointments = () => {
             <CircularProgress color="secondary" />
           ) : (
             <DataGrid
-              rows={(data?.data || [])
-              //   .filter((appointment) => {
-              //   appointment.nomor_telepon.includes(searchTerm);
-              // })
-            }
+              rows={
+                data?.data || []
+                //   .filter((appointment) => {
+                //   appointment.nomor_telepon.includes(searchTerm);
+                // })
+              }
               columns={columns}
               initialState={{
                 pagination: {
