@@ -7,16 +7,12 @@ const Detail = () => {
     <div className="detail">
       <Navbar />
       <div className="detailContent">
-        <div className="detailImage">
-          <div className="detailImage1">Image 1</div>
-          <div className="detailImage2">Image 2</div>
-          <div className="detailImage2">Image 3</div>
-          <div className="detailImage2">Image 4</div>
+        <div className="detailImage">Image 1
         </div>
         <div className="detailDesc">
           <div className="detailTitle">
             <div className="strip"></div>
-            <p>Name Lorem Ipsum (?)</p>
+            <p>Name Lorem Ipsum</p>
           </div>
           <div className="detailText">
             <p>
@@ -34,7 +30,8 @@ const Detail = () => {
               blandit turpis cursus in hac habitasse platea. Porttitor massa id
               neque aliquam vestibulum morbi blandit cursus risus.{" "}
             </p>
-            <p><b>Check availability:</b></p>
+            {/* <p><b>Check availability:</b></p> */}
+            <button className="detail-button">CEK KETERSEDIAAN</button>
           </div>
         </div>
       </div>
