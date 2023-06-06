@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
 import { getColors } from "../../services/color";
 import SelectField from "../field/select";
-import { useController, useFormContext } from "react-hook-form";
 
 const ColorSelectInput = ({
   label = "Warna",
@@ -12,43 +11,53 @@ const ColorSelectInput = ({
   required = false,
   disabled = false,
   helperText,
-  onAfterDetail,
+  onAfterChangeDetail,
+  options = [],
   ...rest
 }) => {
-  const { control } = useFormContext();
-  const { field } = useController({
-    control,
-    name,
-  });
-  const { data: colorList } = useQuery(["get-color"], () => getColors());
-
-  const options = React.useMemo(
-    () =>
-      (colorList?.data || []).map((_data) => ({
-        value: _data.id,
-        label: [_data.nama_warna, _data.kode_hex]
-          .filter((val) => !!val)
-          .join(" - "),
-        extra: _data,
-      })),
-    [colorList]
+  const [_options, setOptions] = React.useState(options);
+  const [isInitiate, setIsInitiate] = React.useState(false);
+  const { data: colorList, isFetching } = useQuery(["get-color"], () =>
+    getColors()
   );
 
   React.useEffect(() => {
-    if (!!field.value) {
-      const currentColor = options.find((option) => option.id === field.value);
-      onAfterDetail?.(currentColor);
+    if (!isInitiate && colorList?.data) {
+      const transformOptions = colorList.data.map((data) => ({
+        value: data.id,
+        label: data.nama,
+        extra: data,
+      }));
+      setOptions(transformOptions);
+      setIsInitiate(true);
     }
-  }, [options, field, onAfterDetail]);
+  }, [colorList?.data, isInitiate]);
+
+  if (isFetching) {
+    return (
+      <SelectField
+        key="disabled"
+        name={name}
+        placeholder={placeholder}
+        label={label}
+        options={_options}
+        disabled={true}
+        onAfterChangeDetail={onAfterChangeDetail}
+        {...rest}
+      />
+    );
+  }
 
   return (
     <SelectField
+      key="enabled"
       name={name}
       helperText={helperText}
       required={required}
       placeholder={placeholder}
       label={label}
-      options={options}
+      options={_options}
+      onAfterChangeDetail={onAfterChangeDetail}
       {...rest}
     />
   );

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Text, Image, SimpleGrid } from "@mantine/core";
+import { Text, Image, SimpleGrid, Flex } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 
 import Resizer from "react-image-file-resizer";
@@ -13,6 +13,7 @@ import {
 } from "firebase/storage";
 import { storage, storageImageRef } from "../../services/firebase";
 import { v4 } from "uuid";
+import { modals } from "@mantine/modals";
 
 const resizeFile = (file) =>
   new Promise((resolve) => {
@@ -48,15 +49,71 @@ const convertBase64 = (file) => {
 const ImagesInputField = () => {
   const [files, setFiles] = useState([]);
 
+  const onDelete = React.useCallback(
+    () =>
+      modals.openConfirmModal({
+        title: "Delete unsaved changes",
+        children: (
+          <Text size="sm">Are you sure you want to delete this image? .</Text>
+        ),
+        centered: true,
+        labels: { cancel: "Cancel", confirm: "Confirm" },
+        cancelProps: { color: "red" },
+        onCancel: () => {},
+        onConfirm: () => setFiles([]),
+      }),
+    []
+  );
+
   const previews = files.map((file, index) => {
     const imageUrl = URL.createObjectURL(file);
 
     return (
-      <Image
-        key={index}
-        src={imageUrl}
-        imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
-      />
+      <div
+        style={{
+          boxSizing: "border-box",
+          border: "0.125rem dashed #ced4da",
+          borderRadius: 10,
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <button
+          style={{
+            position: "absolute",
+            right: 0,
+            top: 0,
+            zIndex: 3,
+            border: "1px solid red",
+            borderRadius: 9999,
+            color: "white",
+            backgroundColor: "red",
+            cursor: "pointer",
+            textAlign: "center",
+            display: "flex",
+            alignItems: "center",
+          }}
+          onClick={onDelete}
+        >
+          x
+        </button>
+        <a href={imageUrl} target="_blank">
+          <Image
+            key={index}
+            src={imageUrl}
+
+            // imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
+          />
+        </a>
+        <Dropzone
+          sx={{ border: "none" }}
+          accept={IMAGE_MIME_TYPE}
+          multiple={false}
+          onDrop={setFiles}
+        >
+          <Text align="center">Edit Image</Text>
+        </Dropzone>
+      </div>
     );
   });
 
@@ -77,19 +134,20 @@ const ImagesInputField = () => {
   }, [files]);
 
   return (
-    <div>
-      <Dropzone accept={IMAGE_MIME_TYPE} onDrop={setFiles}>
-        <Text align="center">Drop images here</Text>
-      </Dropzone>
-
-      <SimpleGrid
-        cols={4}
-        breakpoints={[{ maxWidth: "sm", cols: 1 }]}
-        mt={previews.length > 0 ? "xl" : 0}
-      >
-        {previews}
-      </SimpleGrid>
-    </div>
+    <Flex w={300}>
+      {previews.length ? (
+        <>{previews}</>
+      ) : (
+        <Dropzone
+          w={300}
+          accept={IMAGE_MIME_TYPE}
+          multiple={false}
+          onDrop={setFiles}
+        >
+          <Text align="center">Drop image here</Text>
+        </Dropzone>
+      )}
+    </Flex>
   );
 };
 
