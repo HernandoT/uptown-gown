@@ -16,7 +16,11 @@ import CustomerSelectInput from "../../components/Select/customer-select-input";
 
 import TextInputField from "../../components/field/text-input";
 import { Timestamp } from "firebase/firestore";
-import { createAppointment, getAppointment } from "../../services/appointment";
+import {
+  createAppointment,
+  getAppointment,
+  updateAppointment,
+} from "../../services/appointment";
 import DateInputField from "../../components/field/date-input";
 import BackButton from "../../components/BackButton";
 import useGetAppointmentedDate from "../../hooks/use-get-appointmented-date";
@@ -47,8 +51,6 @@ const AppointmentForm = () => {
     [data]
   );
 
-  console.log(defaultValues);
-
   const yupSchema = React.useMemo(
     () =>
       Yup.object().shape({
@@ -69,28 +71,39 @@ const AppointmentForm = () => {
   const onSubmit = React.useCallback(
     async (values) => {
       try {
-        createAppointment({
-          keterangan: values.keterangan,
-          id_customer: values.customer,
-          tanggal: Timestamp.fromDate(new Date(values.tanggal)),
-          status: 1,
-        });
+        data?.appointment
+          ? updateAppointment(id, {
+              keterangan: values.keterangan,
+              id_customer: values.customer,
+              tanggal: Timestamp.fromDate(new Date(values.tanggal)),
+              status: 1,
+            })
+          : createAppointment({
+              keterangan: values.keterangan,
+              id_customer: values.customer,
+              tanggal: Timestamp.fromDate(new Date(values.tanggal)),
+              status: 1,
+            });
         notifications.show({
-          title: "Tambah Appointment",
-          message: "Pengeluaran baru telah berhasil ditambahkan",
+          title: data?.appointment ? "Edit Appointment" : "Tambah Appointment",
+          message: data?.appointment
+            ? "Appointment telah berhasil diupdate"
+            : "Appointment baru telah berhasil ditambahkan",
           color: "teal",
         });
-        navigate("/admin/appointment");
+        if (!data?.appointment) navigate("/admin/appointment");
       } catch (e) {
         notifications.show({
-          title: "Tambah Appointment",
-          message: "Appointment baru gagal ditambahkan",
+          title: data?.appointment ? "Edit Appointment" : "Tambah Appointment",
+          message: data?.appointment
+            ? "Appointment gagal diupdate"
+            : "Appointment baru gagal ditambahkan",
           color: "red",
         });
       } finally {
       }
     },
-    [navigate]
+    [data?.appointment, id, navigate]
   );
 
   const onClickAdd = React.useCallback(() => {
@@ -131,41 +144,57 @@ const AppointmentForm = () => {
     <div className="appointment-form">
       <AdminTitle props={"Appointment"} />
       <BackButton />
-      <div className="appointment-form-content">
-        <Form onSubmit={onSubmit} methods={methods}>
-          <div className="appointment-form-customer">
-            <CustomerSelectInput style={{ flex: "70" }} name="customer" />
-            <button
-              className="appointment-form-customer-add"
-              onClick={onClickAdd}
-            >
-              + TAMBAH CUSTOMER
-            </button>
+      {isFetching ? (
+        <></>
+      ) : (
+        <>
+          <div className="appointment-form-content">
+            <Form onSubmit={onSubmit} methods={methods}>
+              <div className="appointment-form-customer">
+                <CustomerSelectInput style={{ flex: "70" }} name="customer" />
+                {data?.appointment ? (
+                  <></>
+                ) : (
+                  <button
+                    className="appointment-form-customer-add"
+                    onClick={onClickAdd}
+                    type="button"
+                  >
+                    + TAMBAH CUSTOMER
+                  </button>
+                )}
+              </div>
+              <Separator _gap={24} />
+              <DateInputField
+                shouldDisableDate={shouldDisableDate}
+                name="tanggal"
+                label="Tanggal Pengeluaran"
+              />
+              <Separator _gap={24} />
+              <TextInputField
+                label="Keterangan"
+                name="keterangan"
+                multiline={true}
+                rows={6}
+              />
+              <Separator _gap={24} />
+              <Flex justify="flex-end">
+                <button className="appointment-form-simpan" type="submit">
+                  SIMPAN
+                </button>
+              </Flex>
+            </Form>
           </div>
-          <Separator _gap={24} />
-          <DateInputField
-            shouldDisableDate={shouldDisableDate}
-            name="tanggal"
-            label="Tanggal Pengeluaran"
-          />
-          <Separator _gap={24} />
-          <TextInputField
-            label="Keterangan"
-            name="keterangan"
-            multiline={true}
-            rows={6}
-          />
-          <Separator _gap={24} />
-          <Flex justify="flex-end">
-            <button className="appointment-form-simpan" type="submit">
-              SIMPAN
-            </button>
-          </Flex>
-        </Form>
-      </div>
-      <Modal opened={opened} centered onClose={close} withCloseButton={false}>
-        <CustomerForm onClose={close} />
-      </Modal>
+          <Modal
+            opened={opened}
+            centered
+            onClose={close}
+            withCloseButton={false}
+          >
+            <CustomerForm onClose={close} />
+          </Modal>
+        </>
+      )}
     </div>
   );
 };
