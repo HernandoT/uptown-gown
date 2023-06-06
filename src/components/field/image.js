@@ -14,6 +14,7 @@ import {
 import { storage, storageImageRef } from "../../services/firebase";
 import { v4 } from "uuid";
 import { modals } from "@mantine/modals";
+import { useController, useFormContext } from "react-hook-form";
 
 const resizeFile = (file) =>
   new Promise((resolve) => {
@@ -46,26 +47,44 @@ const convertBase64 = (file) => {
   });
 };
 
-const ImagesInputField = () => {
-  const [files, setFiles] = useState([]);
+async function getFileFromUrl(url, name, defaultType = "image/jpeg") {
+  const response = await fetch(url);
+  const data = await response.blob();
+  const file = new File([data], name, {
+    type: "image/jpeg",
+  });
+
+  console.log(file);
+  return file;
+}
+
+const ImagesInputField = ({
+  name = "",
+  placeholder = <Text align="center">Drop image here</Text>,
+  deleteDescription = (
+    <Text size="sm">Are you sure you want to delete this image? .</Text>
+  ),
+  deleteTitle = "Delete unsaved changes",
+  defaultRef = `${v4()}.jpeg`,
+}) => {
+  const { control } = useFormContext();
+  const { field, fieldState } = useController({ control, name });
 
   const onDelete = React.useCallback(
     () =>
       modals.openConfirmModal({
-        title: "Delete unsaved changes",
-        children: (
-          <Text size="sm">Are you sure you want to delete this image? .</Text>
-        ),
+        title: deleteTitle,
+        children: deleteDescription,
         centered: true,
         labels: { cancel: "Cancel", confirm: "Confirm" },
         cancelProps: { color: "red" },
         onCancel: () => {},
-        onConfirm: () => setFiles([]),
+        onConfirm: () => field.onChange([]),
       }),
-    []
+    [deleteDescription, deleteTitle, field]
   );
 
-  const previews = files.map((file, index) => {
+  const previews = (field.value || []).map((file, index) => {
     const imageUrl = URL.createObjectURL(file);
 
     return (
@@ -98,18 +117,13 @@ const ImagesInputField = () => {
           x
         </button>
         <a href={imageUrl} target="_blank">
-          <Image
-            key={index}
-            src={imageUrl}
-
-            // imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
-          />
+          <Image key={index} src={imageUrl} />
         </a>
         <Dropzone
           sx={{ border: "none" }}
           accept={IMAGE_MIME_TYPE}
           multiple={false}
-          onDrop={setFiles}
+          onDrop={(file) => field.onChange(file)}
         >
           <Text align="center">Edit Image</Text>
         </Dropzone>
@@ -118,20 +132,22 @@ const ImagesInputField = () => {
   });
 
   React.useEffect(() => {
-    files.map(async (file) => {
-      //result base64
-      const result = await resizeFile(file);
+    // field.value.map(async (file) => {
+    //   //result base64
+    //   const result = await resizeFile(file);
+    //   const imageRef = ref(storage, defaultRef);
+    //   const test = await uploadString(
+    //     imageRef,
+    //     result.replace("data:image/jpeg;base64,", ""),
+    //     "base64"
+    //   );
+    //   const url = await getDownloadURL(test.ref);
+    //   console.log(url);
+    //   return result;
+    // });
+  }, [defaultRef, field]);
 
-      // console.log(result);
-      // const imageRef = ref(storage, `images/${v4()}.jpeg`);
-      // const test = await uploadString(
-      //   imageRef,
-      //   result.replace("data:image/jpeg;base64,", ""),
-      //   "base64"
-      // );
-      // const url = await getDownloadURL(test.ref);
-    });
-  }, [files]);
+  // console.log(field.value);
 
   return (
     <Flex w={300}>
@@ -139,12 +155,16 @@ const ImagesInputField = () => {
         <>{previews}</>
       ) : (
         <Dropzone
+          sx={(theme) => ({
+            borderColor: !!fieldState?.error?.message ? "red" : "#ced4da",
+            color: !!fieldState?.error?.message ? "red" : theme.colors.gray[6],
+          })}
           w={300}
           accept={IMAGE_MIME_TYPE}
           multiple={false}
-          onDrop={setFiles}
+          onDrop={(file) => field.onChange(file)}
         >
-          <Text align="center">Drop image here</Text>
+          {placeholder}
         </Dropzone>
       )}
     </Flex>

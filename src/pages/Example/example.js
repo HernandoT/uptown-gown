@@ -18,9 +18,20 @@ import CheckboxField from "../../components/field/checkbox";
 import SelectField from "../../components/field/select";
 import NumberInputField from "../../components/field/number-input";
 
+async function getFileFromUrl(url, name, defaultType = "image/jpeg") {
+  const response = await fetch(url);
+  const data = await response.blob();
+  const file = new File([data], name, {
+    type: "image/jpeg",
+  });
+
+  console.log(file);
+  return file;
+}
+
 const Example = () => {
   const defaultValues = React.useMemo(
-    () => ({ email: "", name: "", phone: "" }),
+    () => ({ email: "", name: "", phone: "", file: [] }),
     []
   );
   const yupSchema = React.useMemo(
@@ -81,7 +92,7 @@ const Example = () => {
           { value: "female", label: "Wanita" },
         ]}
       />
-      <ImagesInputField />
+      <ImagesInputField name="file" />
       <Flex>
         <CustomerSelectInput />
         <ColorSelectInput />
