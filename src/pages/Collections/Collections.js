@@ -5,6 +5,7 @@ import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { DataGrid } from "@mui/x-data-grid";
 import DetailButton from "../../components/DetailButton";
+import CollectionForm from "./CollectionForm";
 
 const Collections = () => {
   const [searchTerm, setSearchTerm] = useState("");

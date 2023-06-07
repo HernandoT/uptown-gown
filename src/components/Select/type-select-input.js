@@ -25,7 +25,7 @@ const TypeSelectInput = ({
     if (!isInitiate && typeList?.data) {
       const transformOptions = typeList.data.map((data) => ({
         value: data.id,
-        label: data.nama,
+        label: data.nama_jenis,
         extra: data,
       }));
       setOptions(transformOptions);
@@ -36,7 +36,7 @@ const TypeSelectInput = ({
   if (isFetching) {
     return (
       <SelectField
-        key="disabled"
+        key="type-disabled"
         name={name}
         placeholder={placeholder}
         label={label}
@@ -50,7 +50,7 @@ const TypeSelectInput = ({
 
   return (
     <SelectField
-      key="enabled"
+      key="type-enabled"
       name={name}
       helperText={helperText}
       required={required}

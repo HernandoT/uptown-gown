@@ -25,7 +25,7 @@ const ColorSelectInput = ({
     if (!isInitiate && colorList?.data) {
       const transformOptions = colorList.data.map((data) => ({
         value: data.id,
-        label: data.nama,
+        label: data.nama_warna,
         extra: data,
       }));
       setOptions(transformOptions);
@@ -36,7 +36,7 @@ const ColorSelectInput = ({
   if (isFetching) {
     return (
       <SelectField
-        key="disabled"
+        key="color-disabled"
         name={name}
         placeholder={placeholder}
         label={label}
@@ -50,7 +50,7 @@ const ColorSelectInput = ({
 
   return (
     <SelectField
-      key="enabled"
+      key="color-enabled"
       name={name}
       helperText={helperText}
       required={required}

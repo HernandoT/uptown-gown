@@ -26,7 +26,7 @@ const CategorySelectInput = ({
     if (!isInitiate && categoryList?.data) {
       const transformOptions = categoryList.data.map((data) => ({
         value: data.id,
-        label: data.nama,
+        label: data.nama_kategori,
         extra: data,
       }));
       setOptions(transformOptions);
@@ -37,7 +37,7 @@ const CategorySelectInput = ({
   if (isFetching) {
     return (
       <SelectField
-        key="disabled"
+        key="category-disabled"
         name={name}
         placeholder={placeholder}
         label={label}
@@ -51,7 +51,7 @@ const CategorySelectInput = ({
 
   return (
     <SelectField
-      key="enabled"
+      key="category-enabled"
       name={name}
       helperText={helperText}
       required={required}

@@ -70,6 +70,7 @@ const ImagesInputField = ({
   const { control } = useFormContext();
   //save object files
   const { field, fieldState } = useController({ control, name });
+  const [isPure, setIsPure] = React.useState(true);
 
   const onDelete = React.useCallback(
     () =>
@@ -86,7 +87,7 @@ const ImagesInputField = ({
   );
 
   const previews = (field.value || []).map((file, index) => {
-    const imageUrl = URL.createObjectURL(file);
+    const imageUrl = isPure ? defaultRef : URL.createObjectURL(file);
 
     return (
       <div
@@ -124,7 +125,10 @@ const ImagesInputField = ({
           sx={{ border: "none" }}
           accept={IMAGE_MIME_TYPE}
           multiple={false}
-          onDrop={(file) => field.onChange(file)}
+          onDrop={(file) => {
+            field.onChange(file);
+            setIsPure(false);
+          }}
         >
           <Text align="center">Edit Image</Text>
         </Dropzone>
@@ -163,7 +167,10 @@ const ImagesInputField = ({
           w={300}
           accept={IMAGE_MIME_TYPE}
           multiple={false}
-          onDrop={(file) => field.onChange(file)}
+          onDrop={(file) => {
+            field.onChange(file);
+            setIsPure(false);
+          }}
         >
           {placeholder}
         </Dropzone>

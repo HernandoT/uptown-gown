@@ -54,10 +54,14 @@ const Example = () => {
 
   const onSubmit = React.useCallback(async (values) => {
     try {
+      console.log(values);
     } catch (e) {
+      console.log(e);
     } finally {
     }
   }, []);
+
+  console.log(methods.formState.errors);
 
   return (
     <Form onSubmit={onSubmit} methods={methods}>

@@ -1,4 +1,6 @@
 import Resizer from "react-image-file-resizer";
+import { storageImageRef } from "../services/firebase";
+import { getDownloadURL, uploadString } from "firebase/storage";
 
 export const resizeFile = (file) =>
   new Promise((resolve) => {
@@ -31,7 +33,11 @@ export const convertBase64 = (file) => {
   });
 };
 
-export async function convertUrlToFile(url, name, defaultType = "image/jpeg") {
+export async function convertUrlToFile(
+  url,
+  name = "file.jpeg",
+  defaultType = "image/jpeg"
+) {
   const response = await fetch(url);
   const data = await response.blob();
   const file = new File([data], name, {
@@ -39,4 +45,18 @@ export async function convertUrlToFile(url, name, defaultType = "image/jpeg") {
   });
 
   return file;
+}
+
+export async function getUrlImage({ file, ref }) {
+  try {
+    const result = await resizeFile(file);
+    const imageRef = storageImageRef(ref);
+    const upload = await uploadString(
+      imageRef,
+      result.replace("data:image/jpeg;base64,", ""),
+      "base64"
+    );
+    const url = await getDownloadURL(upload.ref);
+    return url;
+  } catch (e) {}
 }
