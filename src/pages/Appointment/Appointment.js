@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   TextField,
+  Button
 } from "@mui/material";
 import Footer from "../../components/Footer/Footer";
 import "./Appointment.css";
@@ -8,18 +9,27 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Navbar from "../../components/Navbar/Navbar";
 import SupportEngine from "../../SupportEngine";
+import { useDisclosure } from "@mantine/hooks";
+import { Modal, Flex, Text, Paper } from "@mantine/core";
+import Separator from "../../components/separator";
 
 const Appointment = () => {
   const isLoged = localStorage.getItem("isLoged");
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [displayDate, setDisplayDate] = useState("");
+  const [tanggal, setTanggal] = useState("");
+  const [keterangan, setKeterangan] = useState("");
+
+  const [openConfirmationDialog, { open: openConfirm, close: closeConfirm }] =
+  useDisclosure(false);
 
   const changeDisplayDate = (selectedDate) => {
     const date = selectedDate.getDate();
     const month = selectedDate.getMonth() + 1;
     const year = selectedDate.getFullYear();
-    setDisplayDate(date + '/' + month + '/' + year)
+    setDisplayDate(date + '/' + month + '/' + year);
+    setTanggal(date + '/' + month + '/' + year);
   }
 
   return (
@@ -60,11 +70,48 @@ const Appointment = () => {
             />
           </div>
           <div className="appointment-input-container">
-            <TextField id="outlined-basic" label="Keterangan" variant="outlined" />
+            <TextField 
+            id="outlined-basic" 
+            label="Keterangan" 
+            variant="outlined"
+            multiline={true}
+            rows={3}
+            onChange={(e) => setKeterangan(e.target.value)}
+            />
           </div>
-          <button className="appointmentButton">AJUKAN APPOINTMENT</button>
+          <button 
+            className="appointmentButton" 
+            onClick={isLoged === "true" ? openConfirm : ""}>
+              AJUKAN APPOINTMENT
+            </button>
         </div>
       </div>
+      <Modal
+        onClose={closeConfirm}
+        opened={openConfirmationDialog}
+        withCloseButton={false}
+        centered
+      >      
+        <Paper p={36} miw={400}>
+          <Flex direction="column">
+            <Text fz={20} fw={600}>Confirm</Text>
+            <Separator _gap={24} />
+            <Text>Apakah kamu yakin ingin mengajukan appointment untuk tanggal <b>{tanggal}</b>
+              {keterangan === "" ? "" : " dengan keterangan: “" + keterangan + "”"}
+              ?
+            </Text>
+            <Separator _gap={24} />
+            <Flex justify="flex-end">
+              <Button variant="text" color="error" onClick={closeConfirm}>
+                Tidak
+              </Button>
+              <Button variant="text" type="submit">
+                Ya
+              </Button>          
+            </Flex>
+          </Flex>
+        </Paper>
+      </Modal>
       <Footer />
       {isLoged === "true" ? <SupportEngine /> : ""}
     </div>
