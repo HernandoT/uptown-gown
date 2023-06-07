@@ -68,6 +68,7 @@ const ImagesInputField = ({
   defaultRef = `${v4()}.jpeg`,
 }) => {
   const { control } = useFormContext();
+  //save object files
   const { field, fieldState } = useController({ control, name });
 
   const onDelete = React.useCallback(

@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { deleteDoc, doc, getFirestore } from "firebase/firestore";
 import { getStorage, ref } from "firebase/storage";
 import { getAuth } from "firebase/auth";
+import { v4 } from "uuid";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDsFtIwTCIJlr91uE6xBuuZ12X5Sff7Nvs",
@@ -18,7 +19,8 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
 export const storage = getStorage(app);
-export const storageImageRef = ref(storage, "image");
+
+export const storageImageRef = (url = `${v4()}.jpeg`) => ref(storage, url);
 
 export const auth = getAuth(app);
 
