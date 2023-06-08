@@ -1,103 +1,107 @@
+import * as React from "react";
+import * as Yup from "yup";
+import useYupValidationResolver from "../../hooks/use-yup-resolver";
 import AdminTitle from "../../components/AdminTitle/AdminTitle";
 import "./ChangePassword.css";
-import { useState } from "react";
-import {
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
-  FormControl
-} from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import Form from "../../components/field/form";
+import { useForm } from "react-hook-form";
+import Separator from "../../components/separator";
+import InputPasswordField from "../../components/field/input-password";
+import { useQuery } from "@tanstack/react-query";
+import { getAdmin, updateAdmin } from "../../services/admin";
+import { notifications } from "@mantine/notifications";
 
 const ChangePassword = () => {
-  const [showPasswordNow, setShowPasswordNow] = useState(false);
-  const [showPasswordNew, setShowPasswordNew] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const id = localStorage.getItem("idAdmin");
+  const { data, isFetching } = useQuery(
+    ["get-admin", id],
+    () => getAdmin(id || ""),
+    { enabled: !!id }
+  );
 
-  const handleClickShowPasswordNow = () => setShowPasswordNow((show) => !show);
-  const handleClickShowPasswordNew = () => setShowPasswordNew((show) => !show);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const defaultValues = React.useMemo(
+    () => ({
+      passwordNow: "",
+      passwordNew: "",
+      password: "",
+    }),
+    []
+  );
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+  const yupSchema = React.useMemo(
+    () =>
+      Yup.object().shape({
+        passwordNow: Yup.string()
+          .required("Password Wajib Diisi")
+          .matches(data?.admin.password, "Password yang diinput salah"),
+        passwordNew: Yup.string().required("Password Baru Wajib Diisi"),
+        password: Yup.string()
+          .oneOf(
+            [Yup.ref("passwordNew"), null],
+            "Password yang dimasukkan tidak sama dengan Password Baru"
+          )
+          .required("Ulangi Password Baru Wajib Diisi"),
+      }),
+    [data]
+  );
+
+  const resolver = useYupValidationResolver(yupSchema);
+
+  const methods = useForm({
+    defaultValues,
+    resolver,
+    mode: "onChange",
+  });
+
+  const onSubmit = React.useCallback(async (values) => {
+    try {
+      updateAdmin(id, {
+        username: data?.admin.username,
+        password: values.password,
+      });
+      notifications.show({
+        title: "Ganti Password",
+        message: "Berhasil Ganti Password",
+        color: "teal",
+      });
+    } catch (e) {
+      notifications.show({
+        title: "Ganti Password",
+        message: "Gagal Ganti Password",
+        color: "red",
+      });
+    } finally {
+    }
+  });
 
   return (
     <div className="change-password">
       <AdminTitle props={"Change Password"} />
-      <div className="change-password-content">
-        <FormControl variant="outlined" fullWidth className="change-password-form">
-          <InputLabel htmlFor="outlined-adornment-password">
-            Kata Sandi saat ini
-          </InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type={showPasswordNow ? "text" : "password"}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPasswordNow}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPasswordNow ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Kata Sandi saat ini"
-            name="password"
-          />
-        </FormControl>
-        <FormControl variant="outlined" fullWidth className="change-password-form">
-          <InputLabel htmlFor="outlined-adornment-password">
-            Kata Sandi baru
-          </InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type={showPasswordNew ? "text" : "password"}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPasswordNew}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPasswordNew ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Kata Sandi baru"
-            name="password"
-          />
-        </FormControl>
-        <FormControl variant="outlined" fullWidth className="change-password-form">
-          <InputLabel htmlFor="outlined-adornment-password">
-            Ulangi Kata Sandi baru
-          </InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type={showPassword ? "text" : "password"}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Ulangi Kata Sandi baru"
-            name="password"
-          />
-        </FormControl>
-        <button className="change-password-simpan">SIMPAN</button>
-      </div>
+      {isFetching ? (
+        <></>
+      ) : (
+        <>
+          <div className="change-password-content">
+            <Form onSubmit={onSubmit} methods={methods}>
+              <Separator _gap={12} />
+              <InputPasswordField
+                name="passwordNow"
+                label="Kata Sandi saat ini"
+              />
+              <Separator _gap={12} />
+              <InputPasswordField name="passwordNew" label="Kata Sandi baru" />
+              <Separator _gap={12} />
+              <InputPasswordField
+                name="password"
+                label="Ulangi Kata Sandi baru"
+              />
+              <button className="change-password-simpan" type="submit">
+                SIMPAN
+              </button>
+            </Form>
+          </div>
+        </>
+      )}
     </div>
   );
 };

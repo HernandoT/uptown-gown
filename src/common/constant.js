@@ -6,4 +6,5 @@ export const field = {
   expense: "pengeluaran",
   appointment: "appointment",
   collection: "collection",
+  admin: "user",
 };

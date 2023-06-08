@@ -64,6 +64,7 @@ const AdminLogin = () => {
         setErrorMessages({ name: "password", message: errors.password });
       } else {
         localStorage.setItem("isAdmin", true);
+        localStorage.setItem("idAdmin", userData.id);
         navigate("/admin");
       }
     } else {
