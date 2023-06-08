@@ -64,7 +64,7 @@ const CollectionForm = ({
   const methods = useForm({
     defaultValues,
     resolver,
-    mode: "all",
+    mode: "onChange",
   });
 
   const onSubmit = React.useCallback(async (values) => {
@@ -94,14 +94,14 @@ const CollectionForm = ({
       </Text>
       <Form onSubmit={onSubmit} methods={methods}>
         <Separator _gap={24} />
-        <TextInputField label="Nama" name="nama" required />
+        <TextInputField label="Nama" name="nama" />
         <Separator _gap={24} />
         <Flex direction="row">
-          <ColorSelectInput label="Warna" name="id_warna" required />
+          <ColorSelectInput label="Warna" name="id_warna" />
           <Separator _gap={24} />
-          <CategorySelectInput label="Kategori" name="id_kategori" required />
+          <CategorySelectInput label="Kategori" name="id_kategori" />
           <Separator _gap={24} />
-          <TypeSelectInput label="Jenis" name="id_jenis" required />
+          <TypeSelectInput label="Jenis" name="id_jenis" />
         </Flex>
         <Separator _gap={24} />
         <TextInputField
@@ -109,7 +109,6 @@ const CollectionForm = ({
           name="deskripsi"
           multiline={true}
           rows={6}
-          required
         />
         <Separator _gap={24} />
         <Text fz={16} fw={600}>
