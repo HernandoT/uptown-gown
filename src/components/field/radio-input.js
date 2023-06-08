@@ -13,6 +13,7 @@ const RadioInputField = ({
   const { control } = useFormContext();
   const { field, fieldState } = useController({ name, control });
 
+  console.log(field.value);
   return (
     <Radio.Group
       {...field}
