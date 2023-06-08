@@ -5,7 +5,7 @@ import {
   InputAdornment,
   IconButton,
   FormControl,
-  FormHelperText
+  FormHelperText,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useController, useFormContext } from "react-hook-form";
@@ -33,12 +33,13 @@ const InputPasswordField = ({
       variant="outlined"
       fullWidth
       className="change-password-form"
-      {...field}
+      // {...field}
       error={!!fieldState.error?.message}
       {...rest}
     >
       <InputLabel htmlFor="outlined-adornment-password">{label}</InputLabel>
       <OutlinedInput
+        {...field}
         label={label}
         id="outlined-adornment-password"
         type={showPassword ? "text" : "password"}
