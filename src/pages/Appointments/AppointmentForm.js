@@ -26,6 +26,7 @@ import BackButton from "../../components/BackButton";
 import useGetAppointmentedDate from "../../hooks/use-get-appointmented-date";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import RadioInputField from "../../components/field/radio-input";
 
 const AppointmentForm = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -47,6 +48,7 @@ const AppointmentForm = () => {
       customer: data?.appointment.id_customer || null,
       tanggal: data?.appointment.tanggal.toDate() || new Date(),
       keterangan: data?.appointment.keterangan,
+      status: data?.appointment.status,
     }),
     [data]
   );
@@ -76,7 +78,7 @@ const AppointmentForm = () => {
               keterangan: values.keterangan,
               id_customer: values.customer,
               tanggal: Timestamp.fromDate(new Date(values.tanggal)),
-              status: 1,
+              status: parseInt(values.status),
             })
           : createAppointment({
               keterangan: values.keterangan,
@@ -178,6 +180,20 @@ const AppointmentForm = () => {
                 rows={6}
               />
               <Separator _gap={24} />
+              {data?.appointment ? (
+                <>
+                  <RadioInputField
+                    name="status"
+                    options={[
+                      { value: "2", label: "Terima" },
+                      { value: "3", label: "Tolak" },
+                    ]}
+                  />
+                  <Separator _gap={24} />
+                </>
+              ) : (
+                <></>
+              )}
               <Flex justify="flex-end">
                 <button className="appointment-form-simpan" type="submit">
                   SIMPAN

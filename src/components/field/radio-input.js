@@ -23,9 +23,16 @@ const RadioInputField = ({
       error={fieldState.error?.message}
       {...rest}
     >
-      {options.map((option) => (
-        <Radio key={option.value} value={option.value} label={option.label} />
-      ))}
+      <div style={{ display: "flex" }}>
+        {options.map((option) => (
+          <Radio
+            key={option.value}
+            value={option.value}
+            label={option.label}
+            style={{ marginRight: 20 }}
+          />
+        ))}
+      </div>
     </Radio.Group>
   );
 };
