@@ -64,6 +64,7 @@ const ChangePassword = () => {
         message: "Berhasil Ganti Password",
         color: "teal",
       });
+      methods.reset();
     } catch (e) {
       notifications.show({
         title: "Ganti Password",
