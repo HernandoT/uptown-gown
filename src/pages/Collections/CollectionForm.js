@@ -15,29 +15,30 @@ import ImagesInputField from "../../components/field/image";
 import { getUrlImage } from "../../utils/image-function";
 import { urlPattern } from "../../utils/regex";
 import { v4 } from "uuid";
+import { createCollection, updateCollection } from "../../services/collection";
+import { notifications } from "@mantine/notifications";
 
-const CollectionForm = ({
-  onClose,
-  data = {
-    nama: "",
-    id_warna: "",
-    id_kategori: "",
-    id_jenis: "",
-    deskripsi: "",
-    status: "",
-    file: "",
-  },
-}) => {
+const resetValues = {
+  id: "",
+  nama: "",
+  id_warna: "",
+  id_kategori: "",
+  id_jenis: "",
+  deskripsi: "",
+  status: "",
+  gambar: "",
+};
+const CollectionForm = ({ onClose, data = resetValues, isEdit = false }) => {
   const defaultValues = React.useMemo(() => {
     return {
-      nama: data.nama || "",
-      id_warna: data.id_warna || "",
-      id_kategori: data.id_kategori || "",
-      id_jenis: data.id_jenis || "",
-      deskripsi: data.deskripsi || "",
-      status: data.status || "",
-      file: data.file ? [data.file] : [],
-      defaultRef: data.file ? data.file : `${v4()}.jpeg`,
+      nama: data.nama,
+      id_warna: data.id_warna,
+      id_kategori: data.id_kategori,
+      id_jenis: data.id_jenis,
+      deskripsi: data.deskripsi,
+      status: data.status,
+      gambar: data.gambar ? [data.gambar] : [],
+      defaultRef: data.gambar ? data.gambar : `${v4()}.jpeg`,
     };
   }, [data]);
 
@@ -54,7 +55,8 @@ const CollectionForm = ({
         status: Yup.string().required(
           "Harap pilih Status Ketersediaan terlebih dahulu"
         ),
-        file: Yup.array().min(1).required(),
+        gambar: Yup.array().min(1).required(),
+        defaultRef: Yup.string().strip(true), //remove this result3
       }),
     []
   );
@@ -67,25 +69,44 @@ const CollectionForm = ({
     mode: "all",
   });
 
-  const onSubmit = React.useCallback(async (values) => {
-    try {
-      //if still url don't submit to firebase
-      const fileUrl = urlPattern(values.file[0])
-        ? values.file[0]
-        : await getUrlImage({
-            file: values.file[0],
-            ref: values.defaultRef,
-          });
+  console.log(methods.watch());
 
-      const data = {
-        ...values,
-        file: fileUrl,
-      };
-      console.log(data);
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
+  const onSubmit = React.useCallback(
+    async (values) => {
+      try {
+        console.log(values.gambar[0]);
+        //if still url don't submit to firebase
+        const fileUrl = urlPattern.test(values.gambar[0])
+          ? values.gambar[0]
+          : await getUrlImage({
+              file: values.gambar[0],
+              ref: values.defaultRef,
+            });
+
+        const _data = {
+          ...values,
+          file: fileUrl,
+        };
+
+        isEdit ? updateCollection(data.id, _data) : createCollection(_data);
+        notifications.show({
+          title: isEdit ? "Edit User" : "Tambah User",
+          message: isEdit
+            ? "Collection telah berhasil diupdate"
+            : "Collection telah berhasil ditambahkan",
+          color: "teal",
+        });
+        onClose();
+      } catch (e) {
+        notifications.show({
+          title: "Tambah User",
+          message: e,
+          color: "red",
+        });
+      }
+    },
+    [data, isEdit, onClose]
+  );
 
   return (
     <Paper p={36} miw={1000}>
@@ -124,7 +145,7 @@ const CollectionForm = ({
           required
         />
         <Separator _gap={24} />
-        <ImagesInputField name="file" />
+        <ImagesInputField name="gambar" />
         <Separator _gap={24} />
         <Flex justify="flex-end">
           <Button variant="text" color="error" onClick={onClose}>

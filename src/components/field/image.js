@@ -35,7 +35,6 @@ const ImagesInputField = ({
 
   const previews = (field.value || []).map((file, index) => {
     const imageUrl = urlPattern.test(file) ? file : URL.createObjectURL(file);
-    console.log(imageUrl);
     return (
       <div
         style={{

@@ -5,4 +5,5 @@ export const field = {
   type: "jenis",
   expense: "pengeluaran",
   appointment: "appointment",
+  collection: "collection",
 };
