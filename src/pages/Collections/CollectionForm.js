@@ -2,7 +2,9 @@ import * as React from "react";
 import * as Yup from "yup";
 import useYupValidationResolver from "../../hooks/use-yup-resolver";
 import { useForm } from "react-hook-form";
-import { Paper, Text } from "@mantine/core";
+import { Button } from "@mui/material";
+import { Flex, Paper, Text } from "@mantine/core";
+import Separator from "../../components/separator";
 import Form from "../../components/field/form";
 import TextInputField from "../../components/field/text-input";
 import ColorSelectInput from "../../components/Select/color-select-input";
@@ -12,7 +14,7 @@ import RadioInputField from "../../components/field/radio-input";
 import ImagesInputField from "../../components/field/image";
 import { getUrlImage } from "../../utils/image-function";
 
-const CollectionForm = () => {
+const CollectionForm = ({ onClose }) => {
   const defaultValues = React.useMemo(() => {
     return {
       nama: "",
@@ -31,12 +33,16 @@ const CollectionForm = () => {
   const yupSchema = React.useMemo(
     () =>
       Yup.object().shape({
-        nama: Yup.string().required(),
-        id_warna: Yup.string().required(),
-        id_kategori: Yup.string().required(),
-        id_jenis: Yup.string().required(),
-        deskripsi: Yup.string(),
-        status: Yup.string().required(),
+        nama: Yup.string().required("Nama Collection Wajib Diisi"),
+        id_warna: Yup.string().required("Harap pilih Warna terlebih dahulu"),
+        id_kategori: Yup.string().required(
+          "Harap pilih Kategori terlebih dahulu"
+        ),
+        id_jenis: Yup.string().required("Harap pilih Jenis terlebih dahulu"),
+        deskripsi: Yup.string().required("Deskripsi Wajib Diisi"),
+        status: Yup.string().required(
+          "Harap pilih Status Ketersediaan terlebih dahulu"
+        ),
         file: Yup.array().min(1).required(),
       }),
     []
@@ -68,37 +74,34 @@ const CollectionForm = () => {
   }, []);
 
   return (
-    <Paper miw={600}>
+    <Paper p={36} miw={1000}>
       <Text fz={20} fw={600}>
-        {false ? "Edit Customer" : "Tambah Customer"}
+        {false ? "Edit Collection" : "Tambah Collection"}
       </Text>
       <Form onSubmit={onSubmit} methods={methods}>
-        <TextInputField label="Nama" placeholder="Nama" name="nama" required />
-        <ColorSelectInput
-          label="Warna"
-          placeholder="Warna"
-          name="id_warna"
-          required
-        />
-        <CategorySelectInput
-          label="Kategori"
-          placeholder="Kategori"
-          name="id_kategori"
-          required
-        />
-        <TypeSelectInput
-          label="Jenis"
-          placeholder="Jenis"
-          name="id_jenis"
-          required
-        />
+        <Separator _gap={24} />
+        <TextInputField label="Nama" name="nama" required />
+        <Separator _gap={24} />
+        <Flex direction="row">
+          <ColorSelectInput label="Warna" name="id_warna" required />
+          <Separator _gap={24} />
+          <CategorySelectInput label="Kategori" name="id_kategori" required />
+          <Separator _gap={24} />
+          <TypeSelectInput label="Jenis" name="id_jenis" required />
+        </Flex>
+        <Separator _gap={24} />
         <TextInputField
           label="Deskripsi"
-          placeholder="Deskripsi"
           name="deskripsi"
+          multiline={true}
+          rows={6}
+          required
         />
+        <Separator _gap={24} />
+        <Text fz={16} fw={600}>
+          Status
+        </Text>
         <RadioInputField
-          label="Status"
           options={[
             { value: "available", label: "Available" },
             { value: "unavailable", label: "Unavailable" },
@@ -106,8 +109,20 @@ const CollectionForm = () => {
           name="status"
           required
         />
+        <Separator _gap={24} />
+        <Text fz={16} fw={600}>
+          Unggah Gambar
+        </Text>
         <ImagesInputField defaultRef={defaultValues.defaultRef} name="file" />
-        <button type="submit">submit</button>
+        <Separator _gap={24} />
+        <Flex justify="flex-end">
+          <Button variant="text" color="error" onClick={onClose}>
+            Batal
+          </Button>
+          <Button variant="text" type="submit">
+            Simpan
+          </Button>
+        </Flex>
       </Form>
     </Paper>
   );

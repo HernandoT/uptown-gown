@@ -1,14 +1,17 @@
 import AdminTitle from "../../components/AdminTitle/AdminTitle";
 import "./Collections.css";
-import { useState } from "react";
+import * as React from "react";
 import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { DataGrid } from "@mui/x-data-grid";
 import DetailButton from "../../components/DetailButton";
 import CollectionForm from "./CollectionForm";
+import { Modal } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 
 const Collections = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [opened, { open, close }] = useDisclosure(false);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -117,6 +120,12 @@ const Collections = () => {
     },
   ];
 
+  const onClickAdd = React.useCallback(() => {
+    // setCurrentData(defaultValues);
+    // setIsEdit(false);
+    open();
+  }, [open]);
+
   return (
     <div className="collections">
       <AdminTitle props={"All Collections"} />
@@ -138,7 +147,7 @@ const Collections = () => {
               ),
             }}
           />
-          <button className="collections-add">+ TAMBAH BARANG</button>
+          <button className="collections-add" onClick={onClickAdd}>+ TAMBAH BARANG</button>
         </div>
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
@@ -154,6 +163,9 @@ const Collections = () => {
           />
         </div>
       </div>
+      <Modal opened={opened} centered onClose={close} withCloseButton={false} size={1200}>
+        <CollectionForm onClose={close} />
+      </Modal>
     </div>
   );
 };
