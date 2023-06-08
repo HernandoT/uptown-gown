@@ -13,22 +13,33 @@ import TypeSelectInput from "../../components/Select/type-select-input";
 import RadioInputField from "../../components/field/radio-input";
 import ImagesInputField from "../../components/field/image";
 import { getUrlImage } from "../../utils/image-function";
+import { urlPattern } from "../../utils/regex";
+import { v4 } from "uuid";
 
-const CollectionForm = ({ onClose }) => {
+const CollectionForm = ({
+  onClose,
+  data = {
+    nama: "",
+    id_warna: "",
+    id_kategori: "",
+    id_jenis: "",
+    deskripsi: "",
+    status: "",
+    file: "",
+  },
+}) => {
   const defaultValues = React.useMemo(() => {
     return {
-      nama: "",
-      id_warna: "",
-      id_kategori: "",
-      id_jenis: "",
-      deskripsi: "",
-      status: "",
-      file: [],
-      defaultRef:
-        //masukkan detail dari file url
-        "https://firebasestorage.googleapis.com/v0/b/uptown-gown-a7b88.appspot.com/o/39207935-9d3b-481b-b40f-23868a30a455.jpeg?alt=media&token=2aa2c3bc-b23c-4b5f-84da-ce1753aea924",
+      nama: data.nama || "",
+      id_warna: data.id_warna || "",
+      id_kategori: data.id_kategori || "",
+      id_jenis: data.id_jenis || "",
+      deskripsi: data.deskripsi || "",
+      status: data.status || "",
+      file: data.file ? [data.file] : [],
+      defaultRef: data.file ? data.file : `${v4()}.jpeg`,
     };
-  }, []);
+  }, [data]);
 
   const yupSchema = React.useMemo(
     () =>
@@ -58,10 +69,13 @@ const CollectionForm = ({ onClose }) => {
 
   const onSubmit = React.useCallback(async (values) => {
     try {
-      const fileUrl = await getUrlImage({
-        file: values.file[0],
-        ref: values.defaultRef,
-      });
+      //if still url don't submit to firebase
+      const fileUrl = urlPattern(values.file[0])
+        ? values.file[0]
+        : await getUrlImage({
+            file: values.file[0],
+            ref: values.defaultRef,
+          });
 
       const data = {
         ...values,
@@ -110,10 +124,7 @@ const CollectionForm = ({ onClose }) => {
           required
         />
         <Separator _gap={24} />
-        <Text fz={16} fw={600}>
-          Unggah Gambar
-        </Text>
-        <ImagesInputField defaultRef={defaultValues.defaultRef} name="file" />
+        <ImagesInputField name="file" />
         <Separator _gap={24} />
         <Flex justify="flex-end">
           <Button variant="text" color="error" onClick={onClose}>
