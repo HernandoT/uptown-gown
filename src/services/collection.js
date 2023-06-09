@@ -88,3 +88,20 @@ export const updateCollection = async (
     console.log(e);
   }
 };
+
+export const updatePopularCollection = async (
+  id = "",
+  { popular_collection = 0 }
+) => {
+  try {
+    const collection = (await getDoc(doc(db, field.collection, id))).data();
+
+    await updateDoc(doc(db, field.collection, id), {
+      ...collection,
+      popular_collection,
+    });
+    queryClient.refetchQueries(["get-collections"]);
+  } catch (e) {
+    console.log(e);
+  }
+};

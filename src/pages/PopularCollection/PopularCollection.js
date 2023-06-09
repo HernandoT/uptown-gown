@@ -7,16 +7,23 @@ import * as Yup from "yup";
 import CollectionSelectInput from "../../components/Select/collection-select-input";
 import Separator from "../../components/separator";
 import useYupValidationResolver from "../../hooks/use-yup-resolver";
-import { getCollections } from "../../services/collection";
+import {
+  getCollections,
+  updatePopularCollection,
+} from "../../services/collection";
 import { useQuery } from "@tanstack/react-query";
+import { notifications } from "@mantine/notifications";
+
+const gambarCollections = ["gambar1", "gambar2", "gambar3", "gambar4"];
+const fileCollections = ["file1", "file2", "file3", "file4"];
+const defaultCollections = ["default1", "default2", "default3", "default4"];
 
 const CollectionView = () => {
   const { control } = useFormContext();
   const values = useWatch({
     control,
-    name: ["file1", "file2", "file3", "file4"],
+    name: fileCollections,
   });
-  console.log(values);
   return (
     <div className="popular-collection-display">
       {values.map((value, index) =>
@@ -65,6 +72,10 @@ const PopularCollection = () => {
 
   const defaultValues = React.useMemo(
     () => ({
+      default1: "",
+      default2: "",
+      default3: "",
+      default4: "",
       gambar1: "",
       gambar2: "",
       gambar3: "",
@@ -96,14 +107,56 @@ const PopularCollection = () => {
     mode: "onChange",
   });
 
-  const onSubmit = React.useCallback(async (values) => {
-    try {
-      console.log(values);
-    } catch (e) {
-      console.log(e);
-    } finally {
-    }
-  }, []);
+  const setDefaultValeus = React.useCallback(() => {}, []);
+
+  const onSubmit = React.useCallback(
+    async (values) => {
+      try {
+        const duplicates = {};
+        let hasDuplicate = false;
+
+        gambarCollections.map((key) => {
+          if (duplicates[values[key]]) {
+            duplicates[values[key]] += 1;
+            methods.setError(key, {
+              message: "data ini ada duplikasi dengan data lain",
+              type: "custom",
+            });
+            hasDuplicate = true;
+          } else {
+            duplicates[values[key]] = 1;
+          }
+        }, []);
+
+        if (hasDuplicate) {
+          notifications.show({
+            title: "Duplikasi Data",
+            message: "Data tidak boleh ada duplikasi",
+            color: "red",
+          });
+          return;
+        }
+
+        //set default to 0
+        defaultCollections.map((key) => {
+          const id = values[key];
+          updatePopularCollection(id, { popular_collection: 0 });
+        });
+
+        //set to collection to popular value
+        gambarCollections.map((key, index) => {
+          const id = values[key];
+          methods.setValue(`default${index + 1}`, id);
+
+          updatePopularCollection(id, { popular_collection: index + 1 });
+        });
+      } catch (e) {
+        console.log(e);
+      } finally {
+      }
+    },
+    [methods]
+  );
 
   React.useEffect(() => {
     if (!initiate && data?.data) {
@@ -112,10 +165,9 @@ const PopularCollection = () => {
           (val) => val.popular_collection === index + 1
         );
 
-        console.log(collection);
-
         if (!!collection) {
           methods.setValue(`gambar${index + 1}`, collection.id);
+          methods.setValue(`default${index + 1}`, collection.id);
           methods.setValue(`file${index + 1}`, collection.gambar);
         }
       });
@@ -130,22 +182,20 @@ const PopularCollection = () => {
         <AdminTitle props={"Popular Collection"} />
         <div className="popular-collection-content">
           <div className="popular-collection-selector">
-            {["gambar1", "gambar2", "gambar3", "gambar4"].map(
-              (value, index) => {
-                return (
-                  <>
-                    <CollectionSelectInput
-                      label={`Gambar ${index + 1}`}
-                      name={value}
-                      onAfterChangeDetail={(value) =>
-                        methods.setValue(`file${index + 1}`, value.extra.gambar)
-                      }
-                    />
-                    <Separator _gap={36} />
-                  </>
-                );
-              }
-            )}
+            {gambarCollections.map((value, index) => {
+              return (
+                <>
+                  <CollectionSelectInput
+                    label={`Gambar ${index + 1}`}
+                    name={value}
+                    onAfterChangeDetail={(value) =>
+                      methods.setValue(`file${index + 1}`, value.extra.gambar)
+                    }
+                  />
+                  <Separator _gap={36} />
+                </>
+              );
+            })}
             <button className="save-popular-collection">SIMPAN</button>
             <CollectionView />
           </div>
