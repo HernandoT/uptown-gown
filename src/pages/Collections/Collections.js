@@ -23,6 +23,7 @@ const defaultValues = {
   deskripsi: "",
   status: "",
   gambar: "",
+  popular_collection: 0,
 };
 const Collections = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
@@ -84,6 +85,8 @@ const Collections = () => {
   }, [
     data?.data,
     dataColors?.data,
+    dataCategories?.data,
+    dataTypes?.data,
     isFetching,
     isFetchingColors,
     isFetchingCategories,
@@ -117,6 +120,7 @@ const Collections = () => {
             deskripsi: row.deskripsi,
             status: row.status,
             gambar: row.gambar,
+            popular_collection: row.popular_collection,
           });
           open();
           setIsEdit(true);

@@ -27,6 +27,7 @@ const defaultValues = {
   deskripsi: "",
   status: "",
   gambar: "",
+  popular_collection: 0,
 };
 const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
   const defaultValues = React.useMemo(() => {
@@ -39,6 +40,7 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
       status: data.status,
       gambar: data.gambar ? [data.gambar] : [],
       defaultRef: data.gambar ? data.gambar : `${v4()}.jpeg`,
+      popular_collection: data.popular_collection,
     };
   }, [data]);
 
@@ -84,6 +86,7 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
         const _data = {
           ...values,
           gambar: fileUrl,
+          popular_collection: data.popular_collection ? data.popular_collection : 0,
         };
 
         isEdit ? updateCollection(data.id, _data) : createCollection(_data);

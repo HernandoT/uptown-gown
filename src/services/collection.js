@@ -40,6 +40,7 @@ export const createCollection = async ({
   deskripsi,
   status,
   gambar,
+  popular_collection,
 }) => {
   try {
     await addDoc(collection(db, field.collection), {
@@ -50,6 +51,7 @@ export const createCollection = async ({
       deskripsi,
       status,
       gambar,
+      popular_collection,
     });
     queryClient.refetchQueries(["get-collections"]);
   } catch (e) {
@@ -67,6 +69,7 @@ export const updateCollection = async (
     deskripsi = "",
     status = "",
     gambar = "",
+    popular_collection = "",
   }
 ) => {
   try {
@@ -78,6 +81,7 @@ export const updateCollection = async (
       deskripsi,
       status,
       gambar,
+      popular_collection,
     });
     queryClient.refetchQueries(["get-collections"]);
   } catch (e) {

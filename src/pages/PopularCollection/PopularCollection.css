@@ -15,7 +15,7 @@
 .popular-collection-selector {
   flex: 5;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   height: 60vh;
   justify-content: space-evenly;
   align-items: center;
