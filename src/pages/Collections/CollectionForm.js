@@ -83,7 +83,7 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
 
         const _data = {
           ...values,
-          file: fileUrl,
+          gambar: fileUrl,
         };
 
         isEdit ? updateCollection(data.id, _data) : createCollection(_data);
