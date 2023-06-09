@@ -10,6 +10,9 @@ import { Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { getCollections } from "../../services/collection";
 import { useQuery } from "@tanstack/react-query";
+import { getColors } from "../../services/color";
+import { getCategories } from "../../services/category";
+import { getTypes } from "../../services/type";
 
 const defaultValues = {
   id: "",
@@ -25,6 +28,8 @@ const Collections = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [currentData, setCurrentData] = React.useState(defaultValues);
   const [isEdit, setIsEdit] = React.useState(false);
+  const [isInitiate, setIsInitiate] = React.useState(false);
+  const [collections, setCollections] = React.useState([]);
   const [opened, { open, close }] = useDisclosure(false);
 
   const handleChange = (event) => {
@@ -34,6 +39,57 @@ const Collections = () => {
   const { data, isFetching } = useQuery(["get-collections"], () =>
     getCollections()
   );
+
+  const { data: dataColors, isFetching: isFetchingColors } = useQuery(
+    ["get-colors"],
+    () => getColors()
+  );
+
+  const { data: dataCategories, isFetching: isFetchingCategories } = useQuery(
+    ["get-categories"],
+    () => getCategories()
+  );
+
+  const { data: dataTypes, isFetching: isFetchingTypes } = useQuery(
+    ["get-types"],
+    () => getTypes()
+  );
+
+  React.useEffect(() => {
+    if (
+      !isFetching &&
+      !isFetchingColors &&
+      !isFetchingCategories &&
+      !isFetchingTypes &&
+      !isInitiate
+    ) {
+      const _collections = data?.data.map((collection) => {
+        const color = dataColors.data.find((color) => {
+          return color.id === collection.id_warna;
+        });
+        const category = dataCategories.data.find((category) => {
+          return category.id === collection.id_kategori;
+        });
+        const type = dataTypes.data.find((type) => {
+          return type.id === collection.id_jenis;
+        });
+        collection.warna = color.nama_warna;
+        collection.kategori = category.nama_kategori;
+        collection.jenis = type.nama_jenis;
+        return collection;
+      });
+      setCollections(_collections);
+      setIsInitiate(true);
+    }
+  }, [
+    data?.data,
+    dataColors?.data,
+    isFetching,
+    isFetchingColors,
+    isFetchingCategories,
+    isFetchingTypes,
+    isInitiate,
+  ]);
 
   const columns = [
     { field: "nama", headerName: "Nama", minWidth: 200, flex: 1 },
@@ -47,6 +103,9 @@ const Collections = () => {
       headerName: "Action",
       minWidth: 50,
       flex: 0.5,
+      sortable: false,
+      disableColumnMenu: true,
+      headerAlign: "center",
       renderCell: ({ row }) => {
         const onClick = () => {
           setCurrentData({
@@ -99,11 +158,13 @@ const Collections = () => {
           </button>
         </div>
         <div style={{ height: 400, width: "100%" }}>
-          {isFetching ? (
+          {!isInitiate ? (
             <CircularProgress color="secondary" />
           ) : (
             <DataGrid
-              rows={data?.data}
+              rows={collections.filter((collection) =>
+                collection.nama.toLowerCase().includes(searchTerm.toLowerCase())
+              )}
               columns={columns}
               initialState={{
                 pagination: {
