@@ -35,10 +35,10 @@ const PopularCollection = () => {
   // const [idGambar2, setIdGambar2] = React.useState("");
   // const [idGambar3, setIdGambar3] = React.useState("");
   // const [idGambar4, setIdGambar4] = React.useState("");
-  // const [initiate, setInitiate] = React.useState(false);
-  // const { data, isFetching } = useQuery(["get-collections-data"], () =>
-  //   getCollections()
-  // );
+  const [initiate, setInitiate] = React.useState(false);
+  const { data, isFetching } = useQuery(["get-collections-data"], () =>
+    getCollections()
+  );
 
   // React.useEffect(() => {
   //   if (!initiate && data?.data) {
@@ -104,6 +104,25 @@ const PopularCollection = () => {
     } finally {
     }
   }, []);
+
+  React.useEffect(() => {
+    if (!initiate && data?.data) {
+      ["file1", "file2", "file3", "file4"].map((_, index) => {
+        const collection = data.data.find(
+          (val) => val.popular_collection === index + 1
+        );
+
+        console.log(collection);
+
+        if (!!collection) {
+          methods.setValue(`gambar${index + 1}`, collection.id);
+          methods.setValue(`file${index + 1}`, collection.gambar);
+        }
+      });
+
+      setInitiate(true);
+    }
+  }, [data?.data, initiate, methods]);
 
   return (
     <div className="popular-collection">
