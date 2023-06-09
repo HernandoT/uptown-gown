@@ -8,8 +8,6 @@ import DetailButton from "../../components/DetailButton";
 import CollectionForm from "./CollectionForm";
 import { Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { useQuery } from "@tanstack/react-query";
-import { getCollections } from "../../services/collection";
 
 const defaultValues = {
   id: "",
@@ -27,17 +25,15 @@ const Collections = () => {
   const [isEdit, setIsEdit] = React.useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
-  const { data } = useQuery(["get-collections"], () => getCollections());
-
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
   const columns = [
     { field: "nama", headerName: "Nama", minWidth: 200, flex: 1 },
-    { field: "id_warna", headerName: "Warna", minWidth: 100, flex: 1 },
-    { field: "id_kategori", headerName: "Kategori", minWidth: 100, flex: 1 },
-    { field: "id_jenis", headerName: "Jenis", minWidth: 100, flex: 1 },
+    { field: "warna", headerName: "Warna", minWidth: 100, flex: 1 },
+    { field: "kategori", headerName: "Kategori", minWidth: 100, flex: 1 },
+    { field: "jenis", headerName: "Jenis", minWidth: 100, flex: 1 },
     { field: "deskripsi", headerName: "Deskripsi", minWidth: 200, flex: 2 },
     { field: "status", headerName: "Status", minWidth: 100, flex: 1 },
     {
@@ -62,6 +58,90 @@ const Collections = () => {
         };
         return <DetailButton onClick={onClick} />;
       },
+    },
+  ];
+
+  const rows = [
+    {
+      id: 1,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
+    {
+      id: 2,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
+    {
+      id: 3,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
+    {
+      id: 4,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
+    {
+      id: 5,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
+    {
+      id: 6,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
+    {
+      id: 7,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
+    {
+      id: 8,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
+    },
+    {
+      id: 9,
+      nama: "Pastel Pink Floral",
+      warna: "Pink",
+      kategori: "Party",
+      jenis: "Wanita",
+      deskripsi: "Gaun warna pastel pink dengan motif bunga yang terbaru",
+      status: "Available",
     },
   ];
 
@@ -92,9 +172,7 @@ const Collections = () => {
               ),
             }}
           />
-          <button className="collections-add" onClick={onClickAdd}>
-            + TAMBAH BARANG
-          </button>
+          <button className="collections-add" onClick={onClickAdd}>+ TAMBAH BARANG</button>
         </div>
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid

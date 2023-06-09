@@ -17,7 +17,6 @@ import { urlPattern } from "../../utils/regex";
 import { v4 } from "uuid";
 import { createCollection, updateCollection } from "../../services/collection";
 import { notifications } from "@mantine/notifications";
-import { queryClient } from "../../services/query-client";
 
 const defaultValues = {
   id: "",
@@ -57,6 +56,7 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
           "Harap pilih Status Ketersediaan terlebih dahulu"
         ),
         gambar: Yup.array().min(1).required(),
+        defaultRef: Yup.string().strip(true), //remove this result3
       }),
     []
   );
@@ -79,12 +79,11 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
           : await getUrlImage({
               file: values.gambar[0],
               ref: values.defaultRef,
-              defaultRef: undefined,
             });
 
         const _data = {
           ...values,
-          gambar: fileUrl,
+          file: fileUrl,
         };
 
         console.log(_data);
@@ -153,11 +152,7 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
           <Button variant="text" color="error" onClick={onClose}>
             Batal
           </Button>
-          <Button
-            disabled={methods.formState.isSubmitting}
-            variant="text"
-            type="submit"
-          >
+          <Button variant="text" type="submit">
             Simpan
           </Button>
         </Flex>
