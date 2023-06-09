@@ -1,7 +1,7 @@
 import AdminTitle from "../../components/AdminTitle/AdminTitle";
 import "./Collections.css";
 import * as React from "react";
-import { TextField, InputAdornment, CircularProgress } from "@mui/material";
+import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { DataGrid } from "@mui/x-data-grid";
 import DetailButton from "../../components/DetailButton";
@@ -9,20 +9,8 @@ import CollectionForm from "./CollectionForm";
 import { Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
-const defaultValues = {
-  id: "",
-  nama: "",
-  id_warna: "",
-  id_kategori: "",
-  id_jenis: "",
-  deskripsi: "",
-  status: "",
-  gambar: "",
-};
 const Collections = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
-  const [currentData, setCurrentData] = React.useState(defaultValues);
-  const [isEdit, setIsEdit] = React.useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
   const handleChange = (event) => {
@@ -41,21 +29,8 @@ const Collections = () => {
       headerName: "Action",
       minWidth: 50,
       flex: 0.5,
-      renderCell: ({ row }) => {
-        const onClick = () => {
-          setCurrentData({
-            id: row.id,
-            nama: row.nama,
-            id_warna: row.id_warna,
-            id_kategori: row.id_kategori,
-            id_jenis: row.id_jenis,
-            deskripsi: row.deskripsi,
-            status: row.status,
-            gambar: row.gambar,
-          });
-          open();
-          setIsEdit(true);
-        };
+      renderCell: (cellValues) => {
+        const onClick = () => {};
         return <DetailButton onClick={onClick} />;
       },
     },
@@ -146,8 +121,8 @@ const Collections = () => {
   ];
 
   const onClickAdd = React.useCallback(() => {
-    setCurrentData(defaultValues);
-    setIsEdit(false);
+    // setCurrentData(defaultValues);
+    // setIsEdit(false);
     open();
   }, [open]);
 

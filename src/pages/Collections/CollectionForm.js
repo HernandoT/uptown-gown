@@ -18,7 +18,7 @@ import { v4 } from "uuid";
 import { createCollection, updateCollection } from "../../services/collection";
 import { notifications } from "@mantine/notifications";
 
-const defaultValues = {
+const resetValues = {
   id: "",
   nama: "",
   id_warna: "",
@@ -28,7 +28,7 @@ const defaultValues = {
   status: "",
   gambar: "",
 };
-const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
+const CollectionForm = ({ onClose, data = resetValues, isEdit = false }) => {
   const defaultValues = React.useMemo(() => {
     return {
       nama: data.nama,
@@ -69,6 +69,8 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
     mode: "onChange",
   });
 
+  console.log(methods.watch());
+
   const onSubmit = React.useCallback(
     async (values) => {
       try {
@@ -86,23 +88,19 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
           file: fileUrl,
         };
 
-        console.log(_data);
-
         isEdit ? updateCollection(data.id, _data) : createCollection(_data);
         notifications.show({
-          title: isEdit ? "Edit Collection" : "Tambah Collection",
+          title: isEdit ? "Edit User" : "Tambah User",
           message: isEdit
             ? "Collection telah berhasil diupdate"
-            : "Collection baru telah berhasil ditambahkan",
+            : "Collection telah berhasil ditambahkan",
           color: "teal",
         });
         onClose();
       } catch (e) {
         notifications.show({
-          title: isEdit ? "Edit Collection" : "Tambah Collection",
-          message: isEdit
-            ? "Collection telah gagal diupdate"
-            : "Collection baru gagal ditambahkan",
+          title: "Tambah User",
+          message: e,
           color: "red",
         });
       }
@@ -139,8 +137,8 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
         </Text>
         <RadioInputField
           options={[
-            { value: "Available", label: "Available" },
-            { value: "Unavailable", label: "Unavailable" },
+            { value: "available", label: "Available" },
+            { value: "unavailable", label: "Unavailable" },
           ]}
           name="status"
           required
