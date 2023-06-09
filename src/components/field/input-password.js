@@ -33,7 +33,6 @@ const InputPasswordField = ({
       variant="outlined"
       fullWidth
       className="change-password-form"
-      // {...field}
       error={!!fieldState.error?.message}
       {...rest}
     >
