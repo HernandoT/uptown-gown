@@ -60,6 +60,7 @@ const ImagesInputField = ({
             display: "flex",
             alignItems: "center",
           }}
+          type="button"
           onClick={onDelete}
         >
           x

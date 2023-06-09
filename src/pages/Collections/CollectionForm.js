@@ -18,7 +18,7 @@ import { v4 } from "uuid";
 import { createCollection, updateCollection } from "../../services/collection";
 import { notifications } from "@mantine/notifications";
 
-const resetValues = {
+const defaultValues = {
   id: "",
   nama: "",
   id_warna: "",
@@ -28,7 +28,7 @@ const resetValues = {
   status: "",
   gambar: "",
 };
-const CollectionForm = ({ onClose, data = resetValues, isEdit = false }) => {
+const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
   const defaultValues = React.useMemo(() => {
     return {
       nama: data.nama,
@@ -55,8 +55,8 @@ const CollectionForm = ({ onClose, data = resetValues, isEdit = false }) => {
         status: Yup.string().required(
           "Harap pilih Status Ketersediaan terlebih dahulu"
         ),
-        gambar: Yup.array().min(1).required(),
-        defaultRef: Yup.string().strip(true), //remove this result3
+        // gambar: Yup.array().min(1).required(),
+        defaultRef: Yup.string().strip(true),
       }),
     []
   );
@@ -69,8 +69,6 @@ const CollectionForm = ({ onClose, data = resetValues, isEdit = false }) => {
     mode: "onChange",
   });
 
-  console.log(methods.watch());
-
   const onSubmit = React.useCallback(
     async (values) => {
       try {
@@ -80,7 +78,7 @@ const CollectionForm = ({ onClose, data = resetValues, isEdit = false }) => {
           ? values.gambar[0]
           : await getUrlImage({
               file: values.gambar[0],
-              ref: values.defaultRef,
+              gambar: values.defaultRef,
             });
 
         const _data = {
@@ -90,17 +88,19 @@ const CollectionForm = ({ onClose, data = resetValues, isEdit = false }) => {
 
         isEdit ? updateCollection(data.id, _data) : createCollection(_data);
         notifications.show({
-          title: isEdit ? "Edit User" : "Tambah User",
+          title: isEdit ? "Edit Collections" : "Tambah Collections",
           message: isEdit
             ? "Collection telah berhasil diupdate"
-            : "Collection telah berhasil ditambahkan",
+            : "Collection baru telah berhasil ditambahkan",
           color: "teal",
         });
         onClose();
       } catch (e) {
         notifications.show({
-          title: "Tambah User",
-          message: e,
+          title: isEdit ? "Edit Collection" : "Tambah Collection",
+          message: isEdit
+            ? "Collection telah gagal diupdate"
+            : "Collection baru gagal ditambahkan",
           color: "red",
         });
       }
@@ -137,8 +137,8 @@ const CollectionForm = ({ onClose, data = resetValues, isEdit = false }) => {
         </Text>
         <RadioInputField
           options={[
-            { value: "available", label: "Available" },
-            { value: "unavailable", label: "Unavailable" },
+            { value: "Available", label: "Available" },
+            { value: "Unavailable", label: "Unavailable" },
           ]}
           name="status"
           required
