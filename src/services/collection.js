@@ -11,25 +11,17 @@ import { field } from "../common/constant";
 import { queryClient } from "./query-client";
 
 export const getCollections = async () => {
-  try {
-    const result = await getDocs(collection(db, field.collection));
-    const data = result.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-    return { data };
-  } catch (e) {
-    console.log(e);
-  }
+  const result = await getDocs(collection(db, field.collection));
+  const data = result.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }));
+  return { data };
 };
 
 export const getCollection = async (id = "") => {
-  try {
-    const collection = (await getDoc(doc(db, field.collection, id))).data();
-    return { collection };
-  } catch (e) {
-    console.log(e);
-  }
+  const collection = (await getDoc(doc(db, field.collection, id))).data();
+  return { collection };
 };
 
 export const createCollection = async ({
@@ -41,20 +33,16 @@ export const createCollection = async ({
   status,
   gambar,
 }) => {
-  try {
-    await addDoc(collection(db, field.collection), {
-      nama,
-      id_warna,
-      id_kategori,
-      id_jenis,
-      deskripsi,
-      status,
-      gambar,
-    });
-    queryClient.refetchQueries(["get-collections"]);
-  } catch (e) {
-    console.log(e);
-  }
+  await addDoc(collection(db, field.collection), {
+    nama,
+    id_warna,
+    id_kategori,
+    id_jenis,
+    deskripsi,
+    status,
+    gambar,
+  });
+  queryClient.refetchQueries(["get-collections"]);
 };
 
 export const updateCollection = async (
@@ -69,18 +57,14 @@ export const updateCollection = async (
     gambar = "",
   }
 ) => {
-  try {
-    await updateDoc(doc(db, field.collection, id), {
-      nama,
-      id_warna,
-      id_kategori,
-      id_jenis,
-      deskripsi,
-      status,
-      gambar,
-    });
-    queryClient.refetchQueries(["get-collections"]);
-  } catch (e) {
-    console.log(e);
-  }
+  await updateDoc(doc(db, field.collection, id), {
+    nama,
+    id_warna,
+    id_kategori,
+    id_jenis,
+    deskripsi,
+    status,
+    gambar,
+  });
+  queryClient.refetchQueries(["get-collections"]);
 };

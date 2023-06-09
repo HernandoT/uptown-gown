@@ -8,8 +8,8 @@ import DetailButton from "../../components/DetailButton";
 import CollectionForm from "./CollectionForm";
 import { Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { getCollections } from "../../services/collection";
 import { useQuery } from "@tanstack/react-query";
+import { getCollections } from "../../services/collection";
 
 const defaultValues = {
   id: "",
@@ -27,19 +27,17 @@ const Collections = () => {
   const [isEdit, setIsEdit] = React.useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
+  const { data } = useQuery(["get-collections"], () => getCollections());
+
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const { data, isFetching } = useQuery(["get-collections"], () =>
-    getCollections()
-  );
-
   const columns = [
     { field: "nama", headerName: "Nama", minWidth: 200, flex: 1 },
-    { field: "warna", headerName: "Warna", minWidth: 100, flex: 1 },
-    { field: "kategori", headerName: "Kategori", minWidth: 100, flex: 1 },
-    { field: "jenis", headerName: "Jenis", minWidth: 100, flex: 1 },
+    { field: "id_warna", headerName: "Warna", minWidth: 100, flex: 1 },
+    { field: "id_kategori", headerName: "Kategori", minWidth: 100, flex: 1 },
+    { field: "id_jenis", headerName: "Jenis", minWidth: 100, flex: 1 },
     { field: "deskripsi", headerName: "Deskripsi", minWidth: 200, flex: 2 },
     { field: "status", headerName: "Status", minWidth: 100, flex: 1 },
     {
@@ -99,31 +97,21 @@ const Collections = () => {
           </button>
         </div>
         <div style={{ height: 400, width: "100%" }}>
-          {isFetching ? (
-            <CircularProgress color="secondary" />
-          ) : (
-            <DataGrid
-              rows={data?.data}
-              columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: { page: 0, pageSize: 10 },
-                },
-              }}
-              pageSizeOptions={[5, 10, 15]}
-              style={{ marginTop: "3%", border: "none", height: "70vh" }}
-            />
-          )}
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 10 },
+              },
+            }}
+            pageSizeOptions={[5, 10, 15]}
+            style={{ marginTop: "3%", border: "none", height: "70vh" }}
+          />
         </div>
       </div>
-      <Modal
-        opened={opened}
-        centered
-        onClose={close}
-        withCloseButton={false}
-        size={1200}
-      >
-        <CollectionForm onClose={close} data={currentData} isEdit={isEdit} />
+      <Modal opened={opened} centered onClose={close} withCloseButton={false} size={1200}>
+        <CollectionForm onClose={close} />
       </Modal>
     </div>
   );
