@@ -38,17 +38,19 @@ const PopularCollection = () => {
         return collection.popular_collection === 4;
       });
       setIdGambar4(gambar4[0].id);
+      console.log(idGambar1, idGambar2, idGambar3, idGambar4)
     }
   }, [isFetching, data?.data]);
 
-  const defaultValues = React.useMemo(() => {
-    return {
+  const defaultValues = React.useMemo(
+    () => ({
       gambar1: idGambar1,
       gambar2: idGambar2,
       gambar3: idGambar3,
       gambar4: idGambar4,
-    };
-  }, [idGambar1, idGambar2, idGambar3, idGambar4]);
+    }),
+    [idGambar1, idGambar2, idGambar3, idGambar4]
+  );
 
   const yupSchema = React.useMemo(
     () =>
