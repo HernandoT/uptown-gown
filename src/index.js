@@ -37,6 +37,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./services/query-client";
 import AppointmentForm from "./pages/Appointments/AppointmentForm";
 import { ModalsProvider } from "@mantine/modals";
+import InvoiceForm from "./pages/Invoice/InvoiceForm";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -82,6 +83,7 @@ ReactDOM.render(
               <Route path="add-appointment" element={<AppointmentForm />} />
               <Route path="appointment/:id" element={<AppointmentForm />} />
               <Route path="invoice" element={<Invoice />} />
+              <Route path="add-invoice" element={<InvoiceForm />} />
               <Route path="expense" element={<Expense />} />
               <Route path="reports" element={<Reports />} />
               <Route path="change-password" element={<ChangePassword />} />

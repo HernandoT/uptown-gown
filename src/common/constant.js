@@ -7,4 +7,5 @@ export const field = {
   appointment: "appointment",
   collection: "collection",
   admin: "user",
+  invoiceType: "jenis_invoice",
 };

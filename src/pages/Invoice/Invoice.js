@@ -5,9 +5,11 @@ import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { DataGrid } from "@mui/x-data-grid";
 import DetailButton from "../../components/DetailButton";
+import { useNavigate } from "react-router-dom";
 
 const Invoice = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -157,7 +159,7 @@ const Invoice = () => {
               ),
             }}
           />
-          <button className="invoice-add">+ TAMBAH INVOICE</button>
+          <button className="invoice-add" onClick={() => navigate("/admin/add-invoice")}>+ TAMBAH INVOICE</button>
         </div>
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid

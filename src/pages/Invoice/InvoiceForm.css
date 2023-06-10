@@ -1,0 +1,33 @@
+.invoice-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  float: right;
+  width: 74vw;
+  padding: 2%;
+}
+
+.invoice-form-content {
+  margin: 3% 2% 3% 0;
+}
+
+.invoice-form-customer {
+  display: flex;
+  height: auto;
+}
+
+.invoice-form-customer-add {
+  height: auto;
+  margin-left: 2%;
+  flex: 30;
+  font-size: larger;
+  font-family: "Poppins", sans-serif !important;
+  background-color: white;
+  color: black;
+  border-radius: 5px;
+}
+
+.invoice-form-type {
+  display: flex;
+  height: auto;
+}
