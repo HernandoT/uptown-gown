@@ -15,7 +15,7 @@
 .popular-collection-selector {
   flex: 5;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   height: 60vh;
   justify-content: space-evenly;
   align-items: center;
@@ -40,24 +40,24 @@
 
 .popular-collection-1 {
   background-color: lightgrey;
-  grid-area: 1 / 1 / 3 / 2;
+  /* grid-area: 1 / 1 / 3 / 2; */
   border-radius: 2%;
 }
 
 .popular-collection-2 {
   background-color: lightgrey;
-  grid-area: 3 / 1 / 6 / 2;
+  /* grid-area: 3 / 1 / 6 / 2; */
   border-radius: 2%;
 }
 
 .popular-collection-3 {
   background-color: lightgrey;
-  grid-area: 1 / 2 / 4 / 3;
+  /* grid-area: 1 / 2 / 4 / 3; */
   border-radius: 2%;
 }
 
 .popular-collection-4 {
   background-color: lightgrey;
-  grid-area: 4 / 2 / 6 / 3;
+  /* grid-area: 4 / 2 / 6 / 3; */
   border-radius: 2%;
 }
