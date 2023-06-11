@@ -29,8 +29,6 @@ const SelectField = ({
     }
   }, [field?.value, onAfterChangeDetail, options]);
 
-  console.log(fieldState.error);
-
   return (
     <TextField
       {...field}
