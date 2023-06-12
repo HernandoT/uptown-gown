@@ -40,6 +40,13 @@
   border-radius: 5px;
 }
 
+.item-fitting-button {
+  flex: 1;
+  margin-left: 20px;
+  background-color: white;
+  border-radius: 5px;
+}
+
 .item-delete-button {
   flex: 1;
   margin-left: 20px;

@@ -14,11 +14,10 @@ import Separator from "../../components/separator";
 import TextInputField from "../../components/field/text-input";
 import RadioInputField from "../../components/field/radio-input";
 import CollectionSelectInput from "../../components/Select/collection-select-input";
+import FittingForm from "./FittingForm";
 
 const InvoiceForm = () => {
-  const [inputItems, setInputItems] = React.useState([
-    { id_collection: "" },
-  ]);
+  const [inputItems, setInputItems] = React.useState([{ id_collection: "" }]);
 
   const handleItemChange = (index, event) => {
     const data = [...inputItems];
@@ -31,11 +30,14 @@ const InvoiceForm = () => {
 
   const removeItems = (index) => {
     let data = [...inputItems];
-    data.splice(index, 1)
-    setInputItems(data)
-}
+    data.splice(index, 1);
+    setInputItems(data);
+  };
 
   const [openedCustomer, { open: openCustomer, close: closeCustomer }] =
+    useDisclosure(false);
+
+  const [openedFitting, { open: openFitting, close: closeFitting }] =
     useDisclosure(false);
 
   const onSubmit = React.useCallback(async (values) => {
@@ -56,6 +58,10 @@ const InvoiceForm = () => {
   const onClickAddCustomer = React.useCallback(() => {
     openCustomer();
   }, [openCustomer]);
+
+  const onClickOpenFitting = React.useCallback(() => {
+    openFitting();
+  }, [openFitting]);
 
   return (
     <div className="invoice-form">
@@ -95,8 +101,17 @@ const InvoiceForm = () => {
             return (
               <>
                 <div key={index} style={{ display: "flex", height: "auto" }}>
-                  <CollectionSelectInput style={{flex: 5}} />
-                  <button className="item-delete-button" onClick={() => removeItems(index)}>
+                  <CollectionSelectInput style={{ flex: 5 }} />
+                  <button
+                    className="item-fitting-button"
+                    onClick={onClickOpenFitting}
+                  >
+                    <i class="fa fa-pencil fa-2x"></i>
+                  </button>
+                  <button
+                    className="item-delete-button"
+                    onClick={() => removeItems(index)}
+                  >
                     <i class="fa fa-trash fa-2x"></i>
                   </button>
                 </div>
@@ -156,6 +171,15 @@ const InvoiceForm = () => {
         withCloseButton={false}
       >
         <CustomerForm onClose={closeCustomer} />
+      </Modal>
+      <Modal
+        opened={openedFitting}
+        centered
+        onClose={closeFitting}
+        withCloseButton={false}
+        size={800}
+      >
+        <FittingForm onClose={closeFitting} />
       </Modal>
     </div>
   );
