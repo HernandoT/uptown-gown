@@ -13,7 +13,6 @@ import {
 } from "../../services/collection";
 import { useQuery } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
-import { AspectRatio, Image } from "@mantine/core";
 
 const gambarCollections = ["gambar1", "gambar2", "gambar3", "gambar4"];
 const fileCollections = ["file1", "file2", "file3", "file4"];
@@ -29,13 +28,14 @@ const CollectionView = () => {
     <div className="popular-collection-display">
       {values.map((value, index) =>
         !!value ? (
-          <div className={`popular-collection-${index + 1}`}>
-            <AspectRatio ratio={1 / 1}>
-              <Image src={value} alt="Popular Collection" fit="contain"></Image>
-            </AspectRatio>
-          </div>
+          <figure className={`popular-collection-${index + 1}`}>
+            <img
+              src={value}
+              alt="Popular Collection"
+              className="popular-collection-img"
+            ></img>
+          </figure>
         ) : (
-          // <img src={value} className={`popular-collection-${index + 1}`} />
           <div className={`popular-collection-${index + 1}`}>{index + 1}</div>
         )
       )}
