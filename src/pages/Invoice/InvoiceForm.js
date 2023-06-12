@@ -15,6 +15,7 @@ import TextInputField from "../../components/field/text-input";
 import RadioInputField from "../../components/field/radio-input";
 import CollectionSelectInput from "../../components/Select/collection-select-input";
 import FittingForm from "./FittingForm";
+import CollectionForm from "../Collections/CollectionForm";
 
 const InvoiceForm = () => {
   const [inputItems, setInputItems] = React.useState([{ id_collection: "" }]);
@@ -35,6 +36,9 @@ const InvoiceForm = () => {
   };
 
   const [openedCustomer, { open: openCustomer, close: closeCustomer }] =
+    useDisclosure(false);
+
+  const [openedCollection, { open: openCollection, close: closeCollection }] =
     useDisclosure(false);
 
   const [openedFitting, { open: openFitting, close: closeFitting }] =
@@ -58,6 +62,11 @@ const InvoiceForm = () => {
   const onClickAddCustomer = React.useCallback(() => {
     openCustomer();
   }, [openCustomer]);
+
+  const onClickAddCollection = React.useCallback(() => {
+    openCollection();
+  }, [openCollection]);
+
 
   const onClickOpenFitting = React.useCallback(() => {
     openFitting();
@@ -102,6 +111,13 @@ const InvoiceForm = () => {
               <>
                 <div key={index} style={{ display: "flex", height: "auto" }}>
                   <CollectionSelectInput style={{ flex: 5 }} />
+                  <button
+                    className="add-collection-button"
+                    onClick={onClickAddCollection}
+                  >
+                    +
+                  </button>
+                  <TextInputField name="price" label="Harga" style={{ flex: 5 }}/>
                   <button
                     className="item-fitting-button"
                     onClick={onClickOpenFitting}
@@ -171,6 +187,15 @@ const InvoiceForm = () => {
         withCloseButton={false}
       >
         <CustomerForm onClose={closeCustomer} />
+      </Modal>
+      <Modal
+        opened={openedCollection}
+        centered
+        onClose={closeCollection}
+        withCloseButton={false}
+        size={1200}
+      >
+        <CollectionForm onClose={closeCollection} />
       </Modal>
       <Modal
         opened={openedFitting}

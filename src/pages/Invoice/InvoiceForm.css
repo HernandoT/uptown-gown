@@ -40,6 +40,14 @@
   border-radius: 5px;
 }
 
+.add-collection-button {
+  flex: 1;
+  margin: 0 20px;
+  background-color: white;
+  border-radius: 5px;
+  font-size: larger;
+}
+
 .item-fitting-button {
   flex: 1;
   margin-left: 20px;
