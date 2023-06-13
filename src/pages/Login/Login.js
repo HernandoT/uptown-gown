@@ -65,6 +65,7 @@ const Login = () => {
       } else {
         localStorage.setItem("isLoged", true);
         localStorage.setItem("email", email.value);
+        localStorage.setItem("idCustomer", userData.id)
         navigate("/");
       }
     } else {

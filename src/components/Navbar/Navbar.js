@@ -1,11 +1,12 @@
 import "./Navbar.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { getPages } from "../../utils/data/getPages";
 import logo from "../../utils/assets/logo.png";
 
 const Navbar = () => {
   const pages = getPages();
   const isLoged = localStorage.getItem("isLoged");
+  const navigate = useNavigate();
 
   return (
     <div className="navbar">
@@ -33,7 +34,8 @@ const Navbar = () => {
               onClick={() => {
                 localStorage.setItem("isLoged", false);
                 localStorage.setItem("email", "");
-                window.location.reload();
+                localStorage.setItem("idCustomer", "");
+                navigate("/");
               }}
               style={{ float: "right" }}
             ></i>
