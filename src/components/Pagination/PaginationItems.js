@@ -6,7 +6,7 @@ const PaginationItems = ({ currentItems }) => {
       {currentItems &&
         currentItems.map((item) => (
           <div className="paginationItem">
-            <h3>Item #{item}</h3>
+            <img src={item.gambar} alt="Collection" className="imageItem"/>
           </div>
         ))}
     </div>
