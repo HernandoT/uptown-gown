@@ -41,11 +41,11 @@ const Rent = () => {
 
   return (
     <div className="rent">
+      <Navbar />
       {isFetching ? (
         <></>
       ) : (
         <>
-          <Navbar />
           <div className="rentContent">
             <div className="filter">
               <div style={{ display: "flex", justifyContent: "space-between" }}>

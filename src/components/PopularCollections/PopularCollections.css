@@ -6,7 +6,7 @@
     height: 60vh;
     align-items: center;
   }
-  
+
   .popularCollectionsTitle {
     font-size: 1.5rem;
     font-family: 'Playfair Display', serif;
@@ -15,42 +15,42 @@
     align-items: center;
     height: 10vh;
   }
-  
+
   .popularCollectionstrip {
     border: 1px solid #EDBF52;
     height: 2rem;
     margin-right: 3%;
   }
-  
-  .popularCollectionsTitle > p {
+
+  .popularCollectionsTitle>p {
     margin: 0;
   }
-  
+
   .popularCollectionsContent {
     display: grid;
     grid-template-columns: auto auto;
     gap: 10px;
     height: 100%;
   }
-  
+
   .popularCollections1 {
     background-color: lightgrey;
     grid-area: 1 / 1 / 3 / 2;
     border-radius: 2%;
   }
-  
+
   .popularCollections2 {
     background-color: lightgrey;
     grid-area: 3 / 1 / 6 / 2;
     border-radius: 2%;
   }
-  
+
   .popularCollections3 {
     background-color: lightgrey;
     grid-area: 1 / 2 / 4 / 3;
     border-radius: 2%;
   }
-  
+
   .popularCollections4 {
     background-color: lightgrey;
     grid-area: 4 / 2 / 6 / 3;
@@ -66,7 +66,7 @@
     height: 90vh;
     align-items: center;
   }
-  
+
   .popularCollectionsTitle {
     font-size: 1.5rem;
     font-family: 'Playfair Display', serif;
@@ -75,42 +75,42 @@
     align-items: center;
     height: 10vh;
   }
-  
+
   .popularCollectionstrip {
     border: 1px solid #EDBF52;
     height: 2rem;
     margin-right: 3%;
   }
-  
-  .popularCollectionsTitle > p {
+
+  .popularCollectionsTitle>p {
     margin: 0;
   }
-  
+
   .popularCollectionsContent {
     display: grid;
     grid-template-columns: auto auto;
     gap: 10px;
     height: 100%;
   }
-  
+
   .popularCollections1 {
     background-color: lightgrey;
     grid-area: 1 / 1 / 3 / 2;
     border-radius: 2%;
   }
-  
+
   .popularCollections2 {
     background-color: lightgrey;
     grid-area: 3 / 1 / 6 / 2;
     border-radius: 2%;
   }
-  
+
   .popularCollections3 {
     background-color: lightgrey;
     grid-area: 1 / 2 / 4 / 3;
     border-radius: 2%;
   }
-  
+
   .popularCollections4 {
     background-color: lightgrey;
     grid-area: 4 / 2 / 6 / 3;
@@ -126,7 +126,7 @@
     height: 120vh;
     align-items: center;
   }
-  
+
   .popularCollectionsTitle {
     font-size: 2rem;
     font-family: 'Playfair Display', serif;
@@ -135,48 +135,48 @@
     align-items: center;
     height: 10vh;
   }
-  
+
   .popularCollectionstrip {
     border: 1px solid #EDBF52;
     height: 3rem;
     margin-right: 3%;
   }
-  
-  .popularCollectionsTitle > p {
+
+  .popularCollectionsTitle>p {
     margin: 0;
   }
-  
+
   .popularCollectionsContent {
     display: grid;
     grid-template-columns: auto auto;
     gap: 10px;
     height: 100%;
   }
-  
+
   .popularCollections1 {
     background-color: lightgrey;
     grid-area: 1 / 1 / 3 / 2;
     border-radius: 2%;
   }
-  
+
   .popularCollections2 {
     background-color: lightgrey;
     grid-area: 3 / 1 / 6 / 2;
     border-radius: 2%;
   }
-  
+
   .popularCollections3 {
     background-color: lightgrey;
     grid-area: 1 / 2 / 4 / 3;
     border-radius: 2%;
   }
-  
+
   .popularCollections4 {
     background-color: lightgrey;
     grid-area: 4 / 2 / 6 / 3;
     border-radius: 2%;
   }
-} 
+}
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
@@ -186,7 +186,7 @@
     height: 150vh;
     align-items: center;
   }
-  
+
   .popularCollectionsTitle {
     font-size: 2.5rem;
     font-family: 'Playfair Display', serif;
@@ -195,48 +195,48 @@
     align-items: center;
     height: 10vh;
   }
-  
+
   .popularCollectionstrip {
     border: 1px solid #EDBF52;
     height: 3.5rem;
     margin-right: 3%;
   }
-  
-  .popularCollectionsTitle > p {
+
+  .popularCollectionsTitle>p {
     margin: 0;
   }
-  
+
   .popularCollectionsContent {
     display: grid;
     grid-template-columns: auto auto;
     gap: 10px;
     height: 100%;
   }
-  
+
   .popularCollections1 {
     background-color: lightgrey;
     grid-area: 1 / 1 / 3 / 2;
     border-radius: 2%;
   }
-  
+
   .popularCollections2 {
     background-color: lightgrey;
     grid-area: 3 / 1 / 6 / 2;
     border-radius: 2%;
   }
-  
+
   .popularCollections3 {
     background-color: lightgrey;
     grid-area: 1 / 2 / 4 / 3;
     border-radius: 2%;
   }
-  
+
   .popularCollections4 {
     background-color: lightgrey;
     grid-area: 4 / 2 / 6 / 3;
     border-radius: 2%;
   }
-} 
+}
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
@@ -244,12 +244,12 @@
     margin: 15% 5%;
     display: flex;
     flex-direction: row;
-    height: 95vh;
+    height: 75vh;
     align-items: center;
   }
-  
+
   .popularCollectionsTitle {
-    flex: 1;
+    flex: 3;
     font-size: 3rem;
     font-family: 'Playfair Display', serif;
     display: flex;
@@ -257,46 +257,52 @@
     align-items: center;
     height: 10vh;
   }
-  
+
   .popularCollectionstrip {
     border: 1px solid #EDBF52;
     height: 4rem;
     margin-right: 3%;
   }
-  
-  .popularCollectionsTitle > p {
+
+  .popularCollectionsTitle>p {
     margin: 0;
   }
-  
+
   .popularCollectionsContent {
-    flex: 1;
+    flex: 2;
     display: grid;
     grid-template-columns: auto auto;
     gap: 10px;
-    height: 100%;
   }
-  
+
   .popularCollections1 {
-    background-color: lightgrey;
     grid-area: 1 / 1 / 3 / 2;
-    border-radius: 2%;
+    height: 30vh;
+    margin: 0;
   }
-  
+
   .popularCollections2 {
-    background-color: lightgrey;
     grid-area: 3 / 1 / 6 / 2;
-    border-radius: 2%;
+    height: 45vh;
+    margin: 0;
   }
-  
+
   .popularCollections3 {
-    background-color: lightgrey;
     grid-area: 1 / 2 / 4 / 3;
-    border-radius: 2%;
+    height: 45vh;
+    margin: 0;
   }
-  
+
   .popularCollections4 {
-    background-color: lightgrey;
     grid-area: 4 / 2 / 6 / 3;
+    height: 30vh;
+    margin: 0;
+  }
+
+  .preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-radius: 2%;
   }
 }

@@ -7,21 +7,33 @@ import Slogan from "../../components/Slogan/Slogan";
 import Testimonials from "../../components/Testimonials/Testimonials";
 import SupportEngine from "../../SupportEngine";
 import "./Home.css";
+import { getCollections } from "../../services/collection";
+import { useQuery } from "@tanstack/react-query";
 
 const Home = () => {
   const isLoged = localStorage.getItem("isLoged");
 
+  const { data, isFetching } = useQuery(["get-collections"], () =>
+    getCollections()
+  );
+
   return (
     <div className="home">
       <Navbar />
-      <div className="square"></div>
-      <Slogan />
-      <NewCollections />
-      <Banner />
-      <PopularCollections />
-      <Testimonials />
-      <Footer />
-      {isLoged === "true" ? <SupportEngine /> : ""}
+      {isFetching ? (
+        <></>
+      ) : (
+        <>
+          <div className="square"></div>
+          <Slogan />
+          <NewCollections />
+          <Banner />
+          <PopularCollections data={data.data} />
+          <Testimonials />
+          <Footer />
+          {isLoged === "true" ? <SupportEngine /> : ""};
+        </>
+      )}
     </div>
   );
 };
