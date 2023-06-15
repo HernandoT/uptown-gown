@@ -1,8 +1,5 @@
-import { useState } from "react";
-import {
-  TextField,
-  Button
-} from "@mui/material";
+import * as React from "react";
+import { TextField, Button } from "@mui/material";
 import Footer from "../../components/Footer/Footer";
 import "./Appointment.css";
 import DatePicker from "react-datepicker";
@@ -12,25 +9,58 @@ import SupportEngine from "../../SupportEngine";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Flex, Text, Paper } from "@mantine/core";
 import Separator from "../../components/separator";
+import { notifications } from "@mantine/notifications";
+import { Timestamp } from "firebase/firestore";
+import { createAppointment } from "../../services/appointment";
+import { useNavigate } from "react-router-dom";
 
 const Appointment = () => {
   const isLoged = localStorage.getItem("isLoged");
+  const idCustomer = localStorage.getItem("idCustomer");
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [displayDate, setDisplayDate] = useState("");
-  const [tanggal, setTanggal] = useState("");
-  const [keterangan, setKeterangan] = useState("");
+  const navigate = useNavigate();
+
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const [displayDate, setDisplayDate] = React.useState("");
+  const [keterangan, setKeterangan] = React.useState("");
 
   const [openConfirmationDialog, { open: openConfirm, close: closeConfirm }] =
-  useDisclosure(false);
+    useDisclosure(false);
+  const [opened, { open, close }] = useDisclosure(false);
 
   const changeDisplayDate = (selectedDate) => {
     const date = selectedDate.getDate();
     const month = selectedDate.getMonth() + 1;
     const year = selectedDate.getFullYear();
-    setDisplayDate(date + '/' + month + '/' + year);
-    setTanggal(date + '/' + month + '/' + year);
-  }
+    setDisplayDate(date + "/" + month + "/" + year);
+  };
+
+  const addAppointment = (keterangan, selectedDate) => {
+    try {
+      createAppointment({
+        keterangan: keterangan ? keterangan : "-",
+        id_customer: idCustomer,
+        tanggal: Timestamp.fromDate(new Date(selectedDate)),
+        status: 1,
+      });
+      notifications.show({
+        title: "Pengajuan Appointment",
+        message: "Appointment baru telah berhasil diajukan",
+        color: "teal",
+      });
+    } catch (e) {
+      notifications.show({
+        title: "Pengajuan Appointment",
+        message: "Appointment baru gagal diajukan",
+        color: "red",
+      });
+    } finally {
+      setSelectedDate(new Date());
+      setDisplayDate("");
+      setKeterangan("");
+      closeConfirm();
+    }
+  };
 
   return (
     <div className="content">
@@ -51,39 +81,47 @@ const Appointment = () => {
         <div className="appointmentText">
           <p className="appointmentTitle">Make an appointment</p>
           <p>
-          Uptown Gown selalu memberikan yang terbaik untuk acara spesialmu. 
-          Kami memiliki layanan sewa gaun pesta dan custom terbaik dengan harga yang terjangkau dan kualitas 
-          yang bagus dari bahan yang dipilih oleh designer profesional kami secara langsung.  
-          Kami memberikan yang terbaik untuk gaun pesta di hari specialmu dan juga merancang sekaligus membuat gaun 
-          pesta terbaik untukmu. Booking appointment sekarang dan wujudkan gaun impianmu!{" "}
+            Uptown Gown selalu memberikan yang terbaik untuk acara spesialmu.
+            Kami memiliki layanan sewa gaun pesta dan custom terbaik dengan
+            harga yang terjangkau dan kualitas yang bagus dari bahan yang
+            dipilih oleh designer profesional kami secara langsung. Kami
+            memberikan yang terbaik untuk gaun pesta di hari specialmu dan juga
+            merancang sekaligus membuat gaun pesta terbaik untukmu. Booking
+            appointment sekarang dan wujudkan gaun impianmu!{" "}
           </p>
           <p>
             <b>Waktu appointment yang tersedia dapat dipilih pada kalender</b>
           </p>
           <div className="appointment-input-container">
-            <TextField 
-              disabled 
-              id="outlined-disabled" 
-              label={displayDate=== "" ? "Pilih tanggal pada kalender": ""}
-              value={displayDate} 
-              InputLabelProps={{shrink: false}}
+            <TextField
+              disabled
+              id="outlined-disabled"
+              label={displayDate === "" ? "Pilih tanggal pada kalender" : ""}
+              value={displayDate}
+              InputLabelProps={{ shrink: false }}
             />
           </div>
           <div className="appointment-input-container">
-            <TextField 
-            id="outlined-basic" 
-            label="Keterangan" 
-            variant="outlined"
-            multiline={true}
-            rows={3}
-            onChange={(e) => setKeterangan(e.target.value)}
+            <TextField
+              value={keterangan}
+              id="outlined-basic"
+              label="Keterangan"
+              variant="outlined"
+              multiline={true}
+              rows={3}
+              onChange={(e) => setKeterangan(e.target.value)}
             />
           </div>
-          <button 
-            className="appointmentButton" 
-            onClick={isLoged === "true" ? openConfirm : ""}>
+          {!displayDate ? (
+            <></>
+          ) : (
+            <button
+              className="appointmentButton"
+              onClick={isLoged === "true" ? openConfirm : open}
+            >
               AJUKAN APPOINTMENT
             </button>
+          )}
         </div>
       </div>
       <Modal
@@ -91,13 +129,19 @@ const Appointment = () => {
         opened={openConfirmationDialog}
         withCloseButton={false}
         centered
-      >      
-        <Paper p={36} miw={400}>
+      >
+        <Paper p={24} miw={400}>
           <Flex direction="column">
-            <Text fz={20} fw={600}>Confirm</Text>
+            <Text fz={20} fw={600}>
+              Confirm
+            </Text>
             <Separator _gap={24} />
-            <Text>Apakah kamu yakin ingin mengajukan appointment untuk tanggal <b>{tanggal}</b>
-              {keterangan === "" ? "" : " dengan keterangan: “" + keterangan + "”"}
+            <Text>
+              Apakah kamu yakin ingin mengajukan appointment untuk tanggal{" "}
+              <b>{displayDate}</b>
+              {keterangan === ""
+                ? ""
+                : " dengan keterangan: “" + keterangan + "”"}
               ?
             </Text>
             <Separator _gap={24} />
@@ -105,9 +149,34 @@ const Appointment = () => {
               <Button variant="text" color="error" onClick={closeConfirm}>
                 Tidak
               </Button>
-              <Button variant="text" type="submit">
+              <Button
+                variant="text"
+                onClick={() => addAppointment(keterangan, selectedDate)}
+              >
                 Ya
-              </Button>          
+              </Button>
+            </Flex>
+          </Flex>
+        </Paper>
+      </Modal>
+      <Modal onClose={close} opened={opened} withCloseButton={false} centered>
+        <Paper p={24} miw={400}>
+          <Flex direction="column">
+            <Text fz={20} fw={600}>
+              Not Loged In
+            </Text>
+            <Separator _gap={24} />
+            <Text>
+              Harap untuk Login terlebih dahulu sebelum melakukan pengajuan
+            </Text>
+            <Separator _gap={24} />
+            <Flex justify="flex-end">
+              <Button variant="text" color="error" onClick={close}>
+                Kembali
+              </Button>
+              <Button variant="text" onClick={() => navigate("/login")}>
+                Login
+              </Button>
             </Flex>
           </Flex>
         </Paper>
