@@ -86,6 +86,7 @@ export const updateCustomer = async (
       nomor_telepon,
     });
     queryClient.refetchQueries(["get-customers"]);
+    queryClient.refetchQueries(["get-customer"]);
   } catch (e) {
     console.log(e);
   }

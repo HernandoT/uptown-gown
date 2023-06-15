@@ -16,8 +16,16 @@ import { useQuery } from "@tanstack/react-query";
 import { getCustomer, updateCustomer } from "../../services/customer";
 import { notifications } from "@mantine/notifications";
 
+const defaultValues = {
+  email: "",
+  name: "",
+  password: "123456",
+  phoneNumber: "",
+};
+
 const Profile = () => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [currentData, setCurrentData] = React.useState(defaultValues);
 
   const idCustomer = localStorage.getItem("idCustomer");
 
@@ -28,8 +36,15 @@ const Profile = () => {
   );
 
   const onClickChangePass = React.useCallback(() => {
+    setCurrentData({
+      email: data.user.email,
+      name: data.user.nama,
+      phoneNumber: data.user.nomor_telepon,
+      id:idCustomer, 
+      password: data.user.password
+    });
     open();
-  }, [open]);
+  }, [open,setCurrentData, data?.user,idCustomer]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -133,7 +148,7 @@ const Profile = () => {
       </div>
       <Footer />
       <Modal opened={opened} centered onClose={close} withCloseButton={false}>
-        <ProfilePassword onClose={close} />
+        <ProfilePassword onClose={close} data={currentData}/>
       </Modal>
     </div>
   );
