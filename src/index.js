@@ -8,10 +8,10 @@ import "font-awesome/css/font-awesome.min.css";
 
 import Home from "./pages/Home/Home";
 import Rent from "./pages/Rent/Rent";
+import CollectionDetail from "./pages/CollectionDetail/CollectionDetail";
 import Custom from "./pages/Custom/Custom";
 import Appointment from "./pages/Appointment/Appointment";
 import About from "./pages/About/About";
-import Detail from "./pages/Detail/Detail";
 import History from "./pages/History/History";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
@@ -54,10 +54,10 @@ ReactDOM.render(
             <Route path="/example" element={<Example />} />
             <Route path="/" element={<Home />} />
             <Route path="/rent" element={<Rent />} />
+            <Route path="/rent/:id" element={<CollectionDetail />} />
             <Route path="/custom" element={<Custom />} />
             <Route path="/appointment" element={<Appointment />} />
             <Route path="/about" element={<About />} />
-            <Route path="/detail" element={<Detail />} />
             <Route path="/history" element={<History />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
