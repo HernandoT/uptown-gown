@@ -7,14 +7,14 @@ import Slogan from "../../components/Slogan/Slogan";
 import Testimonials from "../../components/Testimonials/Testimonials";
 import SupportEngine from "../../SupportEngine";
 import "./Home.css";
-import { getCollections } from "../../services/collection";
+import { getCollectionsWithOrderedDate } from "../../services/collection";
 import { useQuery } from "@tanstack/react-query";
 
 const Home = () => {
   const isLoged = localStorage.getItem("isLoged");
 
-  const { data, isFetching } = useQuery(["get-collections"], () =>
-    getCollections()
+  const { data, isFetching } = useQuery(["get-collections-with-ordered-date"], () =>
+    getCollectionsWithOrderedDate()
   );
 
   return (
@@ -26,7 +26,7 @@ const Home = () => {
         <>
           <div className="square"></div>
           <Slogan />
-          <NewCollections />
+          <NewCollections data={data.data} />
           <Banner />
           <PopularCollections data={data.data} />
           <Testimonials />

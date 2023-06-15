@@ -5,7 +5,10 @@ import {
   doc,
   getDoc,
   getDocs,
+  orderBy,
+  query,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { field } from "../common/constant";
 import { queryClient } from "./query-client";
@@ -17,6 +20,48 @@ export const getCollections = async () => {
       ...doc.data(),
       id: doc.id,
     }));
+    return { data };
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getAvailableCollections = async () => {
+  try {
+    const collection_ref = collection(db, field.collection);
+    const q = query(collection_ref, where("status", "==", "Available"));
+    const doc_refs = await getDocs(q);
+
+    const data = [];
+
+    doc_refs.forEach((collection) => {
+      data.push({
+        id: collection.id,
+        ...collection.data(),
+      });
+    });
+
+    return { data };
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getCollectionsWithOrderedDate = async () => {
+  try {
+    const collection_ref = collection(db, field.collection);
+    const q = query(collection_ref, orderBy("created_at", "desc"));
+    const doc_refs = await getDocs(q);
+
+    const data = [];
+
+    doc_refs.forEach((collection) => {
+      data.push({
+        id: collection.id,
+        ...collection.data(),
+      });
+    });
+
     return { data };
   } catch (e) {
     console.log(e);
@@ -41,6 +86,7 @@ export const createCollection = async ({
   status,
   gambar,
   popular_collection,
+  created_at,
 }) => {
   try {
     await addDoc(collection(db, field.collection), {
@@ -52,6 +98,7 @@ export const createCollection = async ({
       status,
       gambar,
       popular_collection,
+      created_at,
     });
     queryClient.refetchQueries(["get-collections"]);
   } catch (e) {
@@ -70,6 +117,7 @@ export const updateCollection = async (
     status = "",
     gambar = "",
     popular_collection = "",
+    created_at = "",
   }
 ) => {
   try {
@@ -82,6 +130,7 @@ export const updateCollection = async (
       status,
       gambar,
       popular_collection,
+      created_at,
     });
     queryClient.refetchQueries(["get-collections"]);
   } catch (e) {

@@ -121,6 +121,7 @@ const Collections = () => {
             status: row.status,
             gambar: row.gambar,
             popular_collection: row.popular_collection,
+            created_at: row.created_at,
           });
           open();
           setIsEdit(true);

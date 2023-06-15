@@ -17,6 +17,7 @@ import { urlPattern } from "../../utils/regex";
 import { v4 } from "uuid";
 import { createCollection, updateCollection } from "../../services/collection";
 import { notifications } from "@mantine/notifications";
+import { Timestamp } from "firebase/firestore";
 
 const defaultValues = {
   id: "",
@@ -74,7 +75,6 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
   const onSubmit = React.useCallback(
     async (values) => {
       try {
-        console.log(values.gambar[0]);
         //if still url don't submit to firebase
         const fileUrl = urlPattern.test(values.gambar[0])
           ? values.gambar[0]
@@ -86,7 +86,10 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
         const _data = {
           ...values,
           gambar: fileUrl,
-          popular_collection: data.popular_collection ? data.popular_collection : 0,
+          popular_collection: data.popular_collection
+            ? data.popular_collection
+            : 0,
+          created_at: data.created_at ? data.created_at : Timestamp.fromDate(new Date()),
         };
 
         isEdit ? updateCollection(data.id, _data) : createCollection(_data);

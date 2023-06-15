@@ -2,8 +2,11 @@ import "./NewCollections.css";
 import { useState } from "react";
 import Carousel from "react-simply-carousel";
 
-const NewCollections = () => {
+const NewCollections = ({ data }) => {
   const [activeSlide, setActiveSlide] = useState(0);
+  const availableCollection = data.filter((collection) => {
+    return collection.status === "Available";
+  });
 
   return (
     <div className="newCollections">
@@ -22,11 +25,7 @@ const NewCollections = () => {
           },
         }}
         activeSlideIndex={activeSlide}
-        activeSlideProps={{
-          style: {
-            background: "grey",
-          },
-        }}
+        activeSlideProps={{}}
         onRequestChange={setActiveSlide}
         forwardBtnProps={{
           children: ">",
@@ -69,22 +68,25 @@ const NewCollections = () => {
             },
           },
         }}
-        itemsToShow={5}
+        itemsToShow={4}
         speed={400}
       >
-        {Array.from({ length: 10 }).map((item, index) => (
+        {availableCollection.slice(0, 8).map((collection, index) => (
           <div
             style={{
-              background: "lightgrey",
-              width: "20vw",
-              height: "20vw",
-              border: "20px solid white",
+              width: "25vw",
+              height: "25vw",
+              padding: 15,
               textAlign: "center",
               boxSizing: "border-box",
             }}
             key={index}
           >
-            {index}
+            <img
+              src={collection.gambar}
+              alt="New Collection"
+              className="new-img"
+            />
           </div>
         ))}
       </Carousel>
