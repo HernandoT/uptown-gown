@@ -6,21 +6,52 @@ import TextInputField from "../../components/field/text-input";
 import { Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 
-const FittingForm = ({ onClose }) => {
-  const onSubmit = React.useCallback(async (values) => {
-    try {
-      console.log(values);
-    } catch (e) {
-      console.log(e.messages);
-    } finally {
-    }
-  });
+const FittingForm = ({ onClose, fitting, onSubmitForm }) => {
+  const defaultValues = React.useMemo(
+    () => ({
+      lingkarLeher: fitting?.lingkarLeher ?? "",
+      panjangDada: fitting?.panjangDada ?? "",
+      lenganPendek: fitting?.lenganPendek ?? "",
+      lingkarBadan: fitting?.lingkarBadan ?? "",
+      panjangPunggung: fitting?.panjangPunggung ?? "",
+      lebarLengan: fitting?.lebarLengan ?? "",
+      lingkarBadanAtas: fitting?.lingkarBadanAtas ?? "",
+      panjangSisi: fitting?.panjangSisi ?? "",
+      lenganPanjang: fitting?.lenganPanjang ?? "",
+      lingkarPinggang: fitting?.lingkarPinggang ?? "",
+      lebarBahu: fitting?.lebarBahu ?? "",
+      lebarPergelanganLengan: fitting?.lebarPergelanganLengan ?? "",
+      lingkarPerut: fitting?.lingkarPerut ?? "",
+      lebarDada: fitting?.lebarDada ?? "",
+      panjangSiku: fitting?.panjangSiku ?? "",
+      lingkarPinggul: fitting?.lingkarPinggul ?? "",
+      lebarPunggung: fitting?.lebarPunggung ?? "",
+      panjangRok: fitting?.panjangRok ?? "",
+      jarakDada: fitting?.jarakDada ?? "",
+      tinggiPerut: fitting?.tinggiPerut ?? "",
+      lebarKerungLengan: fitting?.lebarKerungLengan ?? "",
+      tinggiDada: fitting?.tinggiDada ?? "",
+      tinggiPinggul: fitting?.tinggiPinggul ?? "",
+    }),
+    [fitting]
+  );
 
   const methods = useForm({
-    // defaultValues,
-    // resolver,
+    defaultValues,
     mode: "onChange",
   });
+
+  const onSubmit = React.useCallback(
+    (values) => {
+      try {
+        onSubmitForm(values);
+        onClose();
+      } catch (e) {
+      } finally {
+      }
+    },
+    [onClose, onSubmitForm]
+  );
 
   return (
     <Paper p={36} miw={400}>
@@ -43,7 +74,10 @@ const FittingForm = ({ onClose }) => {
           </Flex>
           <Separator _gap={16} />
           <Flex direction="row" justify="space-between">
-            <TextInputField label="Lingkar Badan Atas" name="lingkarBadanAtas" />
+            <TextInputField
+              label="Lingkar Badan Atas"
+              name="lingkarBadanAtas"
+            />
             <TextInputField label="Panjang Sisi" name="panjangSisi" />
             <TextInputField label="Lengan Panjang" name="lenganPanjang" />
           </Flex>
@@ -51,7 +85,10 @@ const FittingForm = ({ onClose }) => {
           <Flex direction="row" justify="space-between">
             <TextInputField label="Lingkar Pinggang" name="lingkarPinggang" />
             <TextInputField label="Lebar Bahu" name="lebarBahu" />
-            <TextInputField label="Lebar Pergelangan Lengan" name="lebarPergelanganLengan" />
+            <TextInputField
+              label="Lebar Pergelangan Lengan"
+              name="lebarPergelanganLengan"
+            />
           </Flex>
           <Separator _gap={16} />
           <Flex direction="row" justify="space-between">
@@ -69,7 +106,10 @@ const FittingForm = ({ onClose }) => {
           <Flex direction="row" justify="space-between">
             <TextInputField label="Jarak Dada" name="jarakDada" />
             <TextInputField label="Tinggi Perut" name="tinggiPerut" />
-            <TextInputField label="Lebar Kerung Lengan" name="lebarKerungLengan" />
+            <TextInputField
+              label="Lebar Kerung Lengan"
+              name="lebarKerungLengan"
+            />
           </Flex>
           <Separator _gap={16} />
           <Flex direction="row" justify="flex-start">

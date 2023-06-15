@@ -13,12 +13,14 @@ const CollectionSelectInput = ({
   helperText,
   options = [],
   onAfterChangeDetail,
+  isCreateable = false,
   ...rest
 }) => {
   const [_options, setOptions] = React.useState(options);
   const [isInitiate, setIsInitiate] = React.useState(false);
-  const { data: collectionList, isFetching } = useQuery(["get-collections"], () =>
-    getCollections()
+  const { data: collectionList, isFetching } = useQuery(
+    ["get-collections"],
+    () => getCollections()
   );
 
   React.useEffect(() => {
@@ -58,6 +60,7 @@ const CollectionSelectInput = ({
       label={label}
       options={_options}
       onAfterChangeDetail={onAfterChangeDetail}
+      isCreateable={isCreateable}
       {...rest}
     />
   );

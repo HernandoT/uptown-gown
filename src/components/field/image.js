@@ -10,10 +10,13 @@ const ImagesInputField = ({
   name = "",
   placeholder = <Text align="center">Drop image here</Text>,
   label = "Unggah Gambar",
+  isHide = false,
   deleteDescription = (
     <Text size="sm">Are you sure you want to delete this image? .</Text>
   ),
   deleteTitle = "Delete unsaved changes",
+  width = 300,
+  height,
 }) => {
   const { control } = useFormContext();
   //save object files
@@ -31,6 +34,17 @@ const ImagesInputField = ({
         onConfirm: () => field.onChange([]),
       }),
     [deleteDescription, deleteTitle, field]
+  );
+
+  const onView = React.useCallback(
+    (imageUrl) => () => {
+      modals.open({
+        centered: true,
+        closeOnClickOutside: true,
+        children: <Image src={imageUrl} />,
+      });
+    },
+    []
   );
 
   const previews = (field.value || []).map((file, index) => {
@@ -65,29 +79,31 @@ const ImagesInputField = ({
         >
           x
         </button>
-        <a href={imageUrl} target="_blank" rel="noreferrer">
-          <Image key={index} src={imageUrl} />
-        </a>
-        <Dropzone
-          sx={{ border: "none" }}
-          accept={IMAGE_MIME_TYPE}
-          multiple={false}
-          onDrop={(file) => {
-            field.onChange(file);
-          }}
-        >
-          <Text align="center">Edit Image</Text>
-        </Dropzone>
+        <div onClick={onView(imageUrl)}>
+          <Image key={index} src={imageUrl} fit="cover" />
+        </div>
+        {!isHide && (
+          <Dropzone
+            sx={{ border: "none" }}
+            accept={IMAGE_MIME_TYPE}
+            multiple={false}
+            onDrop={(file) => {
+              field.onChange(file);
+            }}
+          >
+            <Text align="center">Edit Image</Text>
+          </Dropzone>
+        )}
       </div>
     );
   });
 
   return (
-    <>
+    <Flex direction="row" align="center" gap={26}>
       <Text fz={16} fw={600}>
         {label}
       </Text>
-      <Flex w={300}>
+      <Flex w={width} h={height}>
         {previews.length ? (
           <>{previews}</>
         ) : (
@@ -97,8 +113,14 @@ const ImagesInputField = ({
               color: !!fieldState?.error?.message
                 ? "red"
                 : theme.colors.gray[6],
+              position: "relative",
+              alignItems: "center",
+              display: "flex",
+              justifyContent: "center",
+              overflow: "hidden",
             })}
-            w={300}
+            w={width}
+            h={height}
             accept={IMAGE_MIME_TYPE}
             multiple={false}
             onDrop={(file) => {
@@ -109,7 +131,7 @@ const ImagesInputField = ({
           </Dropzone>
         )}
       </Flex>
-    </>
+    </Flex>
   );
 };
 
