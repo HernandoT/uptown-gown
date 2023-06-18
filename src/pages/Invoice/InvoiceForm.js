@@ -27,6 +27,7 @@ import images from "../../assets/png/index";
 import { ImagePlaceholder } from "../../assets/svg";
 import { urlPattern } from "../../utils/regex";
 import { getUrlImage } from "../../utils/image-function";
+import { createFitting } from "../../services/fitting";
 
 const typeInvoice = {
   Rent: "rent",
@@ -78,28 +79,28 @@ const Items = ({ onClickAddCollection }) => {
       fitting: {
         id_fitting: "",
         lingkarLeher: "",
-        panjangDada: "",
-        lenganPendek: "",
         lingkarBadan: "",
-        panjangPunggung: "",
-        lebarLengan: "",
         lingkarBadanAtas: "",
-        panjangSisi: "",
-        lenganPanjang: "",
         lingkarPinggang: "",
-        lebarBahu: "",
-        lebarPergelanganLengan: "",
         lingkarPerut: "",
-        lebarDada: "",
-        panjangSiku: "",
         lingkarPinggul: "",
-        lebarPunggung: "",
-        panjangRok: "",
         jarakDada: "",
-        tinggiPerut: "",
-        lebarKerungLengan: "",
         tinggiDada: "",
+        panjangDada: "",
+        panjangPunggung: "",
+        panjangSisi: "",
+        lebarBahu: "",
+        lebarDada: "",
+        lebarPunggung: "",
+        tinggiPerut: "",
         tinggiPinggul: "",
+        lenganPendek: "",
+        lebarLengan: "",
+        lenganPanjang: "",
+        lebarPergelanganLengan: "",
+        panjangSiku: "",
+        panjangRok: "",
+        lebarKerungLengan: "",
       },
     });
   };
@@ -114,7 +115,7 @@ const Items = ({ onClickAddCollection }) => {
         <p>
           <strong>List Barang:</strong>
         </p>
-        <button className="invoice-form-item-add" onClick={addItem}>
+        <button className="invoice-form-item-add" onClick={addItem} type="button">
           TAMBAH BARANG
         </button>
       </div>
@@ -155,6 +156,7 @@ const Items = ({ onClickAddCollection }) => {
               <button
                 className="item-fitting-button"
                 onClick={onClickFitting({ index, fitting: field.fitting })}
+                type="button"
               >
                 <i class="fa fa-pencil fa-2x"></i>
               </button>
@@ -170,6 +172,7 @@ const Items = ({ onClickAddCollection }) => {
               <button
                 className="item-delete-button"
                 onClick={removeItem(index)}
+                type="button"
               >
                 <i class="fa fa-trash fa-2x"></i>
               </button>
@@ -208,28 +211,28 @@ const InvoiceForm = () => {
           fitting: {
             id_fitting: "",
             lingkarLeher: "",
-            panjangDada: "",
-            lenganPendek: "",
             lingkarBadan: "",
-            panjangPunggung: "",
-            lebarLengan: "",
             lingkarBadanAtas: "",
-            panjangSisi: "",
-            lenganPanjang: "",
             lingkarPinggang: "",
-            lebarBahu: "",
-            lebarPergelanganLengan: "",
             lingkarPerut: "",
-            lebarDada: "",
-            panjangSiku: "",
             lingkarPinggul: "",
-            lebarPunggung: "",
-            panjangRok: "",
             jarakDada: "",
-            tinggiPerut: "",
-            lebarKerungLengan: "",
             tinggiDada: "",
+            panjangDada: "",
+            panjangPunggung: "",
+            panjangSisi: "",
+            lebarBahu: "",
+            lebarDada: "",
+            lebarPunggung: "",
+            tinggiPerut: "",
             tinggiPinggul: "",
+            lenganPendek: "",
+            lebarLengan: "",
+            lenganPanjang: "",
+            lebarPergelanganLengan: "",
+            panjangSiku: "",
+            panjangRok: "",
+            lebarKerungLengan: "",
           },
         },
       ],
@@ -305,6 +308,33 @@ const InvoiceForm = () => {
         id_fitting: "", //insert the submitted fitting id
         gambar_sketsa: "", //insert the submitted images url
       }));
+
+      console.log(invoice, fittings, detailInvoice);
+      createFitting({
+        lingkar_leher: fittings[0].lingkarLeher,
+        lingkar_badan: fittings[0].lingkarBadan,
+        lingkar_badan_atas: fittings[0].lingkarBadanAtas,
+        lingkar_pinggang: fittings[0].lingkarPinggang,
+        lingkar_perut: fittings[0].lingkarPerut,
+        lingkar_pinggul: fittings[0].lingkarPinggul,
+        jarak_dada: fittings[0].jarakDada,
+        tinggi_dada: fittings[0].tinggiDada,
+        panjang_dada: fittings[0].panjangDada,
+        panjang_punggung: fittings[0].panjangPunggung,
+        panjang_sisi: fittings[0].panjangSisi,
+        lebar_bahu: fittings[0].lebarBahu,
+        lebar_dada: fittings[0].lebarDada,
+        lebar_punggung: fittings[0].lebarPunggung,
+        tinggi_perut: fittings[0].tinggiPerut,
+        tinggi_pinggul: fittings[0].tinggiPinggul,
+        lengan_pendek: fittings[0].lenganPendek,
+        lebar_lengan: fittings[0].lebarLengan,
+        lengan_panjang: fittings[0].lenganPanjang,
+        lebar_pergelangan_lengan: fittings[0].lebarPergelanganLengan,
+        panjang_siku: fittings[0].panjangSiku,
+        panjang_rok: fittings[0].panjangRok,
+        lebar_kerung_lengan: fittings[0].lebarKerungLengan,
+      });
     } catch (e) {
       console.log(e.messages);
     } finally {
@@ -376,7 +406,7 @@ const InvoiceForm = () => {
           <TextInputField name="biaya_tambahan" label="Biaya Tambahan" />
           <Separator _gap={12} />
           <p>
-            <strong>List Barang:</strong>
+            <strong>Status Pelunasan:</strong>
           </p>
           <RadioInputField
             options={[
