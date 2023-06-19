@@ -6,3 +6,34 @@
 .MuiTabs-flexContainer {
     justify-content: space-around !important;
 }
+
+.card-appointment {
+    margin: 32px 0;
+}
+
+.card-content-appointment {
+    padding: 16px 48px !important;
+}
+
+.card-appointment-left {
+    flex: 3;
+  }
+  
+.card-appointment-right {
+    flex: 1;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+  }
+
+.card-appointment-status {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.card-appointment-status svg{
+    font-size: 32px;
+    padding-left: 8px;
+}
