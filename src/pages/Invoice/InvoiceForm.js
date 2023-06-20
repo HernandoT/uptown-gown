@@ -28,6 +28,9 @@ import { ImagePlaceholder } from "../../assets/svg";
 import { urlPattern } from "../../utils/regex";
 import { getUrlImage } from "../../utils/image-function";
 import { createFitting } from "../../services/fitting";
+import { createInvoice } from "../../services/invoice";
+import { createDetailInvoiceItem } from "../../services/detail-invoice-item";
+import { notifications } from "@mantine/notifications";
 
 const typeInvoice = {
   Rent: "rent",
@@ -115,7 +118,11 @@ const Items = ({ onClickAddCollection }) => {
         <p>
           <strong>List Barang:</strong>
         </p>
-        <button className="invoice-form-item-add" onClick={addItem} type="button">
+        <button
+          className="invoice-form-item-add"
+          onClick={addItem}
+          type="button"
+        >
           TAMBAH BARANG
         </button>
       </div>
@@ -310,30 +317,62 @@ const InvoiceForm = () => {
       }));
 
       console.log(invoice, fittings, detailInvoice);
-      createFitting({
-        lingkar_leher: fittings[0].lingkarLeher,
-        lingkar_badan: fittings[0].lingkarBadan,
-        lingkar_badan_atas: fittings[0].lingkarBadanAtas,
-        lingkar_pinggang: fittings[0].lingkarPinggang,
-        lingkar_perut: fittings[0].lingkarPerut,
-        lingkar_pinggul: fittings[0].lingkarPinggul,
-        jarak_dada: fittings[0].jarakDada,
-        tinggi_dada: fittings[0].tinggiDada,
-        panjang_dada: fittings[0].panjangDada,
-        panjang_punggung: fittings[0].panjangPunggung,
-        panjang_sisi: fittings[0].panjangSisi,
-        lebar_bahu: fittings[0].lebarBahu,
-        lebar_dada: fittings[0].lebarDada,
-        lebar_punggung: fittings[0].lebarPunggung,
-        tinggi_perut: fittings[0].tinggiPerut,
-        tinggi_pinggul: fittings[0].tinggiPinggul,
-        lengan_pendek: fittings[0].lenganPendek,
-        lebar_lengan: fittings[0].lebarLengan,
-        lengan_panjang: fittings[0].lenganPanjang,
-        lebar_pergelangan_lengan: fittings[0].lebarPergelanganLengan,
-        panjang_siku: fittings[0].panjangSiku,
-        panjang_rok: fittings[0].panjangRok,
-        lebar_kerung_lengan: fittings[0].lebarKerungLengan,
+      const invoiceDoc = createInvoice({
+        id_customer: invoice.id_customer,
+        id_jenis_invoice: invoice.id_jenis_invoice,
+        tanggal_acara: invoice.tanggal_acara,
+        biaya_tambahan: invoice.biaya_tambahan,
+        harga_total: invoice.harga_total,
+        panjar: invoice.panjar,
+        deposit: invoice.deposit,
+        status_pelunasan: invoice.status_pelunasan,
+        keterangan: invoice.keterangan,
+        waktu_buat: invoice.waktu_buat,
+        waktu_ubah: invoice.waktu_ubah,
+      });
+      invoiceDoc.then((idInvoice) => {
+        fittings.map((fitting) => {
+          const fittingDoc = createFitting({
+            lingkar_leher: fitting.lingkarLeher,
+            lingkar_badan: fitting.lingkarBadan,
+            lingkar_badan_atas: fitting.lingkarBadanAtas,
+            lingkar_pinggang: fitting.lingkarPinggang,
+            lingkar_perut: fitting.lingkarPerut,
+            lingkar_pinggul: fitting.lingkarPinggul,
+            jarak_dada: fitting.jarakDada,
+            tinggi_dada: fitting.tinggiDada,
+            panjang_dada: fitting.panjangDada,
+            panjang_punggung: fitting.panjangPunggung,
+            panjang_sisi: fitting.panjangSisi,
+            lebar_bahu: fitting.lebarBahu,
+            lebar_dada: fitting.lebarDada,
+            lebar_punggung: fitting.lebarPunggung,
+            tinggi_perut: fitting.tinggiPerut,
+            tinggi_pinggul: fitting.tinggiPinggul,
+            lengan_pendek: fitting.lenganPendek,
+            lebar_lengan: fitting.lebarLengan,
+            lengan_panjang: fitting.lenganPanjang,
+            lebar_pergelangan_lengan: fitting.lebarPergelanganLengan,
+            panjang_siku: fitting.panjangSiku,
+            panjang_rok: fitting.panjangRok,
+            lebar_kerung_lengan: fitting.lebarKerungLengan,
+          });
+          fittingDoc.then((idFitting) => {
+            createDetailInvoiceItem({
+              id_invoice: idInvoice,
+              id_collection: "",
+              id_fitting: idFitting,
+              nama_item: "",
+              harga: 0,
+              gambar_sketsa: "",
+            });
+          });
+        });
+      });
+      notifications.show({
+        title: "Tambah Invoice",
+        message: "Invoice baru telah berhasil ditambahkan",
+        color: "teal",
       });
     } catch (e) {
       console.log(e.messages);

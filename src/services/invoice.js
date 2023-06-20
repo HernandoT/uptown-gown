@@ -46,7 +46,7 @@ export const createInvoice = async ({
   waktu_ubah,
 }) => {
   try {
-    await addDoc(collection(db, field.invoice), {
+    const docRef = await addDoc(collection(db, field.invoice), {
       id_customer,
       id_jenis_invoice,
       tanggal_acara,
@@ -60,6 +60,7 @@ export const createInvoice = async ({
       waktu_ubah,
     });
     queryClient.refetchQueries(["get-invoices"]);
+    return docRef.id;
   } catch (e) {
     console.log(e);
   }

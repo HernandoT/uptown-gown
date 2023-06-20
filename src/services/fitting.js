@@ -58,7 +58,7 @@ export const createFitting = async ({
   lebar_kerung_lengan,
 }) => {
   try {
-    await addDoc(collection(db, field.fitting), {
+    const docRef = await addDoc(collection(db, field.fitting), {
       lingkar_leher,
       lingkar_badan,
       lingkar_badan_atas,
@@ -84,6 +84,7 @@ export const createFitting = async ({
       lebar_kerung_lengan,
     });
     queryClient.refetchQueries(["get-fittings"]);
+    return docRef.id;
   } catch (e) {
     console.log(e);
   }
