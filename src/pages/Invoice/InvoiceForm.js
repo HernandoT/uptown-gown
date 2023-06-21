@@ -27,10 +27,26 @@ import images from "../../assets/png/index";
 import { ImagePlaceholder } from "../../assets/svg";
 import { urlPattern } from "../../utils/regex";
 import { getUrlImage } from "../../utils/image-function";
-import { createFitting } from "../../services/fitting";
-import { createInvoice } from "../../services/invoice";
-import { createDetailInvoiceItem } from "../../services/detail-invoice-item";
+import {
+  createFitting,
+  getFitting,
+  updateFitting,
+} from "../../services/fitting";
+import {
+  createInvoice,
+  getInvoice,
+  updateInvoice,
+} from "../../services/invoice";
+import {
+  createDetailInvoiceItem,
+  getDetailInvoiceItem,
+  getDetailInvoiceItemByIdInvoice,
+  updateDetailInvoiceItem,
+} from "../../services/detail-invoice-item";
 import { notifications } from "@mantine/notifications";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import { Timestamp } from "firebase/firestore";
 
 const typeInvoice = {
   Rent: "rent",
@@ -38,7 +54,7 @@ const typeInvoice = {
   CustomMade: "custom_made",
 };
 
-const Items = ({ onClickAddCollection }) => {
+const Items = ({ onClickAddCollection, isEdit }) => {
   const { control, setValue } = useFormContext();
   const { fields, append, remove, update } = useFieldArray({
     name: "items",
@@ -73,7 +89,7 @@ const Items = ({ onClickAddCollection }) => {
 
   const addItem = () => {
     append({
-      // id_invoice: "",
+      id_invoice: "",
       id_detail_invoice_item: "",
       id_collection: "",
       nama_item: "",
@@ -118,13 +134,17 @@ const Items = ({ onClickAddCollection }) => {
         <p>
           <strong>List Barang:</strong>
         </p>
-        <button
-          className="invoice-form-item-add"
-          onClick={addItem}
-          type="button"
-        >
-          TAMBAH BARANG
-        </button>
+        {isEdit ? (
+          <></>
+        ) : (
+          <button
+            className="invoice-form-item-add"
+            onClick={addItem}
+            type="button"
+          >
+            TAMBAH BARANG
+          </button>
+        )}
       </div>
       <Separator _gap={12} />
       {fields.map((field, index) => {
@@ -135,26 +155,31 @@ const Items = ({ onClickAddCollection }) => {
                 <TextInputField
                   name={`items[${index}].nama_item`}
                   label="Collection"
-                  placeholder="Pilih Collection"
+                  style={{ flex: 5, marginRight: 20 }}
                 />
               ) : (
                 <CollectionSelectInput
-                  name="id_collection"
-                  style={{ flex: 5 }}
-                  onAfterChangeDetail={(value) => {
-                    setValue(`items[${index}].nama_item`, value?.label);
-                    setValue(`items[${index}].gambar_sketsa`, [
-                      value?.extra?.gambar,
-                    ]);
-                  }}
+                  name={`items[${index}].id_collection`}
+                  style={{ flex: 5, marginRight: 20 }}
+                  // onAfterChangeDetail={(value) => {
+                  //   setValue(`items[${index}].id_collection`, value?.value);
+                  //   setValue(`items[${index}].gambar_sketsa`, [
+                  //     value?.extra?.gambar,
+                  //   ]);
+                  // }}
                 />
               )}
-              <button
-                className="add-collection-button"
-                onClick={onClickAddCollection}
-              >
-                +
-              </button>
+              {isEdit ? (
+                <></>
+              ) : (
+                <button
+                  className="add-collection-button"
+                  onClick={onClickAddCollection}
+                  type="button"
+                >
+                  +
+                </button>
+              )}
               <TextInputField
                 name={`items[${index}].harga`}
                 label="Harga"
@@ -169,20 +194,24 @@ const Items = ({ onClickAddCollection }) => {
               </button>
               <Separator _gap={24} />
               <ImagesInputField
-                label="Pertinjau :"
+                label="Pratinjau :"
                 placeholder={<ImagePlaceholder size="56" />}
                 name={`items[${index}].gambar_sketsa`}
                 width={56}
                 height={56}
                 isHide
               />
-              <button
-                className="item-delete-button"
-                onClick={removeItem(index)}
-                type="button"
-              >
-                <i class="fa fa-trash fa-2x"></i>
-              </button>
+              {isEdit ? (
+                <></>
+              ) : (
+                <button
+                  className="item-delete-button"
+                  onClick={removeItem(index)}
+                  type="button"
+                >
+                  <i class="fa fa-trash fa-2x"></i>
+                </button>
+              )}
             </div>
             <Separator _gap={24} />
           </>
@@ -193,59 +222,59 @@ const Items = ({ onClickAddCollection }) => {
 };
 
 const InvoiceForm = () => {
+  const { id } = useParams();
+  const { data, isSuccess, isFetching } = useQuery(
+    ["get-invoices", id],
+    () => getInvoice(id || ""),
+    { enabled: !!id }
+  );
+  const [items, setItems] = React.useState([]);
+  const [isInitiate, setIsInitiate] = React.useState(false);
+  const isEdit = id ? true : false;
+
   const defaultValues = React.useMemo(
     () => ({
-      id_invoice: "",
-      id_customer: "",
-      id_jenis_invoice: "",
-      tanggal_acara: new Date(),
-      biaya_tambahan: 0,
-      harga_total: 0,
-      panjar: 0,
-      deposit: 0,
-      status_pelunasan: "",
-      keterangan: "",
-      waktu_buat: new Date(),
-      waktu_ubah: new Date(),
-      items: [
-        {
-          // id_invoice: "",
-          id_detail_invoice_item: "",
-          id_collection: "",
-          nama_item: "",
-          harga: 0,
-          gambar_sketsa: "",
-          fitting: {
-            id_fitting: "",
-            lingkarLeher: "",
-            lingkarBadan: "",
-            lingkarBadanAtas: "",
-            lingkarPinggang: "",
-            lingkarPerut: "",
-            lingkarPinggul: "",
-            jarakDada: "",
-            tinggiDada: "",
-            panjangDada: "",
-            panjangPunggung: "",
-            panjangSisi: "",
-            lebarBahu: "",
-            lebarDada: "",
-            lebarPunggung: "",
-            tinggiPerut: "",
-            tinggiPinggul: "",
-            lenganPendek: "",
-            lebarLengan: "",
-            lenganPanjang: "",
-            lebarPergelanganLengan: "",
-            panjangSiku: "",
-            panjangRok: "",
-            lebarKerungLengan: "",
-          },
-        },
-      ],
+      id: data?.invoice.id,
+      id_customer: data?.invoice.id_customer,
+      id_jenis_invoice: data?.invoice.id_jenis_invoice,
+      tanggal_acara: data?.invoice.tanggal_acara.toDate() || new Date(),
+      biaya_tambahan: data?.invoice.biaya_tambahan,
+      harga_total: data?.invoice.harga_total,
+      panjar: data?.invoice.panjar,
+      deposit: data?.invoice.deposit,
+      status_pelunasan: data?.invoice.status_pelunasan,
+      keterangan: data?.invoice.keterangan,
+      waktu_buat: data?.invoice.waktu_buat || new Date(),
+      waktu_ubah: data?.invoice.waktu_ubah || new Date(),
+      items: items,
     }),
-    []
+    [isInitiate, items]
   );
+
+  React.useEffect(() => {
+    if (isSuccess) {
+      getDetailInvoiceItemByIdInvoice(id)
+        .then((item) => {
+          return item.items;
+        })
+        .then((detailItems) => {
+          detailItems.map((detailItem, index) => {
+            getFitting(detailItem.id_fitting)
+              .then((fittingData) => {
+                const fitting = fittingData.fitting;
+                return { ...detailItem, fitting };
+              })
+              .then((data) => {
+                const arr = [...items];
+                arr[index] = data;
+                setItems(arr);
+                console.log(items);
+              });
+          });
+        });
+      setIsInitiate(true);
+    }
+  }, [isSuccess]);
 
   const [openedCustomer, { open: openCustomer, close: closeCustomer }] =
     useDisclosure(false);
@@ -258,7 +287,6 @@ const InvoiceForm = () => {
 
   const onSubmit = React.useCallback(async (values) => {
     try {
-      // data invoice
       const invoice = {
         id_customer: values.id_customer,
         id_jenis_invoice: values.id_jenis_invoice,
@@ -273,21 +301,6 @@ const InvoiceForm = () => {
         waktu_ubah: values.waktu_ubah,
       };
 
-      //data image
-      const images = values.items.map((item) => item.gambar_sketsa).flat();
-      // WARNING!!!!
-      // images.map(async (image) => {
-      //   if (urlPattern.test(image)) {
-      //     //if true dont submit to storage
-      //   } else {
-      //     //if false needed submit to storage
-      //     await getUrlImage({
-      //       file: image,
-      //     });
-      //   }
-      // });
-
-      // data fittings
       const fittings = values.items.map((item) => {
         const hasFitting = !!Object.keys(item.fitting)
           .map((key) => item.fitting[key])
@@ -298,82 +311,148 @@ const InvoiceForm = () => {
         };
       });
 
-      // Add a new document with a generated id.
-      // const docRef = await addDoc(collection(db, "cities"), {
-      //   name: "Tokyo",
-      //   country: "Japan"
-      // });
-      // console.log("Document written with ID: ", docRef.id);
-
       const detailInvoice = values.items.map((item) => ({
         ...item,
-        id_invoice: "", //insert the submitted invoice id
-        id_collection:
-          values.id_jenis_invoice === typeInvoice.CustomMade
-            ? ""
-            : item.id_jenis_invoice,
-        id_fitting: "", //insert the submitted fitting id
-        gambar_sketsa: "", //insert the submitted images url
       }));
 
       console.log(invoice, fittings, detailInvoice);
-      const invoiceDoc = createInvoice({
-        id_customer: invoice.id_customer,
-        id_jenis_invoice: invoice.id_jenis_invoice,
-        tanggal_acara: invoice.tanggal_acara,
-        biaya_tambahan: invoice.biaya_tambahan,
-        harga_total: invoice.harga_total,
-        panjar: invoice.panjar,
-        deposit: invoice.deposit,
-        status_pelunasan: invoice.status_pelunasan,
-        keterangan: invoice.keterangan,
-        waktu_buat: invoice.waktu_buat,
-        waktu_ubah: invoice.waktu_ubah,
-      });
-      invoiceDoc.then((idInvoice) => {
-        fittings.map((fitting) => {
-          const fittingDoc = createFitting({
-            lingkar_leher: fitting.lingkarLeher,
-            lingkar_badan: fitting.lingkarBadan,
-            lingkar_badan_atas: fitting.lingkarBadanAtas,
-            lingkar_pinggang: fitting.lingkarPinggang,
-            lingkar_perut: fitting.lingkarPerut,
-            lingkar_pinggul: fitting.lingkarPinggul,
-            jarak_dada: fitting.jarakDada,
-            tinggi_dada: fitting.tinggiDada,
-            panjang_dada: fitting.panjangDada,
-            panjang_punggung: fitting.panjangPunggung,
-            panjang_sisi: fitting.panjangSisi,
-            lebar_bahu: fitting.lebarBahu,
-            lebar_dada: fitting.lebarDada,
-            lebar_punggung: fitting.lebarPunggung,
-            tinggi_perut: fitting.tinggiPerut,
-            tinggi_pinggul: fitting.tinggiPinggul,
-            lengan_pendek: fitting.lenganPendek,
-            lebar_lengan: fitting.lebarLengan,
-            lengan_panjang: fitting.lenganPanjang,
-            lebar_pergelangan_lengan: fitting.lebarPergelanganLengan,
-            panjang_siku: fitting.panjangSiku,
-            panjang_rok: fitting.panjangRok,
-            lebar_kerung_lengan: fitting.lebarKerungLengan,
-          });
-          fittingDoc.then((idFitting) => {
-            createDetailInvoiceItem({
-              id_invoice: idInvoice,
-              id_collection: "",
-              id_fitting: idFitting,
-              nama_item: "",
-              harga: 0,
-              gambar_sketsa: "",
+      if (!isEdit) {
+        const invoiceDoc = createInvoice({
+          id_customer: invoice.id_customer,
+          id_jenis_invoice: invoice.id_jenis_invoice,
+          tanggal_acara: Timestamp.fromDate(new Date(invoice.tanggal_acara)),
+          biaya_tambahan: invoice.biaya_tambahan,
+          harga_total: invoice.harga_total,
+          panjar: invoice.panjar,
+          deposit: invoice.deposit,
+          status_pelunasan: invoice.status_pelunasan,
+          keterangan: invoice.keterangan,
+          waktu_buat: invoice.waktu_buat,
+          waktu_ubah: invoice.waktu_ubah,
+        });
+        invoiceDoc.then((idInvoice) => {
+          fittings.map((fitting, index) => {
+            const fittingDoc = createFitting({
+              lingkar_leher: fitting.lingkarLeher,
+              lingkar_badan: fitting.lingkarBadan,
+              lingkar_badan_atas: fitting.lingkarBadanAtas,
+              lingkar_pinggang: fitting.lingkarPinggang,
+              lingkar_perut: fitting.lingkarPerut,
+              lingkar_pinggul: fitting.lingkarPinggul,
+              jarak_dada: fitting.jarakDada,
+              tinggi_dada: fitting.tinggiDada,
+              panjang_dada: fitting.panjangDada,
+              panjang_punggung: fitting.panjangPunggung,
+              panjang_sisi: fitting.panjangSisi,
+              lebar_bahu: fitting.lebarBahu,
+              lebar_dada: fitting.lebarDada,
+              lebar_punggung: fitting.lebarPunggung,
+              tinggi_perut: fitting.tinggiPerut,
+              tinggi_pinggul: fitting.tinggiPinggul,
+              lengan_pendek: fitting.lenganPendek,
+              lebar_lengan: fitting.lebarLengan,
+              lengan_panjang: fitting.lenganPanjang,
+              lebar_pergelangan_lengan: fitting.lebarPergelanganLengan,
+              panjang_siku: fitting.panjangSiku,
+              panjang_rok: fitting.panjangRok,
+              lebar_kerung_lengan: fitting.lebarKerungLengan,
+            });
+            fittingDoc.then(async (idFitting) => {
+              const fileUrl = urlPattern.test(
+                detailInvoice[index].gambar_sketsa[0]
+              )
+                ? detailInvoice[index].gambar_sketsa[0]
+                : await getUrlImage({
+                    file: detailInvoice[index].gambar_sketsa[0],
+                  });
+              createDetailInvoiceItem({
+                id_invoice: idInvoice,
+                id_collection: detailInvoice[index].id_collection
+                  ? detailInvoice[index].id_collection
+                  : "",
+                id_fitting: idFitting,
+                nama_item: detailInvoice[index].nama_item
+                  ? detailInvoice[index].nama_item
+                  : "",
+                harga: detailInvoice[index].harga,
+                gambar_sketsa: fileUrl,
+              });
             });
           });
         });
-      });
-      notifications.show({
-        title: "Tambah Invoice",
-        message: "Invoice baru telah berhasil ditambahkan",
-        color: "teal",
-      });
+        notifications.show({
+          title: "Tambah Invoice",
+          message: "Invoice baru telah berhasil ditambahkan",
+          color: "teal",
+        });
+      } else {
+        console.log(defaultValues)
+        updateInvoice(id, {
+          id_customer: invoice.id_customer,
+          id_jenis_invoice: invoice.id_jenis_invoice,
+          tanggal_acara: Timestamp.fromDate(new Date(invoice.tanggal_acara)),
+          biaya_tambahan: invoice.biaya_tambahan,
+          harga_total: invoice.harga_total,
+          panjar: invoice.panjar,
+          deposit: invoice.deposit,
+          status_pelunasan: invoice.status_pelunasan,
+          keterangan: invoice.keterangan,
+          waktu_buat: invoice.waktu_buat,
+          waktu_ubah: invoice.waktu_ubah,
+        });
+
+        // fittings.map(async (fitting, index) => {
+        //   updateFitting(defaultValues?.items[index].id_fitting, {
+        //     lingkar_leher: fitting.lingkarLeher,
+        //     lingkar_badan: fitting.lingkarBadan,
+        //     lingkar_badan_atas: fitting.lingkarBadanAtas,
+        //     lingkar_pinggang: fitting.lingkarPinggang,
+        //     lingkar_perut: fitting.lingkarPerut,
+        //     lingkar_pinggul: fitting.lingkarPinggul,
+        //     jarak_dada: fitting.jarakDada,
+        //     tinggi_dada: fitting.tinggiDada,
+        //     panjang_dada: fitting.panjangDada,
+        //     panjang_punggung: fitting.panjangPunggung,
+        //     panjang_sisi: fitting.panjangSisi,
+        //     lebar_bahu: fitting.lebarBahu,
+        //     lebar_dada: fitting.lebarDada,
+        //     lebar_punggung: fitting.lebarPunggung,
+        //     tinggi_perut: fitting.tinggiPerut,
+        //     tinggi_pinggul: fitting.tinggiPinggul,
+        //     lengan_pendek: fitting.lenganPendek,
+        //     lebar_lengan: fitting.lebarLengan,
+        //     lengan_panjang: fitting.lenganPanjang,
+        //     lebar_pergelangan_lengan: fitting.lebarPergelanganLengan,
+        //     panjang_siku: fitting.panjangSiku,
+        //     panjang_rok: fitting.panjangRok,
+        //     lebar_kerung_lengan: fitting.lebarKerungLengan,
+        //   });
+
+        //   const fileUrl = urlPattern.test(detailInvoice[index].gambar_sketsa[0])
+        //     ? detailInvoice[index].gambar_sketsa[0]
+        //     : await getUrlImage({
+        //         file: detailInvoice[index].gambar_sketsa[0],
+        //       });
+        //   updateDetailInvoiceItem(defaultValues?.items[index].id, {
+        //     id_invoice: id,
+        //     id_collection: detailInvoice[index].id_collection
+        //       ? detailInvoice[index].id_collection
+        //       : "",
+        //     id_fitting: defaultValues?.items[index].id_fitting,
+        //     nama_item: detailInvoice[index].nama_item
+        //       ? detailInvoice[index].nama_item
+        //       : "",
+        //     harga: detailInvoice[index].harga,
+        //     gambar_sketsa: fileUrl,
+        //   });
+        // });
+
+        notifications.show({
+          title: "Update Invoice",
+          message: "Invoice telah berhasil diupdate",
+          color: "teal",
+        });
+      }
     } catch (e) {
       console.log(e.messages);
     } finally {
@@ -403,71 +482,95 @@ const InvoiceForm = () => {
       <AdminTitle props={"Invoice"} />
       <BackButton />
       <div className="invoice-form-content">
-        <Form onSubmit={onSubmit} methods={methods}>
-          <div style={{ display: "flex", height: "auto" }}>
-            <CustomerSelectInput style={{ flex: "70" }} name="id_customer" />
-            <button
-              className="invoice-form-customer-add"
-              onClick={onClickAddCustomer}
-              type="button"
-            >
-              + TAMBAH CUSTOMER
+        {!isInitiate && isEdit ? (
+          <></>
+        ) : (
+          <Form onSubmit={onSubmit} methods={methods}>
+            {/* {JSON.stringify(defaultValues)} */}
+            {/* {defaultValues.items.map((detail) => {
+              return (
+                <>
+                  <img src={detail.gambar_sketsa}></img>
+                </>
+              );
+            })} */}
+            <div style={{ display: "flex", height: "auto" }}>
+              <CustomerSelectInput
+                style={{ flex: "70" }}
+                name="id_customer"
+                disabled={isEdit ? true : false}
+              />
+              {isEdit ? (
+                <></>
+              ) : (
+                <button
+                  className="invoice-form-customer-add"
+                  onClick={onClickAddCustomer}
+                  type="button"
+                >
+                  + TAMBAH CUSTOMER
+                </button>
+              )}
+            </div>
+            <Separator _gap={12} />
+            <div style={{ display: "flex", height: "auto" }}>
+              <InvoiceTypeSelectInput
+                name="id_jenis_invoice"
+                style={{ marginTop: 8, marginRight: 20 }}
+                disabled={isEdit ? true : false}
+              />
+              <DateInputField name="tanggal_acara" label="Tanggal Acara" />
+            </div>
+            <Separator _gap={12} />
+            <Items
+              onClickAddCollection={onClickAddCollection}
+              isEdit={isEdit}
+            />
+            <div style={{ display: "flex", height: "auto" }}>
+              <TextInputField
+                name="harga_total"
+                label="Total"
+                style={{ flex: 1, marginRight: 20 }}
+              />
+              <TextInputField
+                name="panjar"
+                label="Panjar"
+                style={{ flex: 1, marginRight: 20 }}
+              />
+              <TextInputField
+                name="deposit"
+                label="Deposit"
+                style={{ flex: 1 }}
+              />
+            </div>
+            <Separator _gap={24} />
+            <TextInputField name="biaya_tambahan" label="Biaya Tambahan" />
+            <Separator _gap={12} />
+            <p>
+              <strong>Status Pelunasan:</strong>
+            </p>
+            <RadioInputField
+              options={[
+                { value: "Belum Lunas", label: "Belum Lunas" },
+                { value: "Lunas", label: "Lunas" },
+                { value: "Selesai", label: "Selesai" },
+              ]}
+              name="status_pelunasan"
+              required
+            />
+            <Separator _gap={24} />
+            <TextInputField
+              name="keterangan"
+              label="Keterangan"
+              multiline={true}
+              rows={3}
+            />
+            <Separator _gap={24} />
+            <button className="invoice-simpan" type="submit">
+              SIMPAN
             </button>
-          </div>
-          <Separator _gap={12} />
-          <div style={{ display: "flex", height: "auto" }}>
-            <InvoiceTypeSelectInput
-              name="id_jenis_invoice"
-              style={{ marginTop: 8, marginRight: 20 }}
-            />
-            <DateInputField name="tanggal_acara" label="Tanggal Acara" />
-          </div>
-          <Separator _gap={12} />
-          <Items onClickAddCollection={onClickAddCollection} />
-          <div style={{ display: "flex", height: "auto" }}>
-            <TextInputField
-              name="harga_total"
-              label="Total"
-              style={{ flex: 1, marginRight: 20 }}
-            />
-            <TextInputField
-              name="panjar"
-              label="Panjar"
-              style={{ flex: 1, marginRight: 20 }}
-            />
-            <TextInputField
-              name="deposit"
-              label="Deposit"
-              style={{ flex: 1 }}
-            />
-          </div>
-          <Separator _gap={24} />
-          <TextInputField name="biaya_tambahan" label="Biaya Tambahan" />
-          <Separator _gap={12} />
-          <p>
-            <strong>Status Pelunasan:</strong>
-          </p>
-          <RadioInputField
-            options={[
-              { value: "Belum Lunas", label: "Belum Lunas" },
-              { value: "Lunas", label: "Lunas" },
-              { value: "Selesai", label: "Selesai" },
-            ]}
-            name="status_pelunasan"
-            required
-          />
-          <Separator _gap={24} />
-          <TextInputField
-            name="keterangan"
-            label="Keterangan"
-            multiline={true}
-            rows={3}
-          />
-          <Separator _gap={24} />
-          <button className="invoice-simpan" type="submit">
-            SIMPAN
-          </button>
-        </Form>
+          </Form>
+        )}
       </div>
       <Modal
         opened={openedCustomer}

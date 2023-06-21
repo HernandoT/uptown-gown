@@ -5,7 +5,9 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { field } from "../common/constant";
 import { queryClient } from "./query-client";
@@ -18,6 +20,27 @@ export const getDetailInvoiceItems = async () => {
       id: doc.id,
     }));
     return { data };
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getDetailInvoiceItemByIdInvoice = async (idInvoice) => {
+  try {
+    const collectionRef = collection(db, field.detailInvoiceItem);
+    const q = query(collectionRef, where("id_invoice", "==", idInvoice));
+    const docRefs = await getDocs(q);
+
+    const items = [];
+
+    docRefs.forEach((item) => {
+      items.push({
+        id: item.id,
+        ...item.data(),
+      });
+    });
+
+    return { items };
   } catch (e) {
     console.log(e);
   }

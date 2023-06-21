@@ -58,6 +58,7 @@ const InvoiceTypeSelectInput = ({
       placeholder={placeholder}
       label={label}
       options={_options}
+      disabled={disabled}
       onAfterChangeDetail={onAfterChangeDetail}
       {...rest}
     />

@@ -9,12 +9,14 @@ import {
 } from "firebase/firestore";
 import { field } from "../common/constant";
 import { queryClient } from "./query-client";
+import dayjs from "dayjs";
 
 export const getInvoices = async () => {
   try {
     const result = await getDocs(collection(db, field.invoice));
     const data = result.docs.map((doc) => ({
       ...doc.data(),
+      tanggal_acara: dayjs(doc.data().tanggal_acara.toDate()),
       id: doc.id,
     }));
     return { data };

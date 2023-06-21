@@ -84,6 +84,7 @@ ReactDOM.render(
               <Route path="appointment/:id" element={<AppointmentForm />} />
               <Route path="invoice" element={<Invoice />} />
               <Route path="add-invoice" element={<InvoiceForm />} />
+              <Route path="invoice/:id" element={<InvoiceForm />} />
               <Route path="expense" element={<Expense />} />
               <Route path="reports" element={<Reports />} />
               <Route path="change-password" element={<ChangePassword />} />
