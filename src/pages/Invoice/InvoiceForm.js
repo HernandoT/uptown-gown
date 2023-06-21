@@ -30,6 +30,7 @@ import { getUrlImage } from "../../utils/image-function";
 import {
   createFitting,
   getFitting,
+  getFittings,
   updateFitting,
 } from "../../services/fitting";
 import {
@@ -41,6 +42,7 @@ import {
   createDetailInvoiceItem,
   getDetailInvoiceItem,
   getDetailInvoiceItemByIdInvoice,
+  getDetailInvoiceItems,
   updateDetailInvoiceItem,
 } from "../../services/detail-invoice-item";
 import { notifications } from "@mantine/notifications";
@@ -228,10 +230,21 @@ const InvoiceForm = () => {
     () => getInvoice(id || ""),
     { enabled: !!id }
   );
+  const { data: dataDetailItems, isFetching: isFetchingDetailItems } = useQuery(
+    ["get-detail-invoice-items"],
+    () => getDetailInvoiceItems()
+  );
+  const { data: dataFitting, isFetching: isFetchingFitting } = useQuery(
+    ["get-fittings"],
+    () => getFittings()
+  );
   const [items, setItems] = React.useState([]);
   const [isInitiate, setIsInitiate] = React.useState(false);
   const isEdit = id ? true : false;
 
+  console.log(data);
+  console.log(dataDetailItems);
+  console.log(dataFitting);
   const defaultValues = React.useMemo(
     () => ({
       id: data?.invoice.id,
@@ -247,34 +260,77 @@ const InvoiceForm = () => {
       waktu_buat: data?.invoice.waktu_buat || new Date(),
       waktu_ubah: data?.invoice.waktu_ubah || new Date(),
       items: items,
+      // items: [
+      //   {
+      //     id_invoice: "",
+      //     id_detail_invoice_item: "",
+      //     id_collection: "",
+      //     nama_item: "",
+      //     harga: 0,
+      //     gambar_sketsa: "",
+      //     fitting: {
+      //       id_fitting: "",
+      //       lingkarLeher: "",
+      //       lingkarBadan: "",
+      //       lingkarBadanAtas: "",
+      //       lingkarPinggang: "",
+      //       lingkarPerut: "",
+      //       lingkarPinggul: "",
+      //       jarakDada: "",
+      //       tinggiDada: "",
+      //       panjangDada: "",
+      //       panjangPunggung: "",
+      //       panjangSisi: "",
+      //       lebarBahu: "",
+      //       lebarDada: "",
+      //       lebarPunggung: "",
+      //       tinggiPerut: "",
+      //       tinggiPinggul: "",
+      //       lenganPendek: "",
+      //       lebarLengan: "",
+      //       lenganPanjang: "",
+      //       lebarPergelanganLengan: "",
+      //       panjangSiku: "",
+      //       panjangRok: "",
+      //       lebarKerungLengan: "",
+      //     },
+      //   },
+      // ],
     }),
     [isInitiate, items]
   );
 
   React.useEffect(() => {
-    if (isSuccess) {
-      getDetailInvoiceItemByIdInvoice(id)
-        .then((item) => {
-          return item.items;
-        })
-        .then((detailItems) => {
-          detailItems.map((detailItem, index) => {
-            getFitting(detailItem.id_fitting)
-              .then((fittingData) => {
-                const fitting = fittingData.fitting;
-                return { ...detailItem, fitting };
-              })
-              .then((data) => {
-                const arr = [...items];
-                arr[index] = data;
-                setItems(arr);
-                console.log(items);
-              });
+    if (isSuccess && !isFetchingDetailItems && !isFetchingFitting) {
+      // getDetailInvoiceItemByIdInvoice(id)
+      //   .then((item) => {
+      //     return item.items;
+      //   })
+      //   .then((detailItems) => {
+      //     detailItems.map((detailItem, index) => {
+      //       getFitting(detailItem.id_fitting)
+      //         .then((fittingData) => {
+      //           const fitting = fittingData.fitting;
+      //           return { ...detailItem, fitting };
+      //         })
+      //         .then((data) => {
+      //           console.log(data);
+      //           setItems(data);
+      //         });
+      //     });
+      //   });
+      // setIsInitiate(true);
+      const items = [];
+      dataDetailItems.data
+        .filter((items) => items.id_invoice == id)
+        .map((item) => {
+          const fitting = dataFitting.fitting.find((fit) => {
+            return item.id_fitting == fit.id;
           });
+          console.log(fitting)
         });
-      setIsInitiate(true);
     }
-  }, [isSuccess]);
+  }, [isSuccess, isFetchingDetailItems, isFetchingFitting]);
 
   const [openedCustomer, { open: openCustomer, close: closeCustomer }] =
     useDisclosure(false);
@@ -386,7 +442,7 @@ const InvoiceForm = () => {
           color: "teal",
         });
       } else {
-        console.log(defaultValues)
+        console.log(defaultValues);
         updateInvoice(id, {
           id_customer: invoice.id_customer,
           id_jenis_invoice: invoice.id_jenis_invoice,
