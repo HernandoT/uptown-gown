@@ -242,9 +242,6 @@ const InvoiceForm = () => {
   const [isInitiate, setIsInitiate] = React.useState(false);
   const isEdit = id ? true : false;
 
-  console.log(data);
-  console.log(dataDetailItems);
-  console.log(dataFitting);
   const defaultValues = React.useMemo(
     () => ({
       id: data?.invoice.id,
@@ -297,7 +294,21 @@ const InvoiceForm = () => {
       //   },
       // ],
     }),
-    [isInitiate, items]
+    [
+      data?.invoice.biaya_tambahan,
+      data?.invoice.deposit,
+      data?.invoice.harga_total,
+      data?.invoice.id,
+      data?.invoice.id_customer,
+      data?.invoice.id_jenis_invoice,
+      data?.invoice.keterangan,
+      data?.invoice.panjar,
+      data?.invoice.status_pelunasan,
+      data?.invoice.tanggal_acara,
+      data?.invoice.waktu_buat,
+      data?.invoice.waktu_ubah,
+      items,
+    ]
   );
 
   React.useEffect(() => {
@@ -322,13 +333,16 @@ const InvoiceForm = () => {
       // setIsInitiate(true);
       const items = [];
       dataDetailItems.data
-        .filter((items) => items.id_invoice == id)
+        .filter((items) => items.id_invoice === id)
         .map((item) => {
-          const fitting = dataFitting.fitting.find((fit) => {
-            return item.id_fitting == fit.id;
+          const fitting = dataFitting.data.find((fit) => {
+            return item.id_fitting === fit.id;
           });
-          console.log(fitting)
+          const detailItem = { ...item, fitting };
+          items.push(detailItem);
         });
+      setItems(items);
+      setIsInitiate(true);
     }
   }, [isSuccess, isFetchingDetailItems, isFetchingFitting]);
 
@@ -341,179 +355,182 @@ const InvoiceForm = () => {
   const [openedFitting, { open: openFitting, close: closeFitting }] =
     useDisclosure(false);
 
-  const onSubmit = React.useCallback(async (values) => {
-    try {
-      const invoice = {
-        id_customer: values.id_customer,
-        id_jenis_invoice: values.id_jenis_invoice,
-        tanggal_acara: values.tanggal_acara,
-        biaya_tambahan: values.biaya_tambahan,
-        harga_total: values.harga_total,
-        panjar: values.panjar,
-        deposit: values.deposit,
-        status_pelunasan: values.status_pelunasan,
-        keterangan: values.keterangan,
-        waktu_buat: values.waktu_buat,
-        waktu_ubah: values.waktu_ubah,
-      };
-
-      const fittings = values.items.map((item) => {
-        const hasFitting = !!Object.keys(item.fitting)
-          .map((key) => item.fitting[key])
-          .filter((value) => !!value).length;
-        return {
-          ...item.fitting,
-          hasFitting,
+  const onSubmit = React.useCallback(
+    async (values) => {
+      try {
+        const invoice = {
+          id_customer: values.id_customer,
+          id_jenis_invoice: values.id_jenis_invoice,
+          tanggal_acara: values.tanggal_acara,
+          biaya_tambahan: values.biaya_tambahan,
+          harga_total: values.harga_total,
+          panjar: values.panjar,
+          deposit: values.deposit,
+          status_pelunasan: values.status_pelunasan,
+          keterangan: values.keterangan,
+          waktu_buat: values.waktu_buat,
+          waktu_ubah: values.waktu_ubah,
         };
-      });
 
-      const detailInvoice = values.items.map((item) => ({
-        ...item,
-      }));
-
-      console.log(invoice, fittings, detailInvoice);
-      if (!isEdit) {
-        const invoiceDoc = createInvoice({
-          id_customer: invoice.id_customer,
-          id_jenis_invoice: invoice.id_jenis_invoice,
-          tanggal_acara: Timestamp.fromDate(new Date(invoice.tanggal_acara)),
-          biaya_tambahan: invoice.biaya_tambahan,
-          harga_total: invoice.harga_total,
-          panjar: invoice.panjar,
-          deposit: invoice.deposit,
-          status_pelunasan: invoice.status_pelunasan,
-          keterangan: invoice.keterangan,
-          waktu_buat: invoice.waktu_buat,
-          waktu_ubah: invoice.waktu_ubah,
+        const fittings = values.items.map((item) => {
+          const hasFitting = !!Object.keys(item.fitting)
+            .map((key) => item.fitting[key])
+            .filter((value) => !!value).length;
+          return {
+            ...item.fitting,
+            hasFitting,
+          };
         });
-        invoiceDoc.then((idInvoice) => {
-          fittings.map((fitting, index) => {
-            const fittingDoc = createFitting({
-              lingkar_leher: fitting.lingkarLeher,
-              lingkar_badan: fitting.lingkarBadan,
-              lingkar_badan_atas: fitting.lingkarBadanAtas,
-              lingkar_pinggang: fitting.lingkarPinggang,
-              lingkar_perut: fitting.lingkarPerut,
-              lingkar_pinggul: fitting.lingkarPinggul,
-              jarak_dada: fitting.jarakDada,
-              tinggi_dada: fitting.tinggiDada,
-              panjang_dada: fitting.panjangDada,
-              panjang_punggung: fitting.panjangPunggung,
-              panjang_sisi: fitting.panjangSisi,
-              lebar_bahu: fitting.lebarBahu,
-              lebar_dada: fitting.lebarDada,
-              lebar_punggung: fitting.lebarPunggung,
-              tinggi_perut: fitting.tinggiPerut,
-              tinggi_pinggul: fitting.tinggiPinggul,
-              lengan_pendek: fitting.lenganPendek,
-              lebar_lengan: fitting.lebarLengan,
-              lengan_panjang: fitting.lenganPanjang,
-              lebar_pergelangan_lengan: fitting.lebarPergelanganLengan,
-              panjang_siku: fitting.panjangSiku,
-              panjang_rok: fitting.panjangRok,
-              lebar_kerung_lengan: fitting.lebarKerungLengan,
-            });
-            fittingDoc.then(async (idFitting) => {
-              const fileUrl = urlPattern.test(
-                detailInvoice[index].gambar_sketsa[0]
-              )
-                ? detailInvoice[index].gambar_sketsa[0]
-                : await getUrlImage({
-                    file: detailInvoice[index].gambar_sketsa[0],
-                  });
-              createDetailInvoiceItem({
-                id_invoice: idInvoice,
-                id_collection: detailInvoice[index].id_collection
-                  ? detailInvoice[index].id_collection
-                  : "",
-                id_fitting: idFitting,
-                nama_item: detailInvoice[index].nama_item
-                  ? detailInvoice[index].nama_item
-                  : "",
-                harga: detailInvoice[index].harga,
-                gambar_sketsa: fileUrl,
+
+        const detailInvoice = values.items.map((item) => ({
+          ...item,
+        }));
+
+        console.log(invoice, fittings, detailInvoice);
+        if (!isEdit) {
+          const invoiceDoc = createInvoice({
+            id_customer: invoice.id_customer,
+            id_jenis_invoice: invoice.id_jenis_invoice,
+            tanggal_acara: Timestamp.fromDate(new Date(invoice.tanggal_acara)),
+            biaya_tambahan: invoice.biaya_tambahan,
+            harga_total: invoice.harga_total,
+            panjar: invoice.panjar,
+            deposit: invoice.deposit,
+            status_pelunasan: invoice.status_pelunasan,
+            keterangan: invoice.keterangan,
+            waktu_buat: invoice.waktu_buat,
+            waktu_ubah: invoice.waktu_ubah,
+          });
+          invoiceDoc.then((idInvoice) => {
+            fittings.map((fitting, index) => {
+              const fittingDoc = createFitting({
+                lingkar_leher: fitting.lingkarLeher,
+                lingkar_badan: fitting.lingkarBadan,
+                lingkar_badan_atas: fitting.lingkarBadanAtas,
+                lingkar_pinggang: fitting.lingkarPinggang,
+                lingkar_perut: fitting.lingkarPerut,
+                lingkar_pinggul: fitting.lingkarPinggul,
+                jarak_dada: fitting.jarakDada,
+                tinggi_dada: fitting.tinggiDada,
+                panjang_dada: fitting.panjangDada,
+                panjang_punggung: fitting.panjangPunggung,
+                panjang_sisi: fitting.panjangSisi,
+                lebar_bahu: fitting.lebarBahu,
+                lebar_dada: fitting.lebarDada,
+                lebar_punggung: fitting.lebarPunggung,
+                tinggi_perut: fitting.tinggiPerut,
+                tinggi_pinggul: fitting.tinggiPinggul,
+                lengan_pendek: fitting.lenganPendek,
+                lebar_lengan: fitting.lebarLengan,
+                lengan_panjang: fitting.lenganPanjang,
+                lebar_pergelangan_lengan: fitting.lebarPergelanganLengan,
+                panjang_siku: fitting.panjangSiku,
+                panjang_rok: fitting.panjangRok,
+                lebar_kerung_lengan: fitting.lebarKerungLengan,
+              });
+              fittingDoc.then(async (idFitting) => {
+                const fileUrl = urlPattern.test(
+                  detailInvoice[index].gambar_sketsa[0]
+                )
+                  ? detailInvoice[index].gambar_sketsa[0]
+                  : await getUrlImage({
+                      file: detailInvoice[index].gambar_sketsa[0],
+                    });
+                createDetailInvoiceItem({
+                  id_invoice: idInvoice,
+                  id_collection: detailInvoice[index].id_collection
+                    ? detailInvoice[index].id_collection
+                    : "",
+                  id_fitting: idFitting,
+                  nama_item: detailInvoice[index].nama_item
+                    ? detailInvoice[index].nama_item
+                    : "",
+                  harga: detailInvoice[index].harga,
+                  gambar_sketsa: fileUrl,
+                });
               });
             });
           });
-        });
-        notifications.show({
-          title: "Tambah Invoice",
-          message: "Invoice baru telah berhasil ditambahkan",
-          color: "teal",
-        });
-      } else {
-        console.log(defaultValues);
-        updateInvoice(id, {
-          id_customer: invoice.id_customer,
-          id_jenis_invoice: invoice.id_jenis_invoice,
-          tanggal_acara: Timestamp.fromDate(new Date(invoice.tanggal_acara)),
-          biaya_tambahan: invoice.biaya_tambahan,
-          harga_total: invoice.harga_total,
-          panjar: invoice.panjar,
-          deposit: invoice.deposit,
-          status_pelunasan: invoice.status_pelunasan,
-          keterangan: invoice.keterangan,
-          waktu_buat: invoice.waktu_buat,
-          waktu_ubah: invoice.waktu_ubah,
-        });
+          notifications.show({
+            title: "Tambah Invoice",
+            message: "Invoice baru telah berhasil ditambahkan",
+            color: "teal",
+          });
+        } else {
+          console.log(defaultValues);
+          updateInvoice(id, {
+            id_customer: invoice.id_customer,
+            id_jenis_invoice: invoice.id_jenis_invoice,
+            tanggal_acara: Timestamp.fromDate(new Date(invoice.tanggal_acara)),
+            biaya_tambahan: invoice.biaya_tambahan,
+            harga_total: invoice.harga_total,
+            panjar: invoice.panjar,
+            deposit: invoice.deposit,
+            status_pelunasan: invoice.status_pelunasan,
+            keterangan: invoice.keterangan,
+            waktu_buat: invoice.waktu_buat,
+            waktu_ubah: invoice.waktu_ubah,
+          });
 
-        // fittings.map(async (fitting, index) => {
-        //   updateFitting(defaultValues?.items[index].id_fitting, {
-        //     lingkar_leher: fitting.lingkarLeher,
-        //     lingkar_badan: fitting.lingkarBadan,
-        //     lingkar_badan_atas: fitting.lingkarBadanAtas,
-        //     lingkar_pinggang: fitting.lingkarPinggang,
-        //     lingkar_perut: fitting.lingkarPerut,
-        //     lingkar_pinggul: fitting.lingkarPinggul,
-        //     jarak_dada: fitting.jarakDada,
-        //     tinggi_dada: fitting.tinggiDada,
-        //     panjang_dada: fitting.panjangDada,
-        //     panjang_punggung: fitting.panjangPunggung,
-        //     panjang_sisi: fitting.panjangSisi,
-        //     lebar_bahu: fitting.lebarBahu,
-        //     lebar_dada: fitting.lebarDada,
-        //     lebar_punggung: fitting.lebarPunggung,
-        //     tinggi_perut: fitting.tinggiPerut,
-        //     tinggi_pinggul: fitting.tinggiPinggul,
-        //     lengan_pendek: fitting.lenganPendek,
-        //     lebar_lengan: fitting.lebarLengan,
-        //     lengan_panjang: fitting.lenganPanjang,
-        //     lebar_pergelangan_lengan: fitting.lebarPergelanganLengan,
-        //     panjang_siku: fitting.panjangSiku,
-        //     panjang_rok: fitting.panjangRok,
-        //     lebar_kerung_lengan: fitting.lebarKerungLengan,
-        //   });
+          // fittings.map(async (fitting, index) => {
+          //   updateFitting(defaultValues?.items[index].id_fitting, {
+          //     lingkar_leher: fitting.lingkarLeher,
+          //     lingkar_badan: fitting.lingkarBadan,
+          //     lingkar_badan_atas: fitting.lingkarBadanAtas,
+          //     lingkar_pinggang: fitting.lingkarPinggang,
+          //     lingkar_perut: fitting.lingkarPerut,
+          //     lingkar_pinggul: fitting.lingkarPinggul,
+          //     jarak_dada: fitting.jarakDada,
+          //     tinggi_dada: fitting.tinggiDada,
+          //     panjang_dada: fitting.panjangDada,
+          //     panjang_punggung: fitting.panjangPunggung,
+          //     panjang_sisi: fitting.panjangSisi,
+          //     lebar_bahu: fitting.lebarBahu,
+          //     lebar_dada: fitting.lebarDada,
+          //     lebar_punggung: fitting.lebarPunggung,
+          //     tinggi_perut: fitting.tinggiPerut,
+          //     tinggi_pinggul: fitting.tinggiPinggul,
+          //     lengan_pendek: fitting.lenganPendek,
+          //     lebar_lengan: fitting.lebarLengan,
+          //     lengan_panjang: fitting.lenganPanjang,
+          //     lebar_pergelangan_lengan: fitting.lebarPergelanganLengan,
+          //     panjang_siku: fitting.panjangSiku,
+          //     panjang_rok: fitting.panjangRok,
+          //     lebar_kerung_lengan: fitting.lebarKerungLengan,
+          //   });
 
-        //   const fileUrl = urlPattern.test(detailInvoice[index].gambar_sketsa[0])
-        //     ? detailInvoice[index].gambar_sketsa[0]
-        //     : await getUrlImage({
-        //         file: detailInvoice[index].gambar_sketsa[0],
-        //       });
-        //   updateDetailInvoiceItem(defaultValues?.items[index].id, {
-        //     id_invoice: id,
-        //     id_collection: detailInvoice[index].id_collection
-        //       ? detailInvoice[index].id_collection
-        //       : "",
-        //     id_fitting: defaultValues?.items[index].id_fitting,
-        //     nama_item: detailInvoice[index].nama_item
-        //       ? detailInvoice[index].nama_item
-        //       : "",
-        //     harga: detailInvoice[index].harga,
-        //     gambar_sketsa: fileUrl,
-        //   });
-        // });
+          //   const fileUrl = urlPattern.test(detailInvoice[index].gambar_sketsa[0])
+          //     ? detailInvoice[index].gambar_sketsa[0]
+          //     : await getUrlImage({
+          //         file: detailInvoice[index].gambar_sketsa[0],
+          //       });
+          //   updateDetailInvoiceItem(defaultValues?.items[index].id, {
+          //     id_invoice: id,
+          //     id_collection: detailInvoice[index].id_collection
+          //       ? detailInvoice[index].id_collection
+          //       : "",
+          //     id_fitting: defaultValues?.items[index].id_fitting,
+          //     nama_item: detailInvoice[index].nama_item
+          //       ? detailInvoice[index].nama_item
+          //       : "",
+          //     harga: detailInvoice[index].harga,
+          //     gambar_sketsa: fileUrl,
+          //   });
+          // });
 
-        notifications.show({
-          title: "Update Invoice",
-          message: "Invoice telah berhasil diupdate",
-          color: "teal",
-        });
+          notifications.show({
+            title: "Update Invoice",
+            message: "Invoice telah berhasil diupdate",
+            color: "teal",
+          });
+        }
+      } catch (e) {
+        console.log(e.messages);
+      } finally {
       }
-    } catch (e) {
-      console.log(e.messages);
-    } finally {
-    }
-  }, []);
+    },
+    [defaultValues, id, isEdit]
+  );
 
   const methods = useForm({
     defaultValues,
@@ -542,8 +559,8 @@ const InvoiceForm = () => {
           <></>
         ) : (
           <Form onSubmit={onSubmit} methods={methods}>
-            {/* {JSON.stringify(defaultValues)} */}
-            {/* {defaultValues.items.map((detail) => {
+            {/* {JSON.stringify(defaultValues)}
+            {defaultValues.items.map((detail) => {
               return (
                 <>
                   <img src={detail.gambar_sketsa}></img>
