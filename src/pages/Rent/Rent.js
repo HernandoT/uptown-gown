@@ -1,3 +1,4 @@
+import nothing from "../../utils/assets/nothing-filtered.jpg";
 import "./Rent.css";
 import * as React from "react";
 import Footer from "../../components/Footer/Footer";
@@ -13,13 +14,18 @@ import { getColors } from "../../services/color";
 import { getCategories } from "../../services/category";
 import { getTypes } from "../../services/type";
 import { useQuery } from "@tanstack/react-query";
-import { getCollections } from "../../services/collection";
+import { getAvailableCollections } from "../../services/collection";
 
 const Rent = () => {
+  const [isInitiate, setIsInitiate] = React.useState(false);
+  const [collections, setCollections] = React.useState(null);
+  const [color, setColor] = React.useState("");
+  const [category, setCategory] = React.useState("");
+  const [type, setType] = React.useState("");
   const isLoged = localStorage.getItem("isLoged");
 
   const { data, isFetching } = useQuery(["get-collections"], () =>
-    getCollections()
+    getAvailableCollections()
   );
 
   const { data: colorList } = useQuery(["get-colors"], () => getColors());
@@ -27,6 +33,42 @@ const Rent = () => {
     getCategories()
   );
   const { data: typeList } = useQuery(["get-types"], () => getTypes());
+
+  React.useEffect(() => {
+    if (!isFetching) {
+      setCollections(data.data);
+      setIsInitiate(true);
+    }
+  }, [isFetching]);
+
+  const handleSubmit = () => {
+    let filteredCollections = data.data;
+    console.log(collections);
+    if (color) {
+      filteredCollections = filteredCollections.filter(
+        (collection) => collection.id_warna === color
+      );
+    }
+    if (category) {
+      filteredCollections = filteredCollections.filter(
+        (collection) => collection.id_kategori === category
+      );
+    }
+    if (type) {
+      filteredCollections = filteredCollections.filter(
+        (collection) => collection.id_jenis === type
+      );
+    }
+
+    setCollections(filteredCollections);
+  };
+
+  const handleClear = () => {
+    setColor("");
+    setCategory("");
+    setType("");
+    setCollections(data.data);
+  };
 
   function StyledRadio(props) {
     return (
@@ -42,7 +84,7 @@ const Rent = () => {
   return (
     <div className="rent">
       <Navbar />
-      {isFetching ? (
+      {!isInitiate ? (
         <></>
       ) : (
         <>
@@ -52,7 +94,12 @@ const Rent = () => {
                 <p>
                   <b>Filters</b>
                 </p>
-                <p style={{ alignSelf: "flexEnd" }}>Clear All</p>
+                <p
+                  style={{ alignSelf: "flexEnd", cursor: "pointer" }}
+                  onClick={handleClear}
+                >
+                  Clear All
+                </p>
               </div>
               <hr />
               <FormControl style={{ marginBottom: "0.5rem" }}>
@@ -67,6 +114,8 @@ const Rent = () => {
                     flexWrap: "wrap",
                     marginLeft: "0.5rem",
                   }}
+                  name="color"
+                  value={color}
                 >
                   {(colorList?.data || []).map((color) => {
                     const kodehex = color.kode_hex;
@@ -85,6 +134,7 @@ const Rent = () => {
                             }}
                           />
                         }
+                        onClick={(e) => setColor(e.target.value)}
                       />
                     );
                   })}
@@ -97,7 +147,8 @@ const Rent = () => {
                 </FormLabel>
                 <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
+                  name="category"
+                  value={category}
                 >
                   {(categoryList?.data || []).map((category) => {
                     return (
@@ -109,6 +160,7 @@ const Rent = () => {
                             {category.nama_kategori}
                           </span>
                         }
+                        onClick={(e) => setCategory(e.target.value)}
                       />
                     );
                   })}
@@ -121,7 +173,8 @@ const Rent = () => {
                 </FormLabel>
                 <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
+                  name="type"
+                  value={type}
                 >
                   {(typeList?.data || []).map((type) => {
                     return (
@@ -133,17 +186,33 @@ const Rent = () => {
                             {type.nama_jenis}
                           </span>
                         }
+                        onClick={(e) => setType(e.target.value)}
                       />
                     );
                   })}
                 </RadioGroup>
               </FormControl>
               <div style={{ marginTop: "0.5rem" }}>
-                <button className="filterButton">FILTER</button>
+                <button className="filterButton" onClick={handleSubmit}>
+                  FILTER
+                </button>
               </div>
             </div>
             <div className="filterItems">
-              <PaginatedItems itemsPerPage={8} data={data.data} />
+              {collections.length ? (
+                <PaginatedItems itemsPerPage={8} data={collections} />
+              ) : (
+                <>
+                  <img
+                    src={nothing}
+                    alt="Nothing Here"
+                    style={{ width: "70%" }}
+                  />
+                  <p style={{ fontSize: "1.5rem" }}>
+                    <b>Pencarian anda tidak ditemukan.</b>
+                  </p>
+                </>
+              )}
             </div>
           </div>
           <Footer />
