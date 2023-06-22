@@ -1,5 +1,12 @@
 import * as React from "react";
-import { TextField, Button } from "@mui/material";
+import {
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+} from "@mui/material";
 import Footer from "../../components/Footer/Footer";
 import "./Appointment.css";
 import DatePicker from "react-datepicker";
@@ -21,7 +28,9 @@ const Appointment = () => {
   const navigate = useNavigate();
 
   const [selectedDate, setSelectedDate] = React.useState(new Date());
-  const [displayDate, setDisplayDate] = React.useState("");
+  const [displayDate, setDisplayDate] = React.useState(
+    "Pilih tanggal pada kalender"
+  );
   const [keterangan, setKeterangan] = React.useState("");
 
   const [openConfirmationDialog, { open: openConfirm, close: closeConfirm }] =
@@ -56,7 +65,7 @@ const Appointment = () => {
       });
     } finally {
       setSelectedDate(new Date());
-      setDisplayDate("");
+      setDisplayDate("Pilih tanggal pada kalender");
       setKeterangan("");
       closeConfirm();
     }
@@ -93,13 +102,25 @@ const Appointment = () => {
             <b>Waktu appointment yang tersedia dapat dipilih pada kalender</b>
           </p>
           <div className="appointment-input-container">
-            <TextField
-              disabled
-              id="outlined-disabled"
-              label={displayDate === "" ? "Pilih tanggal pada kalender" : ""}
-              value={displayDate}
-              InputLabelProps={{ shrink: false }}
-            />
+            <FormControl fullWidth>
+              <InputLabel htmlFor="outlined-adornment-date">
+                Tangal Appointment
+              </InputLabel>
+              <OutlinedInput
+                value={displayDate}
+                id="outlined-adornment-date"
+                startAdornment={
+                  <InputAdornment position="start">
+                    <i
+                      className="fa fa-calendar fa-lg"
+                      style={{ marginRight: 5 }}
+                    ></i>
+                  </InputAdornment>
+                }
+                label="Tanggal Appointment"
+                disabled
+              />
+            </FormControl>
           </div>
           <div className="appointment-input-container">
             <TextField
@@ -112,7 +133,7 @@ const Appointment = () => {
               onChange={(e) => setKeterangan(e.target.value)}
             />
           </div>
-          {!displayDate ? (
+          {displayDate === "Pilih tanggal pada kalender" ? (
             <></>
           ) : (
             <button
