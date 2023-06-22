@@ -27,7 +27,7 @@ const CustomerSelectInput = ({
     if (!isInitiate && customerList?.data) {
       const transformOptions = customerList.data.map((data) => ({
         value: data.id,
-        label: data.nama,
+        label: `${data.nama} - ${data.nomor_telepon}`,
         extra: data,
       }));
       setOptions(transformOptions);

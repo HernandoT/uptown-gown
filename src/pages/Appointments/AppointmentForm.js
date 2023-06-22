@@ -7,13 +7,11 @@ import { useDisclosure } from "@mantine/hooks";
 import CustomerForm from "../Customer/CustomerForm";
 import Separator from "../../components/separator";
 import { notifications } from "@mantine/notifications";
-
 import * as Yup from "yup";
 import useYupValidationResolver from "../../hooks/use-yup-resolver";
 import Form from "../../components/field/form";
 import { useForm } from "react-hook-form";
 import CustomerSelectInput from "../../components/Select/customer-select-input";
-
 import TextInputField from "../../components/field/text-input";
 import { Timestamp } from "firebase/firestore";
 import {
@@ -48,7 +46,7 @@ const AppointmentForm = () => {
       customer: data?.appointment.id_customer || null,
       tanggal: data?.appointment.tanggal.toDate() || new Date(),
       keterangan: data?.appointment.keterangan,
-      status: data?.appointment.status,
+      status: data?.appointment.status.toString(),
     }),
     [data]
   );
@@ -84,7 +82,7 @@ const AppointmentForm = () => {
               keterangan: values.keterangan,
               id_customer: values.customer,
               tanggal: Timestamp.fromDate(new Date(values.tanggal)),
-              status: 1,
+              status: 2,
             });
         notifications.show({
           title: data?.appointment ? "Edit Appointment" : "Tambah Appointment",
@@ -153,7 +151,11 @@ const AppointmentForm = () => {
           <div className="appointment-form-content">
             <Form onSubmit={onSubmit} methods={methods}>
               <div className="appointment-form-customer">
-                <CustomerSelectInput style={{ flex: "70" }} name="customer" />
+                <CustomerSelectInput
+                  style={{ flex: "70" }}
+                  name="customer"
+                  disabled={data?.appointment}
+                />
                 {data?.appointment ? (
                   <></>
                 ) : (
@@ -170,7 +172,7 @@ const AppointmentForm = () => {
               <DateInputField
                 shouldDisableDate={shouldDisableDate}
                 name="tanggal"
-                label="Tanggal Pengeluaran"
+                label="Tanggal Appointment"
               />
               <Separator _gap={24} />
               <TextInputField
