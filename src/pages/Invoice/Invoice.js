@@ -81,7 +81,20 @@ const Invoice = () => {
         return <>{dayjs(row.tanggal_acara).format("DD/MM/YYYY")}</>;
       },
     },
-    { field: "harga_total", headerName: "Harga Total", minWidth: 120, flex: 1 },
+    {
+      field: "harga_total",
+      headerName: "Harga Total",
+      minWidth: 120,
+      flex: 1,
+      renderCell: ({ row }) => {
+        function currencyFormat(num) {
+          return (
+            "Rp. " + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+          );
+        }
+        return <>{currencyFormat(row.harga_total)}</>;
+      },
+    },
     {
       field: "status_pelunasan",
       headerName: "Status Pelunasan",
@@ -92,106 +105,15 @@ const Invoice = () => {
       field: "action",
       headerName: "Action",
       minWidth: 50,
-      flex: 0.5,
+      sortable: false,
+      disableColumnMenu: true,
+      headerAlign: "center",
       renderCell: ({ row }) => {
         const onClick = () => {
           navigate(`/admin/invoice/${row.id}`);
         };
         return <DetailButton onClick={onClick} />;
       },
-    },
-  ];
-
-  const rows = [
-    {
-      id: 1,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-      jenis: "Rent",
-      tanggalAcara: "01/03/2023",
-      hargaTotal: "Rp. 1.000.000",
-      status: "Belum Lunas",
-    },
-    {
-      id: 2,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-      jenis: "Custom Rent",
-      tanggalAcara: "01/03/2023",
-      hargaTotal: "Rp. 1.000.000",
-      status: "Belum Lunas",
-    },
-    {
-      id: 3,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-      jenis: "Custom Made",
-      tanggalAcara: "01/03/2023",
-      hargaTotal: "Rp. 1.000.000",
-      status: "Belum Lunas",
-    },
-    {
-      id: 4,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-      jenis: "Rent",
-      tanggalAcara: "01/03/2023",
-      hargaTotal: "Rp. 1.000.000",
-      status: "Lunas",
-    },
-    {
-      id: 5,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-      jenis: "Custom Rent",
-      tanggalAcara: "01/03/2023",
-      hargaTotal: "Rp. 1.000.000",
-      status: "Lunas",
-    },
-    {
-      id: 6,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-      jenis: "Custom Made",
-      tanggalAcara: "01/03/2023",
-      hargaTotal: "Rp. 1.000.000",
-      status: "Lunas",
-    },
-    {
-      id: 7,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-      jenis: "Rent",
-      tanggalAcara: "01/03/2023",
-      hargaTotal: "Rp. 1.000.000",
-      status: "Selesai",
-    },
-    {
-      id: 8,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-      jenis: "Rent",
-      tanggalAcara: "01/03/2023",
-      hargaTotal: "Rp. 1.000.000",
-      status: "Selesai",
-    },
-    {
-      id: 9,
-      email: "janedoe@gmail.com",
-      nama: "Jane Doe",
-      nomorTelepon: "0813123456789",
-      jenis: "Rent",
-      tanggalAcara: "01/03/2023",
-      hargaTotal: "Rp. 1.000.000",
-      status: "Selesai",
     },
   ];
 

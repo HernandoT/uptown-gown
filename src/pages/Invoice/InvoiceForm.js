@@ -1,5 +1,6 @@
 import "./InvoiceForm.css";
 import * as React from "react";
+import * as Yup from "yup";
 import AdminTitle from "../../components/AdminTitle/AdminTitle";
 import BackButton from "../../components/BackButton";
 import Form from "../../components/field/form";
@@ -49,6 +50,7 @@ import { notifications } from "@mantine/notifications";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { Timestamp } from "firebase/firestore";
+import useYupValidationResolver from "../../hooks/use-yup-resolver";
 
 const typeInvoice = {
   Rent: "rent",
@@ -532,9 +534,50 @@ const InvoiceForm = () => {
     [defaultValues, id, isEdit]
   );
 
+  const yupSchema = React.useMemo(
+    () =>
+      Yup.object().shape({
+        id_customer: Yup.string().required(
+          "Harap pilih Customer terlebih dahulu"
+        ),
+        id_jenis_invoice: Yup.string().required(
+          "Harap pilih Jenis Invoice terlebih dahulu"
+        ),
+        tanggal_acara: Yup.date().required(
+          "Harap isi Tanggal Acara terlebih dahulu"
+        ),
+        harga_total: Yup.number()
+          .required("Harap diisi (berikan 0 jika tidak ada biaya)")
+          .positive("Angka Wajib diatas 0")
+          .integer()
+          .typeError("Harga Total Wajib diisi dengan Angka"),
+        panjar: Yup.number()
+          .required("Harap diisi (berikan 0 jika tidak ada biaya)")
+          .positive("Angka Wajib diatas 0")
+          .integer()
+          .typeError("Panjar Wajib diisi dengan Angka"),
+        deposit: Yup.number()
+          .required("Harap diisi (berikan 0 jika tidak ada biaya)")
+          .positive("Angka Wajib diatas 0")
+          .integer()
+          .typeError("Deposit Wajib diisi dengan Angka"),
+        biaya_tambahan: Yup.number()
+          .required("Harap diisi (berikan 0 jika tidak ada biaya)")
+          .positive("Angka Wajib diatas 0")
+          .integer()
+          .typeError("Biaya Tambahan Wajib diisi dengan Angka"),
+        status_pelunasan: Yup.string().required(
+          "Harap pilih Status Pelunasan terlebih dahulu"
+        ),
+      }),
+    []
+  );
+
+  const resolver = useYupValidationResolver(yupSchema);
+
   const methods = useForm({
     defaultValues,
-    // resolver,
+    resolver,
     mode: "onChange",
   });
 
@@ -551,15 +594,16 @@ const InvoiceForm = () => {
   }, [openFitting]);
 
   return (
-    <div className="invoice-form">
-      <AdminTitle props={"Invoice"} />
-      <BackButton />
-      <div className="invoice-form-content">
-        {!isInitiate && isEdit ? (
-          <></>
-        ) : (
-          <Form onSubmit={onSubmit} methods={methods}>
-            {/* {JSON.stringify(defaultValues)}
+    <div className="invoice-form-container">
+      <div className="invoice-form">
+        <AdminTitle props={"Invoice"} />
+        <BackButton />
+        <div className="invoice-form-content">
+          {!isInitiate && isEdit ? (
+            <></>
+          ) : (
+            <Form onSubmit={onSubmit} methods={methods}>
+              {/* {JSON.stringify(defaultValues)}
             {defaultValues.items.map((detail) => {
               return (
                 <>
@@ -567,110 +611,113 @@ const InvoiceForm = () => {
                 </>
               );
             })} */}
-            <div style={{ display: "flex", height: "auto" }}>
-              <CustomerSelectInput
-                style={{ flex: "70" }}
-                name="id_customer"
-                disabled={isEdit ? true : false}
+              <div style={{ display: "flex", height: "auto" }}>
+                <CustomerSelectInput
+                  style={{ flex: "70" }}
+                  name="id_customer"
+                  disabled={isEdit ? true : false}
+                />
+                {isEdit ? (
+                  <></>
+                ) : (
+                  <button
+                    className="invoice-form-customer-add"
+                    onClick={onClickAddCustomer}
+                    type="button"
+                  >
+                    + TAMBAH CUSTOMER
+                  </button>
+                )}
+              </div>
+              <Separator _gap={12} />
+              <div style={{ display: "flex", height: "auto" }}>
+                <InvoiceTypeSelectInput
+                  name="id_jenis_invoice"
+                  style={{ marginTop: 8, marginRight: 20, flex: 1 }}
+                  disabled={isEdit ? true : false}
+                />
+                <div style={{ flex: 1 }}>
+                  <DateInputField name="tanggal_acara" label="Tanggal Acara" />
+                </div>
+              </div>
+              <Separator _gap={12} />
+              <Items
+                onClickAddCollection={onClickAddCollection}
+                isEdit={isEdit}
               />
-              {isEdit ? (
-                <></>
-              ) : (
-                <button
-                  className="invoice-form-customer-add"
-                  onClick={onClickAddCustomer}
-                  type="button"
-                >
-                  + TAMBAH CUSTOMER
-                </button>
-              )}
-            </div>
-            <Separator _gap={12} />
-            <div style={{ display: "flex", height: "auto" }}>
-              <InvoiceTypeSelectInput
-                name="id_jenis_invoice"
-                style={{ marginTop: 8, marginRight: 20 }}
-                disabled={isEdit ? true : false}
+              <div style={{ display: "flex", height: "auto" }}>
+                <TextInputField
+                  name="harga_total"
+                  label="Total"
+                  style={{ flex: 1, marginRight: 20 }}
+                />
+                <TextInputField
+                  name="panjar"
+                  label="Panjar"
+                  style={{ flex: 1, marginRight: 20 }}
+                />
+                <TextInputField
+                  name="deposit"
+                  label="Deposit"
+                  style={{ flex: 1 }}
+                />
+              </div>
+              <Separator _gap={24} />
+              <TextInputField name="biaya_tambahan" label="Biaya Tambahan" />
+              <Separator _gap={12} />
+              <p>
+                <strong>Status Pelunasan:</strong>
+              </p>
+              <RadioInputField
+                options={[
+                  { value: "Belum Lunas", label: "Belum Lunas" },
+                  { value: "Lunas", label: "Lunas" },
+                  { value: "Selesai", label: "Selesai" },
+                ]}
+                name="status_pelunasan"
+                required
               />
-              <DateInputField name="tanggal_acara" label="Tanggal Acara" />
-            </div>
-            <Separator _gap={12} />
-            <Items
-              onClickAddCollection={onClickAddCollection}
-              isEdit={isEdit}
-            />
-            <div style={{ display: "flex", height: "auto" }}>
+              <Separator _gap={24} />
               <TextInputField
-                name="harga_total"
-                label="Total"
-                style={{ flex: 1, marginRight: 20 }}
+                name="keterangan"
+                label="Keterangan"
+                multiline={true}
+                rows={3}
               />
-              <TextInputField
-                name="panjar"
-                label="Panjar"
-                style={{ flex: 1, marginRight: 20 }}
-              />
-              <TextInputField
-                name="deposit"
-                label="Deposit"
-                style={{ flex: 1 }}
-              />
-            </div>
-            <Separator _gap={24} />
-            <TextInputField name="biaya_tambahan" label="Biaya Tambahan" />
-            <Separator _gap={12} />
-            <p>
-              <strong>Status Pelunasan:</strong>
-            </p>
-            <RadioInputField
-              options={[
-                { value: "Belum Lunas", label: "Belum Lunas" },
-                { value: "Lunas", label: "Lunas" },
-                { value: "Selesai", label: "Selesai" },
-              ]}
-              name="status_pelunasan"
-              required
-            />
-            <Separator _gap={24} />
-            <TextInputField
-              name="keterangan"
-              label="Keterangan"
-              multiline={true}
-              rows={3}
-            />
-            <Separator _gap={24} />
-            <button className="invoice-simpan" type="submit">
-              SIMPAN
-            </button>
-          </Form>
-        )}
+              <Separator _gap={24} />
+              <button className="invoice-simpan" type="submit">
+                SIMPAN
+              </button>
+            </Form>
+          )}
+        </div>
+        <Modal
+          opened={openedCustomer}
+          centered
+          onClose={closeCustomer}
+          withCloseButton={false}
+        >
+          <CustomerForm onClose={closeCustomer} />
+        </Modal>
+        <Modal
+          opened={openedCollection}
+          centered
+          onClose={closeCollection}
+          withCloseButton={false}
+          size={1200}
+        >
+          <CollectionForm onClose={closeCollection} />
+        </Modal>
+        <Modal
+          opened={openedFitting}
+          centered
+          onClose={closeFitting}
+          withCloseButton={false}
+          size={800}
+        >
+          <FittingForm onClose={closeFitting} />
+        </Modal>
       </div>
-      <Modal
-        opened={openedCustomer}
-        centered
-        onClose={closeCustomer}
-        withCloseButton={false}
-      >
-        <CustomerForm onClose={closeCustomer} />
-      </Modal>
-      <Modal
-        opened={openedCollection}
-        centered
-        onClose={closeCollection}
-        withCloseButton={false}
-        size={1200}
-      >
-        <CollectionForm onClose={closeCollection} />
-      </Modal>
-      <Modal
-        opened={openedFitting}
-        centered
-        onClose={closeFitting}
-        withCloseButton={false}
-        size={800}
-      >
-        <FittingForm onClose={closeFitting} />
-      </Modal>
     </div>
   );
 };

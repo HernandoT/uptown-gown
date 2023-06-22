@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap");
 
 body {
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
   margin: 0;
 }
 
@@ -12,7 +12,7 @@ body {
 } */
 
 .ce-my-message-bubble {
-  background-color: #EDBF52 !important;
+  background-color: #edbf52 !important;
 }
 
 .ce-chat-title-text {
@@ -28,16 +28,16 @@ body {
   position: relative !important;
   bottom: 2px !important;
   left: 1px !important;
-  background-color: #EDBF52 !important;
+  background-color: #edbf52 !important;
 }
 
 .ce-my-message-timestamp {
   color: black !important;
 }
 
-.ce-settings, 
+.ce-settings,
 .ce-chat-list {
-  font-family: 'Poppins', sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
 }
 
 #new-chat-plus-button {
@@ -58,4 +58,16 @@ body {
 
 .MuiMenu-paper {
   max-height: 200px !important;
+}
+
+.MuiDataGrid-root,
+.MuiDataGrid-columnHeaderTitle,
+.MuiInputLabel-root,
+.MuiOutlinedInput-root,
+.mantine-Radio-labelWrapper {
+  font-family: "Poppins", sans-serif !important;
+}
+
+.MuiDataGrid-columnHeaderTitle {
+  font-weight: bold !important;
 }

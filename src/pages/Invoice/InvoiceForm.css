@@ -1,10 +1,15 @@
+.invoice-form-container {
+  height: 100vh;
+  overflow-y: scroll;
+}
+
 .invoice-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   float: right;
-  width: 74vw;
   padding: 2%;
+  width: 74vw;
 }
 
 .invoice-form-content {
