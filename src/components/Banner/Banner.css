@@ -1,12 +1,9 @@
 .banner {
   width: 100%;
-  height: 70vh;
-  background-color: #FDF9EE;
-  margin: 8px 0 6%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 2rem;
-  color: black;
-  font-weight: bold;
+  height: 80vh;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
 }

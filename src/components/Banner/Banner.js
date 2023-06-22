@@ -1,10 +1,11 @@
 import "./Banner.css";
 
-const Banner = () => {
+const Banner = ({ image }) => {
   return (
-  <div className="banner">
-    Lorem Ipsum dolor sit amet
-  </div>)
+    <div className="banner">
+      <img src={image} alt="Image" className="banner-image"></img>
+    </div>
+  );
 };
 
 export default Banner;

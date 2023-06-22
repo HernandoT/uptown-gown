@@ -9,6 +9,7 @@ import SupportEngine from "../../SupportEngine";
 import "./Home.css";
 import { getCollectionsWithOrderedDate } from "../../services/collection";
 import { useQuery } from "@tanstack/react-query";
+import image from "../../utils/assets/home-image-2.png";
 
 const Home = () => {
   const isLoged = localStorage.getItem("isLoged");
@@ -27,7 +28,7 @@ const Home = () => {
           <div className="square"></div>
           <Slogan />
           <NewCollections data={data.data} />
-          <Banner />
+          <Banner image={image}/>
           <PopularCollections data={data.data} />
           <Testimonials />
           <Footer />
