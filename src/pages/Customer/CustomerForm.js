@@ -21,7 +21,7 @@ const CustomerForm = ({
   const defaultValues = React.useMemo(
     () => ({
       email: data?.email || "",
-      password: data?.name || "123456",
+      password: data?.password || "123456",
       phoneNumber: data?.phoneNumber || "",
       name: data?.name || "",
       id: v4(),
@@ -35,7 +35,6 @@ const CustomerForm = ({
         email: Yup.string()
           .email("Email Tidak Valid")
           .required("Email Wajib Diisi"),
-        password: Yup.string().required("Password Wajib Diisi"),
         phoneNumber: Yup.string()
           .required("Nomor Telepon Wajib Diisi")
           .matches(
@@ -69,7 +68,7 @@ const CustomerForm = ({
               email: values.email,
               nama: values.name,
               nomor_telepon: values.phoneNumber,
-              password: values.password,
+              password: 123456,
             });
         notifications.show({
           title: isEdit ? "Edit User" : "Tambah User",

@@ -31,8 +31,6 @@ const defaultValues = {
 const Customer = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [opened, { open, close }] = useDisclosure(false);
-  const [openDeleteDialog, { open: openDelete, close: closeDelete }] =
-    useDisclosure(false);
   const [currentData, setCurrentData] = React.useState(defaultValues);
   const [isEdit, setIsEdit] = React.useState(false);
 
@@ -55,8 +53,11 @@ const Customer = () => {
     },
     {
       field: "edit",
-      headerName: "",
+      headerName: "Action",
+      minWidth: 50,
       sortable: false,
+      disableColumnMenu: true,
+      headerAlign: "center",
       renderCell: ({ row }) => {
         const onClick = () => {
           setCurrentData({
@@ -72,44 +73,6 @@ const Customer = () => {
         return (
           <>
             <DetailButton onClick={onClick} />
-          </>
-        );
-      },
-    },
-
-    {
-      field: "delete",
-      headerName: "",
-      sortable: false,
-      renderCell: ({ row }) => {
-        const onDelete = () => {
-          deleteEntity({ id: row.id, entity: field.customer });
-          queryClient.refetchQueries(["get-customers"]);
-          closeDelete();
-        };
-        return (
-          <>
-            <Button onClick={openDelete}>Delete</Button>
-            <Modal
-              onClose={closeDelete}
-              opened={openDeleteDialog}
-              withCloseButton={false}
-              centered
-            >
-              <Paper p={24} miw={400}>
-                <Text>
-                  Are you sure delete customer "
-                  {[row.nama, row.nomor_telepon].join(" - ")}"
-                </Text>
-                <Separator _gap={36} />
-                <Flex direction="row" justify="flex-end">
-                  <Button color="error" onClick={closeDelete}>
-                    No
-                  </Button>
-                  <Button onClick={onDelete}>Yes</Button>
-                </Flex>
-              </Paper>
-            </Modal>
           </>
         );
       },
@@ -153,7 +116,7 @@ const Customer = () => {
           ) : (
             <DataGrid
               rows={(data?.data || []).filter((customer) =>
-                customer.nama.toLowerCase().includes(searchTerm.toLowerCase())
+                customer.nomor_telepon.includes(searchTerm.toLowerCase())
               )}
               columns={columns}
               initialState={{
