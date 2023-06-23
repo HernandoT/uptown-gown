@@ -20,6 +20,7 @@ import { notifications } from "@mantine/notifications";
 import { Timestamp } from "firebase/firestore";
 import { createAppointment } from "../../services/appointment";
 import { useNavigate } from "react-router-dom";
+import useGetAppointmentedDate from "../../hooks/use-get-appointmented-date";
 
 const Appointment = () => {
   const isLoged = localStorage.getItem("isLoged");
@@ -71,6 +72,15 @@ const Appointment = () => {
     }
   };
 
+  const { listAppointmented } = useGetAppointmentedDate();
+  const disabledDate = [];
+  Object.keys(listAppointmented)?.map((keyDate) => {
+    if (listAppointmented[keyDate] > 2) {
+      const date = keyDate.split('/');
+      disabledDate.push(new Date(+date[2], date[1] - 1, +date[0]));
+    }
+  });
+
   return (
     <div className="content">
       <Navbar />
@@ -84,7 +94,7 @@ const Appointment = () => {
             }}
             inline
             minDate={new Date()}
-            // excludeDates={[new Date(), subDays(new Date(), 1)]}
+            excludeDates={disabledDate}
           />
         </div>
         <div className="appointmentText">
