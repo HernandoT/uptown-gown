@@ -225,25 +225,20 @@ const Items = ({ onClickAddCollection, isEdit }) => {
   );
 };
 
-const InvoiceForm = () => {
-  const { id } = useParams();
-  const { data, isSuccess, isFetching } = useQuery(
-    ["get-invoices", id],
-    () => getInvoice(id || ""),
-    { enabled: !!id }
-  );
-  const { data: dataDetailItems, isFetching: isFetchingDetailItems } = useQuery(
-    ["get-detail-invoice-items"],
-    () => getDetailInvoiceItems()
-  );
-  const { data: dataFitting, isFetching: isFetchingFitting } = useQuery(
-    ["get-fittings"],
-    () => getFittings()
-  );
-  const [items, setItems] = React.useState([]);
-  const [isInitiate, setIsInitiate] = React.useState(false);
-  const isEdit = id ? true : false;
-
+const IsolatedForm = ({
+  data,
+  items,
+  isSuccess,
+  isFetchingDetailItems,
+  isFetchingFitting,
+  dataDetailItems,
+  id,
+  dataFitting,
+  setItems,
+  setIsInitiate,
+  isEdit,
+  isInitiate,
+}) => {
   const defaultValues = React.useMemo(
     () => ({
       id: data?.invoice.id,
@@ -259,58 +254,8 @@ const InvoiceForm = () => {
       waktu_buat: data?.invoice.waktu_buat || new Date(),
       waktu_ubah: data?.invoice.waktu_ubah || new Date(),
       items: items,
-      // items: [
-      //   {
-      //     id_invoice: "",
-      //     id_detail_invoice_item: "",
-      //     id_collection: "",
-      //     nama_item: "",
-      //     harga: 0,
-      //     gambar_sketsa: "",
-      //     fitting: {
-      //       id_fitting: "",
-      //       lingkarLeher: "",
-      //       lingkarBadan: "",
-      //       lingkarBadanAtas: "",
-      //       lingkarPinggang: "",
-      //       lingkarPerut: "",
-      //       lingkarPinggul: "",
-      //       jarakDada: "",
-      //       tinggiDada: "",
-      //       panjangDada: "",
-      //       panjangPunggung: "",
-      //       panjangSisi: "",
-      //       lebarBahu: "",
-      //       lebarDada: "",
-      //       lebarPunggung: "",
-      //       tinggiPerut: "",
-      //       tinggiPinggul: "",
-      //       lenganPendek: "",
-      //       lebarLengan: "",
-      //       lenganPanjang: "",
-      //       lebarPergelanganLengan: "",
-      //       panjangSiku: "",
-      //       panjangRok: "",
-      //       lebarKerungLengan: "",
-      //     },
-      //   },
-      // ],
     }),
-    [
-      data?.invoice.biaya_tambahan,
-      data?.invoice.deposit,
-      data?.invoice.harga_total,
-      data?.invoice.id,
-      data?.invoice.id_customer,
-      data?.invoice.id_jenis_invoice,
-      data?.invoice.keterangan,
-      data?.invoice.panjar,
-      data?.invoice.status_pelunasan,
-      data?.invoice.tanggal_acara,
-      data?.invoice.waktu_buat,
-      data?.invoice.waktu_ubah,
-      items,
-    ]
+    [data, items]
   );
 
   React.useEffect(() => {
@@ -719,6 +664,44 @@ const InvoiceForm = () => {
         </Modal>
       </div>
     </div>
+  );
+};
+
+const InvoiceForm = () => {
+  const { id } = useParams();
+  const { data, isSuccess, isFetching } = useQuery(
+    ["get-invoices", id],
+    () => getInvoice(id || ""),
+    { enabled: !!id }
+  );
+  const { data: dataDetailItems, isFetching: isFetchingDetailItems } = useQuery(
+    ["get-detail-invoice-items"],
+    () => getDetailInvoiceItems()
+  );
+  const { data: dataFitting, isFetching: isFetchingFitting } = useQuery(
+    ["get-fittings"],
+    () => getFittings()
+  );
+  const [items, setItems] = React.useState([]);
+  const [isInitiate, setIsInitiate] = React.useState(false);
+  const isEdit = id ? true : false;
+
+  return (
+    <IsolatedForm
+      data={data}
+      dataDetailItems={dataDetailItems}
+      dataFitting={dataFitting}
+      id={id}
+      isEdit={isEdit}
+      isFetchingDetailItems={isFetchingDetailItems}
+      isFetchingFitting={isFetchingFitting}
+      isInitiate={isInitiate}
+      isSuccess={isSuccess}
+      items={items}
+      setIsInitiate={setIsInitiate}
+      setItems={setItems}
+      key={data ? "enabled" : "disabled"}
+    />
   );
 };
 
