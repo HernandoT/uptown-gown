@@ -5,7 +5,9 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { field } from "../common/constant";
 import { queryClient } from "./query-client";
@@ -29,6 +31,28 @@ export const getInvoice = async (id = "") => {
   try {
     const invoice = (await getDoc(doc(db, field.invoice, id))).data();
     return { invoice };
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getInvoicesByIdCustomer = async (idInvoice) => {
+  try {
+    const collectionRef = collection(db, field.invoice);
+    const q = query(collectionRef, where("id_customer", "==", idInvoice));
+    const docRefs = await getDocs(q);
+
+    const invoices = [];
+
+    docRefs.forEach((invoice) => {
+      invoices.push({
+        id: invoice.id,
+        ...invoice.data(),
+        tanggal_acara: dayjs(invoice.data().tanggal_acara.toDate()),
+      });
+    });
+
+    return { invoices };
   } catch (e) {
     console.log(e);
   }

@@ -7,33 +7,33 @@
     justify-content: space-around !important;
 }
 
-.card-appointment {
+.card {
     margin: 32px 0;
 }
 
-.card-content-appointment {
+.card-content {
     padding: 16px 48px !important;
 }
 
-.card-appointment-left {
+.card-left {
     flex: 3;
   }
   
-.card-appointment-right {
+.card-right {
     flex: 1;
     display: flex;
     justify-content: right;
     align-items: center;
   }
 
-.card-appointment-status {
+.card-status {
     display: flex;
     align-items: center;
     font-size: 20px;
     font-weight: bold;
 }
 
-.card-appointment-status svg{
+.card-status svg{
     font-size: 32px;
     padding-left: 8px;
 }
