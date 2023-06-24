@@ -53,7 +53,7 @@ const typeInvoice = {
   CustomMade: "custom_made",
 };
 
-const Items = ({ isEdit }) => {
+const Items = ({ isEdit, isFinished }) => {
   const { control, setValue } = useFormContext();
   const { fields, append, remove, update } = useFieldArray({
     name: "items",
@@ -189,14 +189,19 @@ const Items = ({ isEdit }) => {
                 name={`items[${index}].harga`}
                 label="Harga"
                 style={{ flex: 5 }}
+                disabled={isFinished}
               />
-              <button
-                className="item-fitting-button"
-                onClick={onClickFitting({ index, fitting: field.fitting })}
-                type="button"
-              >
-                <i class="fa fa-pencil fa-2x"></i>
-              </button>
+              {isFinished ? (
+                <></>
+              ) : (
+                <button
+                  className="item-fitting-button"
+                  onClick={onClickFitting({ index, fitting: field.fitting })}
+                  type="button"
+                >
+                  <i class="fa fa-pencil fa-2x"></i>
+                </button>
+              )}
               <Separator _gap={24} />
               <ImagesInputField
                 label="Pratinjau :"
@@ -205,6 +210,7 @@ const Items = ({ isEdit }) => {
                 width={56}
                 height={56}
                 isHide
+                isFinished={isFinished}
               />
               {isEdit ? (
                 <></>
@@ -239,6 +245,8 @@ const IsolatedForm = ({
   setIsInitiate,
   isEdit,
   isInitiate,
+  isFinished,
+  setIsFinished,
 }) => {
   const defaultValues = React.useMemo(
     () => ({
@@ -275,6 +283,9 @@ const IsolatedForm = ({
           };
           items.push(detailItem);
         });
+      if (data?.invoice.status_pelunasan === "Selesai") {
+        setIsFinished(true);
+      }
       setItems(items);
       setIsInitiate(true);
     }
@@ -317,7 +328,6 @@ const IsolatedForm = ({
           ...item,
         }));
 
-        console.log(invoice, fittings, detailInvoice);
         if (!isEdit) {
           const invoiceDoc = createInvoice({
             id_customer: invoice.id_customer,
@@ -399,7 +409,7 @@ const IsolatedForm = ({
             status_pelunasan: invoice.status_pelunasan,
             keterangan: invoice.keterangan,
             waktu_buat: invoice.waktu_buat,
-            waktu_ubah: invoice.waktu_ubah,
+            waktu_ubah: Timestamp.fromDate(new Date()),
           });
 
           fittings.map(async (fitting, index) => {
@@ -445,7 +455,7 @@ const IsolatedForm = ({
               nama_item: detailInvoice[index].nama_item
                 ? detailInvoice[index].nama_item
                 : "",
-              harga: detailInvoice[index].harga,
+              harga: parseInt(detailInvoice[index].harga),
               gambar_sketsa: fileUrl,
             });
           });
@@ -547,13 +557,15 @@ const IsolatedForm = ({
                   disabled={isEdit ? true : false}
                 />
                 <div style={{ flex: 1 }}>
-                  <DateInputField name="tanggal_acara" label="Tanggal Acara" />
+                  <DateInputField
+                    name="tanggal_acara"
+                    label="Tanggal Acara"
+                    disabled={isFinished}
+                  />
                 </div>
               </div>
               <Separator _gap={12} />
-              <Items
-                isEdit={isEdit}
-              />
+              <Items isEdit={isEdit} isFinished={isFinished} />
               <div style={{ display: "flex", height: "auto" }}>
                 <TextInputField
                   name="harga_total"
@@ -565,15 +577,17 @@ const IsolatedForm = ({
                   name="panjar"
                   label="Panjar"
                   style={{ flex: 1, marginRight: 20 }}
+                  disabled={isFinished}
                 />
                 <TextInputField
                   name="deposit"
                   label="Deposit"
                   style={{ flex: 1 }}
+                  disabled={isFinished}
                 />
               </div>
               <Separator _gap={24} />
-              <TextInputField name="biaya_tambahan" label="Biaya Tambahan" />
+              <TextInputField name="biaya_tambahan" label="Biaya Tambahan" disabled={isFinished}/>
               <Separator _gap={12} />
               <p>
                 <strong>Status Pelunasan:</strong>
@@ -586,6 +600,7 @@ const IsolatedForm = ({
                 ]}
                 name="status_pelunasan"
                 required
+                disabled={isFinished}
               />
               <Separator _gap={24} />
               <TextInputField
@@ -593,11 +608,16 @@ const IsolatedForm = ({
                 label="Keterangan"
                 multiline={true}
                 rows={3}
+                disabled={isFinished}
               />
               <Separator _gap={24} />
-              <button className="invoice-simpan" type="submit">
-                SIMPAN
-              </button>
+              {isFinished ? (
+                <></>
+              ) : (
+                <button className="invoice-simpan" type="submit">
+                  SIMPAN
+                </button>
+              )}
             </Form>
           )}
         </div>
@@ -640,6 +660,7 @@ const InvoiceForm = () => {
   );
   const [items, setItems] = React.useState([]);
   const [isInitiate, setIsInitiate] = React.useState(false);
+  const [isFinished, setIsFinished] = React.useState(false);
   const isEdit = id ? true : false;
 
   return (
@@ -649,12 +670,14 @@ const InvoiceForm = () => {
       dataFitting={dataFitting}
       id={id}
       isEdit={isEdit}
+      isFinished={isFinished}
       isFetchingDetailItems={isFetchingDetailItems}
       isFetchingFitting={isFetchingFitting}
       isInitiate={isInitiate}
       isSuccess={isSuccess}
       items={items}
       setIsInitiate={setIsInitiate}
+      setIsFinished={setIsFinished}
       setItems={setItems}
       key={isInitiate ? "enabled" : "disabled"}
     />

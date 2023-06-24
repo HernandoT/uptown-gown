@@ -12,11 +12,12 @@ const ImagesInputField = ({
   label = "Unggah Gambar",
   isHide = false,
   deleteDescription = (
-    <Text size="sm">Are you sure you want to delete this image? .</Text>
+    <Text size="sm">Apakah anda yakin ingin menghapus gambar ini?</Text>
   ),
   deleteTitle = "Delete unsaved changes",
   width = 300,
   height,
+  isFinished,
 }) => {
   const { control } = useFormContext();
   //save object files
@@ -30,6 +31,7 @@ const ImagesInputField = ({
         centered: true,
         labels: { cancel: "Cancel", confirm: "Confirm" },
         cancelProps: { color: "red" },
+        withCloseButton: false,
         onCancel: () => {},
         onConfirm: () => field.onChange([]),
       }),
@@ -41,6 +43,7 @@ const ImagesInputField = ({
       modals.open({
         centered: true,
         closeOnClickOutside: true,
+        withCloseButton: false,
         children: <Image src={imageUrl} />,
       });
     },
@@ -59,26 +62,30 @@ const ImagesInputField = ({
           overflow: "hidden",
         }}
       >
-        <button
-          style={{
-            position: "absolute",
-            right: 0,
-            top: 0,
-            zIndex: 3,
-            border: "1px solid red",
-            borderRadius: 9999,
-            color: "white",
-            backgroundColor: "red",
-            cursor: "pointer",
-            textAlign: "center",
-            display: "flex",
-            alignItems: "center",
-          }}
-          type="button"
-          onClick={onDelete}
-        >
-          x
-        </button>
+        {isFinished ? (
+          <></>
+        ) : (
+          <button
+            style={{
+              position: "absolute",
+              right: 0,
+              top: 0,
+              zIndex: 3,
+              border: "1px solid red",
+              borderRadius: 9999,
+              color: "white",
+              backgroundColor: "red",
+              cursor: "pointer",
+              textAlign: "center",
+              display: "flex",
+              alignItems: "center",
+            }}
+            type="button"
+            onClick={onDelete}
+          >
+            x
+          </button>
+        )}
         <div onClick={onView(imageUrl)}>
           <Image key={index} src={imageUrl} fit="cover" />
         </div>

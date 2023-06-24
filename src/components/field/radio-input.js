@@ -19,13 +19,13 @@ const RadioInputField = ({
       label={label}
       placeholder={placeholder}
       withAsterisk={required}
-      disabled={disabled}
       error={fieldState.error?.message}
       {...rest}
     >
       <div style={{ display: "flex" }}>
         {options.map((option) => (
           <Radio
+            disabled={disabled}
             key={option.value}
             value={option.value}
             label={option.label}
