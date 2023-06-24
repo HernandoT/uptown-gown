@@ -285,7 +285,11 @@ const IsolatedForm = ({
           const fitting = dataFitting.data.find((fit) => {
             return item.id_fitting === fit.id;
           });
-          const detailItem = { ...item, fitting };
+          const detailItem = {
+            ...item,
+            fitting,
+            gambar_sketsa: [item.gambar_sketsa],
+          };
           items.push(detailItem);
         });
       setItems(items);
@@ -700,7 +704,7 @@ const InvoiceForm = () => {
       items={items}
       setIsInitiate={setIsInitiate}
       setItems={setItems}
-      key={data ? "enabled" : "disabled"}
+      key={isInitiate ? "enabled" : "disabled"}
     />
   );
 };
