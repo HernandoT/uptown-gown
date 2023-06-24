@@ -58,6 +58,28 @@ export const getInvoicesByIdCustomer = async (idInvoice) => {
   }
 };
 
+export const getInvoicesByStatusSelesai = async () => {
+  try {
+    const collectionRef = collection(db, field.invoice);
+    const q = query(collectionRef, where("status_pelunasan", "==", "Selesai"));
+    const docRefs = await getDocs(q);
+
+    const invoices = [];
+
+    docRefs.forEach((invoice) => {
+      invoices.push({
+        id: invoice.id,
+        ...invoice.data(),
+        waktu_ubah: dayjs(invoice.data().waktu_ubah.toDate()),
+      });
+    });
+
+    return { invoices };
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const createInvoice = async ({
   id_customer,
   id_jenis_invoice,

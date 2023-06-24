@@ -1,8 +1,4 @@
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { auth, db } from "./firebase";
+import { db } from "./firebase";
 import {
   addDoc,
   collection,
@@ -13,28 +9,6 @@ import {
 } from "firebase/firestore";
 import { field } from "../common/constant";
 import { queryClient } from "./query-client";
-
-export const signUp = async ({ email = "", password = "" }) => {
-  try {
-    const response = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    console.log(response.user);
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-export const signIn = async ({ email = "", password }) => {
-  try {
-    const response = await signInWithEmailAndPassword(auth, email, password);
-    console.log(response.user);
-  } catch (e) {
-    console.log(e);
-  }
-};
 
 export const getCustomers = async () => {
   try {
