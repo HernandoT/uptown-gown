@@ -605,7 +605,6 @@ const IsolatedForm = ({
                   name="harga_total"
                   label="Total"
                   style={{ flex: 1, marginRight: 20 }}
-                  InputLabelProps={{ shrink: true }}
                   disabled
                 />
                 <TextInputField

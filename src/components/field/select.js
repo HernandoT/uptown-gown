@@ -29,9 +29,13 @@ const SelectField = ({
     }
   }, [field?.value, onAfterChangeDetail, options]);
 
+  const hasValue =
+    field.value !== "" && field.value !== null && field.value !== undefined;
+
   return (
     <TextField
       {...field}
+      InputLabelProps={{ shrink: hasValue }}
       fullWidth
       labelId="demo-simple-select-label"
       id="demo-simple-select"

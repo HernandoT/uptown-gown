@@ -13,9 +13,12 @@ const TextInputField = ({
 }) => {
   const { control } = useFormContext();
   const { field, fieldState } = useController({ name, control });
+  const hasValue =
+    field.value !== "" && field.value !== null && field.value !== undefined;
   return (
     <TextField
       {...field}
+      InputLabelProps={{ shrink: hasValue }}
       error={!!fieldState.error?.message}
       helperText={fieldState.error?.message}
       label={label}
