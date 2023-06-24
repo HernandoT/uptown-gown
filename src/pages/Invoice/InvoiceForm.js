@@ -12,7 +12,7 @@ import {
 } from "react-hook-form";
 import CustomerSelectInput from "../../components/Select/customer-select-input";
 import { useDisclosure } from "@mantine/hooks";
-import { Image, Modal } from "@mantine/core";
+import { Modal } from "@mantine/core";
 import CustomerForm from "../Customer/CustomerForm";
 import DateInputField from "../../components/field/date-input";
 import InvoiceTypeSelectInput from "../../components/Select/invoice-type-select-input";
@@ -24,16 +24,10 @@ import FittingForm from "./FittingForm";
 import CollectionForm from "../Collections/CollectionForm";
 import { modals } from "@mantine/modals";
 import ImagesInputField from "../../components/field/image";
-import images from "../../assets/png/index";
 import { ImagePlaceholder } from "../../assets/svg";
 import { urlPattern } from "../../utils/regex";
 import { getUrlImage } from "../../utils/image-function";
-import {
-  createFitting,
-  getFitting,
-  getFittings,
-  updateFitting,
-} from "../../services/fitting";
+import { createFitting, getFittings } from "../../services/fitting";
 import {
   createInvoice,
   getInvoice,
@@ -41,10 +35,7 @@ import {
 } from "../../services/invoice";
 import {
   createDetailInvoiceItem,
-  getDetailInvoiceItem,
-  getDetailInvoiceItemByIdInvoice,
   getDetailInvoiceItems,
-  updateDetailInvoiceItem,
 } from "../../services/detail-invoice-item";
 import { notifications } from "@mantine/notifications";
 import { useQuery } from "@tanstack/react-query";
@@ -64,10 +55,6 @@ const Items = ({ onClickAddCollection, isEdit }) => {
     name: "items",
     control,
     keyName: "customId",
-  });
-  const [type] = useWatch({
-    control,
-    name: ["id_jenis_invoice"],
   });
 
   const onClickFitting =
@@ -131,6 +118,25 @@ const Items = ({ onClickAddCollection, isEdit }) => {
   const removeItem = (index) => () => {
     remove(index);
   };
+
+  //tracking total
+  const [type, items] = useWatch({
+    control,
+    name: ["id_jenis_invoice", "items"],
+  });
+
+  React.useEffect(() => {
+    const total = items.reduce((prev, item) => {
+      if (typeof item.harga === "number") {
+        const harga = item.harga || 0;
+        return prev + harga;
+      } else {
+        const harga = parseFloat(item.harga || 0);
+        return prev + harga;
+      }
+    }, 0);
+    setValue("harga_total", total);
+  }, [items, setValue]);
 
   return (
     <>
