@@ -140,6 +140,7 @@ const History = () => {
                         className="card"
                         variant="outlined"
                         onClick={onClickDetailItem(invoice)}
+                        style={{cursor:"pointer"}}
                       >
                         <CardContent className="card-content">
                           <div style={{ display: "flex" }}>

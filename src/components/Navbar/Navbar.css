@@ -185,4 +185,8 @@
     color: #181308;
     margin-right: 2%;
   }
+
+  .profile-button.active {
+    background-color: transparent;
+  }
 } 

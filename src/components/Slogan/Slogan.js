@@ -1,13 +1,17 @@
 import "./Slogan.css";
 import img from "../../utils/assets/home-image.png";
+import { BsStars } from "react-icons/bs";
 
 const Slogan = () => {
   return (
     <div className="slogan">
       <div className="text">
-        <h1 className="sloganTitle">Slogan here</h1>
-        <h1 className="sloganTitle">Lorem Ipsum</h1>
-        <p className="desc">Description - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+        <h1 className="sloganTitle">Make Memories <BsStars style={{ color: "EDBF52" }} /></h1>
+        <h1 className="sloganTitle">in Your Dream Dress</h1>
+        <p className="desc">di Uptown Gown custom dan sewa tidaklah sulit. 
+        Kamu tidak perlu repot memikirkan design atau bahan yang kamu mau karna disini kami mengatur semuanya. 
+        Kami juga bisa merancang gaun pesta, sweet seventeen, cheongsam dan juga gaun pengantin sesuai dengan selera anda dengan harga yang terjangkau dan kualitas yang bagus. 
+        </p>
       </div>
 
       <div className="slogan-img">
