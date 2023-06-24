@@ -21,13 +21,16 @@ import TextInputField from "../../components/field/text-input";
 import RadioInputField from "../../components/field/radio-input";
 import CollectionSelectInput from "../../components/Select/collection-select-input";
 import FittingForm from "./FittingForm";
-import CollectionForm from "../Collections/CollectionForm";
 import { modals } from "@mantine/modals";
 import ImagesInputField from "../../components/field/image";
 import { ImagePlaceholder } from "../../assets/svg";
 import { urlPattern } from "../../utils/regex";
 import { getUrlImage } from "../../utils/image-function";
-import { createFitting, getFittings } from "../../services/fitting";
+import {
+  createFitting,
+  getFittings,
+  updateFitting,
+} from "../../services/fitting";
 import {
   createInvoice,
   getInvoice,
@@ -36,6 +39,7 @@ import {
 import {
   createDetailInvoiceItem,
   getDetailInvoiceItems,
+  updateDetailInvoiceItem,
 } from "../../services/detail-invoice-item";
 import { notifications } from "@mantine/notifications";
 import { useQuery } from "@tanstack/react-query";
@@ -49,7 +53,7 @@ const typeInvoice = {
   CustomMade: "custom_made",
 };
 
-const Items = ({ onClickAddCollection, isEdit }) => {
+const Items = ({ isEdit }) => {
   const { control, setValue } = useFormContext();
   const { fields, append, remove, update } = useFieldArray({
     name: "items",
@@ -161,16 +165,11 @@ const Items = ({ onClickAddCollection, isEdit }) => {
         return (
           <>
             <div key={index} style={{ display: "flex", height: "auto" }}>
-              {type === typeInvoice.CustomMade ? (
-                <TextInputField
-                  name={`items[${index}].nama_item`}
-                  label="Collection"
-                  style={{ flex: 5, marginRight: 20 }}
-                />
-              ) : (
+              {type === typeInvoice.Rent ? (
                 <CollectionSelectInput
                   name={`items[${index}].id_collection`}
                   style={{ flex: 5, marginRight: 20 }}
+                  disabled={isEdit}
                   // onAfterChangeDetail={(value) => {
                   //   setValue(`items[${index}].id_collection`, value?.value);
                   //   setValue(`items[${index}].gambar_sketsa`, [
@@ -178,17 +177,13 @@ const Items = ({ onClickAddCollection, isEdit }) => {
                   //   ]);
                   // }}
                 />
-              )}
-              {isEdit ? (
-                <></>
               ) : (
-                <button
-                  className="add-collection-button"
-                  onClick={onClickAddCollection}
-                  type="button"
-                >
-                  +
-                </button>
+                <TextInputField
+                  name={`items[${index}].nama_item`}
+                  label="Collection"
+                  style={{ flex: 5, marginRight: 20 }}
+                  disabled={isEdit}
+                />
               )}
               <TextInputField
                 name={`items[${index}].harga`}
@@ -266,24 +261,6 @@ const IsolatedForm = ({
 
   React.useEffect(() => {
     if (isSuccess && !isFetchingDetailItems && !isFetchingFitting) {
-      // getDetailInvoiceItemByIdInvoice(id)
-      //   .then((item) => {
-      //     return item.items;
-      //   })
-      //   .then((detailItems) => {
-      //     detailItems.map((detailItem, index) => {
-      //       getFitting(detailItem.id_fitting)
-      //         .then((fittingData) => {
-      //           const fitting = fittingData.fitting;
-      //           return { ...detailItem, fitting };
-      //         })
-      //         .then((data) => {
-      //           console.log(data);
-      //           setItems(data);
-      //         });
-      //     });
-      //   });
-      // setIsInitiate(true);
       const items = [];
       dataDetailItems.data
         .filter((items) => items.id_invoice === id)
@@ -304,9 +281,6 @@ const IsolatedForm = ({
   }, [isSuccess, isFetchingDetailItems, isFetchingFitting]);
 
   const [openedCustomer, { open: openCustomer, close: closeCustomer }] =
-    useDisclosure(false);
-
-  const [openedCollection, { open: openCollection, close: closeCollection }] =
     useDisclosure(false);
 
   const [openedFitting, { open: openFitting, close: closeFitting }] =
@@ -414,7 +388,6 @@ const IsolatedForm = ({
             color: "teal",
           });
         } else {
-          console.log(defaultValues);
           updateInvoice(id, {
             id_customer: invoice.id_customer,
             id_jenis_invoice: invoice.id_jenis_invoice,
@@ -429,51 +402,53 @@ const IsolatedForm = ({
             waktu_ubah: invoice.waktu_ubah,
           });
 
-          // fittings.map(async (fitting, index) => {
-          //   updateFitting(defaultValues?.items[index].id_fitting, {
-          //     lingkar_leher: fitting.lingkarLeher,
-          //     lingkar_badan: fitting.lingkarBadan,
-          //     lingkar_badan_atas: fitting.lingkarBadanAtas,
-          //     lingkar_pinggang: fitting.lingkarPinggang,
-          //     lingkar_perut: fitting.lingkarPerut,
-          //     lingkar_pinggul: fitting.lingkarPinggul,
-          //     jarak_dada: fitting.jarakDada,
-          //     tinggi_dada: fitting.tinggiDada,
-          //     panjang_dada: fitting.panjangDada,
-          //     panjang_punggung: fitting.panjangPunggung,
-          //     panjang_sisi: fitting.panjangSisi,
-          //     lebar_bahu: fitting.lebarBahu,
-          //     lebar_dada: fitting.lebarDada,
-          //     lebar_punggung: fitting.lebarPunggung,
-          //     tinggi_perut: fitting.tinggiPerut,
-          //     tinggi_pinggul: fitting.tinggiPinggul,
-          //     lengan_pendek: fitting.lenganPendek,
-          //     lebar_lengan: fitting.lebarLengan,
-          //     lengan_panjang: fitting.lenganPanjang,
-          //     lebar_pergelangan_lengan: fitting.lebarPergelanganLengan,
-          //     panjang_siku: fitting.panjangSiku,
-          //     panjang_rok: fitting.panjangRok,
-          //     lebar_kerung_lengan: fitting.lebarKerungLengan,
-          //   });
+          fittings.map(async (fitting, index) => {
+            updateFitting(defaultValues?.items[index].id_fitting, {
+              lingkar_leher: fitting.lingkarLeher,
+              lingkar_badan: fitting.lingkarBadan,
+              lingkar_badan_atas: fitting.lingkarBadanAtas,
+              lingkar_pinggang: fitting.lingkarPinggang,
+              lingkar_perut: fitting.lingkarPerut,
+              lingkar_pinggul: fitting.lingkarPinggul,
+              jarak_dada: fitting.jarakDada,
+              tinggi_dada: fitting.tinggiDada,
+              panjang_dada: fitting.panjangDada,
+              panjang_punggung: fitting.panjangPunggung,
+              panjang_sisi: fitting.panjangSisi,
+              lebar_bahu: fitting.lebarBahu,
+              lebar_dada: fitting.lebarDada,
+              lebar_punggung: fitting.lebarPunggung,
+              tinggi_perut: fitting.tinggiPerut,
+              tinggi_pinggul: fitting.tinggiPinggul,
+              lengan_pendek: fitting.lenganPendek,
+              lebar_lengan: fitting.lebarLengan,
+              lengan_panjang: fitting.lenganPanjang,
+              lebar_pergelangan_lengan: fitting.lebarPergelanganLengan,
+              panjang_siku: fitting.panjangSiku,
+              panjang_rok: fitting.panjangRok,
+              lebar_kerung_lengan: fitting.lebarKerungLengan,
+            });
 
-          //   const fileUrl = urlPattern.test(detailInvoice[index].gambar_sketsa[0])
-          //     ? detailInvoice[index].gambar_sketsa[0]
-          //     : await getUrlImage({
-          //         file: detailInvoice[index].gambar_sketsa[0],
-          //       });
-          //   updateDetailInvoiceItem(defaultValues?.items[index].id, {
-          //     id_invoice: id,
-          //     id_collection: detailInvoice[index].id_collection
-          //       ? detailInvoice[index].id_collection
-          //       : "",
-          //     id_fitting: defaultValues?.items[index].id_fitting,
-          //     nama_item: detailInvoice[index].nama_item
-          //       ? detailInvoice[index].nama_item
-          //       : "",
-          //     harga: detailInvoice[index].harga,
-          //     gambar_sketsa: fileUrl,
-          //   });
-          // });
+            const fileUrl = urlPattern.test(
+              detailInvoice[index].gambar_sketsa[0]
+            )
+              ? detailInvoice[index].gambar_sketsa[0]
+              : await getUrlImage({
+                  file: detailInvoice[index].gambar_sketsa[0],
+                });
+            updateDetailInvoiceItem(defaultValues?.items[index].id, {
+              id_invoice: id,
+              id_collection: detailInvoice[index].id_collection
+                ? detailInvoice[index].id_collection
+                : "",
+              id_fitting: defaultValues?.items[index].id_fitting,
+              nama_item: detailInvoice[index].nama_item
+                ? detailInvoice[index].nama_item
+                : "",
+              harga: detailInvoice[index].harga,
+              gambar_sketsa: fileUrl,
+            });
+          });
 
           notifications.show({
             title: "Update Invoice",
@@ -503,22 +478,18 @@ const IsolatedForm = ({
         ),
         harga_total: Yup.number()
           .required("Harap diisi (berikan 0 jika tidak ada biaya)")
-          .positive("Angka Wajib diatas 0")
           .integer()
           .typeError("Harga Total Wajib diisi dengan Angka"),
         panjar: Yup.number()
           .required("Harap diisi (berikan 0 jika tidak ada biaya)")
-          .positive("Angka Wajib diatas 0")
           .integer()
           .typeError("Panjar Wajib diisi dengan Angka"),
         deposit: Yup.number()
           .required("Harap diisi (berikan 0 jika tidak ada biaya)")
-          .positive("Angka Wajib diatas 0")
           .integer()
           .typeError("Deposit Wajib diisi dengan Angka"),
         biaya_tambahan: Yup.number()
           .required("Harap diisi (berikan 0 jika tidak ada biaya)")
-          .positive("Angka Wajib diatas 0")
           .integer()
           .typeError("Biaya Tambahan Wajib diisi dengan Angka"),
         status_pelunasan: Yup.string().required(
@@ -540,14 +511,6 @@ const IsolatedForm = ({
     openCustomer();
   }, [openCustomer]);
 
-  const onClickAddCollection = React.useCallback(() => {
-    openCollection();
-  }, [openCollection]);
-
-  const onClickOpenFitting = React.useCallback(() => {
-    openFitting();
-  }, [openFitting]);
-
   return (
     <div className="invoice-form-container">
       <div className="invoice-form">
@@ -558,14 +521,6 @@ const IsolatedForm = ({
             <></>
           ) : (
             <Form onSubmit={onSubmit} methods={methods}>
-              {/* {JSON.stringify(defaultValues)}
-            {defaultValues.items.map((detail) => {
-              return (
-                <>
-                  <img src={detail.gambar_sketsa}></img>
-                </>
-              );
-            })} */}
               <div style={{ display: "flex", height: "auto" }}>
                 <CustomerSelectInput
                   style={{ flex: "70" }}
@@ -597,7 +552,6 @@ const IsolatedForm = ({
               </div>
               <Separator _gap={12} />
               <Items
-                onClickAddCollection={onClickAddCollection}
                 isEdit={isEdit}
               />
               <div style={{ display: "flex", height: "auto" }}>
@@ -656,15 +610,6 @@ const IsolatedForm = ({
           <CustomerForm onClose={closeCustomer} />
         </Modal>
         <Modal
-          opened={openedCollection}
-          centered
-          onClose={closeCollection}
-          withCloseButton={false}
-          size={1200}
-        >
-          <CollectionForm onClose={closeCollection} />
-        </Modal>
-        <Modal
           opened={openedFitting}
           centered
           onClose={closeFitting}
@@ -680,7 +625,7 @@ const IsolatedForm = ({
 
 const InvoiceForm = () => {
   const { id } = useParams();
-  const { data, isSuccess, isFetching } = useQuery(
+  const { data, isSuccess } = useQuery(
     ["get-invoices", id],
     () => getInvoice(id || ""),
     { enabled: !!id }
