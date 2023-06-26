@@ -1,11 +1,6 @@
 import AdminTitle from "../../components/AdminTitle/AdminTitle";
 import "./Customer.css";
-import {
-  TextField,
-  InputAdornment,
-  CircularProgress,
-  Button,
-} from "@mui/material";
+import { TextField, InputAdornment, CircularProgress } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -14,11 +9,7 @@ import { useDisclosure } from "@mantine/hooks";
 import CustomerForm from "./CustomerForm";
 import { getCustomers } from "../../services/customer";
 import { useQuery } from "@tanstack/react-query";
-import { deleteEntity } from "../../services/firebase";
-import { field } from "../../common/constant";
-import { queryClient } from "../../services/query-client";
-import { Flex, Text, Paper, Modal } from "@mantine/core";
-import Separator from "../../components/separator";
+import { Modal } from "@mantine/core";
 import DetailButton from "../../components/DetailButton";
 
 const defaultValues = {
@@ -33,6 +24,7 @@ const Customer = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [currentData, setCurrentData] = React.useState(defaultValues);
   const [isEdit, setIsEdit] = React.useState(false);
+  const [dataCustomer, setDataCustomer] = React.useState([]);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -41,6 +33,16 @@ const Customer = () => {
   const { data, isFetching } = useQuery(["get-customers"], () =>
     getCustomers()
   );
+
+  React.useEffect(() => {
+    if (data?.data) {
+      const dataCustomer = data?.data;
+      dataCustomer.sort((a, b) =>
+        a.nama.toLowerCase() > b.nama.toLowerCase() ? 1 : -1
+      );
+      setDataCustomer(dataCustomer);
+    }
+  }, [data?.data]);
 
   const columns = [
     { field: "email", headerName: "Email", minWidth: 200, flex: 1 },
@@ -115,7 +117,7 @@ const Customer = () => {
             <CircularProgress color="secondary" />
           ) : (
             <DataGrid
-              rows={(data?.data || []).filter((customer) =>
+              rows={(dataCustomer || []).filter((customer) =>
                 customer.nomor_telepon.includes(searchTerm.toLowerCase())
               )}
               columns={columns}
