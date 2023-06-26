@@ -23,12 +23,21 @@ const Expense = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [currentData, setCurrentData] = React.useState(defaultValues);
   const [isEdit, setIsEdit] = React.useState(false);
+  const [dataExpenses, setDataExpenses] = React.useState([]);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
   const { data, isFetching } = useQuery(["get-expenses"], () => getExpenses());
+
+  React.useEffect(() => {
+    if (data?.data) {
+      const dataExpenses = data?.data;
+      dataExpenses.sort((a, b) => a.tanggal - b.tanggal);
+      setDataExpenses(dataExpenses);
+    }
+  }, [data?.data]);
 
   const onClickAdd = React.useCallback(() => {
     setCurrentData(defaultValues);
@@ -115,7 +124,7 @@ const Expense = () => {
             <CircularProgress color="secondary" />
           ) : (
             <DataGrid
-              rows={(data?.data || []).filter((expense) =>
+              rows={(dataExpenses || []).filter((expense) =>
                 expense.keterangan
                   .toLowerCase()
                   .includes(searchTerm.toLowerCase())
