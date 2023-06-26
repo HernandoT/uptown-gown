@@ -64,7 +64,11 @@ const Collections = () => {
       !isFetchingTypes &&
       !isInitiate
     ) {
-      const _collections = data?.data.map((collection) => {
+      let dataCollection = data?.data;
+      dataCollection.sort((a, b) =>
+        a.nama.toLowerCase() > b.nama.toLowerCase() ? 1 : -1
+      );
+      const _collections = dataCollection.map((collection) => {
         const color = dataColors.data.find((color) => {
           return color.id === collection.id_warna;
         });
