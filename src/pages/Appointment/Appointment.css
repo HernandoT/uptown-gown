@@ -44,3 +44,7 @@
   width: 100%;
   margin: 8px 0;
 }
+
+.appointmentCalendar .react-datepicker__month {
+  height: 50vh;
+}
