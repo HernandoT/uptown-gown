@@ -7,7 +7,6 @@ import { Button } from "@mui/material";
 import { modals } from "@mantine/modals";
 
 const Calendar = ({ disableDate }) => {
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
 
   return (
     <Paper p={24} miw={400}>
@@ -17,10 +16,7 @@ const Calendar = ({ disableDate }) => {
       <Separator _gap={24} />
       <div className="calendar">
         <DatePicker
-          selected={selectedDate}
-          onChange={(date) => {
-            setSelectedDate(date);
-          }}
+          disabled
           minDate={new Date()}
           inline
           excludeDates={disableDate}

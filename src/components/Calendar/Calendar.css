@@ -1,6 +1,6 @@
 .react-datepicker__month {
   margin: 0 !important;
-  height: 40vh;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
