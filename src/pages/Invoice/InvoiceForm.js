@@ -43,7 +43,7 @@ import {
 } from "../../services/detail-invoice-item";
 import { notifications } from "@mantine/notifications";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Timestamp } from "firebase/firestore";
 import useYupValidationResolver from "../../hooks/use-yup-resolver";
 
@@ -288,8 +288,6 @@ const IsolatedForm = ({
     [data, items]
   );
 
-  console.log(defaultValues);
-
   React.useEffect(() => {
     if (isSuccess && !isFetchingDetailItems && !isFetchingFitting) {
       const items = [];
@@ -313,6 +311,8 @@ const IsolatedForm = ({
       setIsInitiate(true);
     }
   }, [isSuccess, isFetchingDetailItems, isFetchingFitting]);
+
+  const navigate = useNavigate();
 
   const [openedCustomer, { open: openCustomer, close: closeCustomer }] =
     useDisclosure(false);
@@ -360,11 +360,12 @@ const IsolatedForm = ({
             panjar: invoice.panjar,
             deposit: invoice.deposit,
             status_pelunasan: invoice.status_pelunasan,
-            keterangan: invoice.keterangan,
+            keterangan: invoice.keterangan ?? "-",
             waktu_buat: invoice.waktu_buat,
             waktu_ubah: invoice.waktu_ubah,
           });
           invoiceDoc.then((idInvoice) => {
+            console.log(idInvoice)
             fittings.map((fitting, index) => {
               const fittingDoc = createFitting({
                 lingkar_leher: fitting.lingkarLeher,
@@ -429,7 +430,7 @@ const IsolatedForm = ({
             panjar: invoice.panjar,
             deposit: invoice.deposit,
             status_pelunasan: invoice.status_pelunasan,
-            keterangan: invoice.keterangan,
+            keterangan: invoice.keterangan ?? "-",
             waktu_buat: invoice.waktu_buat,
             waktu_ubah: Timestamp.fromDate(new Date()),
           });
@@ -491,9 +492,10 @@ const IsolatedForm = ({
       } catch (e) {
         console.log(e.messages);
       } finally {
+        navigate(-1);
       }
     },
-    [defaultValues, id, isEdit]
+    [defaultValues?.items, id, isEdit, navigate]
   );
 
   const yupSchema = React.useMemo(

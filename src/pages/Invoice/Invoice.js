@@ -15,8 +15,8 @@ import dayjs from "dayjs";
 const Invoice = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
-  const [isInitiate, setIsInitiate] = React.useState(false);
-  const [invoices, setInvoices] = React.useState([]);
+  // const [isInitiate, setIsInitiate] = React.useState(false);
+  // const [invoices, setInvoices] = React.useState([]);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -29,9 +29,15 @@ const Invoice = () => {
     () => getCustomers()
   );
 
-  React.useEffect(() => {
-    if (!isFetching && !isFetchingCustomers && !isInitiate) {
-      const _invoices = data?.data.map((invoice) => {
+  const invoices = React.useMemo(() => {
+    if (!isFetching && !isFetchingCustomers) {
+      let dataInvoice = data?.data;
+      dataInvoice.sort((a, b) =>
+        a.status_pelunasan.toLowerCase() > b.status_pelunasan.toLowerCase()
+          ? 1
+          : -1
+      );
+      const _invoices = dataInvoice.map((invoice) => {
         const cust = dataCustomers.data.find((customer) => {
           return customer.id === invoice.id_customer;
         });
@@ -40,16 +46,9 @@ const Invoice = () => {
         invoice.nomor_telepon = cust.nomor_telepon;
         return invoice;
       });
-      setInvoices(_invoices);
-      setIsInitiate(true);
+      return _invoices;
     }
-  }, [
-    data?.data,
-    dataCustomers?.data,
-    isFetching,
-    isFetchingCustomers,
-    isInitiate,
-  ]);
+  }, [data?.data, dataCustomers?.data, isFetching, isFetchingCustomers]);
 
   const columns = [
     { field: "email", headerName: "Email", minWidth: 200, flex: 1 },
@@ -146,7 +145,7 @@ const Invoice = () => {
           </button>
         </div>
         <div style={{ height: 400, width: "100%" }}>
-          {!isInitiate ? (
+          {invoices === undefined ? (
             <CircularProgress color="secondary" />
           ) : (
             <DataGrid
