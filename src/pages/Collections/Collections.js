@@ -29,8 +29,6 @@ const Collections = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [currentData, setCurrentData] = React.useState(defaultValues);
   const [isEdit, setIsEdit] = React.useState(false);
-  const [isInitiate, setIsInitiate] = React.useState(false);
-  const [collections, setCollections] = React.useState([]);
   const [opened, { open, close }] = useDisclosure(false);
 
   const handleChange = (event) => {
@@ -56,13 +54,12 @@ const Collections = () => {
     () => getTypes()
   );
 
-  React.useEffect(() => {
+  const collections = React.useMemo(() => {
     if (
       !isFetching &&
-      !isFetchingColors &&
       !isFetchingCategories &&
-      !isFetchingTypes &&
-      !isInitiate
+      !isFetchingColors &&
+      !isFetchingTypes
     ) {
       let dataCollection = data?.data;
       dataCollection.sort((a, b) =>
@@ -83,19 +80,17 @@ const Collections = () => {
         collection.jenis = type.nama_jenis;
         return collection;
       });
-      setCollections(_collections);
-      setIsInitiate(true);
+      return _collections;
     }
   }, [
+    isFetching,
+    isFetchingCategories,
+    isFetchingColors,
+    isFetchingTypes,
     data?.data,
     dataColors?.data,
     dataCategories?.data,
     dataTypes?.data,
-    isFetching,
-    isFetchingColors,
-    isFetchingCategories,
-    isFetchingTypes,
-    isInitiate,
   ]);
 
   const columns = [
@@ -167,7 +162,7 @@ const Collections = () => {
           </button>
         </div>
         <div style={{ height: 400, width: "100%" }}>
-          {!isInitiate ? (
+          {collections === undefined ? (
             <CircularProgress color="secondary" />
           ) : (
             <DataGrid
