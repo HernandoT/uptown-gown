@@ -190,10 +190,10 @@ const Items = ({ isEdit, isFinished }) => {
                   style={{ flex: 5, marginRight: 20 }}
                   disabled={isEdit}
                   onAfterChangeDetail={(value) => {
-                    setValue(`items[${index}].id_collection`, value?.value);
                     setValue(`items[${index}].gambar_sketsa`, [
                       value?.extra?.gambar,
                     ]);
+                    setValue(`items[${index}].id_collection`, value?.value);
                   }}
                 />
               ) : (
@@ -286,6 +286,8 @@ const IsolatedForm = ({
     [data, items]
   );
 
+  console.log(defaultValues);
+
   React.useEffect(() => {
     if (isSuccess && !isFetchingDetailItems && !isFetchingFitting) {
       const items = [];
@@ -346,7 +348,6 @@ const IsolatedForm = ({
         const detailInvoice = values.items.map((item) => ({
           ...item,
         }));
-
         if (!isEdit) {
           const invoiceDoc = createInvoice({
             id_customer: invoice.id_customer,
