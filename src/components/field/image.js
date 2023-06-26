@@ -87,7 +87,12 @@ const ImagesInputField = ({
           </button>
         )}
         <div onClick={onView(imageUrl)}>
-          <Image key={index} src={imageUrl} fit="cover" />
+          <Image
+            key={index}
+            src={imageUrl}
+            fit="cover"
+            imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
+          />
         </div>
         {!isHide && (
           <Dropzone
