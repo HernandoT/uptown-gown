@@ -53,6 +53,35 @@ const typeInvoice = {
   CustomMade: "custom_made",
 };
 
+const IsolatedTotal = () => {
+  const { control, setValue } = useFormContext();
+  const [items] = useWatch({
+    control,
+    name: ["items"],
+  });
+  React.useEffect(() => {
+    const total = items.reduce((prev, item) => {
+      if (typeof item.harga === "number") {
+        const harga = item.harga || 0;
+        return prev + harga;
+      } else {
+        const harga = parseFloat(item.harga || 0);
+        return prev + harga;
+      }
+    }, 0);
+    setValue("harga_total", total);
+  }, [items, setValue]);
+
+  return (
+    <TextInputField
+      name="harga_total"
+      label="Total"
+      style={{ flex: 1, marginRight: 20 }}
+      disabled
+    />
+  );
+};
+
 const Items = ({ isEdit, isFinished }) => {
   const { control, setValue } = useFormContext();
   const { fields, append, remove, update } = useFieldArray({
@@ -124,23 +153,10 @@ const Items = ({ isEdit, isFinished }) => {
   };
 
   //tracking total
-  const [type, items] = useWatch({
+  const [type] = useWatch({
     control,
-    name: ["id_jenis_invoice", "items"],
+    name: ["id_jenis_invoice"],
   });
-
-  React.useEffect(() => {
-    const total = items.reduce((prev, item) => {
-      if (typeof item.harga === "number") {
-        const harga = item.harga || 0;
-        return prev + harga;
-      } else {
-        const harga = parseFloat(item.harga || 0);
-        return prev + harga;
-      }
-    }, 0);
-    setValue("harga_total", total);
-  }, [items, setValue]);
 
   return (
     <>
@@ -164,18 +180,21 @@ const Items = ({ isEdit, isFinished }) => {
       {fields.map((field, index) => {
         return (
           <>
-            <div key={index} style={{ display: "flex", height: "auto" }}>
+            <div
+              key={field.customId}
+              style={{ display: "flex", height: "auto" }}
+            >
               {type === typeInvoice.Rent ? (
                 <CollectionSelectInput
                   name={`items[${index}].id_collection`}
                   style={{ flex: 5, marginRight: 20 }}
                   disabled={isEdit}
-                  // onAfterChangeDetail={(value) => {
-                  //   setValue(`items[${index}].id_collection`, value?.value);
-                  //   setValue(`items[${index}].gambar_sketsa`, [
-                  //     value?.extra?.gambar,
-                  //   ]);
-                  // }}
+                  onAfterChangeDetail={(value) => {
+                    setValue(`items[${index}].id_collection`, value?.value);
+                    setValue(`items[${index}].gambar_sketsa`, [
+                      value?.extra?.gambar,
+                    ]);
+                  }}
                 />
               ) : (
                 <TextInputField
@@ -567,12 +586,7 @@ const IsolatedForm = ({
               <Separator _gap={12} />
               <Items isEdit={isEdit} isFinished={isFinished} />
               <div style={{ display: "flex", height: "auto" }}>
-                <TextInputField
-                  name="harga_total"
-                  label="Total"
-                  style={{ flex: 1, marginRight: 20 }}
-                  disabled
-                />
+                <IsolatedTotal />
                 <TextInputField
                   name="panjar"
                   label="Panjar"
@@ -587,7 +601,11 @@ const IsolatedForm = ({
                 />
               </div>
               <Separator _gap={24} />
-              <TextInputField name="biaya_tambahan" label="Biaya Tambahan" disabled={isFinished}/>
+              <TextInputField
+                name="biaya_tambahan"
+                label="Biaya Tambahan"
+                disabled={isFinished}
+              />
               <Separator _gap={12} />
               <p>
                 <strong>Status Pelunasan:</strong>
