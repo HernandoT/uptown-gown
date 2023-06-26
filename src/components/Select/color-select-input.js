@@ -13,6 +13,7 @@ const ColorSelectInput = ({
   helperText,
   onAfterChangeDetail,
   options = [],
+  onChangeExtend,
   ...rest
 }) => {
   const [_options, setOptions] = React.useState(options);
@@ -57,6 +58,7 @@ const ColorSelectInput = ({
       placeholder={placeholder}
       label={label}
       options={_options}
+      onChangeExtend={onChangeExtend}
       onAfterChangeDetail={onAfterChangeDetail}
       {...rest}
     />

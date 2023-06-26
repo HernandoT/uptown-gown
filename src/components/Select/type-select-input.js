@@ -13,6 +13,8 @@ const TypeSelectInput = ({
   helperText,
   options = [],
   onAfterChangeDetail,
+  onChangeExtend,
+
   ...rest
 }) => {
   const [_options, setOptions] = React.useState(options);
@@ -58,6 +60,7 @@ const TypeSelectInput = ({
       label={label}
       options={_options}
       onAfterChangeDetail={onAfterChangeDetail}
+      onChangeExtend={onChangeExtend}
       {...rest}
     />
   );

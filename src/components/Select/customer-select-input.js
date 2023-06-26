@@ -14,6 +14,7 @@ const CustomerSelectInput = ({
   onAfterChangeDetail,
   options = [],
   value = "",
+  onChangeExtend,
   ...rest
 }) => {
   const [_options, setOptions] = React.useState(options);
@@ -60,6 +61,7 @@ const CustomerSelectInput = ({
       label={label}
       options={_options}
       disabled={disabled}
+      onChangeExtend={onChangeExtend}
       onAfterChangeDetail={onAfterChangeDetail}
       {...rest}
     />

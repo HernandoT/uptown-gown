@@ -13,6 +13,7 @@ const CategorySelectInput = ({
   helperText,
   options = [],
   onAfterChangeDetail,
+  onChangeExtend,
   ...rest
 }) => {
   const [_options, setOptions] = React.useState(options);
@@ -58,6 +59,7 @@ const CategorySelectInput = ({
       placeholder={placeholder}
       label={label}
       options={_options}
+      onChangeExtend={onChangeExtend}
       onAfterChangeDetail={onAfterChangeDetail}
       {...rest}
     />

@@ -1,9 +1,9 @@
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import { useController, useFormContext } from "react-hook-form";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { MobileDatePicker } from "@mui/x-date-pickers";
 
 const DateInputField = ({
   label = "Tanggal",
@@ -20,7 +20,7 @@ const DateInputField = ({
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={["DatePicker"]}>
-        <DatePicker
+        <MobileDatePicker
           {...field}
           label={label}
           placeholder={placeholder}

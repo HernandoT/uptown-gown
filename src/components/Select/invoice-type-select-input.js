@@ -13,13 +13,15 @@ const InvoiceTypeSelectInput = ({
   helperText,
   options = [],
   onAfterChangeDetail,
+  onChangeExtend,
   ...rest
 }) => {
   const [_options, setOptions] = React.useState(options);
   const [isInitiate, setIsInitiate] = React.useState(false);
 
-  const { data: invoiceTypeList, isFetching } = useQuery(["get-invoice-types"], () =>
-    getInvoiceTypes()
+  const { data: invoiceTypeList, isFetching } = useQuery(
+    ["get-invoice-types"],
+    () => getInvoiceTypes()
   );
 
   React.useEffect(() => {
@@ -59,6 +61,7 @@ const InvoiceTypeSelectInput = ({
       label={label}
       options={_options}
       disabled={disabled}
+      onChangeExtend={onChangeExtend}
       onAfterChangeDetail={onAfterChangeDetail}
       {...rest}
     />

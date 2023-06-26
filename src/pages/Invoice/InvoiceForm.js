@@ -190,9 +190,11 @@ const Items = ({ isEdit, isFinished }) => {
                   style={{ flex: 5, marginRight: 20 }}
                   disabled={isEdit}
                   onAfterChangeDetail={(value) => {
-                    setValue(`items[${index}].gambar_sketsa`, [
-                      value?.extra?.gambar,
-                    ]);
+                    if (!field?.gambar_sketsa) {
+                      setValue(`items[${index}].gambar_sketsa`, [
+                        value?.extra?.gambar,
+                      ]);
+                    }
                     setValue(`items[${index}].id_collection`, value?.value);
                   }}
                 />
@@ -575,6 +577,9 @@ const IsolatedForm = ({
                   name="id_jenis_invoice"
                   style={{ marginTop: 8, marginRight: 20, flex: 1 }}
                   disabled={isEdit ? true : false}
+                  onChangeExtend={() => {
+                    methods.setValue("items", []);
+                  }}
                 />
                 <div style={{ flex: 1 }}>
                   <DateInputField

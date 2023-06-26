@@ -13,6 +13,7 @@ const SelectField = ({
   maxDropdownHeight = 280,
   helperText = "",
   onAfterChangeDetail,
+  onChangeExtend,
   ...rest
 }) => {
   const { control } = useFormContext();
@@ -35,6 +36,10 @@ const SelectField = ({
   return (
     <TextField
       {...field}
+      onChange={(e) => {
+        onChangeExtend?.();
+        field.onChange(e.target.value);
+      }}
       InputLabelProps={{ shrink: hasValue }}
       fullWidth
       labelId="demo-simple-select-label"
