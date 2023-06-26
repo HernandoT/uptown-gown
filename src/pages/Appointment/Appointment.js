@@ -81,6 +81,8 @@ const Appointment = () => {
     }
   });
 
+  console.log(disabledDate)
+
   return (
     <div className="content">
       <Navbar />

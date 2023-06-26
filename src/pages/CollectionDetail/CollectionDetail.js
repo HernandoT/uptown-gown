@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useQuery } from "@tanstack/react-query";
 import Navbar from "../../components/Navbar/Navbar";
 import { getCollection } from "../../services/collection";
@@ -6,6 +7,9 @@ import SupportEngine from "../../SupportEngine";
 import { useParams } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 import BackButton from "../../components/BackButton";
+import { modals } from "@mantine/modals";
+import useGetEventDate from "../../hooks/use-get-event-date";
+import Calendar from "../../components/Calendar/Calendar";
 
 const CollectionDetail = () => {
   const isLoged = localStorage.getItem("isLoged");
@@ -17,6 +21,22 @@ const CollectionDetail = () => {
     { enabled: !!id }
   );
 
+  const { listEventDate } = useGetEventDate(id);
+
+  const openCalendar =
+    ({ listEventDate }) =>
+    () => {
+      const disableDate = listEventDate.map((date) => {
+        return new Date(date);
+      });
+      modals.open({
+        size: 500,
+        centered: true,
+        withCloseButton: false,
+        children: <Calendar disableDate={disableDate} />,
+      });
+    };
+
   return (
     <div className="collection-detail">
       <Navbar />
@@ -25,11 +45,10 @@ const CollectionDetail = () => {
       ) : (
         <>
           <div className="detail-content">
-            {/* {JSON.stringify(data)} */}
             <div className="detail-img">
               <img
                 src={data.collection.gambar}
-                alt="Detail Image"
+                alt="Detail"
                 className="detail-image"
               />
             </div>
@@ -40,7 +59,12 @@ const CollectionDetail = () => {
                 <p>{data.collection.nama}</p>
               </div>
               <div style={{ width: "90%" }}>{data.collection.deskripsi}</div>
-              <button className="detail-button">CEK KETERSEDIAAN</button>
+              <button
+                className="detail-button"
+                onClick={openCalendar({ listEventDate })}
+              >
+                CEK KETERSEDIAAN
+              </button>
             </div>
           </div>
           <Footer />

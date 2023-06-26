@@ -55,3 +55,9 @@
   color: white;
   border-radius: 5px;
 }
+
+.calendar {
+  border: 20px solid #fdf9ee;
+  border-top: 10px solid #fdf9ee;
+  border-radius: 1rem;
+}
