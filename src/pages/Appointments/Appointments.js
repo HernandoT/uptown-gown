@@ -32,7 +32,9 @@ const Appointments = () => {
 
   React.useEffect(() => {
     if (!isFetching && !isFetchingCustomers && !isInitiate) {
-      const _appointments = data?.data.map((appointment) => {
+      let dataAppointment = data?.data;
+      dataAppointment.sort((a, b) => a.status - b.status || b.tanggal - a.tanggal);
+      dataAppointment = dataAppointment.map((appointment) => {
         const cust = dataCustomers.data.find((customer) => {
           return customer.id === appointment.id_customer;
         });
@@ -41,7 +43,7 @@ const Appointments = () => {
         appointment.nomor_telepon = cust.nomor_telepon;
         return appointment;
       });
-      setAppointments(_appointments);
+      setAppointments(dataAppointment);
       setIsInitiate(true);
     }
   }, [
