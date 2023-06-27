@@ -181,14 +181,14 @@ const Items = ({ isEdit, isFinished }) => {
         return (
           <>
             <div
-              key={field.customId}
+              key={index}
               style={{ display: "flex", height: "auto" }}
             >
               {type === typeInvoice.Rent ? (
                 <CollectionSelectInput
                   name={`items[${index}].id_collection`}
                   style={{ flex: 5, marginRight: 20 }}
-                  disabled={isEdit}
+                  disabled={isFinished}
                   onAfterChangeDetail={(value) => {
                     if (!field?.gambar_sketsa) {
                       setValue(`items[${index}].gambar_sketsa`, [
@@ -203,7 +203,7 @@ const Items = ({ isEdit, isFinished }) => {
                   name={`items[${index}].nama_item`}
                   label="Collection"
                   style={{ flex: 5, marginRight: 20 }}
-                  disabled={isEdit}
+                  disabled={isFinished}
                 />
               )}
               <TextInputField
@@ -225,7 +225,7 @@ const Items = ({ isEdit, isFinished }) => {
               )}
               <Separator _gap={24} />
               <ImagesInputField
-                label="Pratinjau :"
+                label={type === typeInvoice.Rent ? "Pratinjau :" : "Sketsa :"}
                 placeholder={<ImagePlaceholder size="56" />}
                 name={`items[${index}].gambar_sketsa`}
                 width={56}
@@ -365,7 +365,6 @@ const IsolatedForm = ({
             waktu_ubah: invoice.waktu_ubah,
           });
           invoiceDoc.then((idInvoice) => {
-            console.log(idInvoice)
             fittings.map((fitting, index) => {
               const fittingDoc = createFitting({
                 lingkar_leher: fitting.lingkarLeher,

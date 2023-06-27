@@ -61,6 +61,7 @@ const CollectionSelectInput = ({
       options={_options}
       onAfterChangeDetail={onAfterChangeDetail}
       isCreateable={isCreateable}
+      disabled={disabled}
       {...rest}
     />
   );
