@@ -101,6 +101,7 @@ const AppointmentForm = () => {
           color: "red",
         });
       } finally {
+        navigate(-1);
       }
     },
     [data?.appointment, id, navigate]
