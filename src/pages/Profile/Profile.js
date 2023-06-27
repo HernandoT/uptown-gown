@@ -1,10 +1,3 @@
-import {
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-} from "@mui/material";
-
 import Navbar from "../../components/Navbar/Navbar";
 import "./Profile.css";
 import Footer from "../../components/Footer/Footer";
@@ -15,63 +8,104 @@ import ProfilePassword from "./ProfilePassword";
 import { useQuery } from "@tanstack/react-query";
 import { getCustomer, updateCustomer } from "../../services/customer";
 import { notifications } from "@mantine/notifications";
-
-const defaultValues = {
-  email: "",
-  name: "",
-  password: "123456",
-  phoneNumber: "",
-};
+import * as Yup from "yup";
+import useYupValidationResolver from "../../hooks/use-yup-resolver";
+import { useForm } from "react-hook-form";
+import IconTextInputField from "../../components/field/icon-text-input";
+import Form from "../../components/field/form";
 
 const Profile = () => {
   const [opened, { open, close }] = useDisclosure(false);
-  const [currentData, setCurrentData] = React.useState(defaultValues);
 
   const idCustomer = localStorage.getItem("idCustomer");
 
-  const { data, isFetching } = useQuery(
+  const { data, isSuccess, isFetching } = useQuery(
     ["get-customer", idCustomer],
     () => getCustomer(idCustomer || ""),
     { enabled: !!idCustomer }
   );
+
+  const defaultValues = React.useMemo(
+    () => ({
+      email: data?.user.email || "",
+      password: data?.user.password || "123456",
+      phoneNumber: data?.user.nomor_telepon || "",
+      name: data?.user.nama || "",
+      id: idCustomer,
+    }),
+    [data, idCustomer]
+  );
+
+  const [currentData, setCurrentData] = React.useState(defaultValues);
 
   const onClickChangePass = React.useCallback(() => {
     setCurrentData({
       email: data.user.email,
       name: data.user.nama,
       phoneNumber: data.user.nomor_telepon,
-      id:idCustomer, 
-      password: data.user.password
+      id: idCustomer,
+      password: data.user.password,
     });
     open();
-  }, [open,setCurrentData, data?.user,idCustomer]);
+  }, [open, setCurrentData, data?.user, idCustomer]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const yupSchema = React.useMemo(
+    () =>
+      Yup.object().shape({
+        phoneNumber: Yup.string()
+          .required("Nomor Telepon Wajib Diisi")
+          .matches(
+            /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+            "Nomor Telepon Tidak Valid"
+          ),
+        name: Yup.string().required("Nama Wajib Diisi"),
+      }),
+    []
+  );
 
-    var { nama, nomor_telepon } = document.forms[0];
+  const resolver = useYupValidationResolver(yupSchema);
 
-    try {
-      updateCustomer(idCustomer, {
-        email: data.user.email,
-        nama: nama.value,
-        nomor_telepon: nomor_telepon.value,
-        password: data.user.password,
-      });
-      notifications.show({
-        title: "Edit Profile",
-        message: "Profile telah berhasil diupdate",
-        color: "teal",
-      });
-    } catch {
-      notifications.show({
-        title: "Edit Profile",
-        message: "Profile gagal diupdate",
-        color: "red",
-      });
-    } finally {
+  const methods = useForm({
+    defaultValues,
+    resolver,
+    mode: "onChange",
+  });
+
+  const handleSubmit = React.useCallback(
+    async (values) => {
+      try {
+          updateCustomer(idCustomer, {
+          email: values.email,
+          nama: values.name,
+          nomor_telepon: values.phoneNumber,
+          password: values.password,
+        });
+        notifications.show({
+          title: "Edit Profile",
+          message: "Profile telah berhasil diupdate",
+          color: "teal",
+        });
+      } catch {
+        notifications.show({
+          title: "Edit Profile",
+          message: "Profile gagal diupdate",
+          color: "red",
+        });
+      } finally {
+      }
+    },
+    [idCustomer]
+  );
+
+  React.useEffect(() => {
+    if (isSuccess) {
+      methods.reset(defaultValues);
     }
-  };
+  }, [defaultValues, isSuccess, methods]);
+
+  if (isFetching) {
+    return null;
+  }
 
   return (
     <div className="profile">
@@ -82,56 +116,24 @@ const Profile = () => {
           <></>
         ) : (
           <>
-            <form onSubmit={handleSubmit}>
-              <FormControl fullWidth style={{ marginBottom: 24 }}>
-                <InputLabel htmlFor="outlined-adornment-amount">
-                  Email
-                </InputLabel>
-                <OutlinedInput
-                  defaultValue={data.user.email}
-                  disabled
-                  id="outlined-adornment-amount"
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <i className="fa fa-envelope fa-lg"></i>
-                    </InputAdornment>
-                  }
-                  label="Email"
-                  name="email"
-                />
-              </FormControl>
-              <FormControl fullWidth style={{ marginBottom: 24 }}>
-                <InputLabel htmlFor="outlined-adornment-amount">
-                  Nama
-                </InputLabel>
-                <OutlinedInput
-                  defaultValue={data.user.nama}
-                  id="outlined-adornment-amount"
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <i className="fa fa-user fa-lg"></i>
-                    </InputAdornment>
-                  }
-                  label="Nama"
-                  name="nama"
-                />
-              </FormControl>
-              <FormControl fullWidth style={{ marginBottom: 24 }}>
-                <InputLabel htmlFor="outlined-adornment-amount">
-                  Nomor Telepon
-                </InputLabel>
-                <OutlinedInput
-                  defaultValue={data.user.nomor_telepon}
-                  id="outlined-adornment-amount"
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <i className="fa fa-phone fa-lg"></i>
-                    </InputAdornment>
-                  }
-                  label="Nomor Telepon"
-                  name="nomor_telepon"
-                />
-              </FormControl>
+            <Form onSubmit={handleSubmit} methods={methods} style={{ display: "block" }}
+            >
+              <IconTextInputField
+                disabled
+                label="Email"
+                name="email"
+                icon={<i className="fa fa-envelope fa-lg"></i>}
+              />
+              <IconTextInputField
+                label="Nama"
+                name="name"
+                icon={<i className="fa fa-user fa-lg"></i>}
+              />
+              <IconTextInputField
+                label="Nomor Telepon"
+                name="phoneNumber"
+                icon={<i className="fa fa-phone fa-lg"></i>}
+              />
               <button className="profile-simpan" type="submit">
                 SIMPAN
               </button>
@@ -142,13 +144,13 @@ const Profile = () => {
               >
                 UBAH KATA SANDI
               </button>
-            </form>
+            </Form>
           </>
         )}
       </div>
       <Footer />
       <Modal opened={opened} centered onClose={close} withCloseButton={false}>
-        <ProfilePassword onClose={close} data={currentData}/>
+        <ProfilePassword onClose={close} data={currentData} />
       </Modal>
     </div>
   );
