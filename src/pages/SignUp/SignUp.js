@@ -146,7 +146,7 @@ const SignUp = () => {
             console.log(error);
           }
         );
-      navigate("/confirmation-token", { state: email.value });
+      navigate("/confirmation-token", { state: { email: userData.email, fromLogin: false }, });
     }
   };
 

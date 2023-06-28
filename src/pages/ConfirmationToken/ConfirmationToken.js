@@ -1,15 +1,17 @@
 import * as React from "react";
 import { TextField } from "@mui/material";
 import logo from "../../utils/assets/logo.png";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./ConfirmationToken.css";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../services/firebase";
 import emailjs from "@emailjs/browser";
 import { updateCustomer } from "../../services/customer";
+import { notifications } from "@mantine/notifications";
 
 const ConfirmationToken = () => {
   const { state } = useLocation();
+  const { email, fromLogin } = state;
   const [customer, setCustomer] = React.useState([]);
   const [errorMessages, setErrorMessages] = React.useState({});
   const navigate = useNavigate();
@@ -17,7 +19,7 @@ const ConfirmationToken = () => {
   const fetchCustomerByEmail = async () => {
     try {
       const collectionRef = collection(db, "customer");
-      const q = query(collectionRef, where("email", "==", state));
+      const q = query(collectionRef, where("email", "==", email));
       const docRefs = await getDocs(q);
 
       const customer = [];
@@ -44,7 +46,7 @@ const ConfirmationToken = () => {
 
     var { token } = document.forms[0];
 
-    const dataCustomer = customer[0]
+    const dataCustomer = customer[0];
     if (token.value === dataCustomer.token) {
       updateCustomer(dataCustomer.id, {
         email: dataCustomer.email,
@@ -53,7 +55,8 @@ const ConfirmationToken = () => {
         nomor_telepon: dataCustomer.nomor_telepon,
         token: "",
       });
-      navigate("/login");
+      if (fromLogin) navigate("/");
+      else navigate("/login");
     } else setErrorMessages({ name: "token", message: errors.token });
   };
 
@@ -66,6 +69,41 @@ const ConfirmationToken = () => {
       <div className="error">{errorMessages.message}</div>
     );
 
+  const resendEmail = () => {
+    const dataCustomer = customer[0];
+    var templateParams = {
+      email: dataCustomer.email,
+      nama: dataCustomer.nama,
+      token: dataCustomer.token,
+    };
+
+    emailjs
+      .send(
+        "service_53s5rrf",
+        "template_15wxof6",
+        templateParams,
+        "C4ktx7lrffBSEAByY"
+      )
+      .then(
+        (result) => {
+          console.log(result)
+          notifications.show({
+            title: "Send Email",
+            message: "Email telah berhasil dikirimkan, harap cek email",
+            color: "teal",
+          });
+        },
+        (error) => {
+          console.log(error);
+          notifications.show({
+            title: "Send Email",
+            message: "Email gagal dikirimkan ulang",
+            color: "red",
+          });
+        }
+      );
+  };
+
   return (
     <div className="confirmation-token">
       <div className="confirmation-token-form">
@@ -75,7 +113,7 @@ const ConfirmationToken = () => {
         <div className="input">
           <div className="title">Confirmation Token</div>
           <div className="form">
-            <div>Konfirmasi pembuatan akun untuk: {state}</div>
+            <div>Konfirmasi pembuatan akun untuk: {email}</div>
             <form onSubmit={handleSubmit}>
               <div className="input-container">
                 <TextField
@@ -93,7 +131,10 @@ const ConfirmationToken = () => {
             </form>
           </div>
           <div style={{ marginTop: "2rem", fontSize: "0.9rem" }}>
-            Tidak menerima Email? <strong>Tekan untuk kirim ulang</strong>
+            Tidak menerima Email?{" "}
+            <span onClick={resendEmail}>
+              <strong>Tekan untuk kirim ulang</strong>
+            </span>
           </div>
         </div>
       </div>
