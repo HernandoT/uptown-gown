@@ -1,7 +1,7 @@
 let pages = [
   {
     name: "Home",
-    route: "/",
+    route: "/home",
   },
   {
     name: "Rent",
@@ -19,10 +19,6 @@ let pages = [
     name: "About",
     route: "/about",
   },
-  // {
-  //   name: "History",
-  //   route: "/history",
-  // },
 ];
 
 export function getPages() {

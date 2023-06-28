@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import "./index.css";
 import "font-awesome/css/font-awesome.min.css";
@@ -52,7 +52,8 @@ ReactDOM.render(
         <BrowserRouter>
           <Routes>
             <Route path="/example" element={<Example />} />
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Navigate to="/home" />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/rent" element={<Rent />} />
             <Route path="/rent/:id" element={<CollectionDetail />} />
             <Route path="/custom" element={<Custom />} />
