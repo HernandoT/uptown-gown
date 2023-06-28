@@ -2,6 +2,7 @@ import "./Navbar.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getPages } from "../../utils/data/getPages";
 import logo from "../../utils/assets/logo.png";
+import { VerticalAlignCenter } from "@mui/icons-material";
 
 const Navbar = () => {
   const pages = getPages();
@@ -39,10 +40,10 @@ const Navbar = () => {
               }}
               style={{ float: "right" }}
             ></i>
-            <span style={{ float: "right" }}>{localStorage.getItem("email")}</span>
             <NavLink to="/profile" className="profile-button">
               <i className="fa fa-user-circle-o fa-2x" aria-hidden="true" />
             </NavLink>
+            <span className="navbar-email">{localStorage.getItem("email")}</span>
           </>
         ) : (
           <NavLink to="/login" className="login-button">

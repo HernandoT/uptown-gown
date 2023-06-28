@@ -183,10 +183,16 @@
   .profile-button {
     float: right;
     color: #181308;
-    margin-right: 2%;
+    margin-right: 16px;
   }
 
   .profile-button.active {
     background-color: transparent;
+  }
+
+  .navbar-email {
+    float: right;
+    margin-right: 16px;
+    line-height: 2em;
   }
 } 
