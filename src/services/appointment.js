@@ -20,7 +20,6 @@ export const getAppointments = async () => {
       tanggal: dayjs(doc.data().tanggal.toDate()),
       id: doc.id,
     }));
-    console.log(data)
     return { data };
   } catch (e) {
     console.log(e);

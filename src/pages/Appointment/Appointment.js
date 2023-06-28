@@ -19,10 +19,11 @@ import Separator from "../../components/separator";
 import { notifications } from "@mantine/notifications";
 import { Timestamp } from "firebase/firestore";
 import { createAppointment } from "../../services/appointment";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useGetAppointmentedDate from "../../hooks/use-get-appointmented-date";
 
 const Appointment = () => {
+  const { state } = useLocation();
   const isLoged = localStorage.getItem("isLoged");
   const idCustomer = localStorage.getItem("idCustomer");
 
@@ -81,8 +82,6 @@ const Appointment = () => {
     }
   });
 
-  console.log(disabledDate)
-
   return (
     <div className="content">
       <Navbar />
@@ -134,6 +133,7 @@ const Appointment = () => {
               />
             </FormControl>
           </div>
+          {JSON.stringify(state)}
           <div className="appointment-input-container">
             <TextField
               value={keterangan}

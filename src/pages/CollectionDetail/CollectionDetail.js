@@ -10,10 +10,15 @@ import BackButton from "../../components/BackButton";
 import { modals } from "@mantine/modals";
 import useGetEventDate from "../../hooks/use-get-event-date";
 import Calendar from "../../components/Calendar/Calendar";
+import { getColors } from "../../services/color";
+import { getCategories } from "../../services/category";
+import { getTypes } from "../../services/type";
 
 const CollectionDetail = () => {
   const isLoged = localStorage.getItem("isLoged");
   const navigate = useNavigate();
+  const [isInitiate, setIsInitiate] = React.useState(false);
+  const [collection, setCollection] = React.useState([]);
 
   const { id } = useParams();
   const { data, isFetching } = useQuery(
@@ -22,9 +27,59 @@ const CollectionDetail = () => {
     { enabled: !!id }
   );
 
+  const { data: dataColors, isFetching: isFetchingColors } = useQuery(
+    ["get-colors"],
+    () => getColors()
+  );
+
+  const { data: dataCategories, isFetching: isFetchingCategories } = useQuery(
+    ["get-categories"],
+    () => getCategories()
+  );
+
+  const { data: dataTypes, isFetching: isFetchingTypes } = useQuery(
+    ["get-types"],
+    () => getTypes()
+  );
+
+  React.useEffect(() => {
+    if (
+      !isFetching &&
+      !isFetchingCategories &&
+      !isFetchingColors &&
+      !isFetchingTypes &&
+      !isInitiate
+    ) {
+      let dataCollection = data?.collection;
+      const color = dataColors.data.find((color) => {
+        return color.id === dataCollection.id_warna;
+      });
+      const category = dataCategories.data.find((category) => {
+        return category.id === dataCollection.id_kategori;
+      });
+      const type = dataTypes.data.find((type) => {
+        return type.id === dataCollection.id_jenis;
+      });
+      dataCollection.warna = color.nama_warna;
+      dataCollection.kategori = category.nama_kategori;
+      dataCollection.jenis = type.nama_jenis;
+      setIsInitiate(true);
+      setCollection(dataCollection);
+    }
+  }, [
+    isFetching,
+    isFetchingCategories,
+    isFetchingColors,
+    isFetchingTypes,
+    isInitiate,
+    data?.collection,
+    dataColors?.data,
+    dataCategories?.data,
+    dataTypes?.data,
+  ]);
+
   const { listEventDate } = useGetEventDate(id);
 
-  console.log(data?.collection)
   const openCalendar =
     ({ listEventDate }) =>
     () => {
@@ -42,14 +97,14 @@ const CollectionDetail = () => {
   return (
     <div className="collection-detail">
       <Navbar />
-      {isFetching ? (
+      {!isInitiate ? (
         <></>
       ) : (
         <>
           <div className="detail-content">
             <div className="detail-img">
               <img
-                src={data.collection.gambar}
+                src={collection.gambar}
                 alt="Detail"
                 className="detail-image"
               />
@@ -58,10 +113,12 @@ const CollectionDetail = () => {
               <BackButton />
               <div className="detail-name">
                 <div className="detail-strip" />
-                <p>{data.collection.nama}</p>
+                <p>{collection.nama}</p>
               </div>
-              <div style={{ width: "90%" }}>{data.collection.deskripsi}</div>
-              <div>Warna: {data.collection.id_warna}</div>
+              <div style={{ width: "90%" }}>{collection.deskripsi}</div>
+              <div>Warna: {collection.warna}</div>
+              <div>Kategori: {collection.kategori}</div>
+              <div>Jenis: {collection.jenis}</div>
               <button
                 className="detail-button"
                 onClick={openCalendar({ listEventDate })}
@@ -70,7 +127,7 @@ const CollectionDetail = () => {
               </button>
               <button
                 className="detail-button"
-                onClick={() => navigate('/appointment')}
+                onClick={() => navigate("/appointment", { state: collection })}
               >
                 BUAT APPOINTMENT
               </button>
