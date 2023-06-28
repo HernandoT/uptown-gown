@@ -39,8 +39,9 @@ const Navbar = () => {
               }}
               style={{ float: "right" }}
             ></i>
+            <span style={{ float: "right" }}>{localStorage.getItem("email")}</span>
             <NavLink to="/profile" className="profile-button">
-              <i className="fa fa-user-circle-o fa-2x" aria-hidden="true"></i>
+              <i className="fa fa-user-circle-o fa-2x" aria-hidden="true" />
             </NavLink>
           </>
         ) : (

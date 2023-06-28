@@ -4,7 +4,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import { getCollection } from "../../services/collection";
 import "./CollectionDetail.css";
 import SupportEngine from "../../SupportEngine";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 import BackButton from "../../components/BackButton";
 import { modals } from "@mantine/modals";
@@ -13,6 +13,7 @@ import Calendar from "../../components/Calendar/Calendar";
 
 const CollectionDetail = () => {
   const isLoged = localStorage.getItem("isLoged");
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const { data, isFetching } = useQuery(
@@ -23,6 +24,7 @@ const CollectionDetail = () => {
 
   const { listEventDate } = useGetEventDate(id);
 
+  console.log(data?.collection)
   const openCalendar =
     ({ listEventDate }) =>
     () => {
@@ -59,11 +61,18 @@ const CollectionDetail = () => {
                 <p>{data.collection.nama}</p>
               </div>
               <div style={{ width: "90%" }}>{data.collection.deskripsi}</div>
+              <div>Warna: {data.collection.id_warna}</div>
               <button
                 className="detail-button"
                 onClick={openCalendar({ listEventDate })}
               >
                 CEK KETERSEDIAAN
+              </button>
+              <button
+                className="detail-button"
+                onClick={() => navigate('/appointment')}
+              >
+                BUAT APPOINTMENT
               </button>
             </div>
           </div>

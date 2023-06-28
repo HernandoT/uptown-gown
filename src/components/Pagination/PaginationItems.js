@@ -9,6 +9,7 @@ const PaginationItems = ({ currentItems }) => {
         currentItems.map((item) => (
           <div className="paginationItem" onClick={() => navigate(`/rent/${item.id}`)}>
             <img src={item.gambar} alt="Collection" className="imageItem"/>
+            <div>{item.nama}</div>
           </div>
         ))}
     </div>
