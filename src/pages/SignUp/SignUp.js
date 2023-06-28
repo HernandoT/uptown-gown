@@ -51,14 +51,14 @@ const SignUp = () => {
         nomor_telepon: nomor,
         password: password,
       });
-      console.log(email, nama, nomor, password);
     } catch (err) {
       console.log(err);
     }
   };
 
   const errors = {
-    email: "email telah terdaftar",
+    email: "Email telah terdaftar",
+    null: "Harap diisi",
   };
 
   const handleSubmit = (event) => {
@@ -73,6 +73,18 @@ const SignUp = () => {
     // Compare user info
     if (userData) {
       setErrorMessages({ name: "email", message: errors.email });
+    }
+    if (email.value === "") {
+      setErrorMessages({ name: "email", message: errors.null });
+    } 
+    if (nama.value === "") {
+      setErrorMessages({ name: "nama", message: errors.null });
+    } 
+    if (nomor.value === "") {
+      setErrorMessages({ name: "nomor", message: errors.null });
+    }
+    if (password.value === "") {
+      setErrorMessages({ name: "password", message: errors.null });
     } else {
       insertCustomer(email.value, nama.value, nomor.value, password.value);
       navigate("/login");
@@ -100,6 +112,7 @@ const SignUp = () => {
                   label="Email"
                   variant="outlined"
                   name="email"
+                  error={errorMessages.name === "email"}
                 />
                 {renderErrorMessage("email")}
               </div>
@@ -109,6 +122,7 @@ const SignUp = () => {
                   label="Nama Lengkap"
                   variant="outlined"
                   name="nama"
+                  error={errorMessages.name === "nama"}
                 />
               </div>
               <div className="input-container">
@@ -117,16 +131,21 @@ const SignUp = () => {
                   label="Nomor Telepon"
                   variant="outlined"
                   name="nomor"
+                  error={errorMessages.name === "nomor"}
                 />
               </div>
               <div className="input-container">
                 <FormControl variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-password">
+                  <InputLabel
+                    htmlFor="outlined-adornment-password"
+                    error={errorMessages.name === "password"}
+                  >
                     Password
                   </InputLabel>
                   <OutlinedInput
                     id="outlined-adornment-password"
                     type={showPassword ? "text" : "password"}
+                    error={errorMessages.name === "password"}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -154,7 +173,7 @@ const SignUp = () => {
               </div>
             </form>
           </div>
-          <div style={{marginTop: "2rem", fontSize: "0.9rem"}}>
+          <div style={{ marginTop: "2rem", fontSize: "0.9rem" }}>
             Sudah punya akun?{" "}
             <Link
               to="/login"

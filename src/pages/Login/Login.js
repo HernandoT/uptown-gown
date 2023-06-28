@@ -45,8 +45,8 @@ const Login = () => {
   }, []);
 
   const errors = {
-    email: "invalid email",
-    password: "invalid password",
+    email: "Invalid Email",
+    password: "Invalid Password",
   };
 
   const handleSubmit = (event) => {
@@ -65,7 +65,7 @@ const Login = () => {
       } else {
         localStorage.setItem("isLoged", true);
         localStorage.setItem("email", email.value);
-        localStorage.setItem("idCustomer", userData.id)
+        localStorage.setItem("idCustomer", userData.id);
         navigate("/");
       }
     } else {
@@ -95,17 +95,22 @@ const Login = () => {
                   label="Email"
                   variant="outlined"
                   name="email"
+                  error={errorMessages.name === "email"}
                 />
                 {renderErrorMessage("email")}
               </div>
               <div className="input-container">
                 <FormControl variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-password">
+                  <InputLabel
+                    htmlFor="outlined-adornment-password"
+                    error={errorMessages.name === "password"}
+                  >
                     Password
                   </InputLabel>
                   <OutlinedInput
                     id="outlined-adornment-password"
                     type={showPassword ? "text" : "password"}
+                    error={errorMessages.name === "password"}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -129,8 +134,14 @@ const Login = () => {
               </div>
             </form>
           </div>
-          <div style={{marginTop: "2rem", fontSize: "0.9rem"}}>
-            Belum punya akun? <Link to="/signup" style={{textDecoration: "none", color: "black"}}><strong>Sign Up</strong></Link>
+          <div style={{ marginTop: "2rem", fontSize: "0.9rem" }}>
+            Belum punya akun?{" "}
+            <Link
+              to="/signup"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <strong>Sign Up</strong>
+            </Link>
           </div>
         </div>
       </div>
