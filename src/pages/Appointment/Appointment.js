@@ -28,7 +28,7 @@ const Appointment = () => {
 
   const navigate = useNavigate();
 
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const [selectedDate, setSelectedDate] = React.useState("");
   const [displayDate, setDisplayDate] = React.useState(
     "Pilih tanggal pada kalender"
   );
