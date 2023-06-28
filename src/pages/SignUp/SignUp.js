@@ -146,7 +146,9 @@ const SignUp = () => {
             console.log(error);
           }
         );
-      navigate("/confirmation-token", { state: { email: userData.email, fromLogin: false }, });
+      navigate("/confirmation-token", {
+        state: { email: userData.email, fromLogin: false },
+      });
     }
   };
 
@@ -187,6 +189,7 @@ const SignUp = () => {
               </div>
               <div className="input-container">
                 <TextField
+                  onChange={() => setErrorMessagesNama("")}
                   id="outlined-basic"
                   label="Nama Lengkap"
                   variant="outlined"
@@ -215,6 +218,7 @@ const SignUp = () => {
                     Password
                   </InputLabel>
                   <OutlinedInput
+                    onChange={() => setErrorMessagesPassword("")}
                     id="outlined-adornment-password"
                     type={showPassword ? "text" : "password"}
                     error={errorMessagesPassword}
