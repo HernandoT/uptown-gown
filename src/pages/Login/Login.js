@@ -62,6 +62,9 @@ const Login = () => {
       if (userData.password !== password.value) {
         // Invalid password
         setErrorMessages({ name: "password", message: errors.password });
+      } else if (userData.token) {
+        // Have token
+        navigate("/confirmation-token", { state: userData.email });
       } else {
         localStorage.setItem("isLoged", true);
         localStorage.setItem("email", email.value);

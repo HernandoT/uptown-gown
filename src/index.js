@@ -38,6 +38,7 @@ import { queryClient } from "./services/query-client";
 import AppointmentForm from "./pages/Appointments/AppointmentForm";
 import { ModalsProvider } from "@mantine/modals";
 import InvoiceForm from "./pages/Invoice/InvoiceForm";
+import ConfirmationToken from "./pages/ConfirmationToken/ConfirmationToken";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -63,6 +64,7 @@ ReactDOM.render(
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/confirmation-token" element={<ConfirmationToken />} />
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route
               path="/admin"

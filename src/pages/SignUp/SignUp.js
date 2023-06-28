@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useState, useEffect } from "react";
 import {
   TextField,
@@ -10,17 +11,20 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import logo from "../../utils/assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
-
 import "./SignUp.css";
-
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../services/firebase";
+import emailjs from "@emailjs/browser";
+import { createCustomer } from "../../services/customer";
 
 const SignUp = () => {
   const navigate = useNavigate();
 
   const [customer, setCustomer] = useState([]);
-  const [errorMessages, setErrorMessages] = useState({});
+  const [errorMessagesEmail, setErrorMessagesEmail] = useState("");
+  const [errorMessagesNama, setErrorMessagesNama] = useState("");
+  const [errorMessagesNomor, setErrorMessagesNomor] = useState("");
+  const [errorMessagesPassword, setErrorMessagesPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -43,57 +47,121 @@ const SignUp = () => {
     fetchCustomer();
   }, []);
 
-  const insertCustomer = async (email, nama, nomor, password) => {
-    try {
-      await addDoc(collection(db, "customer"), {
-        email: email,
-        nama: nama,
-        nomor_telepon: nomor,
-        password: password,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const errors = {
     email: "Email telah terdaftar",
+    emailInvalid: "Email invalid",
+    nomorInvalid: "Nomor invalid",
     null: "Harap diisi",
   };
 
+  function isValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
+
+  function isValidNumber(number) {
+    return /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/.test(
+      number
+    );
+  }
+
+  const handleChangeEmail = (event) => {
+    if (!isValidEmail(event.target.value)) {
+      setErrorMessagesEmail(errors.emailInvalid);
+    } else {
+      setErrorMessagesEmail("");
+    }
+  };
+
+  const handleChangeNumber = (event) => {
+    if (!isValidNumber(event.target.value)) {
+      setErrorMessagesNomor(errors.nomorInvalid);
+    } else {
+      setErrorMessagesNomor("");
+    }
+  };
+
   const handleSubmit = (event) => {
-    //Prevent page reload
     event.preventDefault();
 
     var { email, nama, nomor, password } = document.forms[0];
+
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    function generateString(length) {
+      let result = "";
+      const charactersLength = characters.length;
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      return result;
+    }
 
     // Find user signup info
     const userData = customer.find((cust) => cust.email === email.value);
 
     // Compare user info
     if (userData) {
-      setErrorMessages({ name: "email", message: errors.email });
+      setErrorMessagesEmail(errors.email);
     }
     if (email.value === "") {
-      setErrorMessages({ name: "email", message: errors.null });
-    } 
+      setErrorMessagesEmail(errors.null);
+    }
     if (nama.value === "") {
-      setErrorMessages({ name: "nama", message: errors.null });
-    } 
+      setErrorMessagesNama(errors.null);
+    }
     if (nomor.value === "") {
-      setErrorMessages({ name: "nomor", message: errors.null });
+      setErrorMessagesNomor(errors.null);
     }
     if (password.value === "") {
-      setErrorMessages({ name: "password", message: errors.null });
+      setErrorMessagesPassword(errors.null);
     } else {
-      insertCustomer(email.value, nama.value, nomor.value, password.value);
-      navigate("/login");
+      const token = generateString(20);
+      var templateParams = {
+        email: email.value,
+        nama: nama.value,
+        token: token,
+      };
+
+      createCustomer({
+        email: email.value,
+        nama: nama.value,
+        nomor: nomor.value,
+        password: password.value,
+        token: token,
+      });
+
+      emailjs
+        .send(
+          "service_53s5rrf",
+          "template_15wxof6",
+          templateParams,
+          "C4ktx7lrffBSEAByY"
+        )
+        .then(
+          (result) => {
+            console.log(result);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      navigate("/confirmation-token", { state: email.value });
     }
   };
 
-  const renderErrorMessage = (name) =>
-    name === errorMessages.name && (
-      <div className="error">{errorMessages.message}</div>
+  const renderErrorMessageEmail = () =>
+    errorMessagesEmail && <div className="error">{errorMessagesEmail}</div>;
+
+  const renderErrorMessageNama = () =>
+    errorMessagesNama && <div className="error">{errorMessagesNama}</div>;
+
+  const renderErrorMessageNomor = () =>
+    errorMessagesNomor && <div className="error">{errorMessagesNomor}</div>;
+
+  const renderErrorMessagePassword = () =>
+    errorMessagesPassword && (
+      <div className="error">{errorMessagesPassword}</div>
     );
 
   return (
@@ -108,13 +176,14 @@ const SignUp = () => {
             <form onSubmit={handleSubmit}>
               <div className="input-container">
                 <TextField
+                  onChange={handleChangeEmail}
                   id="outlined-basic"
                   label="Email"
                   variant="outlined"
                   name="email"
-                  error={errorMessages.name === "email"}
+                  error={errorMessagesEmail}
                 />
-                {renderErrorMessage("email")}
+                {renderErrorMessageEmail()}
               </div>
               <div className="input-container">
                 <TextField
@@ -122,30 +191,33 @@ const SignUp = () => {
                   label="Nama Lengkap"
                   variant="outlined"
                   name="nama"
-                  error={errorMessages.name === "nama"}
+                  error={errorMessagesNama}
                 />
+                {renderErrorMessageNama()}
               </div>
               <div className="input-container">
                 <TextField
+                  onChange={handleChangeNumber}
                   id="outlined-basic"
                   label="Nomor Telepon"
                   variant="outlined"
                   name="nomor"
-                  error={errorMessages.name === "nomor"}
+                  error={errorMessagesNomor}
                 />
+                {renderErrorMessageNomor()}
               </div>
               <div className="input-container">
                 <FormControl variant="outlined">
                   <InputLabel
                     htmlFor="outlined-adornment-password"
-                    error={errorMessages.name === "password"}
+                    error={errorMessagesPassword}
                   >
                     Password
                   </InputLabel>
                   <OutlinedInput
                     id="outlined-adornment-password"
                     type={showPassword ? "text" : "password"}
-                    error={errorMessages.name === "password"}
+                    error={errorMessagesPassword}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -162,7 +234,7 @@ const SignUp = () => {
                     name="password"
                   />
                 </FormControl>
-                {renderErrorMessage("password")}
+                {renderErrorMessagePassword()}
               </div>
               <div className="button-container">
                 <input
