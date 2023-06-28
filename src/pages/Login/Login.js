@@ -21,7 +21,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [customer, setCustomer] = useState([]);
-  const [errorMessages, setErrorMessages] = useState({});
+  const [errorMessagesEmail, setErrorMessagesEmail] = useState("");
+  const [errorMessagesPassword, setErrorMessagesPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -45,8 +46,22 @@ const Login = () => {
   }, []);
 
   const errors = {
-    email: "Invalid Email",
-    password: "Invalid Password",
+    email: "Email yang anda masukkan tidak ditemukan",
+    emailInvalid: "Invalid Email",
+    password: "Password yang dimasukkan salah",
+    null: "Harap diisi",
+  };
+
+  function isValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
+
+  const handleChangeEmail = (event) => {
+    if (!isValidEmail(event.target.value)) {
+      setErrorMessagesEmail(errors.emailInvalid);
+    } else {
+      setErrorMessagesEmail("");
+    }
   };
 
   const handleSubmit = (event) => {
@@ -57,31 +72,39 @@ const Login = () => {
     // Find user login info
     const userData = customer.find((cust) => cust.email === email.value);
 
-    // Compare user info
-    if (userData) {
-      if (userData.password !== password.value) {
-        // Invalid password
-        setErrorMessages({ name: "password", message: errors.password });
-      } else if (userData.token) {
-        // Have token
-        navigate("/confirmation-token", {
-          state: { email: userData.email, fromLogin: true },
-        });
-      } else {
-        localStorage.setItem("isLoged", true);
-        localStorage.setItem("email", email.value);
-        localStorage.setItem("idCustomer", userData.id);
-        navigate("/");
-      }
+    if (email.value === "" || password.value === "") {
+      if (email.value === "") setErrorMessagesEmail(errors.null);
+      if (password.value === "") setErrorMessagesPassword(errors.null);
+    } else if (userData) {
+      // Invalid password
+      if (userData.password !== password.value)
+        return setErrorMessagesPassword(errors.password);
+
+      if (email.value !== "" || password.value !== "")
+        if (userData.token) {
+          // Have token
+          navigate("/confirmation-token", {
+            state: { email: userData.email, fromLogin: true },
+          });
+        } else {
+          localStorage.setItem("isLoged", true);
+          localStorage.setItem("email", email.value);
+          localStorage.setItem("idCustomer", userData.id);
+          navigate("/");
+        }
     } else {
-      // Username not found
-      setErrorMessages({ name: "email", message: errors.email });
+      // Email not found
+      setErrorMessagesEmail(errors.email);
+      setErrorMessagesPassword("");
     }
   };
 
-  const renderErrorMessage = (name) =>
-    name === errorMessages.name && (
-      <div className="error">{errorMessages.message}</div>
+  const renderErrorMessageEmail = () =>
+    errorMessagesEmail && <div className="error">{errorMessagesEmail}</div>;
+
+  const renderErrorMessagePassword = () =>
+    errorMessagesPassword && (
+      <div className="error">{errorMessagesPassword}</div>
     );
 
   return (
@@ -96,26 +119,27 @@ const Login = () => {
             <form onSubmit={handleSubmit}>
               <div className="input-container">
                 <TextField
+                  onChange={handleChangeEmail}
                   id="outlined-basic"
                   label="Email"
                   variant="outlined"
                   name="email"
-                  error={errorMessages.name === "email"}
+                  error={errorMessagesEmail}
                 />
-                {renderErrorMessage("email")}
+                {renderErrorMessageEmail()}
               </div>
               <div className="input-container">
                 <FormControl variant="outlined">
                   <InputLabel
                     htmlFor="outlined-adornment-password"
-                    error={errorMessages.name === "password"}
+                    error={errorMessagesPassword}
                   >
                     Password
                   </InputLabel>
                   <OutlinedInput
                     id="outlined-adornment-password"
                     type={showPassword ? "text" : "password"}
-                    error={errorMessages.name === "password"}
+                    error={errorMessagesPassword}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -132,7 +156,7 @@ const Login = () => {
                     name="password"
                   />
                 </FormControl>
-                {renderErrorMessage("password")}
+                {renderErrorMessagePassword()}
               </div>
               <div className="button-container">
                 <input type="submit" value="LOGIN" className="button-submit" />
