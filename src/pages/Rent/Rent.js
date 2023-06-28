@@ -22,6 +22,7 @@ const Rent = () => {
   const [color, setColor] = React.useState("");
   const [category, setCategory] = React.useState("");
   const [type, setType] = React.useState("");
+  const [isFilter, setIsFilter] = React.useState(false);
   const isLoged = localStorage.getItem("isLoged");
 
   const { data, isFetching } = useQuery(["get-collections"], () =>
@@ -43,7 +44,6 @@ const Rent = () => {
 
   const handleSubmit = () => {
     let filteredCollections = data.data;
-    console.log(collections);
     if (color) {
       filteredCollections = filteredCollections.filter(
         (collection) => collection.id_warna === color
@@ -61,6 +61,7 @@ const Rent = () => {
     }
 
     setCollections(filteredCollections);
+    setIsFilter(true);
   };
 
   const handleClear = () => {
@@ -68,6 +69,7 @@ const Rent = () => {
     setCategory("");
     setType("");
     setCollections(data.data);
+    setIsFilter(false);
   };
 
   function StyledRadio(props) {
@@ -200,7 +202,12 @@ const Rent = () => {
             </div>
             <div className="filterItems">
               {collections.length ? (
-                <PaginatedItems itemsPerPage={8} data={collections} />
+                <PaginatedItems
+                  itemsPerPage={8}
+                  data={collections}
+                  isFilter={isFilter}
+                  setIsFilter={setIsFilter}
+                />
               ) : (
                 <>
                   <img
