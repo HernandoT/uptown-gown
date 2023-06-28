@@ -96,7 +96,7 @@ const History = () => {
 
   const onClickDetailItem = (invoice) => () => {
     modals.open({
-      size: 600,
+      size: "xl",
       centered: true,
       withCloseButton: false,
       children: <DetailItem invoice={invoice} />,
