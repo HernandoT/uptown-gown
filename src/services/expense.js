@@ -39,12 +39,14 @@ export const createExpense = async ({
   tanggal = Timestamp.now(),
   nominal = 0,
   keterangan = "",
+  id_invoice = ""
 }) => {
   try {
     await addDoc(collection(db, field.expense), {
       tanggal,
       nominal,
       keterangan,
+      id_invoice
     });
     queryClient.refetchQueries(["get-expenses"]);
   } catch (e) {
@@ -54,13 +56,14 @@ export const createExpense = async ({
 
 export const updateExpense = async (
   id = "",
-  { tanggal = "", nominal = "", keterangan = "" }
+  { tanggal = "", nominal = "", keterangan = "", id_invoice = "" }
 ) => {
   try {
     await updateDoc(doc(db, field.expense, id), {
       tanggal,
       nominal,
       keterangan,
+      id_invoice,
     });
     queryClient.refetchQueries(["get-expenses"]);
   } catch (e) {

@@ -17,9 +17,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Timestamp } from "firebase/firestore";
 import dayjs from "dayjs";
+import InvoiceSelectInput from "../../components/Select/invoice-select-input";
 
 const ExpenseForm = ({
-  data = { keterangan: "", nominal: 0, tanggal: new Date(), id: "" },
+  data = { keterangan: "", nominal: 0, tanggal: new Date(), id_invoice: "", id: "" },
   onClose,
   isEdit = false,
 }) => {
@@ -28,6 +29,7 @@ const ExpenseForm = ({
       keterangan: data?.keterangan || "",
       nominal: data?.nominal || 0,
       tanggal: data?.tanggal || new Date(),
+      invoice: data?.id_invoice || "",
       id: v4(),
     }),
     [data]
@@ -65,11 +67,13 @@ const ExpenseForm = ({
               keterangan: values.keterangan,
               nominal: values.nominal,
               tanggal: Timestamp.fromDate(new Date(date)),
+              id_invoice: values.invoice ?? ""
             })
           : createExpense({
               keterangan: values.keterangan,
               nominal: values.nominal,
               tanggal: Timestamp.fromDate(new Date(date)),
+              id_invoice: values.invoice ?? ""
             });
         notifications.show({
           title: isEdit ? "Edit Pengeluaran" : "Tambah Pengeluaran",
@@ -92,7 +96,7 @@ const ExpenseForm = ({
   );
 
   return (
-    <Paper p={36} miw={400}>
+    <Paper p={36} miw={600}>
       <Form onSubmit={onSubmit} methods={methods}>
         <Flex direction="column">
           <Text fz={20} fw={600}>
@@ -109,6 +113,8 @@ const ExpenseForm = ({
           </LocalizationProvider>
           <Separator _gap={24} />
           <TextInputField label="Nominal" name="nominal" />
+          <Separator _gap={24} />
+          <InvoiceSelectInput name="invoice"/>
           <Separator _gap={24} />
           <TextInputField label="Keterangan" name="keterangan" multiline={true} rows={3}/>
           <Separator _gap={24} />

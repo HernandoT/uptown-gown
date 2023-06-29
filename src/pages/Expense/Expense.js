@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import ExpenseForm from "./ExpenseForm";
 import dayjs from "dayjs";
 import DetailButton from "../../components/DetailButton";
+import { useNavigate } from "react-router-dom";
 
 const defaultValues = {
   tanggal: new Date(),
@@ -19,6 +20,7 @@ const defaultValues = {
 };
 
 const Expense = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = React.useState("");
   const [opened, { open, close }] = useDisclosure(false);
   const [currentData, setCurrentData] = React.useState(defaultValues);
@@ -49,7 +51,7 @@ const Expense = () => {
     {
       field: "tanggal",
       headerName: "Tanggal",
-      minWidth: 200,
+      minWidth: 100,
       flex: 1,
       renderCell: ({ row }) => {
         return <>{dayjs(row.tanggal).format("DD/MM/YYYY")}</>;
@@ -69,7 +71,24 @@ const Expense = () => {
         return <>{currencyFormat(row.nominal)}</>;
       },
     },
-    { field: "keterangan", headerName: "Keterangan", minWidth: 400, flex: 3 },
+    {
+      field: "id_invoice",
+      headerName: "Invoice",
+      minWidth: 200,
+      flex: 2,
+      renderCell: ({ row }) => {
+        if (!row.id_invoice) return <>-</>;
+        else
+          return (
+            <button
+              onClick={() => navigate(`/admin/invoice/${row.id_invoice}`)}
+            >
+              {row.id_invoice}
+            </button>
+          );
+      },
+    },
+    { field: "keterangan", headerName: "Keterangan", minWidth: 300, flex: 3 },
     {
       field: "action",
       headerName: "Action",
@@ -84,6 +103,7 @@ const Expense = () => {
             tanggal: row.tanggal,
             nominal: row.nominal,
             keterangan: row.keterangan,
+            id_invoice: row.id_invoice,
             id: row.id,
           });
           open();
@@ -140,7 +160,13 @@ const Expense = () => {
             />
           )}
         </div>
-        <Modal opened={opened} centered onClose={close} withCloseButton={false}>
+        <Modal
+          opened={opened}
+          centered
+          onClose={close}
+          withCloseButton={false}
+          size={800}
+        >
           <ExpenseForm data={currentData} onClose={close} isEdit={isEdit} />
         </Modal>
       </div>
