@@ -102,14 +102,14 @@ const CollectionDetail = () => {
       ) : (
         <>
           <div className="detail-content">
-            <div className="detail-img">
+            <div className="detail-img card-container">
               <img
                 src={collection.gambar}
                 alt="Detail"
                 className="detail-image"
               />
             </div>
-            <div className="detail-description">
+            <div className="detail-description card-container">
               <BackButton />
               <div className="detail-name">
                 <div className="detail-strip" />

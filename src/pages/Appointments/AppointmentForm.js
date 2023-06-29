@@ -149,7 +149,7 @@ const AppointmentForm = () => {
         <></>
       ) : (
         <>
-          <div className="appointment-form-content">
+          <div className="appointment-form-content card-container">
             <Form onSubmit={onSubmit} methods={methods}>
               <div className="appointment-form-customer">
                 <CustomerSelectInput

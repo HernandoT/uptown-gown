@@ -110,7 +110,7 @@ const Profile = () => {
   return (
     <div className="profile">
       <Navbar />
-      <div className="profile-content">
+      <div className="profile-content card-container">
         <div className="profile-title">Edit Profile</div>
         {isFetching ? (
           <></>

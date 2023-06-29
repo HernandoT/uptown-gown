@@ -75,6 +75,10 @@ body {
   font-family: "Poppins", sans-serif !important;
 }
 
+.MuiInputBase-root {
+  background-color: white;
+}
+
 .MuiDataGrid-columnHeaderTitle {
   font-weight: bold !important;
 }

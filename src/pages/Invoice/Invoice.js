@@ -15,8 +15,6 @@ import dayjs from "dayjs";
 const Invoice = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
-  // const [isInitiate, setIsInitiate] = React.useState(false);
-  // const [invoices, setInvoices] = React.useState([]);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -51,8 +49,8 @@ const Invoice = () => {
   }, [data?.data, dataCustomers?.data, isFetching, isFetchingCustomers]);
 
   const columns = [
-    { field: "email", headerName: "Email", minWidth: 200, flex: 1 },
-    { field: "nama", headerName: "Nama", minWidth: 150, flex: 1 },
+    { field: "email", headerName: "Email", minWidth: 150, flex: 1 },
+    { field: "nama", headerName: "Nama", minWidth: 100, flex: 1 },
     {
       field: "nomor_telepon",
       headerName: "Nomor Telepon",
@@ -136,6 +134,7 @@ const Invoice = () => {
                 </InputAdornment>
               ),
             }}
+            style={{backgroundColor: "white"}}
           />
           <button
             className="invoice-add"
@@ -157,7 +156,8 @@ const Invoice = () => {
                 },
               }}
               pageSizeOptions={[5, 10, 15]}
-              style={{ marginTop: "3%", border: "none", height: "70vh" }}
+              style={{ marginTop: "3%", height: "70vh" }}
+              className="card-container"
             />
           )}
         </div>

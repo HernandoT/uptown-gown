@@ -21,16 +21,16 @@ const PopularCollections = ({ data }) => {
         <p>Popular Collections</p>
       </div>
       <div className="popularCollectionsContent">
-        <div className="popularCollections1">
+        <div className="popularCollections1 card-container">
           <img src={image1.gambar} alt="Popular Collection" className="preview-img"/>
         </div>
-        <div className="popularCollections2">
+        <div className="popularCollections2 card-container">
           <img src={image2.gambar} alt="Popular Collection" className="preview-img"/>
         </div>
-        <div className="popularCollections3">
+        <div className="popularCollections3 card-container">
           <img src={image3.gambar} alt="Popular Collection" className="preview-img"/>
         </div>
-        <div className="popularCollections4">
+        <div className="popularCollections4 card-container">
           <img src={image4.gambar} alt="Popular Collection" className="preview-img"/>
         </div>
       </div>

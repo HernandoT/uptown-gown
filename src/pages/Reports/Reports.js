@@ -197,7 +197,8 @@ const Reports = () => {
                 },
               }}
               pageSizeOptions={[5, 10, 15]}
-              style={{ marginTop: "1%", border: "none", height: "70vh" }}
+              style={{ marginTop: "1%", height: "70vh" }}
+              className="card-container"
             />
           </div>
         )}

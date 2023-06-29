@@ -6,11 +6,15 @@
 .rentContent {
   margin: 8px 5% 5% 5%;
   display: flex;
-  gap: 3%;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5%;
 }
 
 .filter {
   width: 20vw;
+  padding: 20px;
+  align-self: flex-start;
 }
 
 .filter > hr {
@@ -19,11 +23,11 @@
 }
 
 .filterItems {
-  width: 70vw;
+  min-width: 65vw;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 20px;
 }
 
 .rent-filter-title {

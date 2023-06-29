@@ -13,7 +13,8 @@
 }
 
 .invoice-form-content {
-  margin: 3% 2% 3% 0;
+  margin: 1% 2% 3% 0;
+  padding: 32px;
 }
 
 .invoice-form-customer-add {

@@ -107,6 +107,7 @@ const Customer = () => {
                 </InputAdornment>
               ),
             }}
+            style={{backgroundColor: "white"}}
           />
           <button className="customer-add" onClick={onClickAdd}>
             + TAMBAH CUSTOMER
@@ -127,7 +128,8 @@ const Customer = () => {
                 },
               }}
               pageSizeOptions={[5, 10, 15]}
-              style={{ marginTop: "3%", border: "none", height: "70vh" }}
+              style={{ marginTop: "3%", height: "70vh" }}
+              className="card-container"
             />
           )}
         </div>

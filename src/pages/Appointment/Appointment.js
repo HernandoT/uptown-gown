@@ -86,7 +86,7 @@ const Appointment = () => {
     <div className="content">
       <Navbar />
       <div className="appointmentContent">
-        <div className="appointmentCalendar">
+        <div className="appointmentCalendar card-container">
           <DatePicker
             selected={selectedDate}
             onChange={(date) => {

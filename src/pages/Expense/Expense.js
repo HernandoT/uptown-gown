@@ -81,11 +81,12 @@ const Expense = () => {
         if (!row.id_invoice) return <>-</>;
         else
           return (
-            <button
+            <div
               onClick={() => navigate(`/admin/invoice/${row.id_invoice}`)}
+              style={{ cursor: "pointer", textDecoration: "underline" }}
             >
               {row.id_invoice}
-            </button>
+            </div>
           );
       },
     },
@@ -135,6 +136,7 @@ const Expense = () => {
                 </InputAdornment>
               ),
             }}
+            style={{ backgroundColor: "white" }}
           />
           <button className="expense-add" onClick={onClickAdd}>
             + TAMBAH PENGELUARAN
@@ -157,7 +159,8 @@ const Expense = () => {
                 },
               }}
               pageSizeOptions={[5, 10, 15]}
-              style={{ marginTop: "3%", border: "none", height: "70vh" }}
+              style={{ marginTop: "3%", height: "70vh" }}
+              className="card-container"
             />
           )}
         </div>

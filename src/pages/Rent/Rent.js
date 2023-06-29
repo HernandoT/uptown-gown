@@ -91,7 +91,7 @@ const Rent = () => {
       ) : (
         <>
           <div className="rentContent">
-            <div className="filter">
+            <div className="filter card-container">
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <p>
                   <b>Filters</b>
@@ -200,7 +200,7 @@ const Rent = () => {
                 </button>
               </div>
             </div>
-            <div className="filterItems">
+            <div className="filterItems card-container">
               {collections.length ? (
                 <PaginatedItems
                   itemsPerPage={8}

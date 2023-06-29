@@ -14,8 +14,8 @@ const Slogan = () => {
         </p>
       </div>
 
-      <div className="slogan-img">
-        <img src={img} alt="Slogan Image" className="slogan-image"/>
+      <div className="slogan-img card-container">
+        <img src={img} alt="Slogan" className="slogan-image"/>
       </div>
     </div>
   );

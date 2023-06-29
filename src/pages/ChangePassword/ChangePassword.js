@@ -73,7 +73,7 @@ const ChangePassword = () => {
       });
     } finally {
     }
-  });
+  }, []);
 
   return (
     <div className="change-password">
@@ -82,7 +82,7 @@ const ChangePassword = () => {
         <></>
       ) : (
         <>
-          <div className="change-password-content">
+          <div className="change-password-content card-container">
             <Form onSubmit={onSubmit} methods={methods}>
               <Separator _gap={12} />
               <InputPasswordField
@@ -96,6 +96,7 @@ const ChangePassword = () => {
                 name="password"
                 label="Ulangi Kata Sandi baru"
               />
+              <Separator _gap={12} />
               <button className="change-password-simpan" type="submit">
                 SIMPAN
               </button>

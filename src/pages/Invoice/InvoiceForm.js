@@ -630,7 +630,7 @@ const IsolatedForm = ({
       <div className="invoice-form">
         <AdminTitle props={id ? `Invoice ${id}` : "Invoice"} />
         <BackButton />
-        <div className="invoice-form-content">
+        <div className="invoice-form-content card-container">
           {!isInitiate && isEdit ? (
             <></>
           ) : (

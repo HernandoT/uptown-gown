@@ -3,7 +3,7 @@
   .newCollections {
     margin: 45% 5%;
   }
-  
+
   .newCollectionsTitle {
     font-size: 1.5rem;
     font-family: 'Playfair Display', serif;
@@ -13,14 +13,14 @@
     align-items: center;
     height: 5vh;
   }
-  
+
   .newCollectionStrip {
     border: 1px solid #EDBF52;
     height: 2rem;
     margin-right: 3%;
   }
-  
-  .newCollectionsTitle > p {
+
+  .newCollectionsTitle>p {
     margin: 0;
   }
 }
@@ -30,7 +30,7 @@
   .newCollections {
     margin: 45% 5%;
   }
-  
+
   .newCollectionsTitle {
     font-size: 1.5rem;
     font-family: 'Playfair Display', serif;
@@ -40,14 +40,14 @@
     align-items: center;
     height: 5vh;
   }
-  
+
   .newCollectionStrip {
     border: 1px solid #EDBF52;
     height: 2rem;
     margin-right: 3%;
   }
-  
-  .newCollectionsTitle > p {
+
+  .newCollectionsTitle>p {
     margin: 0;
   }
 }
@@ -57,7 +57,7 @@
   .newCollections {
     margin: 45% 5%;
   }
-  
+
   .newCollectionsTitle {
     font-size: 2rem;
     font-family: 'Playfair Display', serif;
@@ -67,24 +67,24 @@
     align-items: center;
     height: 5vh;
   }
-  
+
   .newCollectionStrip {
     border: 1px solid #EDBF52;
     height: 3rem;
     margin-right: 3%;
   }
-  
-  .newCollectionsTitle > p {
+
+  .newCollectionsTitle>p {
     margin: 0;
   }
-} 
+}
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
   .newCollections {
     margin: 30% 5%;
   }
-  
+
   .newCollectionsTitle {
     font-size: 2.5rem;
     font-family: 'Playfair Display', serif;
@@ -94,24 +94,24 @@
     align-items: center;
     height: 5vh;
   }
-  
+
   .newCollectionStrip {
     border: 1px solid #EDBF52;
     height: 3.5rem;
     margin-right: 3%;
   }
-  
-  .newCollectionsTitle > p {
+
+  .newCollectionsTitle>p {
     margin: 0;
   }
-} 
+}
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
   .newCollections {
     margin: 20% 5%;
   }
-  
+
   .newCollectionsTitle {
     font-size: 3rem;
     font-family: 'Playfair Display', serif;
@@ -121,14 +121,14 @@
     align-items: center;
     height: 10vh;
   }
-  
+
   .newCollectionStrip {
     border: 1px solid #EDBF52;
     height: 4rem;
     margin-right: 3%;
   }
-  
-  .newCollectionsTitle > p {
+
+  .newCollectionsTitle>p {
     margin: 0;
   }
 
@@ -137,5 +137,8 @@
     height: 100%;
     object-fit: cover;
     border-radius: 2%;
+    box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
+    -webkit-box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
+    -moz-box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
   }
 }

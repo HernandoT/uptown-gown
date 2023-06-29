@@ -137,7 +137,7 @@ const History = () => {
                   {invoices.map((invoice) => {
                     return (
                       <Card
-                        className="card"
+                        className="card card-container"
                         variant="outlined"
                         onClick={onClickDetailItem(invoice)}
                         style={{cursor:"pointer"}}
@@ -199,7 +199,7 @@ const History = () => {
                 <div style={{ minHeight: "60vh" }}>
                   {appointments.map((data) => {
                     return (
-                      <Card className="card" variant="outlined">
+                      <Card className="card card-container" variant="outlined">
                         <CardContent className="card-content">
                           <div style={{ display: "flex" }}>
                             <div className="card-left">

@@ -156,6 +156,7 @@ const Collections = () => {
                 </InputAdornment>
               ),
             }}
+            style={{backgroundColor: "white"}}
           />
           <button className="collections-add" onClick={onClickAdd}>
             + TAMBAH BARANG
@@ -176,7 +177,8 @@ const Collections = () => {
                 },
               }}
               pageSizeOptions={[5, 10, 15]}
-              style={{ marginTop: "3%", border: "none", height: "70vh" }}
+              style={{ marginTop: "3%", height: "70vh" }}
+              className="card-container"
             />
           )}
         </div>

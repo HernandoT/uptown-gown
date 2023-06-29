@@ -14,7 +14,7 @@ const Custom = () => {
       <Navbar />
       <div className="customContent">
         <div className="custom-desc">
-          <div className="customBox">
+          <div className="customBox card-container">
             <div className="customLogo">
               <GiLargeDress className="customIcon" />
             </div>
@@ -33,7 +33,7 @@ const Custom = () => {
               </div>
             </div>
           </div>
-          <div className="customBox">
+          <div className="customBox card-container">
             <div className="customLogo">
               <GiSewingMachine className="customIcon" />
             </div>

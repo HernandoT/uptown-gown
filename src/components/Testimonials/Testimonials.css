@@ -242,6 +242,7 @@
     height: 100%;
     background-color: #FDF9EE;
     padding: 5%;
+    border-top: 5px solid #EDBF52;
   }
   
   .testimonialsTitle {

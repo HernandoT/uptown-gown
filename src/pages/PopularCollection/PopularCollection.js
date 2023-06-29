@@ -187,7 +187,7 @@ const PopularCollection = () => {
       <Form onSubmit={onSubmit} methods={methods}>
         <AdminTitle props={"Popular Collection"} />
         <div className="popular-collection-content">
-          <div className="popular-collection-selector">
+          <div className="popular-collection-selector card-container">
             {gambarCollections.map((value, index) => {
               return (
                 <>
