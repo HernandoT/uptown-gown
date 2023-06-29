@@ -16,6 +16,8 @@ import { getDetailInvoiceItems } from "../../services/detail-invoice-item";
 import { modals } from "@mantine/modals";
 import DetailItem from "./DetailItem";
 import { getCollections } from "../../services/collection";
+import { getCustomer } from "../../services/customer";
+
 
 const History = () => {
   const isLoged = localStorage.getItem("isLoged");
@@ -40,6 +42,12 @@ const History = () => {
     () => getCollections()
   );
 
+  const { data: dataCustomer, isFetching: isFetchingCustomer} = useQuery(
+    ["get-customer", idCustomer],
+    () => getCustomer(idCustomer || ""),
+    { enabled: !!idCustomer }
+  );
+
   const [currentTab, setCurrentTab] = useState("1");
 
   const handleTabClick = (e) => {
@@ -51,7 +59,8 @@ const History = () => {
       !isFetching &&
       !isFetchingInvoices &&
       !isFetchingDetailItems &&
-      !isFetchingCollections
+      !isFetchingCollections &&
+      !isFetchingCustomer
     ) {
       const foundHistory = data?.data.filter(
         (item) => item.id_customer === idCustomer
@@ -91,15 +100,16 @@ const History = () => {
     isFetching,
     isFetchingInvoices,
     isFetchingDetailItems,
-    isFetchingCollections
+    isFetchingCollections,
+    isFetchingCustomer
   ]);
 
-  const onClickDetailItem = (invoice) => () => {
+  const onClickDetailItem = (invoice, dataCustomer) => () => {
     modals.open({
       size: "xl",
       centered: true,
       withCloseButton: false,
-      children: <DetailItem invoice={invoice} />,
+      children: <DetailItem invoice={invoice} dataCustomer={dataCustomer}/>,
     });
   };
 
@@ -139,7 +149,7 @@ const History = () => {
                       <Card
                         className="card card-container"
                         variant="outlined"
-                        onClick={onClickDetailItem(invoice)}
+                        onClick={onClickDetailItem(invoice, dataCustomer)}
                         style={{cursor:"pointer"}}
                       >
                         <CardContent className="card-content">

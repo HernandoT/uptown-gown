@@ -39,27 +39,26 @@
   padding-left: 8px;
 }
 
+#invoice-container p {
+  font-size: 12px;
+}
 .detail-invoice-company-name {
-  font-size: 24px;
+  font-size: 16px;
   font-family: "Playfair Display", serif;
   font-weight: bold;
-  /* margin: 5px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 10vh; */
+  margin-bottom: 4px;
 }
 
 .detail-invoice-title {
-  font-size: 40px;
+  font-size: 24px;
   font-family: "Playfair Display", serif;
   font-weight: bold;
   margin: 16px 0;
 }
 
 .detail-invoice-image-container {
-  width: 144px;
-  height: 144px;
+  width: 100px;
+  height: 100px;
   overflow: hidden;
   align-self: flex-end;
 }
@@ -80,7 +79,7 @@
 .di-left p,
 .di-right p,
 .di-mid p {
-  margin: 0;
+  margin: 4px 0;
 }
 
 .di-header-right {
@@ -92,19 +91,17 @@
 
 .detail-invoice-table th {
   font-family: "Poppins", sans-serif !important;
-  /* padding: 6px 0; */
-  padding-top: 6px;
-  padding-bottom: 6px;
-  font-size: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 12px;
   font-weight: bold;
 }
 
 .detail-invoice-table td {
   font-family: "Poppins", sans-serif !important;
-  /* padding: 6px 0; */
-  padding-top: 6px;
-  padding-bottom: 6px;
-  font-size: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 12px;
 }
 
 .detail-invoice-table tbody {
@@ -116,12 +113,11 @@
 }
 
 .di-left {
-  flex: 2;
+  flex: 3;
 }
 
 .di-mid {
   flex: 1;
-  text-align: right;
 }
 
 .di-right {
