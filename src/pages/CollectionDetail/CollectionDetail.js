@@ -13,6 +13,7 @@ import Calendar from "../../components/Calendar/Calendar";
 import { getColors } from "../../services/color";
 import { getCategories } from "../../services/category";
 import { getTypes } from "../../services/type";
+import Separator from "../../components/separator";
 
 const CollectionDetail = () => {
   const isLoged = localStorage.getItem("isLoged");
@@ -116,21 +117,33 @@ const CollectionDetail = () => {
                 <p>{collection.nama}</p>
               </div>
               <div style={{ width: "90%" }}>{collection.deskripsi}</div>
+              <Separator _gap={18} />
               <div>Warna: {collection.warna}</div>
               <div>Kategori: {collection.kategori}</div>
               <div>Jenis: {collection.jenis}</div>
-              <button
-                className="detail-button"
-                onClick={openCalendar({ listEventDate })}
-              >
-                CEK KETERSEDIAAN
-              </button>
-              <button
-                className="detail-button"
-                onClick={() => navigate("/appointment", { state: collection })}
-              >
-                BUAT APPOINTMENT
-              </button>
+              <div className="detail-buttons">
+                <div className="detail-left">
+                  <button
+                    className="detail-button-calendar"
+                    onClick={openCalendar({ listEventDate })}
+                  >
+                    CEK KETERSEDIAAN
+                  </button>
+                </div>
+                <div className="detail-right">
+                  <p style={{ marginBottom: "8px" }}>
+                    Berminat untuk menyewa baju ini?
+                  </p>
+                  <button
+                    className="detail-button-appointment"
+                    onClick={() =>
+                      navigate("/appointment", { state: collection })
+                    }
+                  >
+                    BUAT APPOINTMENT
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           <Footer />

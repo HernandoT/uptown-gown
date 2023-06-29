@@ -6,13 +6,13 @@
 .detail-content {
   margin: 24px 5% 5% 5%;
   display: flex;
-  gap: 3%;
+  gap: 5%;
 }
 
 .detail-img {
-  flex: 1;
+  flex: 2;
   width: auto;
-  height: 60vh;
+  height: 65vh;
   padding: 0;
 }
 
@@ -24,12 +24,14 @@
 }
 
 .detail-description {
-  flex: 3;
+  flex: 5;
+  padding: 40px 40px;
+  height: fit-content;
 }
 
 .detail-name {
   font-size: 2.5rem;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -38,28 +40,53 @@
 }
 
 .detail-strip {
-  border: 1px solid #EDBF52;
+  border: 1px solid #edbf52;
   height: 3rem;
   margin-right: 3%;
 }
 
-.detail-button {
-  display: flex;
-  flex-direction: column;
-  font-family: 'Poppins', sans-serif;
-  font-size: large;
-  margin-top: 24px;
+.detail-button-appointment {
   padding: 8px 16px;
-  justify-content: center;
-  align-items: center;
-  background-color: black;
   color: white;
-  border-radius: 5px;
   cursor: pointer;
+  font-size: 1rem;
+  background-color: black;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-family: "Poppins";
+  width: 100%;
+}
+
+.detail-button-calendar {
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: white;
+  border: 1px solid black;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-family: "Poppins";
+  width: 100%;
 }
 
 .calendar {
   border: 20px solid #fdf9ee;
   border-top: 10px solid #fdf9ee;
   border-radius: 1rem;
+}
+
+.detail-left {
+  flex: 1;
+}
+
+.detail-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.detail-buttons {
+  display: flex;
+  gap: 32px;
+  align-items: flex-end;
 }
