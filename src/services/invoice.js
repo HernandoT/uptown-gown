@@ -36,10 +36,10 @@ export const getInvoice = async (id = "") => {
   }
 };
 
-export const getInvoicesByIdCustomer = async (idInvoice) => {
+export const getInvoicesByIdCustomer = async (idCustomer) => {
   try {
     const collectionRef = collection(db, field.invoice);
-    const q = query(collectionRef, where("id_customer", "==", idInvoice));
+    const q = query(collectionRef, where("id_customer", "==", idCustomer));
     const docRefs = await getDocs(q);
 
     const invoices = [];

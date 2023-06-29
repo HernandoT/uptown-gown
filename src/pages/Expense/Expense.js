@@ -17,6 +17,7 @@ const defaultValues = {
   tanggal: new Date(),
   nominal: 0,
   keterangan: "",
+  id_invoice: "",
 };
 
 const Expense = () => {

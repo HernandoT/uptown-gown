@@ -7,6 +7,8 @@ import {
   getDocs,
   updateDoc,
   Timestamp,
+  query,
+  where,
 } from "firebase/firestore";
 import { field } from "../common/constant";
 import { queryClient } from "./query-client";
@@ -35,6 +37,28 @@ export const getExpense = async (id = "") => {
   }
 };
 
+export const getExpensesByIdInvoice = async (idInvoice) => {
+  try {
+    const collectionRef = collection(db, field.expense);
+    const q = query(collectionRef, where("id_invoice", "==", idInvoice));
+    const docRefs = await getDocs(q);
+
+    const expenses = [];
+
+    docRefs.forEach((expense) => {
+      expenses.push({
+        id: expense.id,
+        ...expense.data(),
+        tanggal: dayjs(expense.data().tanggal.toDate()),
+      });
+    });
+
+    return { expenses };
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const createExpense = async ({
   tanggal = Timestamp.now(),
   nominal = 0,
@@ -49,6 +73,7 @@ export const createExpense = async ({
       id_invoice
     });
     queryClient.refetchQueries(["get-expenses"]);
+    queryClient.refetchQueries(["get-expenses-by-id-invoice"]);
   } catch (e) {
     console.log(e);
   }
@@ -66,6 +91,7 @@ export const updateExpense = async (
       id_invoice,
     });
     queryClient.refetchQueries(["get-expenses"]);
+    queryClient.refetchQueries(["get-expenses-by-id-invoice"]);
   } catch (e) {
     console.log(e);
   }

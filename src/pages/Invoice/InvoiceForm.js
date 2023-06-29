@@ -46,6 +46,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { Timestamp } from "firebase/firestore";
 import useYupValidationResolver from "../../hooks/use-yup-resolver";
+import { getExpensesByIdInvoice } from "../../services/expense";
+import { DataGrid } from "@mui/x-data-grid";
+import dayjs from "dayjs";
+import DetailButton from "../../components/DetailButton";
+import ExpenseForm from "../Expense/ExpenseForm";
 
 const typeInvoice = {
   Rent: "rent",
@@ -180,10 +185,7 @@ const Items = ({ isEdit, isFinished }) => {
       {fields.map((field, index) => {
         return (
           <>
-            <div
-              key={index}
-              style={{ display: "flex", height: "auto" }}
-            >
+            <div key={index} style={{ display: "flex", height: "auto" }}>
               {type === typeInvoice.Rent ? (
                 <CollectionSelectInput
                   name={`items[${index}].id_collection`}
@@ -257,11 +259,13 @@ const IsolatedForm = ({
   data,
   items,
   isSuccess,
+  isSuccessExpense,
   isFetchingDetailItems,
   isFetchingFitting,
   dataDetailItems,
   id,
   dataFitting,
+  dataExpense,
   setItems,
   setIsInitiate,
   isEdit,
@@ -289,7 +293,12 @@ const IsolatedForm = ({
   );
 
   React.useEffect(() => {
-    if (isSuccess && !isFetchingDetailItems && !isFetchingFitting) {
+    if (
+      isSuccess &&
+      !isFetchingDetailItems &&
+      !isFetchingFitting &&
+      isSuccessExpense
+    ) {
       const items = [];
       dataDetailItems.data
         .filter((items) => items.id_invoice === id)
@@ -310,7 +319,7 @@ const IsolatedForm = ({
       setItems(items);
       setIsInitiate(true);
     }
-  }, [isSuccess, isFetchingDetailItems, isFetchingFitting]);
+  }, [isSuccess, isFetchingDetailItems, isFetchingFitting, isSuccessExpense]);
 
   const navigate = useNavigate();
 
@@ -319,6 +328,17 @@ const IsolatedForm = ({
 
   const [openedFitting, { open: openFitting, close: closeFitting }] =
     useDisclosure(false);
+
+  const [openedExpense, { open: openExpense, close: closeExpense }] =
+    useDisclosure(false);
+
+  const [currentDataExpense, setCurrentDataExpense] = React.useState({
+    tanggal: new Date(),
+    nominal: 0,
+    keterangan: "",
+    id_invoice: "",
+  });
+  const [isEditExpense, setIsEditExpense] = React.useState(false);
 
   const onSubmit = React.useCallback(
     async (values) => {
@@ -544,10 +564,71 @@ const IsolatedForm = ({
     openCustomer();
   }, [openCustomer]);
 
+  const onClickAddExpense = React.useCallback(() => {
+    setCurrentDataExpense({
+      tanggal: new Date(),
+      nominal: 0,
+      keterangan: "",
+      id_invoice: id,
+    });
+    setIsEditExpense(false);
+    openExpense();
+  }, [id, openExpense]);
+
+  const columns = [
+    {
+      field: "tanggal",
+      headerName: "Tanggal",
+      minWidth: 100,
+      flex: 1,
+      renderCell: ({ row }) => {
+        return <>{dayjs(row.tanggal).format("DD/MM/YYYY")}</>;
+      },
+    },
+    {
+      field: "nominal",
+      headerName: "Nominal",
+      minWidth: 200,
+      flex: 1,
+      renderCell: ({ row }) => {
+        function currencyFormat(num) {
+          return (
+            "Rp. " + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+          );
+        }
+        return <>{currencyFormat(row.nominal)}</>;
+      },
+    },
+    { field: "keterangan", headerName: "Keterangan", minWidth: 300, flex: 2 },
+    {
+      field: "action",
+      headerName: "Action",
+      minWidth: 50,
+      flex: 0.5,
+      sortable: false,
+      disableColumnMenu: true,
+      headerAlign: "center",
+      renderCell: ({ row }) => {
+        const onClick = () => {
+          setCurrentDataExpense({
+            tanggal: row.tanggal,
+            nominal: row.nominal,
+            keterangan: row.keterangan,
+            id_invoice: row.id_invoice,
+            id: row.id,
+          });
+          openExpense();
+          setIsEditExpense(true);
+        };
+        return <DetailButton onClick={onClick} />;
+      },
+    },
+  ];
+
   return (
     <div className="invoice-form-container">
       <div className="invoice-form">
-        <AdminTitle props={"Invoice"} />
+        <AdminTitle props={id ? `Invoice ${id}` : "Invoice"} />
         <BackButton />
         <div className="invoice-form-content">
           {!isInitiate && isEdit ? (
@@ -628,6 +709,42 @@ const IsolatedForm = ({
                 disabled={isFinished}
               />
               <Separator _gap={24} />
+              {id ? (
+                <>
+                  <p>
+                    <strong>List Pengeluaran:</strong>
+                    {
+                      <button
+                        style={{ width: 50, marginLeft: 12 }}
+                        type="button"
+                        onClick={onClickAddExpense}
+                      >
+                        +
+                      </button>
+                    }
+                  </p>
+                  {dataExpense.expenses.length === 0 ? (
+                    <>
+                      Tidak ada pengeluaran untuk invoice ini
+                      <Separator _gap={24} />
+                    </>
+                  ) : (
+                    <DataGrid
+                      rows={dataExpense.expenses}
+                      columns={columns}
+                      initialState={{
+                        pagination: {
+                          paginationModel: { page: 0, pageSize: 5 },
+                        },
+                      }}
+                      style={{ border: "none" }}
+                    />
+                  )}
+                </>
+              ) : (
+                <></>
+              )}
+              <Separator _gap={24} />
               <TextInputField
                 name="keterangan"
                 label="Keterangan"
@@ -663,6 +780,19 @@ const IsolatedForm = ({
         >
           <FittingForm onClose={closeFitting} />
         </Modal>
+        <Modal
+          opened={openedExpense}
+          centered
+          onClose={closeExpense}
+          withCloseButton={false}
+          size={800}
+        >
+          <ExpenseForm
+            data={currentDataExpense}
+            onClose={closeExpense}
+            isEdit={isEditExpense}
+          />
+        </Modal>
       </div>
     </div>
   );
@@ -683,6 +813,11 @@ const InvoiceForm = () => {
     ["get-fittings"],
     () => getFittings()
   );
+  const { data: dataExpense, isSuccess: isSuccessExpense } = useQuery(
+    ["get-expenses-by-id-invoice", id],
+    () => getExpensesByIdInvoice(id || ""),
+    { enabled: !!id }
+  );
   const [items, setItems] = React.useState([]);
   const [isInitiate, setIsInitiate] = React.useState(false);
   const [isFinished, setIsFinished] = React.useState(false);
@@ -693,6 +828,7 @@ const InvoiceForm = () => {
       data={data}
       dataDetailItems={dataDetailItems}
       dataFitting={dataFitting}
+      dataExpense={dataExpense}
       id={id}
       isEdit={isEdit}
       isFinished={isFinished}
@@ -700,6 +836,7 @@ const InvoiceForm = () => {
       isFetchingFitting={isFetchingFitting}
       isInitiate={isInitiate}
       isSuccess={isSuccess}
+      isSuccessExpense={isSuccessExpense}
       items={items}
       setIsInitiate={setIsInitiate}
       setIsFinished={setIsFinished}
