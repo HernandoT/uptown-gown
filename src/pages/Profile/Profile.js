@@ -58,7 +58,12 @@ const Profile = () => {
             /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
             "Nomor Telepon Tidak Valid"
           ),
-        name: Yup.string().required("Nama Wajib Diisi"),
+          name: Yup.string()
+          .required("Nama Wajib Diisi")
+          .matches(
+            /^(?!^\s)[A-Za-z\s]{2,}$/,
+            "Nama Tidak Valid"
+          ),
       }),
     []
   );

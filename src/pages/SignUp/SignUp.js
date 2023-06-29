@@ -48,9 +48,10 @@ const SignUp = () => {
   }, []);
 
   const errors = {
-    email: "Email telah terdaftar",
-    emailInvalid: "Email invalid",
-    nomorInvalid: "Nomor invalid",
+    email: "Email Telah Terdaftar",
+    emailInvalid: "Email Tidak Valid",
+    nomorInvalid: "Nomor Tidak Valid",
+    namaInvalid: "Nama Tidak Valid",
     null: "Harap diisi",
   };
 
@@ -61,6 +62,12 @@ const SignUp = () => {
   function isValidNumber(number) {
     return /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/.test(
       number
+    );
+  }
+
+  function isValidName(name) {
+    return /^(?!^\s)[A-Za-z\s]{2,}$/.test(
+      name
     );
   }
 
@@ -77,6 +84,14 @@ const SignUp = () => {
       setErrorMessagesNomor(errors.nomorInvalid);
     } else {
       setErrorMessagesNomor("");
+    }
+  };
+
+  const handleChangeName = (event) => {
+    if (!isValidName(event.target.value)) {
+      setErrorMessagesNama(errors.namaInvalid);
+    } else {
+      setErrorMessagesNama("");
     }
   };
 
@@ -189,7 +204,7 @@ const SignUp = () => {
               </div>
               <div className="input-container">
                 <TextField
-                  onChange={() => setErrorMessagesNama("")}
+                  onChange={handleChangeName}
                   id="outlined-basic"
                   label="Nama Lengkap"
                   variant="outlined"
