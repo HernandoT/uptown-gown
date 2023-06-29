@@ -5,11 +5,18 @@ body {
   box-sizing: border-box;
   font-family: "Poppins", sans-serif !important;
   margin: 0;
+  background-color: #fcfcfc;
 }
 
-/* * {
-  font-family: Avenir !important;
-} */
+.card-container {
+  background-color: white;
+  border: 1px solid lightgrey;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
+  -webkit-box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
+  -moz-box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
+}
 
 .ce-my-message-bubble {
   background-color: #edbf52 !important;
