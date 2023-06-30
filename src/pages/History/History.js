@@ -18,7 +18,6 @@ import DetailItem from "./DetailItem";
 import { getCollections } from "../../services/collection";
 import { getCustomer } from "../../services/customer";
 
-
 const History = () => {
   const isLoged = localStorage.getItem("isLoged");
   const idCustomer = localStorage.getItem("idCustomer");
@@ -42,7 +41,7 @@ const History = () => {
     () => getCollections()
   );
 
-  const { data: dataCustomer, isFetching: isFetchingCustomer} = useQuery(
+  const { data: dataCustomer, isFetching: isFetchingCustomer } = useQuery(
     ["get-customer", idCustomer],
     () => getCustomer(idCustomer || ""),
     { enabled: !!idCustomer }
@@ -101,7 +100,7 @@ const History = () => {
     isFetchingInvoices,
     isFetchingDetailItems,
     isFetchingCollections,
-    isFetchingCustomer
+    isFetchingCustomer,
   ]);
 
   const onClickDetailItem = (invoice, dataCustomer) => () => {
@@ -109,7 +108,7 @@ const History = () => {
       size: "xl",
       centered: true,
       withCloseButton: false,
-      children: <DetailItem invoice={invoice} dataCustomer={dataCustomer}/>,
+      children: <DetailItem invoice={invoice} dataCustomer={dataCustomer} />,
     });
   };
 
@@ -150,7 +149,7 @@ const History = () => {
                         className="card card-container"
                         variant="outlined"
                         onClick={onClickDetailItem(invoice, dataCustomer)}
-                        style={{cursor:"pointer"}}
+                        style={{ cursor: "pointer" }}
                       >
                         <CardContent className="card-content">
                           <div style={{ display: "flex" }}>
@@ -166,18 +165,18 @@ const History = () => {
                                 {currencyFormat(invoice.harga_total)}
                               </p>
                               <p>
-                                <b>Status Pelunasan:</b>{" "}
-                                {invoice.status_pelunasan}
+                                <b>Jenis Inovoice:</b>{" "}
+                                {invoice.id_jenis_invoice === "rent"
+                                  ? "Rent"
+                                  : invoice.id_jenis_invoice === "custom_rent"
+                                  ? "Custom Rent"
+                                  : "Custom Made"}
                               </p>
                             </div>
                             <div className="card-right">
-                              {invoice.id_jenis_invoice === "rent" ? (
-                                <div className="card-status">RENT</div>
-                              ) : invoice.id_jenis_invoice === "custom_rent" ? (
-                                <div className="card-status">CUSTOM RENT</div>
-                              ) : (
-                                <div className="card-status">CUSTOM MADE</div>
-                              )}
+                              <div className="card-status">
+                                {invoice.status_pelunasan}
+                              </div>
                             </div>
                           </div>
                         </CardContent>
