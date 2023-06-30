@@ -145,7 +145,15 @@
     align-items: center;
     text-align: left;
     background: transparent;
-    width: 95%;
+    width: 100%;
+  }
+
+  .solid-nav {
+    background-color: white;
+    position: fixed;
+    top: 0;
+    border-bottom: 1px solid lightgray;
+    z-index: 100;
   }
   
   .icon {

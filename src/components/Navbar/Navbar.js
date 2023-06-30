@@ -1,16 +1,27 @@
+import * as React from "react";
 import "./Navbar.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getPages } from "../../utils/data/getPages";
 import logo from "../../utils/assets/logo.png";
-import { VerticalAlignCenter } from "@mui/icons-material";
 
 const Navbar = () => {
   const pages = getPages();
   const isLoged = localStorage.getItem("isLoged");
   const navigate = useNavigate();
+  const [scrollPosition, setScrollPosition] = React.useState(0);
+  const navClass = scrollPosition > 0 ? "solid-nav" : "";
+
+  React.useEffect(() => {
+    const handleScroll = () => setScrollPosition(window.scrollY);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <div className="navbar">
+    <div className={`navbar ${navClass}`}>
       <img src={logo} alt="logo" className="icon" />
       <nav className="nav">
         {pages.map((page, i) => (
@@ -38,12 +49,14 @@ const Navbar = () => {
                 localStorage.setItem("idCustomer", "");
                 navigate("/");
               }}
-              style={{ float: "right" }}
+              style={{ float: "right", marginRight: 50 }}
             ></i>
             <NavLink to="/profile" className="profile-button">
               <i className="fa fa-user-circle-o fa-2x" aria-hidden="true" />
             </NavLink>
-            <span className="navbar-email">{localStorage.getItem("email")}</span>
+            <span className="navbar-email">
+              {localStorage.getItem("email")}
+            </span>
           </>
         ) : (
           <NavLink to="/login" className="login-button">
