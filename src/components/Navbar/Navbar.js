@@ -50,7 +50,7 @@ const Navbar = () => {
                 localStorage.setItem("idCustomer", "");
                 navigate("/");
               }}
-              style={{ float: "right", marginRight: 50 }}
+              style={{ float: "right", marginRight: "5%" }}
             ></i>
             <NavLink to="/profile" className="profile-button">
               <i className="fa fa-user-circle-o fa-2x" aria-hidden="true" />

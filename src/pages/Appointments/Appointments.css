@@ -30,3 +30,8 @@
   color: white;
   border-radius: 5px;
 }
+
+.appointment-form-content .MuiStack-root {
+  width: 100%;
+  flex: 1;
+}

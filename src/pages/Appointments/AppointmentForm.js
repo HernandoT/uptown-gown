@@ -154,7 +154,7 @@ const AppointmentForm = () => {
     if (isSuccess) {
       methods.reset(defaultValues);
       if (data?.appointment.waktu) {
-        setDisplayTime(data?.appointment.waktu)
+        setDisplayTime(data?.appointment.waktu);
         setSelectedTime(
           dayjs()
             .set("hour", data?.appointment.waktu.slice(0, 2))
@@ -197,14 +197,14 @@ const AppointmentForm = () => {
                 )}
               </div>
               <Separator _gap={24} />
-              <div style={{ display: "flex", width: "100%" }}>
+              <div style={{ display: "flex", gap:"24px", alignItems:"flex-end" }}>
                 <DateInputField
                   shouldDisableDate={shouldDisableDate}
                   name="tanggal"
                   label="Tanggal Appointment"
-                  style={{ flex: 1 }}
+                  style={{ flex: 1}}
                 />
-                <div style={{ flex: 1 }}>
+                <div style={{ flex: 1, width: "100%" }}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <TimePicker
                       label="Waktu Appointment"
@@ -216,6 +216,7 @@ const AppointmentForm = () => {
                         changeDisplayTime(time);
                         console.log(displayTime);
                       }}
+                      sx={{width: '100%'}}
                     />
                   </LocalizationProvider>
                 </div>

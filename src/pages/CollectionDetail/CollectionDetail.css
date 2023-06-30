@@ -25,7 +25,7 @@
 
 .detail-description {
   flex: 5;
-  padding: 40px 40px;
+  padding: 24px 40px 40px;
   height: fit-content;
 }
 
@@ -36,7 +36,7 @@
   flex-direction: row;
   align-items: center;
   height: 10vh;
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
 }
 
 .detail-strip {
@@ -75,11 +75,11 @@
 }
 
 .detail-left {
-  flex: 1;
+  flex: 2;
 }
 
 .detail-right {
-  flex: 1;
+  flex: 5;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -89,4 +89,11 @@
   display: flex;
   gap: 32px;
   align-items: flex-end;
+}
+
+.detail-harga {
+  color: #c69738;
+  font-weight: 600;
+  font-size: 32px;
+  margin-bottom: 16px;
 }

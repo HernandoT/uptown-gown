@@ -177,31 +177,44 @@ const Appointment = () => {
           </div>
           {selectedCollection ? (
             <>
-              <span>
+              <p>
                 <b>Koleksi yang diinginkan:</b>
-                <button onClick={() => navigate("/rent")}>Ganti Koleksi</button>
-              </span>
+                <button
+                  className="appointment-changecol-button"
+                  onClick={() => navigate("/rent")}
+                >
+                  Ganti Koleksi
+                </button>
+              </p>
               <div className="collection-card card-container">
-                <img
-                  src={selectedCollection.gambar}
-                  alt=""
-                  style={{ height: "100%" }}
-                />
-                <div>{selectedCollection.nama}</div>
+                <div class="appointment-img-container">
+                  <img src={selectedCollection.gambar} alt="" class="appointment-img" />
+                </div>
+                <div style={{margin:"0 8px 0 16px"}}>
+                  <div>{selectedCollection.nama}</div>
+                  <div style={{color:"#c69738", fontWeight:"600"}}>Rp. -Harga-</div>
+                </div>
               </div>
             </>
           ) : (
             <>
-              <b>
-                Apakah anda memiliki koleksi yang ingin kami siapkan pada saat
-                appointment?
-              </b>
-              <button style={{ width: 200 }} onClick={() => navigate("/rent")}>
+              <p>
+                <b>
+                  Apakah anda memiliki koleksi yang ingin kami siapkan pada saat
+                  appointment?
+                </b>
+              </p>
+              <button
+                className="appointment-collection-button"
+                onClick={() => navigate("/rent")}
+              >
                 Pilih Koleksi (Opsional)
               </button>
             </>
           )}
-          <b>Keterangan tambahan jika ada hal lain yang diinginkan:</b>
+          <p>
+            <b>Keterangan tambahan jika ada hal lain yang diinginkan:</b>
+          </p>
           <div className="appointment-input-container">
             <TextField
               style={{ width: "100%" }}

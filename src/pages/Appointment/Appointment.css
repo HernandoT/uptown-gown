@@ -10,6 +10,7 @@
   flex-direction: column;
   justify-content: center;
   max-width: 55vw;
+  margin-bottom: 40px;
 }
 
 .appointmentTitle {
@@ -42,7 +43,7 @@
 .appointment-input-container {
   display: flex;
   width: 50vw;
-  gap: 20px;
+  gap: 32px;
   margin: 8px 0;
 }
 
@@ -51,7 +52,49 @@
 }
 
 .collection-card {
-  height: 10vh;
-  width: 20vw;
+  width: fit-content;
   display: flex;
+  margin: 8px 0;
+}
+
+.appointment-input-container .MuiTextField-root {
+  width: 100%;
+}
+
+.appointment-collection-button {
+  cursor: pointer;
+  width: fit-content;
+  font-size: 1rem;
+  background-color: white;
+  border: 1px solid black;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-family: 'Poppins';
+  margin: 8px 0;
+}
+
+.appointment-changecol-button {
+  cursor: pointer;
+  width: fit-content;
+  font-size: 14px;
+  background-color: white;
+  border: 1px solid black;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-family: 'Poppins';
+  margin-left: 16px;
+}
+
+.appointment-img-container {
+  width: 75px;
+  height: 100px;
+  overflow: hidden;
+  align-self: flex-end;
+  border-radius: 4px;
+}
+
+.appointment-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

@@ -14,6 +14,7 @@ import { getColors } from "../../services/color";
 import { getCategories } from "../../services/category";
 import { getTypes } from "../../services/type";
 import Separator from "../../components/separator";
+import Divider from "@mui/material/Divider";
 
 const CollectionDetail = () => {
   const isLoged = localStorage.getItem("isLoged");
@@ -116,8 +117,10 @@ const CollectionDetail = () => {
                 <div className="detail-strip" />
                 <p>{collection.nama}</p>
               </div>
-              <div style={{ width: "90%" }}>{collection.deskripsi}</div>
-              <Separator _gap={18} />
+              <div className="detail-harga">Rp. -Harga-</div>
+              <Divider />
+              <div style={{ width: "90%", marginTop:"16px" }}>{collection.deskripsi}</div>
+              <Separator _gap={16} />
               <div>Warna: {collection.warna}</div>
               <div>Kategori: {collection.kategori}</div>
               <div>Jenis: {collection.jenis}</div>
@@ -131,9 +134,10 @@ const CollectionDetail = () => {
                   </button>
                 </div>
                 <div className="detail-right">
-                  <p style={{ marginBottom: "8px" }}>
-                    Berminat untuk menyewa baju ini?
-                  </p>
+                  <div style={{ marginBottom: "8px" }}>
+                    Berminat untuk menyewa koleksi ini?<br /> 
+                    Buat appointment untuk koleksi ini sekarang agar kami dapat mempersiapkannya saat kehadiran anda.
+                  </div>
                   <button
                     className="detail-button-appointment"
                     onClick={() =>
