@@ -33,7 +33,9 @@ const Appointments = () => {
   React.useEffect(() => {
     if (!isFetching && !isFetchingCustomers && !isInitiate) {
       let dataAppointment = data?.data;
-      dataAppointment.sort((a, b) => a.status - b.status || b.tanggal - a.tanggal);
+      dataAppointment.sort(
+        (a, b) => a.status - b.status || b.tanggal - a.tanggal
+      );
       dataAppointment = dataAppointment.map((appointment) => {
         const cust = dataCustomers.data.find((customer) => {
           return customer.id === appointment.id_customer;
@@ -72,6 +74,7 @@ const Appointments = () => {
         return <>{dayjs(row.tanggal).format("DD/MM/YYYY")}</>;
       },
     },
+    { field: "waktu", headerName: "Waktu", minWidth: 100, flex: 1 },
     { field: "keterangan", headerName: "Keterangan", minWidth: 200, flex: 2 },
     {
       field: "status",
@@ -124,7 +127,7 @@ const Appointments = () => {
                 </InputAdornment>
               ),
             }}
-            style={{backgroundColor: "white"}}
+            style={{ backgroundColor: "white" }}
           />
           <button
             className="appointments-add"

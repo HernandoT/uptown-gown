@@ -29,6 +29,7 @@ const Navbar = () => {
             key={i}
             to={page.route}
             className={({ isActive }) => (isActive ? "linkActive" : "link")}
+            onClick={() => window.scrollTo(0, 0)}
           >
             {page.name}
           </NavLink>

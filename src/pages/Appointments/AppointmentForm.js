@@ -25,9 +25,26 @@ import useGetAppointmentedDate from "../../hooks/use-get-appointmented-date";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import RadioInputField from "../../components/field/radio-input";
+import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const AppointmentForm = () => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [selectedTime, setSelectedTime] = React.useState(
+    dayjs().set("hour", 12).startOf("hour")
+  );
+  const [displayTime, setDisplayTime] = React.useState("12:00 WIB");
+
+  const changeDisplayTime = (selectedTime) => {
+    const hour = selectedTime.get("hour").toString();
+    let minute = selectedTime.get("minute").toString();
+    if (minute.length === 1) minute = `0${minute}`;
+    setDisplayTime(hour + ":" + minute + " WIB");
+  };
+
+  const elevenAM = dayjs().set("hour", 11).startOf("hour");
+  const sixPM = dayjs().set("hour", 18).startOf("hour");
+
   //Get Detail
   const { id } = useParams();
   const { data, isSuccess, isFetching } = useQuery(
@@ -76,12 +93,14 @@ const AppointmentForm = () => {
               keterangan: values.keterangan,
               id_customer: values.customer,
               tanggal: Timestamp.fromDate(new Date(values.tanggal)),
+              waktu: displayTime,
               status: parseInt(values.status),
             })
           : createAppointment({
               keterangan: values.keterangan,
               id_customer: values.customer,
               tanggal: Timestamp.fromDate(new Date(values.tanggal)),
+              waktu: displayTime,
               status: 2,
             });
         notifications.show({
@@ -104,7 +123,7 @@ const AppointmentForm = () => {
         navigate(-1);
       }
     },
-    [data?.appointment, id, navigate]
+    [data?.appointment, displayTime, id, navigate]
   );
 
   const onClickAdd = React.useCallback(() => {
@@ -134,8 +153,16 @@ const AppointmentForm = () => {
   React.useEffect(() => {
     if (isSuccess) {
       methods.reset(defaultValues);
+      if (data?.appointment.waktu) {
+        setDisplayTime(data?.appointment.waktu)
+        setSelectedTime(
+          dayjs()
+            .set("hour", data?.appointment.waktu.slice(0, 2))
+            .set("minute", data?.appointment.waktu.slice(3, 5))
+        );
+      }
     }
-  }, [defaultValues, isSuccess, methods]);
+  }, [data?.appointment.waktu, defaultValues, isSuccess, methods]);
 
   if (isFetching) {
     return null;
@@ -170,11 +197,29 @@ const AppointmentForm = () => {
                 )}
               </div>
               <Separator _gap={24} />
-              <DateInputField
-                shouldDisableDate={shouldDisableDate}
-                name="tanggal"
-                label="Tanggal Appointment"
-              />
+              <div style={{ display: "flex", width: "100%" }}>
+                <DateInputField
+                  shouldDisableDate={shouldDisableDate}
+                  name="tanggal"
+                  label="Tanggal Appointment"
+                  style={{ flex: 1 }}
+                />
+                <div style={{ flex: 1 }}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <TimePicker
+                      label="Waktu Appointment"
+                      defaultValue={selectedTime}
+                      minTime={elevenAM}
+                      maxTime={sixPM}
+                      onChange={(time) => {
+                        setSelectedTime(time);
+                        changeDisplayTime(time);
+                        console.log(displayTime);
+                      }}
+                    />
+                  </LocalizationProvider>
+                </div>
+              </div>
               <Separator _gap={24} />
               <TextInputField
                 label="Keterangan"

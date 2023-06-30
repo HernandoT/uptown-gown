@@ -135,7 +135,7 @@ const DetailItem = ({ invoice, dataCustomer }) => {
       >
         <div>
           Update terakhir:{" "}
-          {dayjs(invoice.waktu_ubah.toDate()).format("D MMMM YYYY HH:mm [WIB]")}
+          {dayjs(invoice.waktu_ubah.toDate()).locale("id").format("D MMMM YYYY HH:mm [WIB]")}
         </div>
         <div>Dicetak pada: {idnDayjs.format("D MMMM YYYY HH:mm [WIB]")}</div>
       </div>

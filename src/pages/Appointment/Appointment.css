@@ -9,7 +9,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-bottom: 10%;
   max-width: 55vw;
 }
 
@@ -42,11 +41,17 @@
 
 .appointment-input-container {
   display: flex;
-  flex-direction: column;
-  width: 100%;
+  width: 50vw;
+  gap: 20px;
   margin: 8px 0;
 }
 
 .appointmentCalendar .react-datepicker__month {
   height: 50vh;
+}
+
+.collection-card {
+  height: 10vh;
+  width: 20vw;
+  display: flex;
 }

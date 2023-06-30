@@ -21,18 +21,28 @@ import { Timestamp } from "firebase/firestore";
 import { createAppointment } from "../../services/appointment";
 import { useLocation, useNavigate } from "react-router-dom";
 import useGetAppointmentedDate from "../../hooks/use-get-appointmented-date";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import dayjs from "dayjs";
 
 const Appointment = () => {
   const { state } = useLocation();
   const isLoged = localStorage.getItem("isLoged");
   const idCustomer = localStorage.getItem("idCustomer");
 
+  const elevenAM = dayjs().set("hour", 11).startOf("hour");
+  const sixPM = dayjs().set("hour", 18).startOf("hour");
+
   const navigate = useNavigate();
 
+  const [selectedCollection, setSelectedCollection] = React.useState(state);
   const [selectedDate, setSelectedDate] = React.useState("");
+  const [selectedTime, setSelectedTime] = React.useState("");
   const [displayDate, setDisplayDate] = React.useState(
     "Pilih tanggal pada kalender"
   );
+  const [displayTime, setDisplayTime] = React.useState("11:00 WIB");
   const [keterangan, setKeterangan] = React.useState("");
 
   const [openConfirmationDialog, { open: openConfirm, close: closeConfirm }] =
@@ -46,12 +56,28 @@ const Appointment = () => {
     setDisplayDate(date + "/" + month + "/" + year);
   };
 
+  const changeDisplayTime = (selectedTime) => {
+    const hour = selectedTime.get("hour").toString();
+    let minute = selectedTime.get("minute").toString();
+    if (minute.length === 1) minute = `0${minute}`;
+    setDisplayTime(hour + ":" + minute + " WIB");
+  };
+
   const addAppointment = (keterangan, selectedDate) => {
+    let desc = "-";
+    if (keterangan && selectedCollection) {
+      desc = `Memilih koleksi "${selectedCollection.nama}" dengan keterangan tambahan "${keterangan}"`;
+    } else if (keterangan) {
+      desc = `Keterangan tambahan "${keterangan}"`;
+    } else if (selectedCollection) {
+      desc = `Memilih koleksi "${selectedCollection.nama}"`;
+    }
     try {
       createAppointment({
-        keterangan: keterangan ? keterangan : "-",
+        keterangan: desc,
         id_customer: idCustomer,
         tanggal: Timestamp.fromDate(new Date(selectedDate)),
+        waktu: displayTime,
         status: 1,
       });
       notifications.show({
@@ -66,6 +92,7 @@ const Appointment = () => {
         color: "red",
       });
     } finally {
+      setSelectedCollection(null);
       setSelectedDate(new Date());
       setDisplayDate("Pilih tanggal pada kalender");
       setKeterangan("");
@@ -77,7 +104,7 @@ const Appointment = () => {
   const disabledDate = [];
   Object.keys(listAppointmented)?.map((keyDate) => {
     if (listAppointmented[keyDate] > 2) {
-      const date = keyDate.split('/');
+      const date = keyDate.split("/");
       disabledDate.push(new Date(+date[2], date[1] - 1, +date[0]));
     }
   });
@@ -110,10 +137,10 @@ const Appointment = () => {
             appointment sekarang dan wujudkan gaun impianmu!{" "}
           </p>
           <p>
-            <b>Waktu appointment yang tersedia dapat dipilih pada kalender</b>
+            <b>Waktu appointment yang ingin diajukan:</b>
           </p>
           <div className="appointment-input-container">
-            <FormControl fullWidth>
+            <FormControl style={{ flex: 1 }}>
               <InputLabel htmlFor="outlined-adornment-date">
                 Tangal Appointment
               </InputLabel>
@@ -132,13 +159,55 @@ const Appointment = () => {
                 disabled
               />
             </FormControl>
+            <div style={{ flex: 1 }}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <TimePicker
+                  label="Waktu Appointment"
+                  defaultValue={elevenAM}
+                  minTime={elevenAM}
+                  maxTime={sixPM}
+                  onChange={(time) => {
+                    setSelectedTime(time);
+                    changeDisplayTime(time);
+                    console.log(displayTime);
+                  }}
+                />
+              </LocalizationProvider>
+            </div>
           </div>
-          {JSON.stringify(state)}
+          {selectedCollection ? (
+            <>
+              <span>
+                <b>Koleksi yang diinginkan:</b>
+                <button onClick={() => navigate("/rent")}>Ganti Koleksi</button>
+              </span>
+              <div className="collection-card card-container">
+                <img
+                  src={selectedCollection.gambar}
+                  alt=""
+                  style={{ height: "100%" }}
+                />
+                <div>{selectedCollection.nama}</div>
+              </div>
+            </>
+          ) : (
+            <>
+              <b>
+                Apakah anda memiliki koleksi yang ingin kami siapkan pada saat
+                appointment?
+              </b>
+              <button style={{ width: 200 }} onClick={() => navigate("/rent")}>
+                Pilih Koleksi (Opsional)
+              </button>
+            </>
+          )}
+          <b>Keterangan tambahan jika ada hal lain yang diinginkan:</b>
           <div className="appointment-input-container">
             <TextField
+              style={{ width: "100%" }}
               value={keterangan}
               id="outlined-basic"
-              label="Keterangan"
+              label="Keterangan Tambahan (Opsional)"
               variant="outlined"
               multiline={true}
               rows={3}
@@ -171,11 +240,11 @@ const Appointment = () => {
             <Separator _gap={24} />
             <Text>
               Apakah kamu yakin ingin mengajukan appointment untuk tanggal{" "}
-              <b>{displayDate}</b>
-              {keterangan === ""
-                ? ""
-                : " dengan keterangan: “" + keterangan + "”"}
-              ?
+              <b>{displayDate}</b> pada pukul <b>{displayTime}</b>
+              {selectedCollection ? " untuk membahas mengenai koleksi " : ""}
+              <b>{selectedCollection?.nama}</b>
+              {keterangan === "" ? "" : " dengan keterangan tambahan "}
+              <b>{keterangan}</b>?
             </Text>
             <Separator _gap={24} />
             <Flex justify="flex-end">

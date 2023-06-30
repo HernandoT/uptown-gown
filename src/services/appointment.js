@@ -38,6 +38,7 @@ export const getAppointment = async (id = "") => {
 export const createAppointment = async ({
   id_customer = "",
   tanggal = Timestamp.now(),
+  waktu = "",
   keterangan = "",
   status = 1,
 }) => {
@@ -45,6 +46,7 @@ export const createAppointment = async ({
     await addDoc(collection(db, field.appointment), {
       id_customer,
       tanggal,
+      waktu,
       keterangan,
       status,
     });
@@ -56,12 +58,13 @@ export const createAppointment = async ({
 
 export const updateAppointment = async (
   id = "",
-  { id_customer = "", tanggal = "", keterangan = "", status = "" }
+  { id_customer = "", tanggal = "", waktu = "", keterangan = "", status = "" }
 ) => {
   try {
     await updateDoc(doc(db, field.appointment, id), {
       id_customer,
       tanggal,
+      waktu,
       keterangan,
       status,
     });
