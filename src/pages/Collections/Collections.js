@@ -13,6 +13,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getColors } from "../../services/color";
 import { getCategories } from "../../services/category";
 import { getTypes } from "../../services/type";
+import { TbHanger } from "react-icons/tb";
+import { CgUnavailable, CgCheckO } from "react-icons/cg";
 
 const defaultValues = {
   id: "",
@@ -156,6 +158,47 @@ const Collections = () => {
     <div className="collections">
       <AdminTitle props={"All Collections"} />
       <div className="collections-content">
+        <div className="collections-card">
+          <div className="card-container">
+            <TbHanger
+              className="collections-card-icon"
+              style={{
+                color: "#EDBF52",
+                backgroundColor: "rgba(237, 191, 82, 0.2)",
+              }}
+            />
+            <div style={{ flex: 1 }}>
+              <div>Total Collections</div>
+              <div className="collections-card-value">21</div>
+            </div>
+          </div>
+          <div className="card-container">
+            <CgCheckO
+              className="collections-card-icon"
+              style={{
+                color: "green",
+                backgroundColor: "rgba(0, 128, 0, 0.2)",
+              }}
+            />
+            <div style={{ flex: 1 }}>
+              <div>Available Collection</div>
+              <div className="collections-card-value">21</div>
+            </div>
+          </div>
+          <div className="card-container">
+            <CgUnavailable
+              className="collections-card-icon"
+              style={{
+                color: "red",
+                backgroundColor: "rgba(255, 0, 0, 0.2)",
+              }}
+            />
+            <div style={{ flex: 1 }}>
+              <div>Unavailable Collection</div>
+              <div className="collections-card-value">21</div>
+            </div>
+          </div>
+        </div>
         <div className="collections-search">
           <TextField
             id="search"
@@ -172,13 +215,13 @@ const Collections = () => {
                 </InputAdornment>
               ),
             }}
-            style={{backgroundColor: "white"}}
+            style={{ backgroundColor: "white" }}
           />
           <button className="collections-add" onClick={onClickAdd}>
             + TAMBAH BARANG
           </button>
         </div>
-        <div style={{ height: 400, width: "100%" }}>
+        <div style={{ height: 300, width: "100%" }}>
           {collections === undefined ? (
             <CircularProgress color="secondary" />
           ) : (
@@ -193,7 +236,7 @@ const Collections = () => {
                 },
               }}
               pageSizeOptions={[5, 10, 15]}
-              style={{ marginTop: "3%", height: "70vh" }}
+              style={{ height: "58vh" }}
               className="card-container"
             />
           )}

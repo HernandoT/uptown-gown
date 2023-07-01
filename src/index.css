@@ -13,9 +13,12 @@ body {
   border: 1px solid lightgrey;
   padding: 16px;
   border-radius: 10px;
-  box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
+  /* box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
   -webkit-box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
-  -moz-box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
+  -moz-box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91); */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .ce-my-message-bubble {

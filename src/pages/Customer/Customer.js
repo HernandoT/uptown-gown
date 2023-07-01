@@ -12,6 +12,8 @@ import { getCustomers } from "../../services/customer";
 import { useQuery } from "@tanstack/react-query";
 import { Modal } from "@mantine/core";
 import DetailButton from "../../components/DetailButton";
+import { HiUserGroup, } from "react-icons/hi";
+import { BsPersonFillDash, BsPersonFillCheck } from "react-icons/bs";
 
 const defaultValues = {
   email: "",
@@ -132,6 +134,29 @@ const Customer = () => {
     <div className="customer">
       <AdminTitle props={"Customer"} />
       <div className="customer-content">
+        <div className="customer-card">
+          <div className="card-container">
+            <HiUserGroup className="customer-card-icon" />
+            <div style={{ flex: 1 }}>
+              <div>Total Customers</div>
+              <div className="customer-card-value">21</div>
+            </div>
+          </div>
+          <div className="card-container">
+            <BsPersonFillCheck className="customer-card-icon" />
+            <div style={{ flex: 1 }}>
+              <div>Active Customers</div>
+              <div className="customer-card-value">21</div>
+            </div>
+          </div>
+          <div className="card-container">
+            <BsPersonFillDash className="customer-card-icon" />
+            <div style={{ flex: 1 }}>
+              <div>Blocked Customers</div>
+              <div className="customer-card-value">21</div>
+            </div>
+          </div>
+        </div>
         <div className="customer-search">
           <TextField
             id="search"
@@ -154,7 +179,7 @@ const Customer = () => {
             + TAMBAH CUSTOMER
           </button>
         </div>
-        <div style={{ height: 400, width: "100%" }}>
+        <div style={{ height: 300, width: "100%" }}>
           {isFetching ? (
             <CircularProgress color="secondary" />
           ) : (
@@ -169,9 +194,11 @@ const Customer = () => {
                 },
               }}
               pageSizeOptions={[5, 10, 15]}
-              style={{ marginTop: "3%", height: "70vh" }}
+              style={{ height: "58vh" }}
               className="card-container"
-              getRowClassName={(params) => `super-app-theme--${params.row.disabled}`}
+              getRowClassName={(params) =>
+                `super-app-theme--${params.row.disabled}`
+              }
             />
           )}
         </div>

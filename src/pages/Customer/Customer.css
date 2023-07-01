@@ -8,16 +8,20 @@
 }
 
 .customer-content {
-  margin: 3% 2% 3% 0;
+  margin: 24px 2% 3% 0;
 }
 
 .customer-search {
   display: flex;
   height: auto;
+  margin: 24px 0;
 }
 
 .customer-search-input {
   flex: 70;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .customer-add {
@@ -29,4 +33,32 @@
   background-color: black;
   color: white;
   border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.customer-card {
+  display: flex;
+  gap: 32px
+}
+
+.customer-card .card-container {
+  flex: 1;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.customer-card-icon {
+  font-size: 32px;
+  padding: 8px;
+  border-radius: 50%;
+  color: #EDBF52;
+  background-color: rgba(237, 191, 82, 0.2);
+}
+
+.customer-card-value {
+  font-size: 20px;
+  font-weight: bold;
 }
