@@ -36,12 +36,6 @@ const Navbar = () => {
         ))}
         {isLoged === "true" ? (
           <>
-            <NavLink
-              to="/history"
-              className={({ isActive }) => (isActive ? "linkActive" : "link")}
-            >
-              History
-            </NavLink>
             <i
               className="fa fa-sign-out fa-2x"
               onClick={() => {
@@ -52,12 +46,12 @@ const Navbar = () => {
               }}
               style={{ float: "right", marginRight: "5%" }}
             ></i>
-            <NavLink to="/profile" className="profile-button">
-              <i className="fa fa-user-circle-o fa-2x" aria-hidden="true" />
+            <NavLink to="/profile" className={({ isActive }) => (isActive ? "linkActive" : "link")}>
+              <div className="navbar-email">
+                {localStorage.getItem("email")}
+                <i className="fa fa-user-circle-o fa-2x" aria-hidden="true" style={{marginLeft: 16}}/>
+              </div>
             </NavLink>
-            <span className="navbar-email">
-              {localStorage.getItem("email")}
-            </span>
           </>
         ) : (
           <NavLink to="/login" className="login-button">

@@ -189,17 +189,12 @@
     margin-right: 5%;
   }
 
-  .profile-button {
-    float: right;
-    color: #181308;
-    margin-right: 16px;
-  }
-
   .profile-button.active {
     background-color: transparent;
   }
 
   .navbar-email {
+    display: flex;
     float: right;
     margin-right: 16px;
     line-height: 2em;

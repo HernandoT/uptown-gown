@@ -12,7 +12,7 @@ import CollectionDetail from "./pages/CollectionDetail/CollectionDetail";
 import Custom from "./pages/Custom/Custom";
 import Appointment from "./pages/Appointment/Appointment";
 import About from "./pages/About/About";
-import History from "./pages/History/History";
+import Profile from "./pages/Profile/Profile";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 
@@ -30,7 +30,6 @@ import Invoice from "./pages/Invoice/Invoice";
 import Expense from "./pages/Expense/Expense";
 import Reports from "./pages/Reports/Reports";
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
-import Profile from "./pages/Profile/Profile";
 import { Notifications } from "@mantine/notifications";
 import Example from "./pages/Example/example";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -60,7 +59,6 @@ ReactDOM.render(
             <Route path="/custom" element={<Custom />} />
             <Route path="/appointment" element={<Appointment />} />
             <Route path="/about" element={<About />} />
-            <Route path="/history" element={<History />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
