@@ -48,6 +48,7 @@ const Login = () => {
   const errors = {
     email: "Email yang anda masukkan tidak ditemukan",
     emailInvalid: "Invalid Email",
+    disabled: "Email ini telah di-nonaktifkan",
     password: "Password yang dimasukkan salah",
     null: "Harap diisi",
   };
@@ -64,8 +65,16 @@ const Login = () => {
     }
   };
 
+  const handleChangePassword = (event) => {
+    if (event.target.value !== "") {
+      setErrorMessagesEmail("");
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    setErrorMessagesEmail("");
+    setErrorMessagesPassword("");
 
     var { email, password } = document.forms[0];
 
@@ -79,6 +88,10 @@ const Login = () => {
       // Invalid password
       if (userData.password !== password.value)
         return setErrorMessagesPassword(errors.password);
+
+      // Disabled User
+      if (userData.disabled === "1")
+        return setErrorMessagesEmail(errors.disabled);
 
       if (email.value !== "" || password.value !== "")
         if (userData.token) {
@@ -154,6 +167,7 @@ const Login = () => {
                     }
                     label="Password"
                     name="password"
+                    onChange={handleChangePassword}
                   />
                 </FormControl>
                 {renderErrorMessagePassword()}

@@ -1,6 +1,7 @@
 import AdminTitle from "../../components/AdminTitle/AdminTitle";
 import "./Customer.css";
 import { TextField, InputAdornment, CircularProgress } from "@mui/material";
+import { darken, lighten, styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -67,6 +68,7 @@ const Customer = () => {
             name: row.nama,
             password: row.password,
             phoneNumber: row.nomor_telepon,
+            disabled: row.disabled,
             id: row.id,
           });
           open();
@@ -86,6 +88,45 @@ const Customer = () => {
     setIsEdit(false);
     open();
   }, [open]);
+
+  const getBackgroundColor = (color, mode) =>
+    mode === "dark" ? darken(color, 0.7) : lighten(color, 0.7);
+
+  const getHoverBackgroundColor = (color, mode) =>
+    mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
+
+  const getSelectedBackgroundColor = (color, mode) =>
+    mode === "dark" ? darken(color, 0.5) : lighten(color, 0.5);
+
+  const getSelectedHoverBackgroundColor = (color, mode) =>
+    mode === "dark" ? darken(color, 0.4) : lighten(color, 0.4);
+
+  const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+    "& .super-app-theme--1": {
+      backgroundColor: getBackgroundColor(
+        theme.palette.error.main,
+        theme.palette.mode
+      ),
+      "&:hover": {
+        backgroundColor: getHoverBackgroundColor(
+          theme.palette.error.main,
+          theme.palette.mode
+        ),
+      },
+      "&.Mui-selected": {
+        backgroundColor: getSelectedBackgroundColor(
+          theme.palette.error.main,
+          theme.palette.mode
+        ),
+        "&:hover": {
+          backgroundColor: getSelectedHoverBackgroundColor(
+            theme.palette.error.main,
+            theme.palette.mode
+          ),
+        },
+      },
+    },
+  }));
 
   return (
     <div className="customer">
@@ -107,7 +148,7 @@ const Customer = () => {
                 </InputAdornment>
               ),
             }}
-            style={{backgroundColor: "white"}}
+            style={{ backgroundColor: "white" }}
           />
           <button className="customer-add" onClick={onClickAdd}>
             + TAMBAH CUSTOMER
@@ -117,7 +158,7 @@ const Customer = () => {
           {isFetching ? (
             <CircularProgress color="secondary" />
           ) : (
-            <DataGrid
+            <StyledDataGrid
               rows={(dataCustomer || []).filter((customer) =>
                 customer.nomor_telepon.includes(searchTerm.toLowerCase())
               )}
@@ -130,6 +171,7 @@ const Customer = () => {
               pageSizeOptions={[5, 10, 15]}
               style={{ marginTop: "3%", height: "70vh" }}
               className="card-container"
+              getRowClassName={(params) => `super-app-theme--${params.row.disabled}`}
             />
           )}
         </div>

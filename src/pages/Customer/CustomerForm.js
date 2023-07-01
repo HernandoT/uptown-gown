@@ -12,9 +12,10 @@ import useYupValidationResolver from "../../hooks/use-yup-resolver";
 import { useForm } from "react-hook-form";
 import Form from "../../components/field/form";
 import TextInputField from "../../components/field/text-input";
+import RadioInputField from "../../components/field/radio-input";
 
 const CustomerForm = ({
-  data = { email: "", name: "", phoneNumber: "", password: "123456", id: "" },
+  data = { email: "", name: "", phoneNumber: "", password: "123456", id: "", disabled: "" },
   onClose,
   isEdit = false,
 }) => {
@@ -24,6 +25,7 @@ const CustomerForm = ({
       password: data?.password || "123456",
       phoneNumber: data?.phoneNumber || "",
       name: data?.name || "",
+      disabled: data?.disabled || "",
       id: v4(),
     }),
     [data]
@@ -43,10 +45,8 @@ const CustomerForm = ({
           ),
         name: Yup.string()
           .required("Nama Wajib Diisi")
-          .matches(
-            /^(?!^\s)[A-Za-z\s]{2,}$/,
-            "Nama Tidak Valid"
-          ),
+          .matches(/^(?!^\s)[A-Za-z\s]{2,}$/, "Nama Tidak Valid"),
+        disabled: Yup.string().required("Harap dipilih status Akun Customer"),
       }),
     []
   );
@@ -68,12 +68,14 @@ const CustomerForm = ({
               nama: values.name,
               nomor_telepon: values.phoneNumber,
               password: values.password,
+              disabled: values.disabled,
             })
           : createCustomer({
               email: values.email,
               nama: values.name,
               nomor_telepon: values.phoneNumber,
               password: 123456,
+              disabled: values.disabled,
             });
         notifications.show({
           title: isEdit ? "Edit User" : "Tambah User",
@@ -108,6 +110,15 @@ const CustomerForm = ({
           <TextInputField label="Nama" name="name" />
           <Separator _gap={24} />
           <TextInputField label="Nomor Telepon" name="phoneNumber" />
+          <Separator _gap={24} />
+          <RadioInputField
+            options={[
+              { value: "0", label: "Enabled" },
+              { value: "1", label: "Disabled" },
+            ]}
+            name="disabled"
+            required
+          />
           <Separator _gap={24} />
           <Flex justify="flex-end">
             <Button variant="text" color="error" onClick={onClose}>

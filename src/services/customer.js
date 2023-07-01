@@ -35,6 +35,7 @@ export const createCustomer = async ({
   nama = "",
   nomor_telepon = "",
   token = "",
+  disabled = "",
 }) => {
   try {
     await addDoc(collection(db, field.customer), {
@@ -43,6 +44,7 @@ export const createCustomer = async ({
       nama,
       nomor_telepon,
       token,
+      disabled,
     });
     queryClient.refetchQueries(["get-customers"]);
   } catch (e) {
@@ -52,7 +54,7 @@ export const createCustomer = async ({
 
 export const updateCustomer = async (
   id = "",
-  { email = "", password = "", nama = "", nomor_telepon = "", token = "" }
+  { email = "", password = "", nama = "", nomor_telepon = "", token = "", disabled = "" }
 ) => {
   try {
     await updateDoc(doc(db, field.customer, id), {
@@ -61,6 +63,7 @@ export const updateCustomer = async (
       nama,
       nomor_telepon,
       token,
+      disabled,
     });
     queryClient.refetchQueries(["get-customers"]);
     queryClient.refetchQueries(["get-customer"]);
