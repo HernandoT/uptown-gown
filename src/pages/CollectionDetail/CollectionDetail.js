@@ -107,6 +107,9 @@ const CollectionDetail = () => {
         <></>
       ) : (
         <>
+          <div style={{ marginLeft: "5%", marginBottom: 0 }}>
+            <BackButton />
+          </div>
           <div className="detail-content">
             <div className="detail-img card-container">
               <img
@@ -116,7 +119,6 @@ const CollectionDetail = () => {
               />
             </div>
             <div className="detail-description card-container">
-              <BackButton />
               <div className="detail-name">
                 <div className="detail-strip" />
                 <p>{collection.nama}</p>
@@ -132,32 +134,26 @@ const CollectionDetail = () => {
               <div>Warna: {collection.warna}</div>
               <div>Kategori: {collection.kategori}</div>
               <div>Jenis: {collection.jenis}</div>
-              <div className="detail-buttons">
-                <div className="detail-left">
-                  <button
-                    className="detail-button-calendar"
-                    onClick={openCalendar({ listEventDate })}
-                  >
-                    CEK KETERSEDIAAN
-                  </button>
-                </div>
-                <div className="detail-right">
-                  <div style={{ marginBottom: "8px" }}>
-                    Berminat untuk menyewa koleksi ini?
-                    <br />
-                    Buat appointment untuk koleksi ini sekarang agar kami dapat
-                    mempersiapkannya saat kehadiran anda.
-                  </div>
-                  <button
-                    className="detail-button-appointment"
-                    onClick={() =>
-                      navigate("/appointment", { state: collection })
-                    }
-                  >
-                    BUAT APPOINTMENT
-                  </button>
-                </div>
+            </div>
+            <div className="card-container detail-buttons">
+              <button
+                className="detail-button-calendar"
+                onClick={openCalendar({ listEventDate })}
+              >
+                CEK KETERSEDIAAN
+              </button>
+              <Divider />
+              <div style={{ margin: "16px 0 8px" }}>
+                <b>Berminat untuk menyewa koleksi ini?</b>
               </div>
+              Buat appointment untuk koleksi ini sekarang agar kami dapat
+              mempersiapkannya saat kehadiran anda.
+              <button
+                className="detail-button-appointment"
+                onClick={() => navigate("/appointment", { state: collection })}
+              >
+                BUAT APPOINTMENT
+              </button>
             </div>
           </div>
           <Footer />

@@ -92,16 +92,20 @@ const Rent = () => {
         <>
           <div className="rentContent">
             <div className="filter card-container">
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <p>
-                  <b>Filters</b>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "16px",
+                }}
+              >
+                <p style={{ margin: "8px 0", fontSize: "18px" }}>
+                  <b>FILTERS</b>
                 </p>
-                <p
-                  style={{ alignSelf: "flexEnd", cursor: "pointer" }}
-                  onClick={handleClear}
-                >
+                <button className="clearButton" onClick={handleClear}>
                   Clear All
-                </p>
+                </button>
               </div>
               <hr />
               <FormControl style={{ marginBottom: "0.5rem" }}>
@@ -169,7 +173,7 @@ const Rent = () => {
                 </RadioGroup>
               </FormControl>
               <hr />
-              <FormControl>
+              <FormControl style={{ marginBottom: "0.5rem" }}>
                 <FormLabel>
                   <p className="rent-filter-title">Jenis</p>
                 </FormLabel>
@@ -194,13 +198,14 @@ const Rent = () => {
                   })}
                 </RadioGroup>
               </FormControl>
-              <div style={{ marginTop: "0.5rem" }}>
+              <hr />
+              <div>
                 <button className="filterButton" onClick={handleSubmit}>
                   FILTER
                 </button>
               </div>
             </div>
-            <div className="filterItems card-container">
+            <div className="filterItems">
               {collections.length ? (
                 <PaginatedItems
                   itemsPerPage={8}

@@ -6,12 +6,11 @@ const PaginationItems = ({ currentItems }) => {
   function currencyFormat(num) {
     return "Rp. " + num?.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   }
-  console.log(currentItems)
   return (
     <div className="paginationItems">
       {currentItems &&
         currentItems.map((item) => (
-          <div className="paginationItem" onClick={() => navigate(`/rent/${item.id}`)}>
+          <div className="paginationItem card-container" onClick={() => navigate(`/rent/${item.id}`)}>
             <div className="imageItem-container">
               <img src={item.gambar} alt="Collection" className="imageItem"/>
             </div>

@@ -10,8 +10,8 @@
 }
 
 .imageItem-container{
-    height: 40vh;
-    width: 15vw;
+    height: 35vh;
+    width: 13.125vw;
 }
 
 .imageItem {
@@ -22,5 +22,5 @@
 }
 
 .detailItem {
-    margin: 8px 0;
+    margin: 8px 0 0;
 }

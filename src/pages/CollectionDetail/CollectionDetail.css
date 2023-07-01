@@ -4,9 +4,9 @@
 }
 
 .detail-content {
-  margin: 24px 5% 5% 5%;
+  margin: 8px 5% 5% 5%;
   display: flex;
-  gap: 5%;
+  gap: 32px;
 }
 
 .detail-img {
@@ -24,7 +24,7 @@
 }
 
 .detail-description {
-  flex: 5;
+  flex: 3;
   padding: 24px 40px 40px;
   height: fit-content;
 }
@@ -36,7 +36,6 @@
   flex-direction: row;
   align-items: center;
   height: 10vh;
-  /* margin-bottom: 8px; */
 }
 
 .detail-strip {
@@ -55,6 +54,7 @@
   border-radius: 4px;
   font-family: "Poppins";
   width: 100%;
+  margin-top: 16px;
 }
 
 .detail-button-calendar {
@@ -66,6 +66,7 @@
   border-radius: 4px;
   font-family: "Poppins";
   width: 100%;
+  margin-bottom: 24px;
 }
 
 .calendar {
@@ -86,9 +87,9 @@
 }
 
 .detail-buttons {
-  display: flex;
-  gap: 32px;
-  align-items: flex-end;
+  flex: 2;
+  height: fit-content;
+  padding: 24px;
 }
 
 .detail-harga {
