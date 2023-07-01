@@ -141,7 +141,7 @@ const SignUp = () => {
       createCustomer({
         email: email.value,
         nama: nama.value,
-        nomor: nomor.value,
+        nomor_telepon: nomor.value,
         password: password.value,
         token: token,
       });
@@ -162,7 +162,7 @@ const SignUp = () => {
           }
         );
       navigate("/confirmation-token", {
-        state: { email: userData.email, fromLogin: false },
+        state: { email: email.value, fromLogin: false },
       });
     }
   };

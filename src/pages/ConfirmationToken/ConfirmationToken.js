@@ -55,8 +55,10 @@ const ConfirmationToken = () => {
         nomor_telepon: dataCustomer.nomor_telepon,
         token: "",
       });
-      if (fromLogin) navigate("/");
-      else navigate("/login");
+      localStorage.setItem("isLoged", true);
+      localStorage.setItem("email", dataCustomer.email);
+      localStorage.setItem("idCustomer", dataCustomer.id);
+      navigate("/");
     } else setErrorMessages({ name: "token", message: errors.token });
   };
 
@@ -86,7 +88,7 @@ const ConfirmationToken = () => {
       )
       .then(
         (result) => {
-          console.log(result)
+          console.log(result);
           notifications.show({
             title: "Send Email",
             message: "Email telah berhasil dikirimkan, harap cek email",
