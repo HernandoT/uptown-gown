@@ -38,11 +38,13 @@ const Appointment = () => {
 
   const [selectedCollection, setSelectedCollection] = React.useState(state);
   const [selectedDate, setSelectedDate] = React.useState("");
-  const [selectedTime, setSelectedTime] = React.useState("");
+  const [selectedTime, setSelectedTime] = React.useState(
+    dayjs().set("hour", 12).startOf("hour")
+  );
   const [displayDate, setDisplayDate] = React.useState(
     "Pilih tanggal pada kalender"
   );
-  const [displayTime, setDisplayTime] = React.useState("11:00 WIB");
+  const [displayTime, setDisplayTime] = React.useState("12:00 WIB");
   const [keterangan, setKeterangan] = React.useState("");
 
   const [openConfirmationDialog, { open: openConfirm, close: closeConfirm }] =
@@ -163,7 +165,7 @@ const Appointment = () => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <TimePicker
                   label="Waktu Appointment"
-                  defaultValue={elevenAM}
+                  defaultValue={selectedTime}
                   minTime={elevenAM}
                   maxTime={sixPM}
                   onChange={(time) => {
@@ -188,11 +190,17 @@ const Appointment = () => {
               </p>
               <div className="collection-card card-container">
                 <div class="appointment-img-container">
-                  <img src={selectedCollection.gambar} alt="" class="appointment-img" />
+                  <img
+                    src={selectedCollection.gambar}
+                    alt=""
+                    class="appointment-img"
+                  />
                 </div>
-                <div style={{margin:"0 8px 0 16px"}}>
+                <div style={{ margin: "0 8px 0 16px" }}>
                   <div>{selectedCollection.nama}</div>
-                  <div style={{color:"#c69738", fontWeight:"600"}}>Rp. -Harga-</div>
+                  <div style={{ color: "#c69738", fontWeight: "600" }}>
+                    Rp. -Harga-
+                  </div>
                 </div>
               </div>
             </>
