@@ -20,6 +20,7 @@ const defaultValues = {
   id_warna: "",
   id_kategori: "",
   id_jenis: "",
+  harga: 0,
   deskripsi: "",
   status: "",
   gambar: "",
@@ -95,6 +96,20 @@ const Collections = () => {
 
   const columns = [
     { field: "nama", headerName: "Nama", minWidth: 200, flex: 1 },
+    {
+      field: "harga",
+      headerName: "Harga",
+      minWidth: 100,
+      flex: 1,
+      renderCell: ({ row }) => {
+        function currencyFormat(num) {
+          return (
+            "Rp. " + num?.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+          );
+        }
+        return <>{currencyFormat(row.harga)}</>;
+      },
+    },
     { field: "warna", headerName: "Warna", minWidth: 100, flex: 1 },
     { field: "kategori", headerName: "Kategori", minWidth: 100, flex: 1 },
     { field: "jenis", headerName: "Jenis", minWidth: 100, flex: 1 },
@@ -113,6 +128,7 @@ const Collections = () => {
           setCurrentData({
             id: row.id,
             nama: row.nama,
+            harga: row.harga,
             id_warna: row.id_warna,
             id_kategori: row.id_kategori,
             id_jenis: row.id_jenis,

@@ -3,6 +3,10 @@ import "./PaginationItems.css";
 
 const PaginationItems = ({ currentItems }) => {
   const navigate = useNavigate();
+  function currencyFormat(num) {
+    return "Rp. " + num?.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  }
+  console.log(currentItems)
   return (
     <div className="paginationItems">
       {currentItems &&
@@ -13,7 +17,7 @@ const PaginationItems = ({ currentItems }) => {
             </div>
             <div className="detailItem">
               <div>{item.nama}</div>
-              <div style={{color: "#c69738", fontWeight:"600"}}>Rp. -Harga-</div>
+              <div style={{color: "#c69738", fontWeight:"600"}}>{currencyFormat(item.harga)}</div>
             </div>
           </div>
         ))}

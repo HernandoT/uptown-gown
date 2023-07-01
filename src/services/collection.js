@@ -82,6 +82,7 @@ export const createCollection = async ({
   id_warna,
   id_kategori,
   id_jenis,
+  harga,
   deskripsi,
   status,
   gambar,
@@ -94,6 +95,7 @@ export const createCollection = async ({
       id_warna,
       id_kategori,
       id_jenis,
+      harga,
       deskripsi,
       status,
       gambar,
@@ -110,6 +112,7 @@ export const updateCollection = async (
   id = "",
   {
     nama = "",
+    harga = "",
     id_warna = "",
     id_kategori = "",
     id_jenis = "",
@@ -123,6 +126,7 @@ export const updateCollection = async (
   try {
     await updateDoc(doc(db, field.collection, id), {
       nama,
+      harga,
       id_warna,
       id_kategori,
       id_jenis,

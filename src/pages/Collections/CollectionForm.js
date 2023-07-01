@@ -22,6 +22,7 @@ import { Timestamp } from "firebase/firestore";
 const defaultValues = {
   id: "",
   nama: "",
+  harga: 0,
   id_warna: "",
   id_kategori: "",
   id_jenis: "",
@@ -34,6 +35,7 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
   const defaultValues = React.useMemo(() => {
     return {
       nama: data.nama,
+      harga: data.harga,
       id_warna: data.id_warna,
       id_kategori: data.id_kategori,
       id_jenis: data.id_jenis,
@@ -49,6 +51,11 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
     () =>
       Yup.object().shape({
         nama: Yup.string().required("Nama Collection Wajib Diisi"),
+        harga: Yup.number()
+          .required()
+          .positive("Angka Wajib Diatas 0")
+          .integer()
+          .typeError("Harga Wajib diisi dengan Angka"),
         id_warna: Yup.string().required("Harap pilih Warna terlebih dahulu"),
         id_kategori: Yup.string().required(
           "Harap pilih Kategori terlebih dahulu"
@@ -121,7 +128,11 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
       </Text>
       <Form onSubmit={onSubmit} methods={methods}>
         <Separator _gap={24} />
-        <TextInputField label="Nama" name="nama" />
+        <Flex direction="row">
+          <TextInputField label="Nama" name="nama" style={{flex:1}}/>
+          <Separator _gap={24} />
+          <TextInputField label="Harga" name="harga" style={{flex:1}}/>
+        </Flex>
         <Separator _gap={24} />
         <Flex direction="row">
           <ColorSelectInput label="Warna" name="id_warna" />

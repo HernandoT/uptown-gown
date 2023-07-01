@@ -96,6 +96,10 @@ const CollectionDetail = () => {
       });
     };
 
+  function currencyFormat(num) {
+    return "Rp. " + num?.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  }
+
   return (
     <div className="collection-detail">
       <Navbar />
@@ -117,9 +121,13 @@ const CollectionDetail = () => {
                 <div className="detail-strip" />
                 <p>{collection.nama}</p>
               </div>
-              <div className="detail-harga">Rp. -Harga-</div>
+              <div className="detail-harga">
+                {currencyFormat(collection.harga)}
+              </div>
               <Divider />
-              <div style={{ width: "90%", marginTop:"16px" }}>{collection.deskripsi}</div>
+              <div style={{ width: "90%", marginTop: "16px" }}>
+                {collection.deskripsi}
+              </div>
               <Separator _gap={16} />
               <div>Warna: {collection.warna}</div>
               <div>Kategori: {collection.kategori}</div>
@@ -135,8 +143,10 @@ const CollectionDetail = () => {
                 </div>
                 <div className="detail-right">
                   <div style={{ marginBottom: "8px" }}>
-                    Berminat untuk menyewa koleksi ini?<br /> 
-                    Buat appointment untuk koleksi ini sekarang agar kami dapat mempersiapkannya saat kehadiran anda.
+                    Berminat untuk menyewa koleksi ini?
+                    <br />
+                    Buat appointment untuk koleksi ini sekarang agar kami dapat
+                    mempersiapkannya saat kehadiran anda.
                   </div>
                   <button
                     className="detail-button-appointment"

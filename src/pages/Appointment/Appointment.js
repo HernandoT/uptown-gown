@@ -111,6 +111,10 @@ const Appointment = () => {
     }
   });
 
+  function currencyFormat(num) {
+    return "Rp. " + num?.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  }
+
   return (
     <div className="content">
       <Navbar />
@@ -199,7 +203,7 @@ const Appointment = () => {
                 <div style={{ margin: "0 8px 0 16px" }}>
                   <div>{selectedCollection.nama}</div>
                   <div style={{ color: "#c69738", fontWeight: "600" }}>
-                    Rp. -Harga-
+                    {currencyFormat(selectedCollection.harga)}
                   </div>
                 </div>
               </div>
