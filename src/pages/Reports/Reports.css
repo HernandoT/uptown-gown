@@ -17,19 +17,32 @@
   height: auto;
 }
 
-.reports-card {
-  flex: 3;
-  border: 1px solid lightgrey;
-  border-radius: 5px;
-  padding: 5px 10px;
-  margin-right: 10px;
-  background-color: white;
-}
-
-.reports-date-filter {
-  flex: 7;
-}
-
 .reports-datepicker {
-  width: 25vw;
+  width: auto;
+}
+
+.reports-card {
+  margin-top: 2%;
+  display: flex;
+  gap: 32px
+}
+
+.reports-card .card-container {
+  flex: 1;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.reports-card-icon {
+  font-size: 32px;
+  padding: 8px;
+  border-radius: 8px;
+  color: #EDBF52;
+  background-color: rgba(237, 191, 82, 0.2);
+}
+
+.reports-card-value {
+  font-size: 20px;
+  font-weight: bold;
 }

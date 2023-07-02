@@ -12,6 +12,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getExpenses } from "../../services/expense";
 import { getInvoicesByStatusSelesai } from "../../services/invoice";
 import { getCustomers } from "../../services/customer";
+import { HiUserGroup, } from "react-icons/hi";
+import { BsPersonFillDash, BsPersonFillCheck } from "react-icons/bs";
 
 const Reports = () => {
   const [startDate, setStartDate] = useState(dayjs().subtract(1, "month"));
@@ -60,7 +62,7 @@ const Reports = () => {
               : invoice.id_jenis_invoice === "custom_rent"
               ? "Custom Rent"
               : "Custom Made";
-          const keterangan = `${jenisInvoice} - ${dataCustomer.nomor_telepon} - ${dataCustomer.nama}`;
+          const keterangan = `${invoice.id} - ${jenisInvoice} - ${dataCustomer.nomor_telepon} - ${dataCustomer.nama}`;
           tempDebit += invoice.harga_total + invoice.biaya_tambahan;
           reportsArr.push({
             id: invoice.id,
@@ -111,12 +113,12 @@ const Reports = () => {
         return <>{dayjs(row.tanggal).format("DD/MM/YYYY")}</>;
       },
     },
-    { field: "keterangan", headerName: "Keterangan", minWidth: 500, flex: 3 },
+    { field: "keterangan", headerName: "Keterangan", minWidth: 500, flex: 4 },
     {
       field: "debit",
       headerName: "Debit",
-      minWidth: 200,
-      flex: 2,
+      minWidth: 150,
+      flex: 1,
       renderCell: ({ row }) => {
         function currencyFormat(num) {
           if (num === 0) return "-";
@@ -131,8 +133,8 @@ const Reports = () => {
     {
       field: "kredit",
       headerName: "Kredit",
-      minWidth: 200,
-      flex: 2,
+      minWidth: 150,
+      flex: 1,
       renderCell: ({ row }) => {
         function currencyFormat(num) {
           if (num === 0) return "-";
@@ -151,20 +153,6 @@ const Reports = () => {
       <AdminTitle props={"Reports"} />
       <div className="reports-content">
         <div className="reports-search">
-          <div className="reports-card">
-            <div>
-              <b>Total Debit: </b>
-              {currencyFormat(totalDebit)}
-            </div>
-            <div>
-              <b>Total Kredit: </b>
-              {currencyFormat(totalKredit)}
-            </div>
-            <div>
-              <b>Total Pendapatan: </b>
-              {currencyFormat(totalDebit - totalKredit)}
-            </div>
-          </div>
           <div className="reports-date-filter">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker", "DatePicker"]}>
@@ -184,6 +172,29 @@ const Reports = () => {
             </LocalizationProvider>
           </div>
         </div>
+        <div className="reports-card">
+          <div className="card-container">
+            <HiUserGroup className="reports-card-icon" />
+            <div style={{ flex: 1 }}>
+              <div>Total Debit</div>
+              <div className="reports-card-value">{currencyFormat(totalDebit)}</div>
+            </div>
+          </div>
+          <div className="card-container">
+            <BsPersonFillCheck className="reports-card-icon" />
+            <div style={{ flex: 1 }}>
+              <div>Total Kredit</div>
+              <div className="reports-card-value">{currencyFormat(totalKredit)}</div>
+            </div>
+          </div>
+          <div className="card-container">
+            <BsPersonFillDash className="reports-card-icon" />
+            <div style={{ flex: 1 }}>
+              <div>Total Pendapatan</div>
+              <div className="reports-card-value">{currencyFormat(totalDebit - totalKredit)}</div>
+            </div>
+          </div>
+        </div>
         {!isInitiate ? (
           <></>
         ) : (
@@ -197,7 +208,7 @@ const Reports = () => {
                 },
               }}
               pageSizeOptions={[5, 10, 15]}
-              style={{ marginTop: "1%", height: "70vh" }}
+              style={{ marginTop: "2%", height: "58vh" }}
               className="card-container"
             />
           </div>
