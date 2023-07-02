@@ -1,17 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
-import { getAppointments } from "../services/appointment";
+import { getAcceptedAppointments } from "../services/appointment";
 
 const useGetAppointmentedDate = () => {
   const { data, isFetching } = useQuery(
     ["get-appointment-date-memomized"],
-    () => getAppointments()
+    () => getAcceptedAppointments()
   );
   const listAppointmented = React.useMemo(() => {
     const _list = {};
 
     //memomized count of picked date
-    data?.data.map((appointment) => {
+    data?.appointments.map((appointment) => {
       const formatedDate = appointment.tanggal.format("DD/MM/YYYY");
       if (_list[formatedDate]) {
         _list[formatedDate] += 1;
@@ -21,7 +21,7 @@ const useGetAppointmentedDate = () => {
     });
 
     return _list;
-  }, [data?.data]);
+  }, [data?.appointments]);
 
   const shouldDisableDate = React.useCallback(
     (day) => {
