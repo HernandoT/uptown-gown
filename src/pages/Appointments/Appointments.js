@@ -10,12 +10,18 @@ import { getCustomers } from "../../services/customer";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import DetailButton from "../../components/DetailButton";
+import { TbHanger } from "react-icons/tb";
+import { CgUnavailable, CgCheckO } from "react-icons/cg";
 
 const Appointments = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = React.useState("");
   const [isInitiate, setIsInitiate] = React.useState(false);
   const [appointments, setAppointments] = React.useState([]);
+  const [todayAppointment, setTodayAppointment] = React.useState(0);
+  const [tomorrowAppointment, setTomorrowAppointment] = React.useState(0);
+  const [dayAfterTomorrowAppointment, setDayAfterTomorrowAppointment] =
+    React.useState(0);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -36,7 +42,35 @@ const Appointments = () => {
       dataAppointment.sort(
         (a, b) => a.status - b.status || b.tanggal - a.tanggal
       );
+      const now = dayjs();
+      const todayDate = now.get("date");
+      const todayMonth = now.get("month");
+      const todayYear = now.get("year");
+      let today = 0;
+      let tomorrow = 0;
+      let dayAfterTomorrow = 0;
       dataAppointment = dataAppointment.map((appointment) => {
+        const appointmentDate = appointment.tanggal.get("date");
+        const appointmentMonth = appointment.tanggal.get("month");
+        const appointmentYear = appointment.tanggal.get("year");
+        const isAccepted = appointment.status === 2;
+        const isSameMonthAndYear =
+          appointmentMonth === todayMonth && appointmentYear === todayYear;
+        if (appointmentDate === todayDate && isSameMonthAndYear && isAccepted) {
+          today += 1;
+        } else if (
+          appointmentDate - todayDate === 1 &&
+          isSameMonthAndYear &&
+          isAccepted
+        ) {
+          tomorrow += 1;
+        } else if (
+          appointmentDate - todayDate === 2 &&
+          isSameMonthAndYear &&
+          isAccepted
+        ) {
+          dayAfterTomorrow += 1;
+        }
         const cust = dataCustomers.data.find((customer) => {
           return customer.id === appointment.id_customer;
         });
@@ -46,6 +80,9 @@ const Appointments = () => {
         return appointment;
       });
       setAppointments(dataAppointment);
+      setTodayAppointment(today);
+      setTomorrowAppointment(tomorrow);
+      setDayAfterTomorrowAppointment(dayAfterTomorrow);
       setIsInitiate(true);
     }
   }, [
@@ -111,6 +148,51 @@ const Appointments = () => {
     <div className="appointments">
       <AdminTitle props={"Appoinment"} />
       <div className="appointments-content">
+        <div className="appointments-card">
+          <div className="card-container">
+            <TbHanger
+              className="appointments-card-icon"
+              style={{
+                color: "#EDBF52",
+                backgroundColor: "rgba(237, 191, 82, 0.2)",
+              }}
+            />
+            <div style={{ flex: 1 }}>
+              <div>Appointment Hari Ini</div>
+              <div className="appointments-card-value">{todayAppointment}</div>
+            </div>
+          </div>
+          <div className="card-container">
+            <CgCheckO
+              className="appointments-card-icon"
+              style={{
+                color: "green",
+                backgroundColor: "rgba(0, 128, 0, 0.2)",
+              }}
+            />
+            <div style={{ flex: 1 }}>
+              <div>Appointment Besok</div>
+              <div className="appointments-card-value">
+                {tomorrowAppointment}
+              </div>
+            </div>
+          </div>
+          <div className="card-container">
+            <CgUnavailable
+              className="appointments-card-icon"
+              style={{
+                color: "red",
+                backgroundColor: "rgba(255, 0, 0, 0.2)",
+              }}
+            />
+            <div style={{ flex: 1 }}>
+              <div>Appointment Lusa</div>
+              <div className="appointments-card-value">
+                {dayAfterTomorrowAppointment}
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="appointments-search">
           <TextField
             id="search"

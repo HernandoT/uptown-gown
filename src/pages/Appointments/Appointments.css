@@ -14,6 +14,7 @@
 .appointments-search {
   display: flex;
   height: auto;
+  margin: 24px 0;
 }
 
 .appointments-search-input {
@@ -34,4 +35,27 @@
 .appointment-form-content .MuiStack-root {
   width: 100%;
   flex: 1;
+}
+
+.appointments-card {
+  display: flex;
+  gap: 32px
+}
+
+.appointments-card .card-container {
+  flex: 1;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.appointments-card-icon {
+  font-size: 32px;
+  padding: 8px;
+  border-radius: 50%;
+}
+
+.appointments-card-value {
+  font-size: 20px;
+  font-weight: bold;
 }

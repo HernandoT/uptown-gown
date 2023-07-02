@@ -103,7 +103,7 @@ const Appointment = () => {
   };
 
   const { listAppointmented } = useGetAppointmentedDate();
-  console.log(listAppointmented)
+
   const disabledDate = [];
   Object.keys(listAppointmented)?.map((keyDate) => {
     if (listAppointmented[keyDate] > 2) {
