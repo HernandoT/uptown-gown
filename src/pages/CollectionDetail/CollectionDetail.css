@@ -25,7 +25,7 @@
 
 .detail-description {
   flex: 3;
-  padding: 24px 40px 40px;
+  padding: 16px 32px 32px;
   height: fit-content;
 }
 
@@ -66,7 +66,9 @@
   border-radius: 4px;
   font-family: "Poppins";
   width: 100%;
-  margin-bottom: 24px;
+  /* margin-bottom: 24px; */
+  margin-bottom: 8px;
+  margin-top: 16px;
 }
 
 .calendar {

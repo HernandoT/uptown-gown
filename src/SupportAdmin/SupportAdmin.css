@@ -7,3 +7,8 @@
   height: 100vh;
   float: right;
 }
+
+.support-admin-content .ce-active-chat-card{
+  background-color: rgba(237, 191, 82, 0.2) !important;
+  border-radius: 0 !important;
+}

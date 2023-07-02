@@ -169,41 +169,32 @@ const Collections = () => {
       <AdminTitle props={"All Collections"} />
       <div className="collections-content">
         <div className="collections-card">
-          <div className="card-container">
+          <div className="card-container" style={{backgroundColor:"rgba(237, 191, 82, 0.2)"}}>
             <TbHanger
               className="collections-card-icon"
-              style={{
-                color: "#EDBF52",
-                backgroundColor: "rgba(237, 191, 82, 0.2)",
-              }}
+              style={{color: "#EDBF52"}}
             />
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: 1, zIndex:2 }}>
               <div>Total Collections</div>
               <div className="collections-card-value">{totalCollection}</div>
             </div>
           </div>
-          <div className="card-container">
+          <div className="card-container" style={{backgroundColor:"rgba(0, 128, 0, 0.2)"}}>
             <CgCheckO
               className="collections-card-icon"
-              style={{
-                color: "green",
-                backgroundColor: "rgba(0, 128, 0, 0.2)",
-              }}
+              style={{color: "green"}}
             />
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: 1, zIndex:2 }}>
               <div>Available Collection</div>
               <div className="collections-card-value">{availableCollection}</div>
             </div>
           </div>
-          <div className="card-container">
+          <div className="card-container" style={{backgroundColor:"rgba(255, 0, 0, 0.2)"}}>
             <CgUnavailable
               className="collections-card-icon"
-              style={{
-                color: "red",
-                backgroundColor: "rgba(255, 0, 0, 0.2)",
-              }}
+              style={{color: "red"}}
             />
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: 1, zIndex:2 }}>
               <div>Unavailable Collection</div>
               <div className="collections-card-value">{unavailableCollection}</div>
             </div>

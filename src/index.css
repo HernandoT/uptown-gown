@@ -82,6 +82,10 @@ body {
   background-color: white;
 }
 
+.MuiDataGrid-columnHeaders {
+  border-bottom: 3px solid #EDBF52 !important;
+}
+
 .MuiDataGrid-columnHeaderTitle {
   font-weight: bold !important;
 }

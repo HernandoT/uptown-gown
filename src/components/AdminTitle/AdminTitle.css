@@ -1,3 +1,10 @@
 .admin-title {
   font-size: 2rem;
+  /* position: fixed;
+  top: 0;
+  padding: 24px 0 16px;
+  background-color: #fcfcfc;
+  box-shadow: -5px 0 0 0 #fcfcfc;
+  width: 100%;
+  z-index: 100; */
 }

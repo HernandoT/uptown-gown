@@ -40,7 +40,7 @@
 
 .customer-card {
   display: flex;
-  gap: 32px
+  gap: 32px;
 }
 
 .customer-card .card-container {
@@ -48,6 +48,22 @@
   display: flex;
   gap: 16px;
   align-items: center;
+  background-color: rgba(237, 191, 82, 0.2);
+  position: relative;
+}
+
+.customer-card .card-container::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-image: url("/src/assets/png/admin-card-overlay.png");
+  background-size: cover;
+  opacity: 0.8;
+  z-index: 1;
+  background-position: center right;
 }
 
 .customer-card-icon {
@@ -55,7 +71,7 @@
   padding: 8px;
   border-radius: 8px;
   color: #EDBF52;
-  background-color: rgba(237, 191, 82, 0.2);
+  background-color: white;
 }
 
 .customer-card-value {

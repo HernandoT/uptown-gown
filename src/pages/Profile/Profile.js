@@ -191,7 +191,7 @@ const Profile = () => {
                                 {invoice.status_pelunasan === "Belum Lunas"
                                   ? "Ambil baju pada saat H-2 dari Tanggal Acara"
                                   : invoice.status_pelunasan === "Lunas"
-                                  ? "Kembalikan baju paling lama H-2 dari Tanggal Acara"
+                                  ? "Kembalikan baju paling lama H+2 dari Tanggal Acara"
                                   : "Terima Kasih telah mempercayakan kami pada acara anda"}
                               </div>
                             </div>
@@ -236,7 +236,7 @@ const Profile = () => {
                                 )}
                               </p>
                               <p>
-                                <b>Keterangan:</b> {data.keterangan}
+                                {data.keterangan}
                               </p>
                             </div>
                             <div className="card-right">

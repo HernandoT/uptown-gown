@@ -16,4 +16,32 @@
   height: 40px !important;
   margin: 10px !important;
   font-family: 'Poppins', sans-serif !important;
+  background-color: white !important;
+}
+
+.filters-head {
+  margin-left: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.filters-button {
+  cursor: pointer;
+  margin-left: 16px;
+  width: fit-content;
+  background-color: white;
+  border: 1px solid black;
+  padding: 2px 12px;
+  border-radius: 4px;
+  font-family: 'Poppins';
+}
+
+.filters .filters-head b {
+  font-size: 20px;
+  color: #c69738;
+}
+
+.filters .card-container {
+  background: linear-gradient(to bottom, white 70%, rgba(237, 191, 82, 0.1) 60%);
 }

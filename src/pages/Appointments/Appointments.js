@@ -10,8 +10,7 @@ import { getCustomers } from "../../services/customer";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import DetailButton from "../../components/DetailButton";
-import { TbHanger } from "react-icons/tb";
-import { CgUnavailable, CgCheckO } from "react-icons/cg";
+import { FaRegCalendarCheck, FaAngleRight, FaAngleDoubleRight } from "react-icons/fa";
 
 const Appointments = () => {
   const navigate = useNavigate();
@@ -150,26 +149,14 @@ const Appointments = () => {
       <div className="appointments-content">
         <div className="appointments-card">
           <div className="card-container">
-            <TbHanger
-              className="appointments-card-icon"
-              style={{
-                color: "#EDBF52",
-                backgroundColor: "rgba(237, 191, 82, 0.2)",
-              }}
-            />
+            <FaRegCalendarCheck className="appointments-card-icon"/>
             <div style={{ flex: 1 }}>
               <div>Appointment Hari Ini</div>
               <div className="appointments-card-value">{todayAppointment}</div>
             </div>
           </div>
           <div className="card-container">
-            <CgCheckO
-              className="appointments-card-icon"
-              style={{
-                color: "green",
-                backgroundColor: "rgba(0, 128, 0, 0.2)",
-              }}
-            />
+            <FaAngleRight className="appointments-card-icon"/>
             <div style={{ flex: 1 }}>
               <div>Appointment Besok</div>
               <div className="appointments-card-value">
@@ -178,13 +165,7 @@ const Appointments = () => {
             </div>
           </div>
           <div className="card-container">
-            <CgUnavailable
-              className="appointments-card-icon"
-              style={{
-                color: "red",
-                backgroundColor: "rgba(255, 0, 0, 0.2)",
-              }}
-            />
+            <FaAngleDoubleRight className="appointments-card-icon"/>
             <div style={{ flex: 1 }}>
               <div>Appointment Lusa</div>
               <div className="appointments-card-value">
@@ -218,7 +199,7 @@ const Appointments = () => {
             + TAMBAH APPOINTMENT
           </button>
         </div>
-        <div style={{ height: 400, width: "100%" }}>
+        <div style={{ height: 300, width: "100%" }}>
           {!isInitiate ? (
             <CircularProgress color="secondary" />
           ) : (
@@ -233,7 +214,7 @@ const Appointments = () => {
                 },
               }}
               pageSizeOptions={[5, 10, 15]}
-              style={{ marginTop: "3%", height: "70vh" }}
+              style={{ height: "58vh" }}
               className="card-container"
             />
           )}

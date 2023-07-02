@@ -8,21 +8,25 @@
 }
 
 .reports-content {
-  margin: 3% 2% 3% 0;
+  margin: 2% 2% 3% 0;
 }
 
 .reports-search {
   display: flex;
   align-items: center;
-  height: auto;
+}
+
+.reports-date-filter {
+  width: 100%;
 }
 
 .reports-datepicker {
   width: auto;
+  flex: 1;
 }
 
 .reports-card {
-  margin-top: 2%;
+  margin: 2% 0;
   display: flex;
   gap: 32px
 }
@@ -32,6 +36,22 @@
   display: flex;
   gap: 16px;
   align-items: center;
+  background-color: rgba(237, 191, 82, 0.2);
+  position: relative;
+}
+
+.reports-card .card-container::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-image: url("/src/assets/png/admin-card-overlay.png");
+  background-size: cover;
+  opacity: 0.8;
+  z-index: 1;
+  background-position: center right;
 }
 
 .reports-card-icon {
@@ -39,7 +59,7 @@
   padding: 8px;
   border-radius: 8px;
   color: #EDBF52;
-  background-color: rgba(237, 191, 82, 0.2);
+  background-color: white
 }
 
 .reports-card-value {

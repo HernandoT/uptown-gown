@@ -48,12 +48,28 @@
   display: flex;
   gap: 16px;
   align-items: center;
+  position: relative;
+}
+
+.collections-card .card-container::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-image: url("/src/assets/png/admin-card-overlay.png");
+  background-size: cover;
+  opacity: 0.8;
+  z-index: 1;
+  background-position: center right;
 }
 
 .collections-card-icon {
   font-size: 32px;
   padding: 8px;
-  border-radius: 50%;
+  border-radius: 8px;
+  background-color: white;
 }
 
 .collections-card-value {

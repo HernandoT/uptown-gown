@@ -114,7 +114,7 @@ const AdminNavbar = () => {
     paddingAtStart: true,
     collapseOnSelect: true,
     classname: "my-custom-class",
-    fontColor: "grey",
+    fontColor: "#666666",
     selectedListFontColor: "black",
     highlightOnSelect: true,
   };

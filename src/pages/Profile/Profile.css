@@ -12,8 +12,13 @@
   padding: 0;
 }
 
+.card.card-container {
+  background-image: linear-gradient(to right, rgba(237, 191, 82, 0.2) 3%, transparent 3%);
+}
+
 .card-content {
   padding: 16px 48px !important;
+  margin-left: 32px;
 }
 
 .card-left {

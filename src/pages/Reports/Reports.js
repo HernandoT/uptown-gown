@@ -14,6 +14,8 @@ import { getInvoicesByStatusSelesai } from "../../services/invoice";
 import { getCustomers } from "../../services/customer";
 import { HiUserGroup, } from "react-icons/hi";
 import { BsPersonFillDash, BsPersonFillCheck } from "react-icons/bs";
+import { FaWallet } from "react-icons/fa";
+
 
 const Reports = () => {
   const [startDate, setStartDate] = useState(dayjs().subtract(1, "month"));
@@ -174,21 +176,21 @@ const Reports = () => {
         </div>
         <div className="reports-card">
           <div className="card-container">
-            <HiUserGroup className="reports-card-icon" />
+            {/* <HiUserGroup className="reports-card-icon" /> */}
             <div style={{ flex: 1 }}>
               <div>Total Debit</div>
               <div className="reports-card-value">{currencyFormat(totalDebit)}</div>
             </div>
           </div>
           <div className="card-container">
-            <BsPersonFillCheck className="reports-card-icon" />
+            {/* <BsPersonFillCheck className="reports-card-icon" /> */}
             <div style={{ flex: 1 }}>
               <div>Total Kredit</div>
               <div className="reports-card-value">{currencyFormat(totalKredit)}</div>
             </div>
           </div>
           <div className="card-container">
-            <BsPersonFillDash className="reports-card-icon" />
+            <FaWallet className="reports-card-icon" />
             <div style={{ flex: 1 }}>
               <div>Total Pendapatan</div>
               <div className="reports-card-value">{currencyFormat(totalDebit - totalKredit)}</div>
@@ -198,7 +200,7 @@ const Reports = () => {
         {!isInitiate ? (
           <></>
         ) : (
-          <div style={{ height: 400, width: "100%" }}>
+          <div style={{ height: 300, width: "100%" }}>
             <DataGrid
               rows={reports}
               columns={columns}
@@ -208,7 +210,7 @@ const Reports = () => {
                 },
               }}
               pageSizeOptions={[5, 10, 15]}
-              style={{ marginTop: "2%", height: "58vh" }}
+              style={{ height: "58vh" }}
               className="card-container"
             />
           </div>

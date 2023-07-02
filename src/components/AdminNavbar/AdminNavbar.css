@@ -7,7 +7,7 @@
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
-  background-color: white;
+  background-image: linear-gradient(20deg, rgba(237, 191, 82, 0.1), white);
 }
 
 .admin-navbar-icon {
@@ -17,4 +17,22 @@
 
 .main-menu {
   width: 100%;
+}
+
+.main-menu .rmlm-icon-arrow-container {
+  filter: invert(30%);
+  width: 20px;
+  justify-content: center;
+}
+
+.main-menu .right-arrow {
+  transform: scale(0.8);
+}
+
+.main-menu .down-arrow {
+  transform: scale(0.8);
+}
+
+.main-menu .rmlm-icon-fa {
+  /* color: #EDBF52; */
 }

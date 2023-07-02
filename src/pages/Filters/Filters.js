@@ -88,13 +88,10 @@ const Filters = () => {
       <AdminTitle props={"Filters"} />
       <div className="filters-content">
         <div className="card-container">
-          <div style={{ marginBottom: "10px" }}>
-            <b>Warna</b>
-            <button
-              style={{ marginLeft: "20px", width: "40px" }}
-              onClick={onClickAddColor}
-            >
-              +
+          <div className="filters-head">
+            <b>W A R N A</b>
+            <button className="filters-button" onClick={onClickAddColor}>
+              + 
             </button>
           </div>
           <Stack direction="row" flexWrap="wrap">
@@ -113,12 +110,9 @@ const Filters = () => {
         </div>
         <Separator _gap={36} />
         <div className="card-container">
-          <div style={{ marginBottom: "10px" }}>
-            <b>Kategori</b>
-            <button
-              style={{ marginLeft: "20px", width: "40px" }}
-              onClick={onClickAddCategory}
-            >
+        <div className="filters-head">
+            <b>K A T E G O R I</b>
+            <button className="filters-button" onClick={onClickAddCategory}>
               +
             </button>
           </div>
@@ -137,12 +131,9 @@ const Filters = () => {
         </div>
         <Separator _gap={36} />
         <div className="card-container">
-          <div style={{ marginBottom: "10px" }}>
-            <b>Jenis</b>
-            <button
-              style={{ marginLeft: "20px", width: "40px" }}
-              onClick={onClickAddType}
-            >
+          <div className="filters-head">
+            <b>J E N I S</b>
+            <button className="filters-button" onClick={onClickAddType}>
               +
             </button>
           </div>
