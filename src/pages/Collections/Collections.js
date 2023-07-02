@@ -33,6 +33,9 @@ const Collections = () => {
   const [currentData, setCurrentData] = React.useState(defaultValues);
   const [isEdit, setIsEdit] = React.useState(false);
   const [opened, { open, close }] = useDisclosure(false);
+  const [totalCollection, setTotalCollection] = React.useState(0);
+  const [availableCollection, setAvailableCollection] = React.useState(0);
+  const [unavailableCollection, setUnavailableCollection] = React.useState(0);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -65,10 +68,14 @@ const Collections = () => {
       !isFetchingTypes
     ) {
       let dataCollection = data?.data;
+      let availableCollection = 0;
+      let unavailableCollection = 0;
       dataCollection.sort((a, b) =>
         a.nama.toLowerCase() > b.nama.toLowerCase() ? 1 : -1
       );
       const _collections = dataCollection.map((collection) => {
+        if (collection.status === "Available") availableCollection += 1;
+        if (collection.status === "Unavailable") unavailableCollection += 1;
         const color = dataColors.data.find((color) => {
           return color.id === collection.id_warna;
         });
@@ -83,6 +90,9 @@ const Collections = () => {
         collection.jenis = type.nama_jenis;
         return collection;
       });
+      setTotalCollection(_collections.length);
+      setAvailableCollection(availableCollection);
+      setUnavailableCollection(unavailableCollection);
       return _collections;
     }
   }, [
@@ -169,7 +179,7 @@ const Collections = () => {
             />
             <div style={{ flex: 1 }}>
               <div>Total Collections</div>
-              <div className="collections-card-value">21</div>
+              <div className="collections-card-value">{totalCollection}</div>
             </div>
           </div>
           <div className="card-container">
@@ -182,7 +192,7 @@ const Collections = () => {
             />
             <div style={{ flex: 1 }}>
               <div>Available Collection</div>
-              <div className="collections-card-value">21</div>
+              <div className="collections-card-value">{availableCollection}</div>
             </div>
           </div>
           <div className="card-container">
@@ -195,7 +205,7 @@ const Collections = () => {
             />
             <div style={{ flex: 1 }}>
               <div>Unavailable Collection</div>
-              <div className="collections-card-value">21</div>
+              <div className="collections-card-value">{unavailableCollection}</div>
             </div>
           </div>
         </div>
@@ -215,7 +225,7 @@ const Collections = () => {
                 </InputAdornment>
               ),
             }}
-            style={{backgroundColor: "white"}}
+            style={{ backgroundColor: "white" }}
           />
           <button className="collections-add" onClick={onClickAdd}>
             + TAMBAH BARANG

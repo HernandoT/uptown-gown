@@ -28,6 +28,8 @@ const Customer = () => {
   const [currentData, setCurrentData] = React.useState(defaultValues);
   const [isEdit, setIsEdit] = React.useState(false);
   const [dataCustomer, setDataCustomer] = React.useState([]);
+  const [activeCustomer, setActiveCustomer] = React.useState(0);
+  const [blockedCustomer, setBlockedCustomer] = React.useState(0);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -40,10 +42,18 @@ const Customer = () => {
   React.useEffect(() => {
     if (data?.data) {
       const dataCustomer = data?.data;
+      let activeCustomer = 0;
+      let blockedCustomer = 0;
       dataCustomer.sort((a, b) =>
         a.nama.toLowerCase() > b.nama.toLowerCase() ? 1 : -1
       );
+      dataCustomer.map((customer) => {
+        if (customer.disabled === "1") blockedCustomer += 1
+        else activeCustomer += 1
+      })
       setDataCustomer(dataCustomer);
+      setActiveCustomer(activeCustomer);
+      setBlockedCustomer(blockedCustomer);
     }
   }, [data?.data]);
 
@@ -139,21 +149,21 @@ const Customer = () => {
             <HiUserGroup className="customer-card-icon" />
             <div style={{ flex: 1 }}>
               <div>Total Customers</div>
-              <div className="customer-card-value">21</div>
+              <div className="customer-card-value">{dataCustomer.length}</div>
             </div>
           </div>
           <div className="card-container">
             <BsPersonFillCheck className="customer-card-icon" />
             <div style={{ flex: 1 }}>
               <div>Active Customers</div>
-              <div className="customer-card-value">21</div>
+              <div className="customer-card-value">{activeCustomer}</div>
             </div>
           </div>
           <div className="card-container">
             <BsPersonFillDash className="customer-card-icon" />
             <div style={{ flex: 1 }}>
               <div>Blocked Customers</div>
-              <div className="customer-card-value">21</div>
+              <div className="customer-card-value">{blockedCustomer}</div>
             </div>
           </div>
         </div>
