@@ -13,7 +13,7 @@ const Calendar = ({ disableDate }) => {
       <Text fz={24} fw={600}>
         Cek Ketersediaan
       </Text>
-      <Separator _gap={24} />
+      <Separator _gap={16} />
       <div className="calendar">
         <DatePicker
           disabled
@@ -22,7 +22,8 @@ const Calendar = ({ disableDate }) => {
           excludeDates={disableDate}
         />
       </div>
-      <Separator _gap={24} />
+      <div style={{fontSize:"14px", color:"grey", marginBottom:"16px"}}>*tanda merah berarti adanya penyewaan koleksi pada tanggal tersebut</div>
+      <Separator _gap={16} />
       <Flex justify="flex-end">
         <Button variant="text" color="error" onClick={modals.closeAll}>
           TUTUP

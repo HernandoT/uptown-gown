@@ -119,16 +119,16 @@ const SignUp = () => {
     if (userData) {
       setErrorMessagesEmail(errors.email);
     }
-    if (email.value === "") {
+    else if (email.value === "") {
       setErrorMessagesEmail(errors.null);
     }
-    if (nama.value === "") {
+    else if (nama.value === "") {
       setErrorMessagesNama(errors.null);
     }
-    if (nomor.value === "") {
+    else if (nomor.value === "") {
       setErrorMessagesNomor(errors.null);
     }
-    if (password.value === "") {
+    else if (password.value === "") {
       setErrorMessagesPassword(errors.null);
     } else {
       const token = generateString(20);

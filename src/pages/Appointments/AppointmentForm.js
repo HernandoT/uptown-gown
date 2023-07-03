@@ -110,7 +110,6 @@ const AppointmentForm = () => {
             : "Appointment baru telah berhasil ditambahkan",
           color: "teal",
         });
-        if (!data?.appointment) navigate("/admin/appointment");
       } catch (e) {
         notifications.show({
           title: data?.appointment ? "Edit Appointment" : "Tambah Appointment",
@@ -120,7 +119,7 @@ const AppointmentForm = () => {
           color: "red",
         });
       } finally {
-        navigate(-1);
+        navigate("/admin/appointment");
       }
     },
     [data?.appointment, displayTime, id, navigate]
@@ -214,7 +213,6 @@ const AppointmentForm = () => {
                       onChange={(time) => {
                         setSelectedTime(time);
                         changeDisplayTime(time);
-                        console.log(displayTime);
                       }}
                       sx={{width: '100%'}}
                     />

@@ -139,14 +139,13 @@ const CollectionDetail = () => {
               <div style={{ margin: "0 0 8px" }}>
                 <b>Ingin tahu apakah koleksi ini tersedia untuk tanggal acara anda?</b>
               </div>
-              Periksa ketersediaan koleksi pada kalender* sekarang.
+              Periksa ketersediaan koleksi dengan klik tombol dibawah ini.
               <button
                 className="detail-button-calendar"
                 onClick={openCalendar({ listEventDate })}
               >
                 CEK KETERSEDIAAN
               </button>
-              <div style={{fontSize:"14px", color:"grey", marginBottom:"16px"}}>* tanggal yang tidak tersedia akan ditampilkan dengan warna merah</div>
               <Divider />
               <div style={{ margin: "16px 0 8px" }}>
                 <b>Berminat untuk menyewa koleksi ini?</b>
