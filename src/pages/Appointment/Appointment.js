@@ -120,6 +120,7 @@ const Appointment = () => {
     <div className="content">
       <Navbar />
       <div className="appointmentContent">
+        <div style={{flex:2, height:"fit-content"}}>
         <div className="appointmentCalendar card-container">
           <DatePicker
             selected={selectedDate}
@@ -131,6 +132,9 @@ const Appointment = () => {
             minDate={new Date()}
             excludeDates={disabledDate}
           />
+        </div>
+        <div style={{fontSize:"14px", color:"grey", marginTop:"24px"}}>
+          *tanda merah berarti jadwal appointment pada tanggal tersebut telah mencapai batas maksimal per hari</div>
         </div>
         <div className="appointmentText">
           <p className="appointmentTitle">Make an appointment</p>

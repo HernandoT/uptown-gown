@@ -1,5 +1,6 @@
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
+import { BiExport } from "react-icons/bi";
 
 const ExportExcel = ({ excelData, fileName }) => {
   const fileType =
@@ -17,9 +18,23 @@ const ExportExcel = ({ excelData, fileName }) => {
   return (
     <button
       onClick={(e) => exportToExcel(fileName)}
-      style={{ cursor: "pointer" }}
+      style={{ 
+        cursor: "pointer",
+        padding: "8px 16px",
+        color: "white",
+        fontSize: "larger",
+        backgroundColor: "black",
+        borderRadius: "4px",
+        fontFamily: "Poppins",
+        marginTop: "8px",
+      }}
     >
-      EXPORT REPORTS
+      <div style={{display:"flex", alignItems:"center", gap:"8px", justifyContent:"center"}}>
+        <BiExport style={{
+          fontSize: "24px",
+        }}/>
+        EXPORT REPORTS
+      </div>
     </button>
   );
 };

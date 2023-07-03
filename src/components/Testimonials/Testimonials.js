@@ -19,8 +19,8 @@ const Testimonials = () => {
   return (
     <div className="testimonials">
       <div className="testimonialsTitle">
+        <p>What Our Customers Say</p>
         <div className="testimonialStrip"></div>
-        <p>Customer Testimonials</p>
       </div>
       <div className="testimonialsContent">
         {/* {Array.from({ length: 3 }).map((testimonial, index) => (

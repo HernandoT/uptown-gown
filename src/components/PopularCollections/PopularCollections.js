@@ -19,12 +19,12 @@ const PopularCollections = ({ data }) => {
     <div className="popularCollections">
       <div className="popularCollectionsTitle">
         <div className="popularCollectionstrip"></div>
-        <div>
+        <div style={{display: "flex", flexDirection: "column"}}>
           <p>Get Inspired by Our<br/>Most Popular Collections,<br/>Loved by Many</p>
           <p className="popularCollectionsDesc">
             Telusuri koleksi paling populer kami yang mendapat cinta dan apresiasi dari banyak orang. Dengan ragam desain yang menawan dan perhatian terhadap detail, kami menghadirkan pilihan yang sempurna untuk memenuhi kebutuhan Anda.
           </p>
-          {/* <WiStars /> */}
+          <WiStars />
         </div>
       </div>
       <div className="popularCollectionsContent">

@@ -15,6 +15,8 @@ const Custom = () => {
       <div className="customContent">
         <div className="custom-desc">
           <div className="customBox card-container">
+            <div className="customBoxAccent1"></div>
+            <div className="customBoxAccent2"></div>
             <div className="customLogo">
               <GiLargeDress className="customIcon" />
             </div>
@@ -32,8 +34,12 @@ const Custom = () => {
                 dan membuat penampilan kamu tampak lebih menarik.
               </div>
             </div>
+            <div className="customBoxAccent2"></div>
+            <div className="customBoxAccent1"></div>
           </div>
           <div className="customBox card-container">
+            <div className="customBoxAccent1"></div>
+            <div className="customBoxAccent2"></div>
             <div className="customLogo">
               <GiSewingMachine className="customIcon" />
             </div>
@@ -54,6 +60,8 @@ const Custom = () => {
                 untuk kamu.
               </div>
             </div>
+            <div className="customBoxAccent2"></div>
+            <div className="customBoxAccent1"></div>
           </div>
         </div>
         <div className="custom-button">

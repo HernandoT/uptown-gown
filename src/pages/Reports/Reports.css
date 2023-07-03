@@ -13,11 +13,15 @@
 
 .reports-search {
   display: flex;
-  align-items: center;
+  gap: 24px;
+}
+
+.reports-search button {
+  flex: 30;
 }
 
 .reports-date-filter {
-  width: 100%;
+  flex: 70;
 }
 
 .reports-datepicker {
@@ -28,7 +32,7 @@
 .reports-card {
   margin: 2% 0;
   display: flex;
-  gap: 32px
+  gap: 24px
 }
 
 .reports-card .card-container {

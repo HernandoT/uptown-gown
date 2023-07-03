@@ -240,26 +240,32 @@
 @media only screen and (min-width: 1200px) {
   .testimonials {
     height: 100%;
-    background-color: #FDF9EE;
+    background-color: rgba(237, 191, 82, 0.2);
+    background: linear-gradient(to bottom, rgba(237, 191, 82, 0.2) 60%, rgba(237, 191, 82, 0.4) 30%);
     padding: 5%;
-    border-top: 5px solid #EDBF52;
   }
   
   .testimonialsTitle {
     flex: 1;
     font-size: 3rem;
     font-family: 'Playfair Display', serif;
-    margin-bottom: 5%;
+    margin-bottom: 4%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    height: 5vh;
+    height: fit-content;
+  }
+
+  .testimonialsTitle p {
+    text-align: center;
+    margin: 0;
   }
   
   .testimonialStrip {
-    border: 1px solid #EDBF52;
-    height: 4rem;
-    margin-right: 3%;
+    border: 2px solid #EDBF52;
+    width: 8rem;
+    height: 0;
+    margin-top: 2%;
   }
   
   .testimonialsContent {

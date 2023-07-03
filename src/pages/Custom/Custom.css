@@ -1,6 +1,7 @@
 .custom {
   display: flex;
   flex-direction: column;
+  background: linear-gradient(to bottom, transparent, rgba(237, 191, 82, 0.1));
 }
 
 .customContent {
@@ -12,7 +13,8 @@
 
 .custom-desc {
   display: flex;
-  gap: 3%;
+  gap: 5%;
+  padding: 0 8%;
 }
 
 .custom-button {
@@ -25,29 +27,51 @@
 
 .customBox {
   width: 100%;
-  background-color: #FDF9EE;
-  height: 70vh;
-  padding: 5%;
+  /* background-color: #FDF9EE; */
+  /* background-color: white; */
+  /* height: 70vh; */
+  height: 80vh;
+  /* padding: 5%; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3%;
+  gap: 2%;
   border-radius: 2%;
+  overflow: hidden;
+}
+
+.customBox.card-container {
+  padding: 0;
+}
+
+.customBoxAccent1 {
+  background-color: #EDBF52;
+  height: 4%;
+  width: 100%;
+  opacity: 0.5;
+}
+
+.customBoxAccent2 {
+  background-color: #EDBF52;
+  height: 1%;
+  width: 100%;
+  opacity: 0.3;
 }
 
 .customLogo {
-  background-color: #FFFFFF;
-  width: 8vw;
-  height: 8vw;
+  background-color: #FDF9EE;
+  width: 6vw;
+  height: 6vw;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 3%;
 }
 
 .customIcon {
   color: #EDBF52;
-  font-size: 3rem;
+  font-size: 2.5rem;
 }
 
 .customTitle {
@@ -64,6 +88,7 @@
   flex-direction: column;
   justify-content: flex-start;
   text-align: center;
+  padding: 0 5%;
 }
 
 .customText > div {
@@ -74,10 +99,14 @@
   width: 50%;
   cursor: pointer;
   font-size: 1rem;
-  background-color: #181308;
+  background-color: black;
   border: 1px solid black;
   color: white;
-  padding: 10px 20px;
+  padding: 8px 16px;
   border-radius: 4px;
   margin-top: 40px;
+  font-family: "Poppins";
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }

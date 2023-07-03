@@ -106,7 +106,8 @@ const EditProfile = () => {
   return (
     <>
       <div className="profile-content card-container">
-        <div className="profile-title">Edit Profile</div>
+        <div className="profile-title">Edit Profile <div className="profile-strip"></div></div>
+        {/* <div className="profile-strip"></div> */}
         <>
           <Form
             onSubmit={handleSubmit}

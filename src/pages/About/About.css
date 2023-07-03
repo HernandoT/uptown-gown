@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     padding: 5%;
-    border-bottom: 5px solid #EDBF52;
+    /* border-bottom: 5px solid #EDBF52; */
 }
 
 .aboutLogo {
@@ -25,4 +25,5 @@
     grid-template-columns: auto auto;
     grid-gap: 8px 40px;
     border-bottom: 5px solid #EDBF52;
+    background-color: #FDF9EE;
   }

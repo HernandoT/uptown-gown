@@ -22,7 +22,7 @@ const Calendar = ({ disableDate }) => {
           excludeDates={disableDate}
         />
       </div>
-      <div style={{fontSize:"14px", color:"grey", marginBottom:"16px"}}>*tanda merah berarti adanya penyewaan koleksi pada tanggal tersebut</div>
+      <div style={{fontSize:"14px", color:"grey", margin:"16px 0"}}>*tanda merah berarti adanya penyewaan koleksi pada tanggal tersebut</div>
       <Separator _gap={16} />
       <Flex justify="flex-end">
         <Button variant="text" color="error" onClick={modals.closeAll}>

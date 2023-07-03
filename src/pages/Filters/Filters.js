@@ -12,6 +12,7 @@ import { getColors } from "../../services/color";
 import { getCategories } from "../../services/category";
 import { getTypes } from "../../services/type";
 import Separator from "../../components/separator";
+import { height } from "@mui/system";
 
 const defaultValueColor = { nama_warna: "", kode_hex: "" };
 const defaultValueCategory = { nama: "" };
@@ -96,7 +97,21 @@ const Filters = () => {
           </div>
           <Stack direction="row" flexWrap="wrap">
             {(colorList?.data || []).map((color) => {
-              const label = color.nama_warna + " " + color.kode_hex;
+              const label = (
+                <>
+                  <div style={{display: "flex", alignItems:"center"}}>
+                  {color.nama_warna} {color.kode_hex}
+                  <span style={{
+                    width: "13px",
+                    height: "13px",
+                    borderRadius: "50%",
+                    backgroundColor: color.kode_hex,
+                    border: "1px solid black",
+                    marginLeft: "4px",
+                  }}></span></div>
+                </>
+              )
+              // color.nama_warna + " " + color.kode_hex;
               return (
                 <Chip
                   label={label}
@@ -107,6 +122,19 @@ const Filters = () => {
               );
             })}
           </Stack>
+          {/* <Stack direction="row" flexWrap="wrap">
+            {(colorList?.data || []).map((color) => {
+              const label = color.nama_warna + " " + color.kode_hex;
+              return (
+                <Chip
+                  label={label}
+                  variant="outlined"
+                  onClick={() => onClickEditColor(color)}
+                  className="filters-chip"
+                />
+              );
+            })}
+          </Stack> */}
         </div>
         <Separator _gap={36} />
         <div className="card-container">

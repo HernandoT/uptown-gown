@@ -7,7 +7,7 @@ import SupportEngine from "../../SupportEngine";
 import "./Profile.css";
 import { useState } from "react";
 import invoice from "../../utils/assets/invoice.svg";
-import appointment from "../../utils/assets/appointment.svg";
+import appointment from "../../utils/assets/appointment.png";
 import { useQuery } from "@tanstack/react-query";
 import { getAppointments } from "../../services/appointment";
 import { MdPending, MdCheckCircle, MdCancel } from "react-icons/md";
@@ -209,14 +209,14 @@ const Profile = () => {
                     alignItems: "center",
                   }}
                 >
-                  <p style={{ fontSize: "2rem" }}>
-                    Kamu tidak memiliki Riwayat Invoice
-                  </p>
                   <img
                     src={invoice}
-                    style={{ width: "50vw", height: "50vh" }}
+                    style={{ width: "50vw", height: "50vh", marginTop:"3%" }}
                     alt="No Invoice"
                   ></img>
+                  <p style={{ fontSize: "1.5rem", fontWeight:"bold" }}>
+                    Kamu tidak memiliki Riwayat Invoice
+                  </p>
                 </div>
               )}
             </TabPanel>
@@ -272,14 +272,14 @@ const Profile = () => {
                       alignItems: "center",
                     }}
                   >
-                    <p style={{ fontSize: "2rem" }}>
-                      Kamu tidak memiliki Riwayat Appointment
-                    </p>
                     <img
                       src={appointment}
-                      style={{ width: "50vw", height: "50vh" }}
+                      style={{ height: "50vh", marginTop:"3%" }}
                       alt="No Appointments"
                     ></img>
+                    <p style={{ fontSize: "1.5rem", fontWeight:"bold" }}>
+                      Kamu tidak memiliki Riwayat Appointment
+                    </p>
                   </div>
                 </>
               )}

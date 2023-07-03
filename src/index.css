@@ -120,13 +120,17 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  background-color: #fdf9ee !important;
+  background-color: rgba(237, 191, 82, 0.2) !important;
   padding-bottom: 16px !important;
   border-bottom: 0 !important;
 }
 
 .react-datepicker__navigation {
   top: 15px !important;
+}
+
+.react-datepicker__navigation-icon::before {
+  border-color: #c69738 !important;
 }
 
 .react-datepicker__navigation--previous {
@@ -151,6 +155,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #c69738 !important;
 }
 
 .react-datepicker__day--selected {

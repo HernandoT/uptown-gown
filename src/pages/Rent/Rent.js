@@ -1,4 +1,4 @@
-import nothing from "../../utils/assets/nothing-filtered.jpg";
+import nothing from "../../utils/assets/nothing-filtered.png";
 import "./Rent.css";
 import * as React from "react";
 import Footer from "../../components/Footer/Footer";
@@ -218,7 +218,7 @@ const Rent = () => {
                   <img
                     src={nothing}
                     alt="Nothing Here"
-                    style={{ width: "70%" }}
+                    style={{ height: "50vh"}}
                   />
                   <p style={{ fontSize: "1.5rem" }}>
                     <b>Pencarian anda tidak ditemukan.</b>

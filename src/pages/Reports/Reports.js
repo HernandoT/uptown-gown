@@ -189,8 +189,9 @@ const Reports = () => {
                 />
               </DemoContainer>
             </LocalizationProvider>
-            <ExportExcel excelData={excelReport} fileName={`Reports-${startDate.format("DD/MM/YYYY")}-${endDate.format("DD/MM/YYYY")}`} />
+            {/* <ExportExcel excelData={excelReport} fileName={`Reports-${startDate.format("DD/MM/YYYY")}-${endDate.format("DD/MM/YYYY")}`} /> */}
           </div>
+          <ExportExcel excelData={excelReport} fileName={`Reports-${startDate.format("DD/MM/YYYY")}-${endDate.format("DD/MM/YYYY")}`} />
         </div>
         <div className="reports-card">
           <div className="card-container">
