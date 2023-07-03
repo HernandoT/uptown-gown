@@ -12,16 +12,17 @@ import { useQuery } from "@tanstack/react-query";
 import { getExpenses } from "../../services/expense";
 import { getInvoicesByStatusSelesai } from "../../services/invoice";
 import { getCustomers } from "../../services/customer";
-import { HiUserGroup, } from "react-icons/hi";
+import { HiUserGroup } from "react-icons/hi";
 import { BsPersonFillDash, BsPersonFillCheck } from "react-icons/bs";
 import { FaWallet } from "react-icons/fa";
-
+import ExportExcel from "../../components/ExcelExport/ExcelExport";
 
 const Reports = () => {
   const [startDate, setStartDate] = useState(dayjs().subtract(1, "month"));
   const [endDate, setEndDate] = useState(dayjs(new Date()));
   const [isInitiate, setIsInitiate] = useState(false);
   const [reports, setReports] = useState([]);
+  const [excelReport, setExcelReport] = useState([]);
   const [totalDebit, setTotalDebit] = useState(0);
   const [totalKredit, setTotalKredit] = useState(0);
 
@@ -47,6 +48,7 @@ const Reports = () => {
   React.useEffect(() => {
     if (!isFetchingExpenses && !isFetchingInvoices && !isFetchingCustomers) {
       const reportsArr = [];
+      const excelArr = [];
       let tempKredit = 0;
       let tempDebit = 0;
       dataInvoices.invoices
@@ -73,6 +75,13 @@ const Reports = () => {
             debit: invoice.harga_total + invoice.biaya_tambahan,
             kredit: 0,
           });
+          excelArr.push({
+            Tanggal: dayjs(invoice.waktu_ubah).format("DD/MM/YYYY"),
+            Jenis: "Penerimaan",
+            Keterangan: keterangan,
+            Debit: invoice.harga_total + invoice.biaya_tambahan,
+            Kredit: "-",
+          });
         });
       setTotalDebit(tempDebit);
       dataExpenses.data
@@ -89,12 +98,20 @@ const Reports = () => {
             debit: 0,
             kredit: expense.nominal,
           });
+          excelArr.push({
+            Tanggal: dayjs(expense.taggal).format("DD/MM/YYYY"),
+            Jenis: "Pengeluaran",
+            Keterangan: expense.keterangan,
+            Debit: "-",
+            Kredit: expense.nominal,
+          });
         });
       reportsArr.sort((a, b) => {
         return a.tanggal - b.tanggal;
       });
       setTotalKredit(tempKredit);
       setReports(reportsArr);
+      setExcelReport(excelArr);
       setIsInitiate(true);
     }
   }, [
@@ -172,6 +189,7 @@ const Reports = () => {
                 />
               </DemoContainer>
             </LocalizationProvider>
+            <ExportExcel excelData={excelReport} fileName={`Reports-${startDate.format("DD/MM/YYYY")}-${endDate.format("DD/MM/YYYY")}`} />
           </div>
         </div>
         <div className="reports-card">
@@ -179,21 +197,27 @@ const Reports = () => {
             {/* <HiUserGroup className="reports-card-icon" /> */}
             <div style={{ flex: 1 }}>
               <div>Total Debit</div>
-              <div className="reports-card-value">{currencyFormat(totalDebit)}</div>
+              <div className="reports-card-value">
+                {currencyFormat(totalDebit)}
+              </div>
             </div>
           </div>
           <div className="card-container">
             {/* <BsPersonFillCheck className="reports-card-icon" /> */}
             <div style={{ flex: 1 }}>
               <div>Total Kredit</div>
-              <div className="reports-card-value">{currencyFormat(totalKredit)}</div>
+              <div className="reports-card-value">
+                {currencyFormat(totalKredit)}
+              </div>
             </div>
           </div>
           <div className="card-container">
             <FaWallet className="reports-card-icon" />
             <div style={{ flex: 1 }}>
               <div>Total Pendapatan</div>
-              <div className="reports-card-value">{currencyFormat(totalDebit - totalKredit)}</div>
+              <div className="reports-card-value">
+                {currencyFormat(totalDebit - totalKredit)}
+              </div>
             </div>
           </div>
         </div>
