@@ -241,11 +241,13 @@
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
   .popularCollections {
-    margin: 15% 5%;
+    margin: 0 0 0;
+    padding: 15% 5% 15%;
     display: flex;
     flex-direction: row;
     height: 75vh;
     align-items: center;
+    background: linear-gradient(to bottom, rgba(237, 191, 82, 0.2), transparent, transparent, rgba(237, 191, 82, 0.2));
   }
 
   .popularCollectionsTitle {
@@ -254,18 +256,27 @@
     font-family: 'Playfair Display', serif;
     display: flex;
     flex-direction: row;
-    align-items: center;
-    height: 10vh;
+    align-items: flex-start;
+    /* height: 10vh; */
+    height: fit-content;
   }
 
   .popularCollectionstrip {
-    border: 1px solid #EDBF52;
+    border: 2px solid #EDBF52;
     height: 4rem;
     margin-right: 3%;
   }
 
-  .popularCollectionsTitle>p {
+  .popularCollectionsTitle p {
     margin: 0;
+  }
+
+  .popularCollectionsTitle svg {
+    color: #EDBF52;
+    opacity: 0.3;
+    font-size: 4em;
+    float: right;
+    margin-right: 5%;
   }
 
   .popularCollectionsContent {
@@ -273,6 +284,14 @@
     display: grid;
     grid-template-columns: auto auto;
     gap: 16px;
+  }
+
+  .popularCollectionsDesc {
+    font-size: 16px;
+    font-family: poppins;
+    margin-top: 24px !important;
+    width: 70%;
+    line-height: 2;
   }
 
   .popularCollections1 {

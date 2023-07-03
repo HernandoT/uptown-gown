@@ -1,6 +1,7 @@
 import "./NewCollections.css";
 import { useState } from "react";
 import Carousel from "react-simply-carousel";
+import { PiShootingStarFill } from "react-icons/pi";
 
 const NewCollections = ({ data }) => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -10,9 +11,15 @@ const NewCollections = ({ data }) => {
 
   return (
     <div className="newCollections">
-      <div className="newCollectionsTitle">
+      <div style={{display:"flex", marginBottom:"32px"}}>
         <div className="newCollectionStrip"></div>
-        <p>New Collections</p>
+        <div className="newCollectionsTitle">
+          <p>Explore Our Fresh</p>
+          <p>New Collections<PiShootingStarFill/></p>
+        </div>
+        <div className="newCollectionsDesc">
+        Jelajahi koleksi terbaru kami sekarang dan temukan gaun yang memikat hati Anda. Jadilah yang pertama untuk tampil dengan gaya terbaru dan menjadi pusat perhatian dalam setiap acara yang Anda hadiri.
+        </div>
       </div>
       <Carousel
         autoplay={true}
@@ -55,7 +62,8 @@ const NewCollections = ({ data }) => {
               width: 16,
               borderRadius: "50%",
               border: 0,
-              margin: "5px",
+              margin: "32px 4px 0",
+              backgroundColor: "rgba(237, 191, 82, 0.4)",
             },
           },
           activeItemBtnProps: {
@@ -63,8 +71,9 @@ const NewCollections = ({ data }) => {
               height: 16,
               width: 16,
               borderRadius: "50%",
-              background: "black",
-              margin: "5px",
+              border: 0,
+              margin: "32px 4px 0",
+              backgroundColor: "#EDBF52",
             },
           },
         }}
