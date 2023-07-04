@@ -101,6 +101,7 @@ const Items = ({ isEdit, isFinished }) => {
       modals.open({
         size: 800,
         centered: true,
+        withCloseButton: false,
         children: (
           <FittingForm
             fitting={fitting}
@@ -771,15 +772,6 @@ const IsolatedForm = ({
           withCloseButton={false}
         >
           <CustomerForm onClose={closeCustomer} />
-        </Modal>
-        <Modal
-          opened={openedFitting}
-          centered
-          onClose={closeFitting}
-          withCloseButton={false}
-          size={800}
-        >
-          <FittingForm onClose={closeFitting} />
         </Modal>
         <Modal
           opened={openedExpense}
