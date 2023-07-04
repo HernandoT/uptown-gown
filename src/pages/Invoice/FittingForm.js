@@ -61,19 +61,19 @@ const FittingForm = ({ onClose, fitting, onSubmitForm }) => {
             Fitting
           </Text>
           <Separator _gap={24} />
-          <Flex direction="row" justify="space-between">
+          <Flex direction="row" justify="space-between" gap="md">
             <TextInputField label="Lingkar Leher" name="lingkarLeher" />
             <TextInputField label="Panjang Dada" name="panjangDada" />
             <TextInputField label="Lengan Pendek" name="lenganPendek" />
           </Flex>
           <Separator _gap={16} />
-          <Flex direction="row" justify="space-between">
+          <Flex direction="row" justify="space-between" gap="md">
             <TextInputField label="Lingkar Badan" name="lingkarBadan" />
             <TextInputField label="Panjang Punggung" name="panjangPunggung" />
             <TextInputField label="Lebar Lengan" name="lebarLengan" />
           </Flex>
           <Separator _gap={16} />
-          <Flex direction="row" justify="space-between">
+          <Flex direction="row" justify="space-between" gap="md">
             <TextInputField
               label="Lingkar Badan Atas"
               name="lingkarBadanAtas"
@@ -82,7 +82,7 @@ const FittingForm = ({ onClose, fitting, onSubmitForm }) => {
             <TextInputField label="Lengan Panjang" name="lenganPanjang" />
           </Flex>
           <Separator _gap={16} />
-          <Flex direction="row" justify="space-between">
+          <Flex direction="row" justify="space-between" gap="md">
             <TextInputField label="Lingkar Pinggang" name="lingkarPinggang" />
             <TextInputField label="Lebar Bahu" name="lebarBahu" />
             <TextInputField
@@ -91,19 +91,19 @@ const FittingForm = ({ onClose, fitting, onSubmitForm }) => {
             />
           </Flex>
           <Separator _gap={16} />
-          <Flex direction="row" justify="space-between">
+          <Flex direction="row" justify="space-between" gap="md">
             <TextInputField label="Lingkar Perut" name="lingkarPerut" />
             <TextInputField label="Lebar Dada" name="lebarDada" />
             <TextInputField label="Panjang Siku" name="panjangSiku" />
           </Flex>
           <Separator _gap={16} />
-          <Flex direction="row" justify="space-between">
+          <Flex direction="row" justify="space-between" gap="md">
             <TextInputField label="Lingkar Pinggul" name="lingkarPinggul" />
             <TextInputField label="Lebar Punggung" name="lebarPunggung" />
             <TextInputField label="Panjang Rok" name="panjangRok" />
           </Flex>
           <Separator _gap={16} />
-          <Flex direction="row" justify="space-between">
+          <Flex direction="row" justify="space-between" gap="md">
             <TextInputField label="Jarak Dada" name="jarakDada" />
             <TextInputField label="Tinggi Perut" name="tinggiPerut" />
             <TextInputField
@@ -112,7 +112,7 @@ const FittingForm = ({ onClose, fitting, onSubmitForm }) => {
             />
           </Flex>
           <Separator _gap={16} />
-          <Flex direction="row" justify="space-between">
+          <Flex direction="row" justify="space-between" gap="md">
             <TextInputField label="Tinggi Dada" name="tinggiDada" />
             <TextInputField label="Tinggi Pinggul" name="tinggiPinggul" />
             <TextInputField style={{visibility: "hidden"}} />
