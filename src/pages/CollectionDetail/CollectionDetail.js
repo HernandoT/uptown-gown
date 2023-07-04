@@ -161,7 +161,7 @@ const CollectionDetail = () => {
             </div>
           </div>
           <Footer />
-          {isLoged === "true" ? <SupportEngine /> : ""};
+          {isLoged === "true" ? <SupportEngine /> : ""}
         </>
       )}
     </div>

@@ -198,7 +198,7 @@ const Items = ({ isEdit, isFinished }) => {
                         value?.extra?.gambar,
                       ]);
                     }
-                    setValue(`items[${index}].harga`, [value?.extra?.harga]);
+                    setValue(`items[${index}].harga`, value?.extra?.harga);
                     setValue(`items[${index}].id_collection`, value?.value);
                   }}
                 />
