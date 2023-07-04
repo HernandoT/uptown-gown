@@ -201,6 +201,10 @@
     justify-content: center;
     font-size: 1rem;
   }
+
+  .footerCompany p {
+    margin: 8px 0;
+  }
   
   .footerSupport {
     width: 35%;
@@ -210,6 +214,17 @@
     font-size: 1rem;
   }
   
+  .footerSupport p{
+    display: flex;
+    align-items: center;
+  }
+
+  .footerSupport a{
+    text-decoration: none;
+    color: black;
+    width: fit-content;
+  }
+
   .footerIcon {
     color: #EDBF52;
     margin-right: 10px;
