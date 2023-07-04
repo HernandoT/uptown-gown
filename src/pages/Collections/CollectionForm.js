@@ -124,7 +124,7 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
   return (
     <Paper p={36} miw={1000}>
       <Text fz={20} fw={600}>
-        {false ? "Edit Collection" : "Tambah Collection"}
+        {isEdit ? "Edit Collection" : "Tambah Collection"}
       </Text>
       <Form onSubmit={onSubmit} methods={methods}>
         <Separator _gap={24} />

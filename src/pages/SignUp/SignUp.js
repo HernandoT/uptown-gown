@@ -52,6 +52,7 @@ const SignUp = () => {
     emailInvalid: "Email Tidak Valid",
     nomorInvalid: "Nomor Tidak Valid",
     namaInvalid: "Nama Tidak Valid",
+    passwordInvalid: "Password minimal 8 karakter dengan setidaknya satu huruf kapital, satu huruf kecil, satu angka, dan satu karakter khusus",
     null: "Harap diisi",
   };
 
@@ -68,6 +69,12 @@ const SignUp = () => {
   function isValidName(name) {
     return /^(?!^\s)[A-Za-z\s]{2,}$/.test(
       name
+    );
+  }
+
+  function isValidPassword(password) {
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>]).{8,}$/.test(
+      password
     );
   }
 
@@ -92,6 +99,14 @@ const SignUp = () => {
       setErrorMessagesNama(errors.namaInvalid);
     } else {
       setErrorMessagesNama("");
+    }
+  };
+
+  const handleChangePassword = (event) => {
+    if (!isValidPassword(event.target.value)) {
+      setErrorMessagesPassword(errors.passwordInvalid);
+    } else {
+      setErrorMessagesPassword("");
     }
   };
 
@@ -143,6 +158,7 @@ const SignUp = () => {
         nama: nama.value,
         nomor_telepon: nomor.value,
         password: password.value,
+        disabled: 0,
         token: token,
       });
 
@@ -233,7 +249,7 @@ const SignUp = () => {
                     Password
                   </InputLabel>
                   <OutlinedInput
-                    onChange={() => setErrorMessagesPassword("")}
+                    onChange={handleChangePassword}
                     id="outlined-adornment-password"
                     type={showPassword ? "text" : "password"}
                     error={errorMessagesPassword}

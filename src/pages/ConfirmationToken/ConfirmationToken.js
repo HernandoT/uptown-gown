@@ -53,6 +53,7 @@ const ConfirmationToken = () => {
         password: dataCustomer.password,
         nama: dataCustomer.nama,
         nomor_telepon: dataCustomer.nomor_telepon,
+        disabled: dataCustomer.disabled,
         token: "",
       });
       localStorage.setItem("isLoged", true);

@@ -26,7 +26,9 @@ const ProfilePassword = ({onClose, data = { email: "", name: "", phoneNumber: ""
         passwordNow: Yup.string()
           .required("Password Wajib Diisi")
           .matches(data?.password, "Password yang diinput salah"),
-        passwordNew: Yup.string().required("Password Baru Wajib Diisi"),
+        passwordNew: Yup.string()
+          .required("Password Baru Wajib Diisi")
+          .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>]).{8,}$/, "Password minimal 8 karakter dengan setidaknya satu huruf kapital, satu huruf kecil, satu angka, dan satu karakter khusus"),
         passwordRep: Yup.string()
           .oneOf(
             [Yup.ref("passwordNew"), null],
