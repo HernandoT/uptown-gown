@@ -65,7 +65,7 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
         status: Yup.string().required(
           "Harap pilih Status Ketersediaan terlebih dahulu"
         ),
-        // gambar: Yup.array().min(1).required(),
+        gambar: Yup.array().min(1),
         defaultRef: Yup.string().strip(true),
       }),
     []

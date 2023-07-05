@@ -60,7 +60,7 @@ const FilterColorForm = ({
           title: isEdit ? "Edit Warna" : "Tambah Warna",
           message: isEdit
             ? "Warna telah berhasil diupdate"
-            : "Warna telah berhasil diedit",
+            : "Warna telah berhasil ditambahkan",
           color: "teal",
         });
         onClose();

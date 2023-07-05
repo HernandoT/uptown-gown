@@ -56,7 +56,7 @@ const FilterTypeForm = ({
           title: isEdit ? "Edit Jenis" : "Tambah Jenis",
           message: isEdit
             ? "Jenis telah berhasil diupdate"
-            : "Jenis telah berhasil diedit",
+            : "Jenis telah berhasil ditambahkan",
           color: "teal",
         });
         onClose();

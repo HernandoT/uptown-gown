@@ -56,7 +56,7 @@ const FilterCategoryForm = ({
           title: isEdit ? "Edit Kategori" : "Tambah Kategori",
           message: isEdit
             ? "Kategori telah berhasil diupdate"
-            : "Kategori telah berhasil diedit",
+            : "Kategori telah berhasil ditambahkan",
           color: "teal",
         });
         onClose();
