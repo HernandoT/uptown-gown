@@ -212,7 +212,7 @@ const Customer = () => {
         </div>
       </div>
       <Modal opened={opened} centered onClose={close} withCloseButton={false}>
-        <CustomerForm data={currentData} onClose={close} isEdit={isEdit} />
+        <CustomerForm data={currentData} onClose={close} isEdit={isEdit} dataCustomer={dataCustomer}/>
       </Modal>
     </div>
   );

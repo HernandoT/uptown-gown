@@ -15,9 +15,10 @@ import TextInputField from "../../components/field/text-input";
 import RadioInputField from "../../components/field/radio-input";
 
 const CustomerForm = ({
-  data = { email: "", name: "", phoneNumber: "", password: "123456", id: "", disabled: "" },
+  data = { email: "", name: "", phoneNumber: "", password: "123456", id: "", disabled: ""},
   onClose,
   isEdit = false,
+  dataCustomer = []
 }) => {
   const defaultValues = React.useMemo(
     () => ({
@@ -36,7 +37,11 @@ const CustomerForm = ({
       Yup.object().shape({
         email: Yup.string()
           .email("Email Tidak Valid")
-          .required("Email Wajib Diisi"),
+          .required("Email Wajib Diisi")
+          .test('unique', 'Email Telah Terdaftar', async function (value) {
+            const isEmailRegistered = await checkEmailExistence(value);
+            return !isEmailRegistered;
+          }),
         phoneNumber: Yup.string()
           .required("Nomor Telepon Wajib Diisi")
           .matches(
@@ -50,6 +55,11 @@ const CustomerForm = ({
       }),
     []
   );
+
+  async function checkEmailExistence(email) {
+    const userData = dataCustomer.find((cust) => cust.email === email);
+    return !!userData;
+  }
 
   const resolver = useYupValidationResolver(yupSchema);
 
