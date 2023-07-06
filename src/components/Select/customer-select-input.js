@@ -26,6 +26,9 @@ const CustomerSelectInput = ({
 
   React.useEffect(() => {
     if (!isInitiate && customerList?.data) {
+      customerList.data.sort((a, b) =>
+        a.nama.toLowerCase() > b.nama.toLowerCase() ? 1 : -1
+      );
       const transformOptions = customerList.data.map((data) => ({
         value: data.id,
         label: `${data.nama} - ${data.nomor_telepon}`,

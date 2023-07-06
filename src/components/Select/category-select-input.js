@@ -25,6 +25,9 @@ const CategorySelectInput = ({
 
   React.useEffect(() => {
     if (!isInitiate && categoryList?.data) {
+      categoryList.data.sort((a, b) =>
+        a.nama_kategori.toLowerCase() > b.nama_kategori.toLowerCase() ? 1 : -1
+      );
       const transformOptions = categoryList.data.map((data) => ({
         value: data.id,
         label: data.nama_kategori,

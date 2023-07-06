@@ -25,6 +25,9 @@ const TypeSelectInput = ({
 
   React.useEffect(() => {
     if (!isInitiate && typeList?.data) {
+      typeList.data.sort((a, b) =>
+        a.nama_jenis.toLowerCase() > b.nama_jenis.toLowerCase() ? 1 : -1
+      );
       const transformOptions = typeList.data.map((data) => ({
         value: data.id,
         label: data.nama_jenis,

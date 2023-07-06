@@ -24,6 +24,9 @@ const ColorSelectInput = ({
 
   React.useEffect(() => {
     if (!isInitiate && colorList?.data) {
+      colorList.data.sort((a, b) =>
+        a.nama_warna.toLowerCase() > b.nama_warna.toLowerCase() ? 1 : -1
+      );
       const transformOptions = colorList.data.map((data) => ({
         value: data.id,
         label: data.nama_warna,

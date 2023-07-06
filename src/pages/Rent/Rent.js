@@ -37,6 +37,9 @@ const Rent = () => {
 
   React.useEffect(() => {
     if (!isFetching) {
+      data.data.sort((a, b) =>
+        a.nama.toLowerCase() > b.nama.toLowerCase() ? 1 : -1
+      );
       setCollections(data.data);
       setIsInitiate(true);
     }

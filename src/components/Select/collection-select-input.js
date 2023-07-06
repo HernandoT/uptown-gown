@@ -25,6 +25,9 @@ const CollectionSelectInput = ({
 
   React.useEffect(() => {
     if (!isInitiate && collectionList?.data) {
+      collectionList.data.sort((a, b) =>
+        a.nama.toLowerCase() > b.nama.toLowerCase() ? 1 : -1
+      );
       const transformOptions = collectionList.data.map((data) => ({
         value: data.id,
         label: data.nama,
