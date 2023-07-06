@@ -84,7 +84,7 @@ const CustomerForm = ({
               email: values.email,
               nama: values.name,
               nomor_telepon: values.phoneNumber,
-              password: 123456,
+              password: "123456",
               disabled: values.disabled,
             });
         notifications.show({
