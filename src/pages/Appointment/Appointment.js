@@ -25,6 +25,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
+import { MobileDateTimePicker, MobileTimePicker } from "@mui/x-date-pickers";
 
 const Appointment = () => {
   const { state } = useLocation();
@@ -36,6 +37,8 @@ const Appointment = () => {
 
   const navigate = useNavigate();
 
+  const [errorMessagesTime, setErrorMessagesTime] = React.useState("");
+  const [isValidTime, setIsValidTime] = React.useState(true);
   const [selectedCollection, setSelectedCollection] = React.useState(state);
   const [selectedDate, setSelectedDate] = React.useState("");
   const [selectedTime, setSelectedTime] = React.useState(
@@ -116,25 +119,48 @@ const Appointment = () => {
     return "Rp. " + num?.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   }
 
+  function checkIsValidTime(time) {
+    const validTime = elevenAM <= time && time <= sixPM;
+    setIsValidTime(validTime);
+    return validTime;
+  }
+
+  const handleChangeTime = (event) => {
+    if (!checkIsValidTime(event)) {
+      setErrorMessagesTime(errors.time);
+    } else {
+      setErrorMessagesTime("");
+    }
+  };
+
+  const errors = {
+    time: "Hanya dapat memilih waktu dari 11:00 AM s/d 18:00 PM",
+  };
+
+  const renderErrorMessageTime = () =>
+    errorMessagesTime && <div className="error">{errorMessagesTime}</div>;
+
   return (
     <div className="content">
       <Navbar />
       <div className="appointmentContent">
-        <div style={{flex:2, height:"fit-content"}}>
-        <div className="appointmentCalendar card-container">
-          <DatePicker
-            selected={selectedDate}
-            onChange={(date) => {
-              setSelectedDate(date);
-              changeDisplayDate(date);
-            }}
-            inline
-            minDate={new Date()}
-            excludeDates={disabledDate}
-          />
-        </div>
-        <div style={{fontSize:"14px", color:"grey", marginTop:"24px"}}>
-          *tanda merah berarti jadwal appointment pada tanggal tersebut telah mencapai batas maksimal per hari</div>
+        <div style={{ flex: 2, height: "fit-content" }}>
+          <div className="appointmentCalendar card-container">
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date) => {
+                setSelectedDate(date);
+                changeDisplayDate(date);
+              }}
+              inline
+              minDate={new Date()}
+              excludeDates={disabledDate}
+            />
+          </div>
+          <div style={{ fontSize: "14px", color: "grey", marginTop: "24px" }}>
+            *tanda merah berarti jadwal appointment pada tanggal tersebut telah
+            mencapai batas maksimal per hari
+          </div>
         </div>
         <div className="appointmentText">
           <p className="appointmentTitle">Make an appointment</p>
@@ -180,10 +206,11 @@ const Appointment = () => {
                   onChange={(time) => {
                     setSelectedTime(time);
                     changeDisplayTime(time);
-                    console.log(displayTime);
+                    handleChangeTime(time);
                   }}
                 />
               </LocalizationProvider>
+              {renderErrorMessageTime()}
             </div>
           </div>
           {selectedCollection ? (
@@ -244,7 +271,7 @@ const Appointment = () => {
               onChange={(e) => setKeterangan(e.target.value)}
             />
           </div>
-          {displayDate === "Pilih tanggal pada kalender" ? (
+          {displayDate === "Pilih tanggal pada kalender" || !isValidTime ? (
             <></>
           ) : (
             <button

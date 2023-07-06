@@ -30,6 +30,7 @@ const DateInputField = ({
           error={!!fieldState.error?.message}
           helperText={fieldState.error?.message}
           disabled={disabled}
+          disablePast={true}
           //default styles
           sx={{
             width: "100%",

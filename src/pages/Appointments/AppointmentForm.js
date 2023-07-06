@@ -208,8 +208,6 @@ const AppointmentForm = () => {
                     <TimePicker
                       label="Waktu Appointment"
                       defaultValue={selectedTime}
-                      minTime={elevenAM}
-                      maxTime={sixPM}
                       onChange={(time) => {
                         setSelectedTime(time);
                         changeDisplayTime(time);
