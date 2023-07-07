@@ -72,15 +72,17 @@ const Reports = () => {
             id: invoice.id,
             tanggal: invoice.waktu_ubah,
             keterangan: keterangan,
-            debit: invoice.harga_total + invoice.biaya_tambahan,
-            kredit: 0,
+            penerimaan: invoice.harga_total + invoice.biaya_tambahan,
+            pengeluaran: 0,
           });
           excelArr.push({
             Tanggal: invoice.waktu_ubah,
             Jenis: "Penerimaan",
-            Keterangan: keterangan,
-            Debit: invoice.harga_total + invoice.biaya_tambahan,
-            Kredit: "-",
+            Keterangan: invoice.keterangan,
+            Penerimaan: invoice.harga_total + invoice.biaya_tambahan,
+            Pengeluaran: "-",
+            IdInvoice: invoice.id,
+            Customer: `${dataCustomer.nama} - ${dataCustomer.nomor_telepon}`,
           });
         });
       setTotalDebit(tempDebit);
@@ -90,20 +92,34 @@ const Reports = () => {
             expense.tanggal >= startDate && expense.tanggal <= endDate
         )
         .map((expense) => {
+          const dataInvoice = dataInvoices.invoices.find(
+            (invoice) => invoice.id === expense.id_invoice
+          );
+          console.log(dataInvoice)
+          let dataCustomer = "";
+          if (dataInvoice) {
+            dataCustomer = dataCustomers.data.find(
+              (customer) => customer.id === dataInvoice.id_customer
+            );
+          }
           tempKredit += expense.nominal;
           reportsArr.push({
             id: expense.id,
             tanggal: expense.tanggal,
             keterangan: expense.keterangan,
-            debit: 0,
-            kredit: expense.nominal,
+            penerimaan: 0,
+            pengeluaran: expense.nominal,
           });
           excelArr.push({
             Tanggal: expense.tanggal,
             Jenis: "Pengeluaran",
             Keterangan: expense.keterangan,
-            Debit: "-",
-            Kredit: expense.nominal,
+            Penerimaan: "-",
+            Pengeluaran: expense.nominal,
+            IdInvoice: expense.id_invoice ? expense.id_invoice : "-",
+            Customer: dataInvoice
+              ? `${dataCustomer.nama} - ${dataCustomer.nomor_telepon}`
+              : "-",
           });
         });
       reportsArr.sort((a, b) => {
@@ -141,8 +157,8 @@ const Reports = () => {
     },
     { field: "keterangan", headerName: "Keterangan", minWidth: 500, flex: 4 },
     {
-      field: "debit",
-      headerName: "Debit",
+      field: "penerimaan",
+      headerName: "Penerimaan",
       minWidth: 150,
       flex: 1,
       renderCell: ({ row }) => {
@@ -153,12 +169,12 @@ const Reports = () => {
               "Rp. " + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
             );
         }
-        return <>{currencyFormat(row.debit)}</>;
+        return <>{currencyFormat(row.penerimaan)}</>;
       },
     },
     {
-      field: "kredit",
-      headerName: "Kredit",
+      field: "pengeluaran",
+      headerName: "Pengeluaran",
       minWidth: 150,
       flex: 1,
       renderCell: ({ row }) => {
@@ -169,7 +185,7 @@ const Reports = () => {
               "Rp. " + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
             );
         }
-        return <>{currencyFormat(row.kredit)}</>;
+        return <>{currencyFormat(row.pengeluaran)}</>;
       },
     },
   ];
@@ -198,7 +214,6 @@ const Reports = () => {
                 />
               </DemoContainer>
             </LocalizationProvider>
-            {/* <ExportExcel excelData={excelReport} fileName={`Reports-${startDate.format("DD/MM/YYYY")}-${endDate.format("DD/MM/YYYY")}`} /> */}
           </div>
           <ExportExcel
             excelData={excelReport}
@@ -211,7 +226,7 @@ const Reports = () => {
           <div className="card-container">
             {/* <HiUserGroup className="reports-card-icon" /> */}
             <div style={{ flex: 1 }}>
-              <div>Total Debit</div>
+              <div>Total Penerimaan</div>
               <div className="reports-card-value">
                 {currencyFormat(totalDebit)}
               </div>
@@ -220,7 +235,7 @@ const Reports = () => {
           <div className="card-container">
             {/* <BsPersonFillCheck className="reports-card-icon" /> */}
             <div style={{ flex: 1 }}>
-              <div>Total Kredit</div>
+              <div>Total Pengeluaran</div>
               <div className="reports-card-value">
                 {currencyFormat(totalKredit)}
               </div>
