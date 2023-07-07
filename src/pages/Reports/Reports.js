@@ -48,7 +48,7 @@ const Reports = () => {
   React.useEffect(() => {
     if (!isFetchingExpenses && !isFetchingInvoices && !isFetchingCustomers) {
       const reportsArr = [];
-      const excelArr = [];
+      let excelArr = [];
       let tempKredit = 0;
       let tempDebit = 0;
       dataInvoices.invoices
@@ -76,7 +76,7 @@ const Reports = () => {
             kredit: 0,
           });
           excelArr.push({
-            Tanggal: dayjs(invoice.waktu_ubah).format("DD/MM/YYYY"),
+            Tanggal: invoice.waktu_ubah,
             Jenis: "Penerimaan",
             Keterangan: keterangan,
             Debit: invoice.harga_total + invoice.biaya_tambahan,
@@ -99,7 +99,7 @@ const Reports = () => {
             kredit: expense.nominal,
           });
           excelArr.push({
-            Tanggal: dayjs(expense.taggal).format("DD/MM/YYYY"),
+            Tanggal: expense.tanggal,
             Jenis: "Pengeluaran",
             Keterangan: expense.keterangan,
             Debit: "-",
@@ -109,6 +109,13 @@ const Reports = () => {
       reportsArr.sort((a, b) => {
         return a.tanggal - b.tanggal;
       });
+      excelArr.sort((a, b) => {
+        return a.Tanggal - b.Tanggal;
+      });
+      excelArr = excelArr.map((arr) => ({
+        ...arr,
+        Tanggal: dayjs(arr.Tanggal).format("DD/MM/YYYY"),
+      }));
       setTotalKredit(tempKredit);
       setReports(reportsArr);
       setExcelReport(excelArr);
@@ -180,18 +187,25 @@ const Reports = () => {
                   value={startDate}
                   onChange={(newValue) => setStartDate(newValue)}
                   className="reports-datepicker"
+                  format="DD/MM/YYYY"
                 />
                 <DatePicker
                   label="Sampai Tanggal"
                   value={endDate}
                   onChange={(newValue) => setEndDate(newValue)}
                   className="reports-datepicker"
+                  format="DD/MM/YYYY"
                 />
               </DemoContainer>
             </LocalizationProvider>
             {/* <ExportExcel excelData={excelReport} fileName={`Reports-${startDate.format("DD/MM/YYYY")}-${endDate.format("DD/MM/YYYY")}`} /> */}
           </div>
-          <ExportExcel excelData={excelReport} fileName={`Reports-${startDate.format("DD/MM/YYYY")}-${endDate.format("DD/MM/YYYY")}`} />
+          <ExportExcel
+            excelData={excelReport}
+            fileName={`Reports-${startDate.format(
+              "DD/MM/YYYY"
+            )}-${endDate.format("DD/MM/YYYY")}`}
+          />
         </div>
         <div className="reports-card">
           <div className="card-container">
