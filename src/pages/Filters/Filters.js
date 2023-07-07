@@ -92,25 +92,28 @@ const Filters = () => {
           <div className="filters-head">
             <b>W A R N A</b>
             <button className="filters-button" onClick={onClickAddColor}>
-              + 
+              +
             </button>
           </div>
           <Stack direction="row" flexWrap="wrap">
             {(colorList?.data || []).map((color) => {
               const label = (
                 <>
-                  <div style={{display: "flex", alignItems:"center"}}>
-                  {color.nama_warna} {color.kode_hex}
-                  <span style={{
-                    width: "13px",
-                    height: "13px",
-                    borderRadius: "50%",
-                    backgroundColor: color.kode_hex,
-                    border: "1px solid black",
-                    marginLeft: "4px",
-                  }}></span></div>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    {color.nama_warna}
+                    <span
+                      style={{
+                        width: "15px",
+                        height: "15px",
+                        borderRadius: "50%",
+                        backgroundColor: color.kode_hex,
+                        border: "1px solid black",
+                        marginLeft: "8px",
+                      }}
+                    ></span>
+                  </div>
                 </>
-              )
+              );
               // color.nama_warna + " " + color.kode_hex;
               return (
                 <Chip
@@ -138,7 +141,7 @@ const Filters = () => {
         </div>
         <Separator _gap={36} />
         <div className="card-container">
-        <div className="filters-head">
+          <div className="filters-head">
             <b>K A T E G O R I</b>
             <button className="filters-button" onClick={onClickAddCategory}>
               +

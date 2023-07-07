@@ -12,6 +12,7 @@ import useYupValidationResolver from "../../hooks/use-yup-resolver";
 import { useForm } from "react-hook-form";
 import Form from "../../components/field/form";
 import TextInputField from "../../components/field/text-input";
+import { SwatchesPicker } from "react-color";
 
 const FilterColorForm = ({
   data = { nama_warna: "", kode_hex: "", id: "" },
@@ -86,7 +87,18 @@ const FilterColorForm = ({
           <Separator _gap={24} />
           <TextInputField label="Nama Warna" name="nama_warna" />
           <Separator _gap={24} />
-          <TextInputField label="Kode Hex" name="kode_hex" />
+          <TextInputField
+            label="Kode Hex"
+            name="kode_hex"
+            style={{ display: "none" }}
+          />
+          <SwatchesPicker
+            width={335}
+            height={200}
+            onChangeComplete={(value) =>
+              methods.setValue("kode_hex", value.hex)
+            }
+          />
           <Separator _gap={24} />
           <Flex justify="flex-end">
             <Button variant="text" color="error" onClick={onClose}>
