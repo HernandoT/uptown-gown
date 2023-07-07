@@ -235,7 +235,7 @@ const Items = ({ isEdit, isFinished }) => {
                 width={56}
                 height={56}
                 isHide
-                isFinished={isFinished}
+                isFinished={isFinished ? isFinished : type === typeInvoice.Rent}
               />
               {isEdit ? (
                 <></>
