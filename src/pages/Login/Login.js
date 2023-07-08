@@ -16,11 +16,14 @@ import "./Login.css";
 
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../services/firebase";
+import { useQuery } from "@tanstack/react-query";
+import { getCustomers } from "../../services/customer";
+import { getAdmins } from "../../services/admin";
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const [customer, setCustomer] = useState([]);
+  const [account, setAccount] = useState([]);
   const [errorMessagesEmail, setErrorMessagesEmail] = useState("");
   const [errorMessagesPassword, setErrorMessagesPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -31,19 +34,29 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const fetchCustomer = async () => {
-    await getDocs(collection(db, "customer")).then((querySnapshot) => {
-      const newData = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setCustomer(newData);
-    });
-  };
+  const { data: dataCustomer, isFetching: isFetchingCustomer } = useQuery(
+    ["get-customers"],
+    () => getCustomers()
+  );
+
+  const { data: dataAdmin, isFetching: isFetchingAdmin } = useQuery(
+    ["get-admins"],
+    () => getAdmins()
+  );
 
   useEffect(() => {
-    fetchCustomer();
-  }, []);
+    if (!isFetchingAdmin && !isFetchingCustomer) {
+      const acc = [];
+      const cust = dataCustomer.data.map((customer) => ({
+        ...customer,
+        isCustomer: true,
+      }));
+      const adm = dataAdmin.data.map((admin) => ({ ...admin, isAdmin: true }));
+      acc.push(cust);
+      acc[0].push(adm[0]);
+      setAccount(acc);
+    }
+  }, [dataAdmin, dataCustomer, isFetchingAdmin, isFetchingCustomer]);
 
   const errors = {
     email: "Email yang anda masukkan tidak ditemukan",
@@ -79,7 +92,7 @@ const Login = () => {
     var { email, password } = document.forms[0];
 
     // Find user login info
-    const userData = customer.find((cust) => cust.email === email.value);
+    const userData = account[0].find((acc) => acc.email === email.value);
 
     if (email.value === "" || password.value === "") {
       if (email.value === "") setErrorMessagesEmail(errors.null);
@@ -99,11 +112,15 @@ const Login = () => {
           navigate("/confirmation-token", {
             state: { email: userData.email, fromLogin: true },
           });
-        } else {
+        } else if (userData.isCustomer) {
           localStorage.setItem("isLoged", true);
           localStorage.setItem("email", email.value);
           localStorage.setItem("idCustomer", userData.id);
           navigate("/");
+        } else if (userData.isAdmin) {
+          localStorage.setItem("isAdmin", true);
+          localStorage.setItem("idAdmin", userData.id);
+          navigate("/admin");
         }
     } else {
       // Email not found
@@ -122,72 +139,80 @@ const Login = () => {
 
   return (
     <div className="login">
-      <div className="login-form">
-        <div className="logo">
-          <img src={logo} alt="logo" className="logoImage"></img>
-        </div>
-        <div className="input">
-          <div className="title">Login</div>
-          <div className="form">
-            <form onSubmit={handleSubmit}>
-              <div className="input-container">
-                <TextField
-                  onChange={handleChangeEmail}
-                  id="outlined-basic"
-                  label="Email"
-                  variant="outlined"
-                  name="email"
-                  error={errorMessagesEmail}
-                />
-                {renderErrorMessageEmail()}
-              </div>
-              <div className="input-container">
-                <FormControl variant="outlined">
-                  <InputLabel
-                    htmlFor="outlined-adornment-password"
-                    error={errorMessagesPassword}
-                  >
-                    Password
-                  </InputLabel>
-                  <OutlinedInput
-                    id="outlined-adornment-password"
-                    type={showPassword ? "text" : "password"}
-                    error={errorMessagesPassword}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    label="Password"
-                    name="password"
-                    onChange={handleChangePassword}
+      {isFetchingAdmin && isFetchingCustomer ? (
+        <></>
+      ) : (
+        <div className="login-form">
+          <div className="logo">
+            <img src={logo} alt="logo" className="logoImage"></img>
+          </div>
+          <div className="input">
+            <div className="title">Login</div>
+            <div className="form">
+              <form onSubmit={handleSubmit}>
+                <div className="input-container">
+                  <TextField
+                    onChange={handleChangeEmail}
+                    id="outlined-basic"
+                    label="Email"
+                    variant="outlined"
+                    name="email"
+                    error={errorMessagesEmail}
                   />
-                </FormControl>
-                {renderErrorMessagePassword()}
-              </div>
-              <div className="button-container">
-                <input type="submit" value="LOGIN" className="button-submit" />
-              </div>
-            </form>
-          </div>
-          <div style={{ marginTop: "2rem", fontSize: "0.9rem" }}>
-            Belum punya akun?{" "}
-            <Link
-              to="/signup"
-              style={{ textDecoration: "none", color: "black" }}
-            >
-              <strong>Sign Up</strong>
-            </Link>
+                  {renderErrorMessageEmail()}
+                </div>
+                <div className="input-container">
+                  <FormControl variant="outlined">
+                    <InputLabel
+                      htmlFor="outlined-adornment-password"
+                      error={errorMessagesPassword}
+                    >
+                      Password
+                    </InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-password"
+                      type={showPassword ? "text" : "password"}
+                      error={errorMessagesPassword}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      label="Password"
+                      name="password"
+                      onChange={handleChangePassword}
+                    />
+                  </FormControl>
+                  {renderErrorMessagePassword()}
+                </div>
+                <div className="button-container">
+                  <input
+                    type="submit"
+                    value="LOGIN"
+                    className="button-submit"
+                  />
+                </div>
+              </form>
+            </div>
+            <div style={{ marginTop: "2rem", fontSize: "0.9rem" }}>
+              Belum punya akun?{" "}
+              <Link
+                to="/signup"
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                <strong>Sign Up</strong>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

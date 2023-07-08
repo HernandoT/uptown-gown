@@ -101,7 +101,8 @@ const AdminNavbar = () => {
           faIcon: "fa fa-sign-out",
           onSelected: function () {
             localStorage.setItem("isAdmin", false);
-            navigate("/admin-login");
+            localStorage.setItem("idAdmin", "")
+            navigate("/login");
           },
         },
       ],
