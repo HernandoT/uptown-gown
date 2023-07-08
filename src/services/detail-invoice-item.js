@@ -25,6 +25,27 @@ export const getDetailInvoiceItems = async () => {
   }
 };
 
+export const getRentedDetailInvoiceItem = async () => {
+  try {
+    const collectionRef = collection(db, field.detailInvoiceItem);
+    const q = query(collectionRef, where("id_collection", "!=", ""));
+    const docRefs = await getDocs(q);
+
+    const items = [];
+
+    docRefs.forEach((item) => {
+      items.push({
+        id: item.id,
+        ...item.data(),
+      });
+    });
+
+    return { items };
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const getDetailInvoiceItemByIdInvoice = async (idInvoice) => {
   try {
     const collectionRef = collection(db, field.detailInvoiceItem);

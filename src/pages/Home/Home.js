@@ -1,3 +1,4 @@
+import * as React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Banner from "../../components/Banner/Banner";
 import Footer from "../../components/Footer/Footer";
@@ -10,13 +11,17 @@ import "./Home.css";
 import { getCollectionsWithOrderedDate } from "../../services/collection";
 import { useQuery } from "@tanstack/react-query";
 import image from "../../utils/assets/home-image-2.png";
+import useGetRentedCount from "../../hooks/use-get-rented-count";
 
 const Home = () => {
   const isLoged = localStorage.getItem("isLoged");
 
-  const { data, isFetching } = useQuery(["get-collections-with-ordered-date"], () =>
-    getCollectionsWithOrderedDate()
+  const { data, isFetching } = useQuery(
+    ["get-collections-with-ordered-date"],
+    () => getCollectionsWithOrderedDate()
   );
+
+  const { arrListRented } = useGetRentedCount();
 
   return (
     <div className="home">
@@ -28,8 +33,8 @@ const Home = () => {
           <div className="square"></div>
           <Slogan />
           <NewCollections data={data.data} />
-          <Banner image={image}/>
-          <PopularCollections data={data.data} />
+          <Banner image={image} />
+          <PopularCollections data={arrListRented} />
           <Testimonials />
           <Footer />
           {isLoged === "true" ? <SupportEngine /> : ""};

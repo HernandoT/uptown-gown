@@ -23,13 +23,13 @@ const AdminNavbar = () => {
     {
       label: "COLLECTIONS",
       items: [
-        {
-          label: "Popular Collections",
-          faIcon: "fa fa-star-o",
-          onSelected: function () {
-            navigate("popular-collection");
-          },
-        },
+        // {
+        //   label: "Popular Collections",
+        //   faIcon: "fa fa-star-o",
+        //   onSelected: function () {
+        //     navigate("popular-collection");
+        //   },
+        // },
         {
           label: "Filters",
           faIcon: "fa fa-filter",
