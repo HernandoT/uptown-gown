@@ -106,6 +106,7 @@ const Expense = () => {
             nominal: row.nominal,
             keterangan: row.keterangan,
             id_invoice: row.id_invoice,
+            bukti: row.bukti,
             id: row.id,
           });
           open();

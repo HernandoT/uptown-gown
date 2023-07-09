@@ -18,9 +18,12 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Timestamp } from "firebase/firestore";
 import dayjs from "dayjs";
 import InvoiceSelectInput from "../../components/Select/invoice-select-input";
+import ImagesInputField from "../../components/field/image";
+import { urlPattern } from "../../utils/regex";
+import { getUrlImage } from "../../utils/image-function";
 
 const ExpenseForm = ({
-  data = { keterangan: "", nominal: 0, tanggal: new Date(), id_invoice: "", id: "" },
+  data = { keterangan: "", nominal: 0, tanggal: new Date(), id_invoice: "", id: "", bukti: "" },
   onClose,
   isEdit = false,
 }) => {
@@ -30,6 +33,8 @@ const ExpenseForm = ({
       nominal: data?.nominal || 0,
       tanggal: data?.tanggal || new Date(),
       invoice: data?.id_invoice || "",
+      bukti: data?.bukti ? [data.bukti] : [],
+      defaultRef: data.bukti ? data.bukti : `${v4()}.jpeg`,
       id: v4(),
     }),
     [data]
@@ -62,18 +67,27 @@ const ExpenseForm = ({
   const onSubmit = React.useCallback(
     async (values) => {
       try {
+        const fileUrl = urlPattern.test(values.bukti[0])
+          ? values.bukti[0]
+          : await getUrlImage({
+              file: values.bukti[0],
+              bukti: values.defaultRef,
+            });
+
         isEdit
           ? updateExpense(data.id, {
               keterangan: values.keterangan,
               nominal: values.nominal,
               tanggal: Timestamp.fromDate(new Date(date)),
-              id_invoice: values.invoice ?? ""
+              id_invoice: values.invoice ?? "",
+              bukti: fileUrl ?? ""
             })
           : createExpense({
               keterangan: values.keterangan,
               nominal: values.nominal,
               tanggal: Timestamp.fromDate(new Date(date)),
-              id_invoice: values.invoice ?? ""
+              id_invoice: values.invoice ?? "",
+              bukti: fileUrl ?? ""
             });
         notifications.show({
           title: isEdit ? "Edit Pengeluaran" : "Tambah Pengeluaran",
@@ -117,6 +131,8 @@ const ExpenseForm = ({
           <InvoiceSelectInput name="invoice"/>
           <Separator _gap={24} />
           <TextInputField label="Keterangan" name="keterangan" multiline={true} rows={3}/>
+          <Separator _gap={24} />
+          <ImagesInputField name="bukti" label={"Bukti Pengeluaran:"}/>
           <Separator _gap={24} />
           <Flex justify="flex-end">
             <Button variant="text" color="error" onClick={onClose}>
