@@ -204,7 +204,7 @@ const Admin = () => {
           data={currentData}
           onClose={close}
           isEdit={isEdit}
-          dataCustomer={isEdit ? [] : data?.data}
+          dataAdmin={isEdit ? [] : data?.data}
         />
       </Modal>
     </div>
