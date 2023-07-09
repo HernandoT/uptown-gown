@@ -43,7 +43,7 @@ const Login = () => {
     ["get-admins"],
     () => getAdmins()
   );
-
+    
   useEffect(() => {
     if (!isFetchingAdmin && !isFetchingCustomer) {
       const acc = [];
@@ -51,9 +51,12 @@ const Login = () => {
         ...customer,
         isCustomer: true,
       }));
-      const adm = dataAdmin.data.map((admin) => ({ ...admin, isAdmin: true }));
+      const adm = dataAdmin.data.map((admin) => ({ 
+        ...admin, 
+        isAdmin: true 
+      }));
       acc.push(cust);
-      acc[0].push(adm[0]);
+      acc[0].push(...adm);
       setAccount(acc);
     }
   }, [dataAdmin, dataCustomer, isFetchingAdmin, isFetchingCustomer]);
