@@ -55,12 +55,23 @@ const ResetPassword = () => {
     email: "Email yang anda masukkan tidak ditemukan",
     emailInvalid: "Invalid Email",
     disabled: "Email ini telah di-nonaktifkan",
-    password: "Password yang dimasukkan salah",
+    passwordInvalid: "Password minimal 8 karakter dengan setidaknya satu huruf kapital, satu huruf kecil, satu angka, dan satu karakter khusus",
+    confirmpassInvalid: "Password yang dimasukkan tidak sama dengan Password Baru",
     null: "Harap diisi",
   };
 
   function isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
+  }
+
+  function isValidPassword(password) {
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>]).{8,}$/.test(
+      password
+    );
+  }
+
+  function isValidConfirmPassword(confirm_password, password) {
+    return confirm_password === password;
   }
 
   const handleChangeEmail = (event) => {
@@ -72,9 +83,20 @@ const ResetPassword = () => {
   };
 
   const handleChangePassword = (event) => {
-    if (event.target.value !== "") {
-      setErrorMessagesEmail("");
+    if (!isValidPassword(event.target.value)) {
+      setErrorMessagesPassword(errors.passwordInvalid);
+    } else {
+      setErrorMessagesPassword("");
     }
+  };
+
+  const handleChangeConfirmPassword = (event) => {
+  const { password } = document.forms[0];
+  if (!isValidConfirmPassword(event.target.value, password.value)) {
+    setErrorMessagesConfirmPassword(errors.confirmpassInvalid);
+  } else {
+    setErrorMessagesConfirmPassword("");
+  }
   };
 
   const handleSubmit = (event) => {
@@ -82,8 +104,13 @@ const ResetPassword = () => {
 
     if (id) {
       var { password, confirm_password } = document.forms[0];
-
-      if (password.value === confirm_password.value) {
+      if (password.value === "") {
+        setErrorMessagesPassword(errors.null);
+      }
+      else if (confirm_password.value === "") {
+        setErrorMessagesConfirmPassword(errors.null);
+      }
+      else if (password.value === confirm_password.value) {
         updateCustomer(id, {
           password: password.value,
           email: data.user.email,
@@ -189,7 +216,7 @@ const ResetPassword = () => {
     );
 
   const renderErrorMessageConfirmPassword = () =>
-    errorMessagesPassword && (
+    errorMessagesConfirmPassword && (
       <div className="error">{errorMessagesConfirmPassword}</div>
     );
 
@@ -246,14 +273,14 @@ const ResetPassword = () => {
                       <FormControl variant="outlined">
                         <InputLabel
                           htmlFor="outlined-adornment-password"
-                          error={errorMessagesPassword}
+                          error={errorMessagesConfirmPassword}
                         >
                           Ulangi Password
                         </InputLabel>
                         <OutlinedInput
                           id="outlined-adornment-confirm-password"
                           type={showPassword ? "text" : "password"}
-                          error={errorMessagesPassword}
+                          error={errorMessagesConfirmPassword}
                           endAdornment={
                             <InputAdornment position="end">
                               <IconButton
@@ -272,11 +299,11 @@ const ResetPassword = () => {
                           }
                           label="Ulangi Password"
                           name="confirm_password"
-                          onChange={handleChangePassword}
+                          onChange={handleChangeConfirmPassword}
                         />
                       </FormControl>
+                      {renderErrorMessageConfirmPassword()}
                     </div>
-                    {renderErrorMessageConfirmPassword()}
                     <div className="button-container">
                       <input
                         type="submit"
