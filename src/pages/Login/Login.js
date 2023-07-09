@@ -191,6 +191,15 @@ const Login = () => {
                     />
                   </FormControl>
                   {renderErrorMessagePassword()}
+                  <div style={{ fontSize: "0.8rem" }}>
+                    Lupa Password?{" "}
+                    <Link
+                      to="/reset-password"
+                      style={{ textDecoration: "none", color: "black" }}
+                    >
+                      <strong>Klik untuk reset password</strong>
+                    </Link>
+                  </div>
                 </div>
                 <div className="button-container">
                   <input
@@ -201,7 +210,7 @@ const Login = () => {
                 </div>
               </form>
             </div>
-            <div style={{ marginTop: "2rem", fontSize: "0.9rem" }}>
+            <div style={{ marginTop: "1.5rem", fontSize: "0.9rem" }}>
               Belum punya akun?{" "}
               <Link
                 to="/signup"

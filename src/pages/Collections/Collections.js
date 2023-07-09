@@ -15,6 +15,7 @@ import { getCategories } from "../../services/category";
 import { getTypes } from "../../services/type";
 import { TbHanger } from "react-icons/tb";
 import { CgUnavailable, CgCheckO } from "react-icons/cg";
+import { getDetailInvoiceItems } from "../../services/detail-invoice-item";
 
 const defaultValues = {
   id: "",
@@ -59,6 +60,11 @@ const Collections = () => {
     ["get-types"],
     () => getTypes()
   );
+
+  // const { data: dataDetailItems, isFetching: isFetchingDetailItems } = useQuery(
+  //   ["get-types"],
+  //   () => getDetailInvoiceItems();
+  // );
 
   const collections = React.useMemo(() => {
     if (
