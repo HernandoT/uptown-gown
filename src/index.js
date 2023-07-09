@@ -39,6 +39,7 @@ import { ModalsProvider } from "@mantine/modals";
 import InvoiceForm from "./pages/Invoice/InvoiceForm";
 import ConfirmationToken from "./pages/ConfirmationToken/ConfirmationToken";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
+import Admin from "./pages/Admin/Admin";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -91,6 +92,7 @@ ReactDOM.render(
               <Route path="invoice/:id" element={<InvoiceForm />} />
               <Route path="expense" element={<Expense />} />
               <Route path="reports" element={<Reports />} />
+              <Route path="admin" element={<Admin />} />
               <Route path="change-password" element={<ChangePassword />} />
             </Route>
           </Routes>

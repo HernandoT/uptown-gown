@@ -90,6 +90,13 @@ const AdminNavbar = () => {
       label: "SETTINGS",
       items: [
         {
+          label: "Admin",
+          faIcon: "fa fa-lock",
+          onSelected: function () {
+            navigate("admin");
+          },
+        },
+        {
           label: "Change Password",
           faIcon: "fa fa-lock",
           onSelected: function () {

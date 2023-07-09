@@ -29,11 +29,14 @@ export const getAdmin = async (id = "") => {
   }
 };
 
-export const createAdmin = async ({ username = "", password = "" }) => {
+export const createAdmin = async ({ email = "", password = "", main = "", nama = "", nomor_telepon = "" }) => {
   try {
     await addDoc(collection(db, field.admin), {
-      username,
+      email,
       password,
+      main,
+      nama,
+      nomor_telepon
     });
     queryClient.refetchQueries(["get-admins"]);
   } catch (e) {
@@ -43,12 +46,15 @@ export const createAdmin = async ({ username = "", password = "" }) => {
 
 export const updateAdmin = async (
   id = "",
-  { username = "", password = "" }
+  { email = "", password = "", main = "", nama = "", nomor_telepon = "" }
 ) => {
   try {
     await updateDoc(doc(db, field.admin, id), {
-      username,
+      email,
       password,
+      main,
+      nama,
+      nomor_telepon
     });
     queryClient.refetchQueries(["get-admins"]);
   } catch (e) {
