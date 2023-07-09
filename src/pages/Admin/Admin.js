@@ -149,7 +149,7 @@ const Admin = () => {
               <TextField
                 id="search"
                 type="search"
-                label="Cari menurut nomor telepon"
+                label="Cari menurut nama"
                 className="customer-search-input"
                 value={searchTerm}
                 onChange={handleChange}
