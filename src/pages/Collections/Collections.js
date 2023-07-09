@@ -61,17 +61,18 @@ const Collections = () => {
     () => getTypes()
   );
 
-  // const { data: dataDetailItems, isFetching: isFetchingDetailItems } = useQuery(
-  //   ["get-types"],
-  //   () => getDetailInvoiceItems();
-  // );
+  const { data: dataDetailItems, isFetching: isFetchingDetailItems } = useQuery(
+    ["get-detail-invoice-items"],
+    () => getDetailInvoiceItems()
+  );
 
   const collections = React.useMemo(() => {
     if (
       !isFetching &&
       !isFetchingCategories &&
       !isFetchingColors &&
-      !isFetchingTypes
+      !isFetchingTypes &&
+      !isFetchingDetailItems
     ) {
       let dataCollection = data?.data;
       let availableCollection = 0;
@@ -94,6 +95,9 @@ const Collections = () => {
         collection.warna = color.nama_warna;
         collection.kategori = category.nama_kategori;
         collection.jenis = type.nama_jenis;
+        collection.jumlah_tersewa = dataDetailItems?.data.filter(
+          (detailItem) => detailItem.id_collection === collection.id
+        ).length;
         return collection;
       });
       setTotalCollection(_collections.length);
@@ -106,14 +110,16 @@ const Collections = () => {
     isFetchingCategories,
     isFetchingColors,
     isFetchingTypes,
+    isFetchingDetailItems,
     data?.data,
+    dataDetailItems?.data,
     dataColors?.data,
     dataCategories?.data,
     dataTypes?.data,
   ]);
 
   const columns = [
-    { field: "nama", headerName: "Nama", minWidth: 200, flex: 1 },
+    { field: "nama", headerName: "Nama", minWidth: 150, flex: 2 },
     {
       field: "harga",
       headerName: "Harga",
@@ -128,15 +134,28 @@ const Collections = () => {
         return <>{currencyFormat(row.harga)}</>;
       },
     },
-    { field: "warna", headerName: "Warna", minWidth: 100, flex: 1 },
-    { field: "kategori", headerName: "Kategori", minWidth: 100, flex: 1 },
-    { field: "jenis", headerName: "Jenis", minWidth: 100, flex: 1 },
-    { field: "deskripsi", headerName: "Deskripsi", minWidth: 200, flex: 2 },
-    { field: "status", headerName: "Status", minWidth: 100, flex: 1 },
+    { field: "warna", headerName: "Warna", minWidth: 75, flex: 1 },
+    { field: "kategori", headerName: "Kategori", minWidth: 75, flex: 1 },
+    { field: "jenis", headerName: "Jenis", minWidth: 75, flex: 1 },
+    { field: "deskripsi", headerName: "Deskripsi", minWidth: 150, flex: 2 },
+    { field: "status", headerName: "Status", minWidth: 75, flex: 1 },
+    {
+      field: "jumlah_tersewa",
+      headerName: "Tersewakan",
+      minWidth: 75,
+      flex: 1,
+      renderCell: ({ row }) => {
+        return (
+          <div style={{ display: "flex", width: "100%", justifyContent: "center" }}>
+            {row.jumlah_tersewa}x
+          </div>
+        );
+      },
+    },
     {
       field: "action",
       headerName: "Action",
-      minWidth: 50,
+      minWidth: 75,
       flex: 0.5,
       sortable: false,
       disableColumnMenu: true,
@@ -175,34 +194,47 @@ const Collections = () => {
       <AdminTitle props={"All Collections"} />
       <div className="collections-content">
         <div className="collections-card">
-          <div className="card-container" style={{backgroundColor:"rgba(237, 191, 82, 0.2)"}}>
+          <div
+            className="card-container"
+            style={{ backgroundColor: "rgba(237, 191, 82, 0.2)" }}
+          >
             <TbHanger
               className="collections-card-icon"
-              style={{color: "#EDBF52"}}
+              style={{ color: "#EDBF52" }}
             />
-            <div style={{ flex: 1, zIndex:2 }}>
+            <div style={{ flex: 1, zIndex: 2 }}>
               <div>Total Collections</div>
               <div className="collections-card-value">{totalCollection}</div>
             </div>
           </div>
-          <div className="card-container" style={{backgroundColor:"rgba(0, 128, 0, 0.2)"}}>
+          <div
+            className="card-container"
+            style={{ backgroundColor: "rgba(0, 128, 0, 0.2)" }}
+          >
             <CgCheckO
               className="collections-card-icon"
-              style={{color: "green"}}
+              style={{ color: "green" }}
             />
-            <div style={{ flex: 1, zIndex:2 }}>
+            <div style={{ flex: 1, zIndex: 2 }}>
               <div>Available Collection</div>
-              <div className="collections-card-value">{availableCollection}</div>
+              <div className="collections-card-value">
+                {availableCollection}
+              </div>
             </div>
           </div>
-          <div className="card-container" style={{backgroundColor:"rgba(255, 0, 0, 0.2)"}}>
+          <div
+            className="card-container"
+            style={{ backgroundColor: "rgba(255, 0, 0, 0.2)" }}
+          >
             <CgUnavailable
               className="collections-card-icon"
-              style={{color: "red"}}
+              style={{ color: "red" }}
             />
-            <div style={{ flex: 1, zIndex:2 }}>
+            <div style={{ flex: 1, zIndex: 2 }}>
               <div>Unavailable Collection</div>
-              <div className="collections-card-value">{unavailableCollection}</div>
+              <div className="collections-card-value">
+                {unavailableCollection}
+              </div>
             </div>
           </div>
         </div>
