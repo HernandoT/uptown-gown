@@ -15,12 +15,15 @@ import "./SignUp.css";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../services/firebase";
 import emailjs from "@emailjs/browser";
-import { createCustomer } from "../../services/customer";
+import { createCustomer, getCustomers } from "../../services/customer";
+import { getAdmins } from "../../services/admin";
+import { useQuery } from "@tanstack/react-query";
 
 const SignUp = () => {
   const navigate = useNavigate();
 
   const [customer, setCustomer] = useState([]);
+  const [account, setAccount] = useState([]);
   const [errorMessagesEmail, setErrorMessagesEmail] = useState("");
   const [errorMessagesNama, setErrorMessagesNama] = useState("");
   const [errorMessagesNomor, setErrorMessagesNomor] = useState("");
@@ -33,19 +36,29 @@ const SignUp = () => {
     event.preventDefault();
   };
 
-  const fetchCustomer = async () => {
-    await getDocs(collection(db, "customer")).then((querySnapshot) => {
-      const newData = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setCustomer(newData);
-    });
-  };
+  const { data: dataCustomer, isFetching: isFetchingCustomer } = useQuery(
+    ["get-customers"],
+    () => getCustomers()
+  );
+
+  const { data: dataAdmin, isFetching: isFetchingAdmin } = useQuery(
+    ["get-admins"],
+    () => getAdmins()
+  );
 
   useEffect(() => {
-    fetchCustomer();
-  }, []);
+    if (!isFetchingAdmin && !isFetchingCustomer) {
+      const acc = [];
+      const cust = dataCustomer.data.map((customer) => ({
+        ...customer,
+        isCustomer: true,
+      }));
+      const adm = dataAdmin.data.map((admin) => ({ ...admin, isAdmin: true }));
+      acc.push(cust);
+      acc[0].push(adm[0]);
+      setAccount(acc);
+    }
+  }, [dataAdmin, dataCustomer, isFetchingAdmin, isFetchingCustomer]);
 
   const errors = {
     email: "Email Telah Terdaftar",
@@ -128,7 +141,7 @@ const SignUp = () => {
     }
 
     // Find user signup info
-    const userData = customer.find((cust) => cust.email === email.value);
+    const userData = account[0].find((acc) => acc.email === email.value);
 
     // Compare user info
     if (userData) {
