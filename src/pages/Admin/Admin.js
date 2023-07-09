@@ -7,14 +7,10 @@ import { DataGrid } from "@mui/x-data-grid";
 
 import * as React from "react";
 import { useDisclosure } from "@mantine/hooks";
-// import CustomerForm from "./CustomerForm";
-import { getCustomers } from "../../services/customer";
 import { useQuery } from "@tanstack/react-query";
 import { Modal } from "@mantine/core";
 import DetailButton from "../../components/DetailButton";
-import { HiUserGroup, } from "react-icons/hi";
-import { BsPersonFillDash, BsPersonFillCheck } from "react-icons/bs";
-import { getAdmins } from "../../services/admin";
+import { getAdmin, getAdmins } from "../../services/admin";
 import AdminForm from "./AdminForm";
 
 const defaultValues = {
@@ -30,62 +26,73 @@ const Admin = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [currentData, setCurrentData] = React.useState(defaultValues);
   const [isEdit, setIsEdit] = React.useState(false);
+  const [column, setColumn] = React.useState([]);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const { data, isFetching } = useQuery(["get-admins"], () =>
-    getAdmins()
+  const { data, isFetching } = useQuery(["get-admins"], () => getAdmins());
+
+  const { data: dataAdmin, isFetching: isFetchingAdmin } = useQuery(
+    ["get-admin"],
+    () => getAdmin(localStorage.getItem("idAdmin"))
   );
 
   React.useEffect(() => {
-    if (data?.data) {
-      const dataAdmin = data?.data;
-      console.log(dataAdmin)
-      // dataAdmin.sort((a, b) =>
-      //   a.nama.toLowerCase() > b.nama.toLowerCase() ? 1 : -1
-      // );
+    if (!isFetching && !isFetchingAdmin) {
+      if (dataAdmin?.admin.main === "1") {
+        setColumn([
+          { field: "email", headerName: "Email", minWidth: 200, flex: 1 },
+          { field: "nama", headerName: "Nama", minWidth: 200, flex: 1 },
+          {
+            field: "nomor_telepon",
+            headerName: "Nomor Telepon",
+            minWidth: 200,
+            flex: 1,
+          },
+          {
+            field: "edit",
+            headerName: "Action",
+            minWidth: 50,
+            sortable: false,
+            disableColumnMenu: true,
+            headerAlign: "center",
+            renderCell: ({ row }) => {
+              const onClick = () => {
+                setCurrentData({
+                  email: row.email,
+                  nama: row.nama,
+                  password: row.password,
+                  nomor_telepon: row.nomor_telepon,
+                  main: row.main,
+                  id: row.id,
+                });
+                open();
+                setIsEdit(true);
+              };
+              return (
+                <>
+                  <DetailButton onClick={onClick} />
+                </>
+              );
+            },
+          },
+        ]);
+      } else {
+        setColumn([
+          { field: "email", headerName: "Email", minWidth: 200, flex: 1 },
+          { field: "nama", headerName: "Nama", minWidth: 200, flex: 1 },
+          {
+            field: "nomor_telepon",
+            headerName: "Nomor Telepon",
+            minWidth: 200,
+            flex: 1,
+          },
+        ]);
+      }
     }
-  }, [data?.data]);
-
-  const columns = [
-    { field: "email", headerName: "Email", minWidth: 200, flex: 1 },
-    { field: "nama", headerName: "Nama", minWidth: 200, flex: 1 },
-    {
-      field: "nomor_telepon",
-      headerName: "Nomor Telepon",
-      minWidth: 200,
-      flex: 1,
-    },
-    {
-      field: "edit",
-      headerName: "Action",
-      minWidth: 50,
-      sortable: false,
-      disableColumnMenu: true,
-      headerAlign: "center",
-      renderCell: ({ row }) => {
-        const onClick = () => {
-          setCurrentData({
-            email: row.email,
-            nama: row.nama,
-            password: row.password,
-            nomor_telepon: row.nomor_telepon,
-            main: row.main,
-            id: row.id,
-          });
-          open();
-          setIsEdit(true);
-        };
-        return (
-          <>
-            <DetailButton onClick={onClick} />
-          </>
-        );
-      },
-    },
-  ];
+  }, [data?.data, dataAdmin?.admin.main, isFetching, isFetchingAdmin, open]);
 
   const onClickAdd = React.useCallback(() => {
     setCurrentData(defaultValues);
@@ -136,53 +143,69 @@ const Admin = () => {
     <div className="customer">
       <AdminTitle props={"Admin"} />
       <div className="customer-content">
-        <div className="customer-search">
-          <TextField
-            id="search"
-            type="search"
-            label="Cari menurut nomor telepon"
-            className="customer-search-input"
-            value={searchTerm}
-            onChange={handleChange}
-            sx={{ width: "65%" }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-            style={{ backgroundColor: "white" }}
-          />
-          <button className="customer-add" onClick={onClickAdd}>
-            + TAMBAH ADMIN
-          </button>
-        </div>
-        <div style={{ height: 300, width: "100%" }}>
-          {isFetching ? (
-            <CircularProgress color="secondary" />
-          ) : (
-            <StyledDataGrid
-              // rows={(data?.data || []).filter((admin) =>
-              //   admin.nomor_telepon.includes(searchTerm.toLowerCase())
-              // )}
-              rows={(data?.data || [])}
-              columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: { page: 0, pageSize: 10 },
-                },
-              }}
-              pageSizeOptions={[5, 10, 15]}
-              style={{ height: "70vh" }}
-              className="card-container"
-              getRowClassName={(params) => `super-app-theme--${params.row.main}`}
-            />
-          )}
-        </div>
+        {!isFetching && !isFetchingAdmin ? (
+          <>
+            <div className="customer-search">
+              <TextField
+                id="search"
+                type="search"
+                label="Cari menurut nomor telepon"
+                className="customer-search-input"
+                value={searchTerm}
+                onChange={handleChange}
+                sx={{ width: "65%" }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+                style={{ backgroundColor: "white" }}
+              />
+              {dataAdmin?.admin.main === "1" ? (
+                <button className="customer-add" onClick={onClickAdd}>
+                  + TAMBAH ADMIN
+                </button>
+              ) : (
+                <></>
+              )}
+            </div>
+            <div style={{ height: 300, width: "100%" }}>
+              {isFetching ? (
+                <CircularProgress color="secondary" />
+              ) : (
+                <StyledDataGrid
+                  rows={(data?.data || []).filter((admin) =>
+                    admin.nama.toLowerCase().includes(searchTerm.toLowerCase())
+                  )}
+                  columns={column}
+                  initialState={{
+                    pagination: {
+                      paginationModel: { page: 0, pageSize: 10 },
+                    },
+                  }}
+                  pageSizeOptions={[5, 10, 15]}
+                  style={{ height: "70vh" }}
+                  className="card-container"
+                  getRowClassName={(params) =>
+                    `super-app-theme--${params.row.main}`
+                  }
+                />
+              )}
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
       <Modal opened={opened} centered onClose={close} withCloseButton={false}>
-        <AdminForm data={currentData} onClose={close} isEdit={isEdit} dataCustomer={isEdit ? [] : data?.data}/>
+        <AdminForm
+          data={currentData}
+          onClose={close}
+          isEdit={isEdit}
+          dataCustomer={isEdit ? [] : data?.data}
+        />
       </Modal>
     </div>
   );

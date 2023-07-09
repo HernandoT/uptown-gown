@@ -83,7 +83,7 @@ const AdminForm = ({
               nama: values.nama,
               nomor_telepon: values.nomor_telepon,
               password: "123456",
-              main: 0
+              main: "0"
             });
         notifications.show({
           title: isEdit ? "Edit Admin" : "Tambah Admin",
