@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import * as React from "react";
 import SelectField from "../field/select";
-import { getInvoicesBelumLunas } from "../../services/invoice";
+import { getInvoices, getInvoicesBelumLunas } from "../../services/invoice";
 import { getCustomers } from "../../services/customer";
 
 const InvoiceSelectInput = ({
@@ -22,8 +22,8 @@ const InvoiceSelectInput = ({
   const [isInitiate, setIsInitiate] = React.useState(false);
 
   const { data: invoiceList, isFetching } = useQuery(
-    ["get-invoices-belum-lunas"],
-    () => getInvoicesBelumLunas()
+    ["get-invoices"],
+    () => getInvoices()
   );
 
   const { data: dataCustomers, isFetching: isFetchingCustomers } = useQuery(
@@ -33,7 +33,12 @@ const InvoiceSelectInput = ({
 
   React.useEffect(() => {
     if (!isInitiate && !isFetching && !isFetchingCustomers) {
-      let invoices = invoiceList?.invoices;
+      let invoices = invoiceList?.data;
+      invoices.sort((a, b) =>
+        a.status_pelunasan.toLowerCase() > b.status_pelunasan.toLowerCase()
+          ? 1
+          : -1
+      );
       invoices = invoices.map((invoice) => {
         const cust = dataCustomers.data.find((customer) => {
           return customer.id === invoice.id_customer;
@@ -52,7 +57,7 @@ const InvoiceSelectInput = ({
       });
       const transformOptions = invoices.map((data) => ({
         value: data.id,
-        label: `${data.nama_customer} - ${data.nomor_customer} - ${data.id}`,
+        label: `${data.id} - ${data.nama_customer} - ${data.nomor_customer} - ${data.status_pelunasan}`,
         extra: data,
       }));
       setOptions(transformOptions);

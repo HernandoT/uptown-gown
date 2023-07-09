@@ -716,17 +716,13 @@ const IsolatedForm = ({
                 <>
                   <p>
                     <strong>List Pengeluaran:</strong>
-                    {!isFinished ? (
-                      <button
+                    <button
                       style={{ width: 50, marginLeft: 12 }}
                       type="button"
                       onClick={onClickAddExpense}
                     >
                       +
                     </button>
-                    ) : (
-                      <></>
-                    )}
                   </p>
                   {dataExpense.expenses.length === 0 ? (
                     <>
