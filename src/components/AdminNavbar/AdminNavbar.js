@@ -3,9 +3,15 @@ import logo from "../../utils/assets/logo.png";
 import { MultilevelMenu } from "react-multilevel-menu";
 import { Outlet, useNavigate } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
+import { getAdmin } from "../../services/admin";
+import { useQuery } from "@tanstack/react-query";
 
 const AdminNavbar = () => {
   const navigate = useNavigate();
+
+  const { data, isFetching } = useQuery(["get-admin"], () =>
+    getAdmin(localStorage.getItem("idAdmin"))
+  );
 
   const list = [
     {
@@ -108,7 +114,7 @@ const AdminNavbar = () => {
           faIcon: "fa fa-sign-out",
           onSelected: function () {
             localStorage.setItem("isAdmin", false);
-            localStorage.setItem("idAdmin", "")
+            localStorage.setItem("idAdmin", "");
             navigate("/login");
           },
         },
@@ -131,6 +137,8 @@ const AdminNavbar = () => {
     <div>
       <div className="admin-navbar">
         <img src={logo} alt="logo" className="admin-navbar-icon" />
+        <div style={{ fontSize: 16}}><b>Logged In As:</b></div>
+        <div style={{ marginBottom: 24, fontSize: 14}}>{data?.admin.email}</div>
         <div className="main-menu">
           <MantineProvider>
             <MultilevelMenu
