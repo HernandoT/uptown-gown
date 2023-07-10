@@ -52,6 +52,7 @@ const ExpenseForm = ({
           .integer()
           .typeError("Nominal Wajib diisi dengan Angka"),
         tanggal: Yup.date().required(),
+        invoice: Yup.string().required("Harap dipilih terlebih dahulu"),
       }),
     []
   );

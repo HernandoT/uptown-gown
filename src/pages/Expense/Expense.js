@@ -78,7 +78,7 @@ const Expense = () => {
       minWidth: 200,
       flex: 2,
       renderCell: ({ row }) => {
-        if (!row.id_invoice) return <>-</>;
+        if (row.id_invoice === "-") return <>Pengeluaran Operasional Umum</>;
         else
           return (
             <div

@@ -60,6 +60,7 @@ const InvoiceSelectInput = ({
         label: `${data.id} - ${data.nama_customer} - ${data.nomor_customer} - ${data.status_pelunasan}`,
         extra: data,
       }));
+      transformOptions.unshift({value: "-", label: "Pengeluaran Operasional Umum"})
       setOptions(transformOptions);
       setIsInitiate(true);
     }
