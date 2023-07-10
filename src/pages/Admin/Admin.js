@@ -140,17 +140,17 @@ const Admin = () => {
   }));
 
   return (
-    <div className="customer">
+    <div className="expense">
       <AdminTitle props={"Admin"} />
-      <div className="customer-content">
+      <div className="expense-content">
         {!isFetching && !isFetchingAdmin ? (
           <>
-            <div className="customer-search">
+            <div className="expense-search">
               <TextField
                 id="search"
                 type="search"
                 label="Cari menurut nama"
-                className="customer-search-input"
+                className="expense-search-input"
                 value={searchTerm}
                 onChange={handleChange}
                 sx={{ width: "65%" }}
@@ -164,7 +164,7 @@ const Admin = () => {
                 style={{ backgroundColor: "white" }}
               />
               {dataAdmin?.admin.main === "1" ? (
-                <button className="customer-add" onClick={onClickAdd}>
+                <button className="expense-add" onClick={onClickAdd}>
                   + TAMBAH ADMIN
                 </button>
               ) : (
@@ -186,7 +186,7 @@ const Admin = () => {
                     },
                   }}
                   pageSizeOptions={[5, 10, 15]}
-                  style={{ height: "70vh" }}
+                  style={{ marginTop: "3%", height: "70vh" }}
                   className="card-container"
                   getRowClassName={(params) =>
                     `super-app-theme--${params.row.main}`
