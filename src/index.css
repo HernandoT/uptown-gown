@@ -190,7 +190,7 @@ body {
 }
 
 .react-datepicker__day--excluded {
-  background-color: #fbeaea;
-  border-radius: 50%;
-  pointer-events: none;
+  background-color: #fbeaea !important;
+  border-radius: 50% !important;
+  pointer-events: none !important;
 }

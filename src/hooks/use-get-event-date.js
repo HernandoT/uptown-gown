@@ -16,7 +16,13 @@ const useGetEventDate = (idCollection) => {
         const invoice = dataInvoice?.data.filter((inv) => {
           return inv.id === item.id_invoice;
         });
-        invoice.map((inv) => _list.push(inv.tanggal_acara));
+        invoice.map((inv) => {
+          _list.push(inv.tanggal_acara);
+          _list.push(inv.tanggal_acara.add(1, "day"));
+          _list.push(inv.tanggal_acara.add(2, "day"));
+          _list.push(inv.tanggal_acara.subtract(1, "day"));
+          _list.push(inv.tanggal_acara.subtract(2, "day"));
+        });
       });
     }
 
