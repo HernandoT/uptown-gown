@@ -15,6 +15,7 @@ import { getCategories } from "../../services/category";
 import { getTypes } from "../../services/type";
 import Separator from "../../components/separator";
 import Divider from "@mui/material/Divider";
+import { notifications } from "@mantine/notifications";
 
 const CollectionDetail = () => {
   const isLoged = localStorage.getItem("isLoged");
@@ -100,6 +101,30 @@ const CollectionDetail = () => {
     return "Rp. " + num?.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   }
 
+  // Function to add an item to session storage
+  function addItemToStorage(item) {
+    // Retrieve existing items from session storage
+    let items = JSON.parse(sessionStorage.getItem("items")) || [];
+
+    // Check if the maximum limit of 5 items has been reached
+    if (items.length >= 5) {
+      notifications.show({
+        title: "Tambah Koleksi Diinginkan",
+        message: "Koleksi yang dipilih telah mencapai batas",
+        color: "red",
+      });
+      return;
+    }
+
+    // Add the new item to the array
+    items.push(item);
+
+    // Store the updated array back to session storage
+    sessionStorage.setItem("items", JSON.stringify(items));
+
+    navigate("/appointment");
+  }
+
   return (
     <div className="collection-detail">
       <Navbar />
@@ -137,7 +162,10 @@ const CollectionDetail = () => {
             </div>
             <div className="card-container detail-buttons">
               <div style={{ margin: "0 0 8px" }}>
-                <b>Ingin tahu apakah koleksi ini tersedia untuk tanggal acara anda?</b>
+                <b>
+                  Ingin tahu apakah koleksi ini tersedia untuk tanggal acara
+                  anda?
+                </b>
               </div>
               Periksa ketersediaan koleksi dengan klik tombol dibawah ini.
               <button
@@ -154,7 +182,7 @@ const CollectionDetail = () => {
               mempersiapkannya saat kehadiran anda.
               <button
                 className="detail-button-appointment"
-                onClick={() => navigate("/appointment", { state: collection })}
+                onClick={() => addItemToStorage(collection.nama)}
               >
                 BUAT APPOINTMENT
               </button>

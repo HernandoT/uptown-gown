@@ -19,21 +19,20 @@ import Separator from "../../components/separator";
 import { notifications } from "@mantine/notifications";
 import { Timestamp } from "firebase/firestore";
 import { createAppointment } from "../../services/appointment";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useGetAppointmentedDate from "../../hooks/use-get-appointmented-date";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
-import { MobileDateTimePicker, MobileTimePicker } from "@mui/x-date-pickers";
 
 const Appointment = () => {
-  const { state } = useLocation();
+  const state = JSON.parse(sessionStorage.getItem("items"));
   const isLoged = localStorage.getItem("isLoged");
   const idCustomer = localStorage.getItem("idCustomer");
 
   const elevenAM = dayjs().set("hour", 11).startOf("hour");
-  const sixPM = dayjs().set("hour", 18).startOf("hour");
+  const fivePM = dayjs().set("hour", 17).startOf("hour");
 
   const navigate = useNavigate();
 
@@ -97,7 +96,8 @@ const Appointment = () => {
         color: "red",
       });
     } finally {
-      setSelectedCollection(null);
+      sessionStorage.setItem("items", JSON.stringify([]));
+      setSelectedCollection([]);
       setSelectedDate(new Date());
       setDisplayDate("Pilih tanggal pada kalender");
       setKeterangan("");
@@ -120,7 +120,7 @@ const Appointment = () => {
   }
 
   function checkIsValidTime(time) {
-    const validTime = elevenAM <= time && time <= sixPM;
+    const validTime = elevenAM <= time && time <= fivePM;
     setIsValidTime(validTime);
     return validTime;
   }
@@ -139,6 +139,26 @@ const Appointment = () => {
 
   const renderErrorMessageTime = () =>
     errorMessagesTime && <div className="error">{errorMessagesTime}</div>;
+
+  // Function to delete an item from session storage
+  function deleteItemFromStorage(index) {
+    // Retrieve existing items from session storage
+    let items = JSON.parse(sessionStorage.getItem("items")) || [];
+
+    // Check if the index is valid
+    if (index < 0 || index >= items.length) {
+      console.log("Invalid index");
+      return;
+    }
+
+    // Remove the item at the specified index
+    items.splice(index, 1);
+
+    // Store the updated array back to session storage
+    sessionStorage.setItem("items", JSON.stringify(items));
+
+    setSelectedCollection(JSON.parse(sessionStorage.getItem("items")) || []);
+  }
 
   return (
     <div className="content">
@@ -202,7 +222,7 @@ const Appointment = () => {
                   label="Waktu Appointment"
                   defaultValue={selectedTime}
                   minTime={elevenAM}
-                  maxTime={sixPM}
+                  maxTime={fivePM}
                   onChange={(time) => {
                     setSelectedTime(time);
                     changeDisplayTime(time);
@@ -213,18 +233,32 @@ const Appointment = () => {
               {renderErrorMessageTime()}
             </div>
           </div>
-          {selectedCollection ? (
+          {selectedCollection?.length !== 0 ? (
             <>
               <p>
-                <b>Koleksi yang diinginkan:</b>
-                <button
-                  className="appointment-changecol-button"
-                  onClick={() => navigate("/rent")}
-                >
-                  Ganti Koleksi
-                </button>
+                <b>Koleksi yang diinginkan: (Maksimal 5)</b>
+                {selectedCollection?.length === 5 ? (
+                  <></>
+                ) : (
+                  <button
+                    className="appointment-changecol-button"
+                    onClick={() => navigate("/rent")}
+                  >
+                    Tambah Koleksi
+                  </button>
+                )}
               </p>
-              <div className="collection-card card-container">
+              {selectedCollection?.map((collection, index) => {
+                return (
+                  <>
+                    <div>{collection}</div>
+                    <button onClick={() => deleteItemFromStorage(index)}>
+                      delete
+                    </button>
+                  </>
+                );
+              })}
+              {/* <div className="collection-card card-container">
                 <div class="appointment-img-container">
                   <img
                     src={selectedCollection.gambar}
@@ -238,7 +272,7 @@ const Appointment = () => {
                     {currencyFormat(selectedCollection.harga)}
                   </div>
                 </div>
-              </div>
+              </div> */}
             </>
           ) : (
             <>
