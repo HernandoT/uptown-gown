@@ -44,7 +44,7 @@ const Navbar = () => {
                 localStorage.setItem("idCustomer", "");
                 navigate("/");
               }}
-              style={{ float: "right", marginRight: "5%" }}
+              style={{ float: "right", marginRight: "5%", cursor:"pointer" }}
             ></i>
             <NavLink to="/profile" className={({ isActive }) => (isActive ? "linkActive" : "link")}>
               <div className="navbar-email">

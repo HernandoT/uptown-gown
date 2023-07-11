@@ -35,6 +35,7 @@ export const styles = {
         position: 'fixed',
         bottom: '116px',
         right: '24px',
+        zIndex: '2',
         // Size
         width: '420px',
         height: '530px',
