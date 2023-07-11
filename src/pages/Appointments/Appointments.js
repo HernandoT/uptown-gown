@@ -104,19 +104,19 @@ const Appointments = () => {
     {
       field: "tanggal",
       headerName: "Tanggal",
-      minWidth: 100,
-      flex: 1,
+      minWidth: 75,
+      flex: 0.75,
       renderCell: ({ row }) => {
         return <>{dayjs(row.tanggal).format("DD/MM/YYYY")}</>;
       },
     },
-    { field: "waktu", headerName: "Waktu", minWidth: 100, flex: 1 },
-    { field: "keterangan", headerName: "Keterangan", minWidth: 200, flex: 2 },
+    { field: "waktu", headerName: "Waktu", minWidth: 75, flex: 0.75 },
+    { field: "keterangan", headerName: "Keterangan", minWidth: 150, flex: 1 },
     {
       field: "status",
       headerName: "Status",
-      minWidth: 100,
-      flex: 1,
+      minWidth: 75,
+      flex: 0.75,
       renderCell: ({ row }) => {
         if (row.status === 1)
           return <div style={{ color: "orange" }}>PENDING</div>;
@@ -124,6 +124,18 @@ const Appointments = () => {
           return <div style={{ color: "green" }}>TERIMA</div>;
         else if (row.status === 3)
           return <div style={{ color: "red" }}>TOLAK</div>;
+      },
+    },
+    {
+      field: "selesai",
+      headerName: "Selesai",
+      minWidth: 50,
+      flex: 0.5,
+      renderCell: ({ row }) => {
+        if (row.selesai === 1)
+          return <div style={{}}>SELESAI</div>;
+        else if (row.selesai === 0)
+          return <div style={{}}>BELUM</div>;
       },
     },
     {

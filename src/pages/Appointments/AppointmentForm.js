@@ -29,22 +29,6 @@ import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const AppointmentForm = () => {
-  const [opened, { open, close }] = useDisclosure(false);
-  const [selectedTime, setSelectedTime] = React.useState(
-    dayjs().set("hour", 12).startOf("hour")
-  );
-  const [displayTime, setDisplayTime] = React.useState("12:00 WIB");
-
-  const changeDisplayTime = (selectedTime) => {
-    const hour = selectedTime.get("hour").toString();
-    let minute = selectedTime.get("minute").toString();
-    if (minute.length === 1) minute = `0${minute}`;
-    setDisplayTime(hour + ":" + minute + " WIB");
-  };
-
-  const elevenAM = dayjs().set("hour", 11).startOf("hour");
-  const sixPM = dayjs().set("hour", 18).startOf("hour");
-
   //Get Detail
   const { id } = useParams();
   const { data, isSuccess, isFetching } = useQuery(
@@ -67,6 +51,23 @@ const AppointmentForm = () => {
     }),
     [data]
   );
+
+  const [isSelesai, setIsSelesai] = React.useState(false);
+  const [opened, { open, close }] = useDisclosure(false);
+  const [selectedTime, setSelectedTime] = React.useState(
+    dayjs().set("hour", 12).startOf("hour")
+  );
+  const [displayTime, setDisplayTime] = React.useState("12:00 WIB");
+
+  const changeDisplayTime = (selectedTime) => {
+    const hour = selectedTime.get("hour").toString();
+    let minute = selectedTime.get("minute").toString();
+    if (minute.length === 1) minute = `0${minute}`;
+    setDisplayTime(hour + ":" + minute + " WIB");
+  };
+
+  const elevenAM = dayjs().set("hour", 11).startOf("hour");
+  const sixPM = dayjs().set("hour", 18).startOf("hour");
 
   const yupSchema = React.useMemo(
     () =>
@@ -95,6 +96,7 @@ const AppointmentForm = () => {
               tanggal: Timestamp.fromDate(new Date(values.tanggal)),
               waktu: displayTime,
               status: parseInt(values.status),
+              selesai: isSelesai ? 1 : 0,
             })
           : createAppointment({
               keterangan: values.keterangan,
@@ -102,6 +104,7 @@ const AppointmentForm = () => {
               tanggal: Timestamp.fromDate(new Date(values.tanggal)),
               waktu: displayTime,
               status: 2,
+              selesai: isSelesai ? 1 : 0,
             });
         notifications.show({
           title: data?.appointment ? "Edit Appointment" : "Tambah Appointment",
@@ -122,7 +125,7 @@ const AppointmentForm = () => {
         navigate("/admin/appointment");
       }
     },
-    [data?.appointment, displayTime, id, navigate]
+    [data?.appointment, displayTime, id, isSelesai, navigate]
   );
 
   const onClickAdd = React.useCallback(() => {
@@ -148,10 +151,15 @@ const AppointmentForm = () => {
     [listAppointmented, methods]
   );
 
+  const handleCheckboxChange = (event) => {
+    setIsSelesai(event.target.checked);
+  };
+
   //set value when get detail
   React.useEffect(() => {
     if (isSuccess) {
       methods.reset(defaultValues);
+      setIsSelesai(data?.appointment.selesai)
       if (data?.appointment.waktu) {
         setDisplayTime(data?.appointment.waktu);
         setSelectedTime(
@@ -196,12 +204,14 @@ const AppointmentForm = () => {
                 )}
               </div>
               <Separator _gap={24} />
-              <div style={{ display: "flex", gap:"24px", alignItems:"flex-end" }}>
+              <div
+                style={{ display: "flex", gap: "24px", alignItems: "flex-end" }}
+              >
                 <DateInputField
                   shouldDisableDate={shouldDisableDate}
                   name="tanggal"
                   label="Tanggal Appointment"
-                  style={{ flex: 1}}
+                  style={{ flex: 1 }}
                 />
                 <div style={{ flex: 1, width: "100%" }}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -212,7 +222,7 @@ const AppointmentForm = () => {
                         setSelectedTime(time);
                         changeDisplayTime(time);
                       }}
-                      sx={{width: '100%'}}
+                      sx={{ width: "100%" }}
                     />
                   </LocalizationProvider>
                 </div>
@@ -235,6 +245,14 @@ const AppointmentForm = () => {
                     ]}
                   />
                   <Separator _gap={24} />
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={isSelesai}
+                      onChange={handleCheckboxChange}
+                    />
+                    Selesai
+                  </label>
                 </>
               ) : (
                 <></>
