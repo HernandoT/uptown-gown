@@ -380,6 +380,7 @@ const IsolatedForm = ({
       keterangan: data?.invoice.keterangan,
       waktu_buat: data?.invoice.waktu_buat || new Date(),
       waktu_ubah: data?.invoice.waktu_ubah || new Date(),
+      waktu_lunas: data?.invoice.waktu_lunas || null,
       items: items,
     }),
     [data, items]
@@ -448,6 +449,7 @@ const IsolatedForm = ({
           keterangan: values.keterangan,
           waktu_buat: values.waktu_buat,
           waktu_ubah: values.waktu_ubah,
+          waktu_lunas: values.waktu_lunas
         };
 
         const fittings = values.items.map((item) => {
@@ -476,6 +478,7 @@ const IsolatedForm = ({
             keterangan: invoice.keterangan ?? "-",
             waktu_buat: invoice.waktu_buat,
             waktu_ubah: invoice.waktu_ubah,
+            waktu_lunas: invoice.waktu_lunas,
           });
           invoiceDoc.then((idInvoice) => {
             fittings.map((fitting, index) => {
@@ -545,6 +548,7 @@ const IsolatedForm = ({
             keterangan: invoice.keterangan ?? "-",
             waktu_buat: invoice.waktu_buat,
             waktu_ubah: Timestamp.fromDate(new Date()),
+            waktu_lunas: invoice.status_pelunasan === "Lunas" ? new Date() : invoice.waktu_lunas,
           });
 
           fittings.map(async (fitting, index) => {
@@ -792,8 +796,15 @@ const IsolatedForm = ({
               {isEdit ? (
                 <>
                   <p>
-                    <strong>Sisa Pembayaran:</strong>
-                    {defaultValues.harga_total - defaultValues.panjar}
+                    <div><strong style={{marginRight:"8px"}}>Sisa Pembayaran:</strong>
+                    {defaultValues.harga_total - defaultValues.panjar}</div>
+                    <div><strong style={{marginRight:"8px"}}>Tanggal Lunas:</strong>
+                    {defaultValues.waktu_lunas === null ? "-" : dayjs(defaultValues.waktu_lunas.toDate()).format("DD/MM/YYYY HH:mm A")}
+                    </div>
+                  </p>
+                  <p>
+                    <strong style={{marginRight:"8px"}}>Tanggal Selesai:</strong>
+                    {}
                   </p>
                 </>
               ) : (

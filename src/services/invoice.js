@@ -114,6 +114,7 @@ export const createInvoice = async ({
   keterangan,
   waktu_buat,
   waktu_ubah,
+  waktu_lunas,
 }) => {
   try {
     const docRef = await addDoc(collection(db, field.invoice), {
@@ -128,6 +129,7 @@ export const createInvoice = async ({
       keterangan,
       waktu_buat,
       waktu_ubah,
+      waktu_lunas,
     });
     queryClient.refetchQueries(["get-invoices"]);
     return docRef.id;
@@ -150,6 +152,7 @@ export const updateInvoice = async (
     keterangan = "",
     waktu_buat = "",
     waktu_ubah = "",
+    waktu_lunas = ""
   }
 ) => {
   try {
@@ -165,6 +168,7 @@ export const updateInvoice = async (
       keterangan,
       waktu_buat,
       waktu_ubah,
+      waktu_lunas,
     });
     queryClient.refetchQueries(["get-invoices"]);
   } catch (e) {
