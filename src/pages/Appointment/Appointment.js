@@ -71,12 +71,23 @@ const Appointment = () => {
 
   const addAppointment = (keterangan, selectedDate) => {
     let desc = "-";
-    if (keterangan && selectedCollection) {
-      desc = `Memilih koleksi "${selectedCollection.nama}" dengan keterangan tambahan "${keterangan}"`;
+    const checkedValuesString = checkedValues.map((value, index) => {
+      if (index === 0 && checkedValues.length === 2) {
+        return value + " dan ";
+      } else if (index === checkedValues.length - 1) {
+        return value;
+      } else if (index === checkedValues.length - 2) {
+        return value + ", dan ";
+      } else {
+        return value + ", ";
+      }
+    }).join("");
+    if (keterangan && checkedValuesString) {
+      desc = `Keterangan tambahan "${keterangan}" serta berencana untuk melakukan "${checkedValuesString}"`;
     } else if (keterangan) {
       desc = `Keterangan tambahan "${keterangan}"`;
-    } else if (selectedCollection) {
-      desc = `Memilih koleksi "${selectedCollection.nama}"`;
+    } else if (checkedValuesString) {
+      desc = `Berencana untuk melakukan "${checkedValuesString}"`;
     }
     try {
       createAppointment({
@@ -85,6 +96,7 @@ const Appointment = () => {
         tanggal: Timestamp.fromDate(new Date(selectedDate)),
         waktu: displayTime,
         status: 1,
+        koleksi: selectedCollection,
       });
       notifications.show({
         title: "Pengajuan Appointment",
@@ -104,6 +116,9 @@ const Appointment = () => {
       setDisplayDate("Pilih tanggal pada kalender");
       setKeterangan("");
       closeConfirm();
+      setRent("");
+      setCustomRent("");
+      setCustomMade("");
     }
   };
 
@@ -162,24 +177,26 @@ const Appointment = () => {
     setSelectedCollection(JSON.parse(sessionStorage.getItem("items")) || []);
   }
 
-  const [rent, setRent] = React.useState(state?.length ? "Rent" : '');
-  const [customRent, setCustomRent] = React.useState('');
-  const [customMade, setCustomMade] = React.useState('');
+  const [rent, setRent] = React.useState(state?.length ? "Rent" : "");
+  const [customRent, setCustomRent] = React.useState("");
+  const [customMade, setCustomMade] = React.useState("");
 
   const handleCheckboxChangeRent = (event) => {
     const { value, checked } = event.target;
-    setRent(checked ? value : '');
+    setRent(checked ? value : "");
   };
 
   const handleCheckboxChangeCustomRent = (event) => {
     const { value, checked } = event.target;
-    setCustomRent(checked ? value : '');
+    setCustomRent(checked ? value : "");
   };
 
   const handleCheckboxChangeCustomMade = (event) => {
     const { value, checked } = event.target;
-    setCustomMade(checked ? value : '');
+    setCustomMade(checked ? value : "");
   };
+
+  const checkedValues = [rent, customRent, customMade].filter(value => value !== "");
 
   return (
     <div className="content">
@@ -258,33 +275,35 @@ const Appointment = () => {
             <p>
               <b>Apa yang anda ingin bahas terkait Appointment nantinya?</b>
             </p>
-            <label>
-              <input
-                type="checkbox"
-                value="Rent"
-                checked={rent}
-                onChange={handleCheckboxChangeRent}
-              />
-              Rent
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                value="Custom Rent"
-                checked={customRent}
-                onChange={handleCheckboxChangeCustomRent}
-              />
-              Custom Rent
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                value="Custom Made"
-                checked={customMade}
-                onChange={handleCheckboxChangeCustomMade}
-              />
-              Custom Made
-            </label>
+            <div className="appointment-checkbox">
+              <label>
+                <input
+                  type="checkbox"
+                  value="Rent"
+                  checked={rent}
+                  onChange={handleCheckboxChangeRent}
+                />
+                Rent
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  value="Custom Rent"
+                  checked={customRent}
+                  onChange={handleCheckboxChangeCustomRent}
+                />
+                Custom Rent
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  value="Custom Made"
+                  checked={customMade}
+                  onChange={handleCheckboxChangeCustomMade}
+                />
+                Custom Made
+              </label>
+            </div>
           </div>
           {selectedCollection?.length !== 0 ? (
             <>
@@ -301,7 +320,7 @@ const Appointment = () => {
                   </button>
                 )}
               </p>
-              <div className="card-container">
+              <div className="card-container" style={{ marginBottom: "16px" }}>
                 {selectedCollection?.map((collection, index) => {
                   const isLastItem = index === selectedCollection.length - 1;
                   return (
@@ -403,10 +422,36 @@ const Appointment = () => {
             <Text>
               Apakah kamu yakin ingin mengajukan appointment untuk tanggal{" "}
               <b>{displayDate}</b> pada pukul <b>{displayTime}</b>
-              {selectedCollection ? " untuk membahas mengenai koleksi " : ""}
-              <b>{selectedCollection?.nama}</b>
+              {selectedCollection.length === 0 ? "" : " untuk membahas mengenai koleksi "}
+              {selectedCollection.map((collection, index) => (
+                <span>
+                  <b>{collection?.nama}</b>
+                  {index === 0 && selectedCollection.length === 2
+                    ? " dan "
+                    : index === selectedCollection.length - 1
+                    ? ""
+                    : index === selectedCollection.length - 2
+                    ? ", dan "
+                    : ", "
+                  }
+                </span>
+              ))}
               {keterangan === "" ? "" : " dengan keterangan tambahan "}
-              <b>{keterangan}</b>?
+              <b>{keterangan}</b>
+              {checkedValues.length === 0 ? "" : " serta berencana untuk melakukan "}
+              {checkedValues.map((values, index) => (
+                <span>
+                  <b>{values}</b>
+                  {index === 0 && checkedValues.length === 2
+                    ? " dan "
+                    : index === checkedValues.length - 1
+                    ? ""
+                    : index === checkedValues.length - 2
+                    ? ", dan "
+                    : ", "
+                  }
+                </span>
+              ))}?
             </Text>
             <Separator _gap={24} />
             <Flex justify="flex-end">

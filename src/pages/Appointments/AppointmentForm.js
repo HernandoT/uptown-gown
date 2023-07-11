@@ -27,6 +27,7 @@ import dayjs from "dayjs";
 import RadioInputField from "../../components/field/radio-input";
 import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Divider from "@mui/material/Divider";
 
 const AppointmentForm = () => {
   //Get Detail
@@ -97,6 +98,7 @@ const AppointmentForm = () => {
               waktu: displayTime,
               status: parseInt(values.status),
               selesai: isSelesai ? 1 : 0,
+              koleksi: values.koleksi,
             })
           : createAppointment({
               keterangan: values.keterangan,
@@ -105,6 +107,7 @@ const AppointmentForm = () => {
               waktu: displayTime,
               status: 2,
               selesai: isSelesai ? 1 : 0,
+              koleksi: [],
             });
         notifications.show({
           title: data?.appointment ? "Edit Appointment" : "Tambah Appointment",
@@ -159,7 +162,7 @@ const AppointmentForm = () => {
   React.useEffect(() => {
     if (isSuccess) {
       methods.reset(defaultValues);
-      setIsSelesai(data?.appointment.selesai)
+      setIsSelesai(data?.appointment.selesai);
       if (data?.appointment.waktu) {
         setDisplayTime(data?.appointment.waktu);
         setSelectedTime(
@@ -175,108 +178,136 @@ const AppointmentForm = () => {
     return null;
   }
 
+  console.log(data?.appointment.koleksi);
+
   return (
-    <div className="appointment-form">
-      <AdminTitle props={"Appointment"} />
-      <BackButton />
-      {isFetching ? (
-        <></>
-      ) : (
-        <>
-          <div className="appointment-form-content card-container">
-            <Form onSubmit={onSubmit} methods={methods}>
-              <div className="appointment-form-customer">
-                <CustomerSelectInput
-                  style={{ flex: "70" }}
-                  name="customer"
-                  disabled={data?.appointment}
-                />
-                {data?.appointment ? (
-                  <></>
-                ) : (
-                  <button
-                    className="appointment-form-customer-add"
-                    onClick={onClickAdd}
-                    type="button"
-                  >
-                    + TAMBAH CUSTOMER
-                  </button>
-                )}
-              </div>
-              <Separator _gap={24} />
-              <div
-                style={{ display: "flex", gap: "24px", alignItems: "flex-end" }}
-              >
-                <DateInputField
-                  shouldDisableDate={shouldDisableDate}
-                  name="tanggal"
-                  label="Tanggal Appointment"
-                  style={{ flex: 1 }}
-                />
-                <div style={{ flex: 1, width: "100%" }}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <TimePicker
-                      label="Waktu Appointment"
-                      defaultValue={selectedTime}
-                      onChange={(time) => {
-                        setSelectedTime(time);
-                        changeDisplayTime(time);
-                      }}
-                      sx={{ width: "100%" }}
-                    />
-                  </LocalizationProvider>
-                </div>
-              </div>
-              <Separator _gap={24} />
-              <TextInputField
-                label="Keterangan"
-                name="keterangan"
-                multiline={true}
-                rows={6}
-              />
-              <Separator _gap={24} />
-              {data?.appointment ? (
-                <>
-                  <RadioInputField
-                    name="status"
-                    options={[
-                      { value: "2", label: "Terima" },
-                      { value: "3", label: "Tolak" },
-                    ]}
+    <div className="appointment-form-container">
+      <div className="appointment-form">
+        <AdminTitle props={"Appointment"} />
+        <BackButton />
+        {isFetching ? (
+          <></>
+        ) : (
+          <>
+            <div className="appointment-form-content card-container">
+              <Form onSubmit={onSubmit} methods={methods}>
+                <div className="appointment-form-customer">
+                  <CustomerSelectInput
+                    style={{ flex: "70" }}
+                    name="customer"
+                    disabled={data?.appointment}
                   />
-                  <Separator _gap={24} />
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <strong>Status Kedatangan:</strong>
-                  <label style={{display:"flex", alignItems: "center"}}>
-                    <input
-                      type="checkbox"
-                      checked={isSelesai}
-                      onChange={handleCheckboxChange}
-                    />
-                    Selesai
-                  </label>
+                  {data?.appointment ? (
+                    <></>
+                  ) : (
+                    <button
+                      className="appointment-form-customer-add"
+                      onClick={onClickAdd}
+                      type="button"
+                    >
+                      + TAMBAH CUSTOMER
+                    </button>
+                  )}
+                </div>
+                <Separator _gap={24} />
+                <div
+                  style={{ display: "flex", gap: "24px", alignItems: "flex-end" }}
+                >
+                  <DateInputField
+                    shouldDisableDate={shouldDisableDate}
+                    name="tanggal"
+                    label="Tanggal Appointment"
+                    style={{ flex: 1 }}
+                  />
+                  <div style={{ flex: 1, width: "100%" }}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <TimePicker
+                        label="Waktu Appointment"
+                        defaultValue={selectedTime}
+                        onChange={(time) => {
+                          setSelectedTime(time);
+                          changeDisplayTime(time);
+                        }}
+                        sx={{ width: "100%" }}
+                      />
+                    </LocalizationProvider>
                   </div>
-                </>
-              ) : (
-                <></>
-              )}
-              <Flex justify="flex-end">
-                <button className="appointment-form-simpan" type="submit">
-                  SIMPAN
-                </button>
-              </Flex>
-            </Form>
-          </div>
-          <Modal
-            opened={opened}
-            centered
-            onClose={close}
-            withCloseButton={false}
-          >
-            <CustomerForm onClose={close} />
-          </Modal>
-        </>
-      )}
+                </div>
+                <Separator _gap={24} />
+                <TextInputField
+                  label="Keterangan"
+                  name="keterangan"
+                  multiline={true}
+                  rows={6}
+                />
+                <Separator _gap={24} />
+                {data?.appointment ? (
+                  <>
+                    {data?.appointment.koleksi.length !== 0 ? (
+                      <>
+                      <p style={{marginTop:0}}><strong>Koleksi:</strong></p>
+                      <div className="card-container" style={{ marginBottom: "8px", boxShadow:"none" }}>
+                        {data?.appointment.koleksi.map((collection, index) => {
+                          const isLastItem = index === data?.appointment.koleksi.length - 1;
+                          return (
+                            <>
+                              <div style={{ display: "flex" }}>
+                                <div style={{display: "flex", alignItems: "center", flex: 1}}>
+                                  <div class="appointment-img-container">
+                                    <img src={collection.gambar} alt="" class="appointment-img" />
+                                  </div>
+                                  <div style={{ margin: "0 24px" }}>{collection.nama}</div>
+                                </div>
+                              </div>
+                              {isLastItem ? null : (<Divider style={{ margin: "8px 0" }} />)}
+                            </>
+                          );
+                        })}
+                      </div>
+                      <Separator _gap={24} />
+                    </>
+                    ) : (<></>)}
+                    <RadioInputField
+                      name="status"
+                      options={[
+                        { value: "2", label: "Terima" },
+                        { value: "3", label: "Tolak" },
+                      ]}
+                    />
+                    <Separator _gap={24} />
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <strong>Status Kedatangan:</strong>
+                      <label style={{ display: "flex", alignItems: "center" }}>
+                        <input
+                          type="checkbox"
+                          checked={isSelesai}
+                          onChange={handleCheckboxChange}
+                        />
+                        Selesai
+                      </label>
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
+                <Flex justify="flex-end">
+                  <button className="appointment-form-simpan" type="submit">
+                    SIMPAN
+                  </button>
+                </Flex>
+              </Form>
+            </div>
+            <Modal
+              opened={opened}
+              centered
+              onClose={close}
+              withCloseButton={false}
+            >
+              <CustomerForm onClose={close} />
+            </Modal>
+          </>
+        )}
+      </div>
     </div>
   );
 };

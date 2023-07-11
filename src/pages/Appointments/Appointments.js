@@ -136,12 +136,15 @@ const Appointments = () => {
       renderCell: ({ row }) => {
         if (row.selesai === 1)
           return (
-            <div className="appointment-selesai-icon" style={{color:"green"}}><FaCheckCircle/></div>
+            <div className="appointments-selesai-icon" style={{color:"green"}}><FaCheckCircle/></div>
           )
         else if (row.selesai === 0)
           return (
-          // <div style={{}}><TbProgress/> BELUM</div>
-          <div className="appointment-selesai-icon" style={{color:"orange"}}><FaClock/></div>
+          <div className="appointments-selesai-icon" style={{color:"orange"}}><FaClock/></div>
+          )
+        else
+          return (
+            ""
           )
       },
     },
@@ -164,7 +167,7 @@ const Appointments = () => {
 
   return (
     <div className="appointments">
-      <AdminTitle props={"Appoinment"} />
+      <AdminTitle props={"Appointment"} />
       <div className="appointments-content">
         <div className="appointments-card">
           <div className="card-container">

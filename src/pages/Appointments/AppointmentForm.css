@@ -1,3 +1,8 @@
+.appointment-form-container {
+  height: 100vh;
+  overflow-y: scroll;
+}
+
 .appointment-form {
   display: flex;
   flex-direction: column;
@@ -10,7 +15,7 @@
 .appointment-form-content {
   margin: 1% 2% 3% 0;
   padding: 32px;
-  height: 65vh;
+
 }
 
 .appointment-form-customer {

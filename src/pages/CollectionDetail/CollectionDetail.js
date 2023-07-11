@@ -66,6 +66,7 @@ const CollectionDetail = () => {
       dataCollection.warna = color.nama_warna;
       dataCollection.kategori = category.nama_kategori;
       dataCollection.jenis = type.nama_jenis;
+      dataCollection.id = id;
       setIsInitiate(true);
       setCollection(dataCollection);
     }
@@ -111,6 +112,15 @@ const CollectionDetail = () => {
       notifications.show({
         title: "Tambah Koleksi Diinginkan",
         message: "Koleksi yang dipilih telah mencapai batas",
+        color: "red",
+      });
+      return;
+    }
+
+    if (items.find((existingItem) => existingItem.id === item.id)) {
+      notifications.show({
+        title: "Tambah Koleksi Diinginkan",
+        message: "Koleksi ini sudah ada dalam daftar",
         color: "red",
       });
       return;
