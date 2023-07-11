@@ -51,6 +51,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import DetailButton from "../../components/DetailButton";
 import ExpenseForm from "../Expense/ExpenseForm";
+import TextInputOnChangeField from "../../components/field/text-input-on-change";
 
 const typeInvoice = {
   Rent: "rent",
@@ -86,6 +87,95 @@ const IsolatedTotal = () => {
     />
   );
 };
+
+const IsolatedPanjar = () => {
+  const { control, setValue } = useFormContext();
+  const [items] = useWatch({
+    control,
+    name: ["items"],
+  });
+  React.useEffect(() => {
+    const total = items.reduce((prev, item) => {
+      if (typeof item.harga === "number") {
+        const harga = item.harga || 0;
+        return prev + harga;
+      } else {
+        const harga = parseFloat(item.harga || 0);
+        return prev + harga;
+      }
+    }, 0);
+    setValue("panjar", total / 2);
+  }, [items, setValue]);
+
+  return (
+    <TextInputField
+      name="panjar"
+      label="Panjar"
+      style={{ flex: 1, marginRight: 20 }}
+      disabled
+    />
+  );
+};
+
+const IsolatedDeposit = () => {
+  const { control, setValue } = useFormContext();
+  const [items] = useWatch({
+    control,
+    name: ["items"],
+  });
+  const [type] = useWatch({
+    control,
+    name: ["id_jenis_invoice"],
+  });
+  React.useEffect(() => {
+    const total = items.reduce((prev, item) => {
+      if (typeof item.harga === "number") {
+        const harga = item.harga || 0;
+        return prev + harga;
+      } else {
+        const harga = parseFloat(item.harga || 0);
+        return prev + harga;
+      }
+    }, 0);
+    if (type === "custom_made") setValue("deposit", 0);
+    else setValue("deposit", total);
+  }, [items, setValue, type]);
+
+  return (
+    <TextInputField
+      name="deposit"
+      label="Deposit"
+      style={{ flex: 1, marginRight: 20 }}
+      disabled
+    />
+  );
+};
+
+// const IsolatedHarga = ({ index, isEdit }) => {
+//   const { control, setValue } = useFormContext();
+//   const [items] = useWatch({
+//     control,
+//     name: [`items[${index}].harga`],
+//   });
+//   const [harga, setHarga] = React.useState();
+//   React.useEffect(() => {
+//     setValue(`items[${index}].harga`, harga);
+//   }, [harga, index, setValue]);
+
+//   return (
+//     <TextInputOnChangeField
+//       name={`items[${index}].harga`}
+//       label="Collection"
+//       style={{ flex: 5 }}
+//       disabled={isEdit}
+//       value={harga}
+//       onChange={(event) => {
+//         setHarga(event.target.value);
+//         setValue(`items[${index}].harga`, event.target.value);
+//       }}
+//     />
+//   );
+// };
 
 const Items = ({ isEdit, isFinished }) => {
   const { control, setValue } = useFormContext();
@@ -191,7 +281,7 @@ const Items = ({ isEdit, isFinished }) => {
                 <CollectionSelectInput
                   name={`items[${index}].id_collection`}
                   style={{ flex: 5, marginRight: 20 }}
-                  disabled={isFinished}
+                  disabled={isEdit}
                   onAfterChangeDetail={(value) => {
                     if (!field?.gambar_sketsa) {
                       setValue(`items[${index}].gambar_sketsa`, [
@@ -207,14 +297,15 @@ const Items = ({ isEdit, isFinished }) => {
                   name={`items[${index}].nama_item`}
                   label="Collection"
                   style={{ flex: 5, marginRight: 20 }}
-                  disabled={isFinished}
+                  disabled={isEdit}
                 />
               )}
+              {/* <IsolatedHarga index={index} isEdit={isEdit} /> */}
               <TextInputField
                 name={`items[${index}].harga`}
                 label="Harga"
                 style={{ flex: 5 }}
-                disabled={isFinished}
+                disabled={isEdit}
               />
               {isFinished ? (
                 <></>
@@ -661,10 +752,14 @@ const IsolatedForm = ({
                 <InvoiceTypeSelectInput
                   name="id_jenis_invoice"
                   style={{ marginTop: 8, marginRight: 20, flex: 1 }}
-                  disabled={isEdit ? true : false}
-                  onChangeExtend={() => {
-                    methods.setValue("items", []);
-                  }}
+                  // disabled={isEdit ? true : false}
+                  onChangeExtend={
+                    !isEdit
+                      ? () => {
+                          methods.setValue("items", []);
+                        }
+                      : () => {}
+                  }
                 />
                 <div style={{ flex: 1 }}>
                   <DateInputField
@@ -678,18 +773,14 @@ const IsolatedForm = ({
               <Items isEdit={isEdit} isFinished={isFinished} />
               <div style={{ display: "flex", height: "auto" }}>
                 <IsolatedTotal />
-                <TextInputField
-                  name="panjar"
-                  label="Panjar"
-                  style={{ flex: 1, marginRight: 20 }}
-                  disabled={isFinished}
-                />
-                <TextInputField
+                <IsolatedPanjar />
+                <IsolatedDeposit />
+                {/* <TextInputField
                   name="deposit"
                   label="Deposit"
                   style={{ flex: 1 }}
                   disabled={isFinished}
-                />
+                /> */}
               </div>
               <Separator _gap={24} />
               <TextInputField
@@ -697,6 +788,17 @@ const IsolatedForm = ({
                 label="Biaya Tambahan"
                 disabled={isFinished}
               />
+              <Separator _gap={12} />
+              {isEdit ? (
+                <>
+                  <p>
+                    <strong>Sisa Pembayaran:</strong>
+                    {defaultValues.harga_total - defaultValues.panjar}
+                  </p>
+                </>
+              ) : (
+                <></>
+              )}
               <Separator _gap={12} />
               <p>
                 <strong>Status Pelunasan:</strong>
