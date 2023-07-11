@@ -162,6 +162,25 @@ const Appointment = () => {
     setSelectedCollection(JSON.parse(sessionStorage.getItem("items")) || []);
   }
 
+  const [rent, setRent] = React.useState(state?.length ? "Rent" : '');
+  const [customRent, setCustomRent] = React.useState('');
+  const [customMade, setCustomMade] = React.useState('');
+
+  const handleCheckboxChangeRent = (event) => {
+    const { value, checked } = event.target;
+    setRent(checked ? value : '');
+  };
+
+  const handleCheckboxChangeCustomRent = (event) => {
+    const { value, checked } = event.target;
+    setCustomRent(checked ? value : '');
+  };
+
+  const handleCheckboxChangeCustomMade = (event) => {
+    const { value, checked } = event.target;
+    setCustomMade(checked ? value : '');
+  };
+
   return (
     <div className="content">
       <Navbar />
@@ -235,6 +254,38 @@ const Appointment = () => {
               {renderErrorMessageTime()}
             </div>
           </div>
+          <div>
+            <p>
+              <b>Apa yang anda ingin bahas terkait Appointment nantinya?</b>
+            </p>
+            <label>
+              <input
+                type="checkbox"
+                value="Rent"
+                checked={rent}
+                onChange={handleCheckboxChangeRent}
+              />
+              Rent
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                value="Custom Rent"
+                checked={customRent}
+                onChange={handleCheckboxChangeCustomRent}
+              />
+              Custom Rent
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                value="Custom Made"
+                checked={customMade}
+                onChange={handleCheckboxChangeCustomMade}
+              />
+              Custom Made
+            </label>
+          </div>
           {selectedCollection?.length !== 0 ? (
             <>
               <p>
@@ -251,45 +302,48 @@ const Appointment = () => {
                 )}
               </p>
               <div className="card-container">
-              {selectedCollection?.map((collection, index) => {
-                const isLastItem = index === selectedCollection.length - 1;
-                return (
-                  <>
-                    <div style={{display:"flex"}}>
-                      <div style={{display:"flex", alignItems:"center", flex:1}}>
-                        <div class="appointment-img-container">
-                          <img src={collection.gambar} alt="" class="appointment-img"/>
+                {selectedCollection?.map((collection, index) => {
+                  const isLastItem = index === selectedCollection.length - 1;
+                  return (
+                    <>
+                      <div style={{ display: "flex" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            flex: 1,
+                          }}
+                        >
+                          <div class="appointment-img-container">
+                            <img
+                              src={collection.gambar}
+                              alt=""
+                              class="appointment-img"
+                            />
+                          </div>
+                          <div style={{ margin: "0 8px" }}>
+                            {collection.nama}
+                          </div>
+                          <div style={{ color: "#c69738", fontWeight: "600" }}>
+                            {currencyFormat(collection.harga)}
+                          </div>
                         </div>
-                        <div style={{margin:"0 8px"}}>{collection.nama}</div>
-                        <div style={{ color: "#c69738", fontWeight: "600" }}>
-                          {currencyFormat(collection.harga)}
-                        </div>
+                        <button
+                          className="appointment-delete-button"
+                          onClick={() => deleteItemFromStorage(index)}
+                        >
+                          <div>
+                            <FaTrashAlt /> Hapus
+                          </div>
+                        </button>
                       </div>
-                      <button className="appointment-delete-button" onClick={() => deleteItemFromStorage(index)}>
-                        <div><FaTrashAlt /> Hapus</div>
-                      </button>
-                    </div>
-                    {isLastItem ? null : <Divider style={{ margin: "8px 0" }} />}
-                  </>
-                );
-              })}
+                      {isLastItem ? null : (
+                        <Divider style={{ margin: "8px 0" }} />
+                      )}
+                    </>
+                  );
+                })}
               </div>
-
-              {/* <div className="collection-card card-container">
-                <div class="appointment-img-container">
-                  <img
-                    src={selectedCollection.gambar}
-                    alt=""
-                    class="appointment-img"
-                  />
-                </div>
-                <div style={{ margin: "0 8px 0 16px" }}>
-                  <div>{selectedCollection.nama}</div>
-                  <div style={{ color: "#c69738", fontWeight: "600" }}>
-                    {currencyFormat(selectedCollection.harga)}
-                  </div>
-                </div>
-              </div> */}
             </>
           ) : (
             <>
