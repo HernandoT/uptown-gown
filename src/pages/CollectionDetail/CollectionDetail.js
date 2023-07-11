@@ -182,7 +182,7 @@ const CollectionDetail = () => {
               mempersiapkannya saat kehadiran anda.
               <button
                 className="detail-button-appointment"
-                onClick={() => addItemToStorage(collection.nama)}
+                onClick={() => addItemToStorage(collection)}
               >
                 BUAT APPOINTMENT
               </button>

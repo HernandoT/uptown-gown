@@ -25,6 +25,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
+import Divider from "@mui/material/Divider";
+import { FaTrashAlt } from "react-icons/fa";
 
 const Appointment = () => {
   const state = JSON.parse(sessionStorage.getItem("items"));
@@ -248,16 +250,31 @@ const Appointment = () => {
                   </button>
                 )}
               </p>
+              <div className="card-container">
               {selectedCollection?.map((collection, index) => {
+                const isLastItem = index === selectedCollection.length - 1;
                 return (
                   <>
-                    <div>{collection}</div>
-                    <button onClick={() => deleteItemFromStorage(index)}>
-                      delete
-                    </button>
+                    <div style={{display:"flex"}}>
+                      <div style={{display:"flex", alignItems:"center", flex:1}}>
+                        <div class="appointment-img-container">
+                          <img src={collection.gambar} alt="" class="appointment-img"/>
+                        </div>
+                        <div style={{margin:"0 8px"}}>{collection.nama}</div>
+                        <div style={{ color: "#c69738", fontWeight: "600" }}>
+                          {currencyFormat(collection.harga)}
+                        </div>
+                      </div>
+                      <button className="appointment-delete-button" onClick={() => deleteItemFromStorage(index)}>
+                        <div><FaTrashAlt /> Hapus</div>
+                      </button>
+                    </div>
+                    {isLastItem ? null : <Divider style={{ margin: "8px 0" }} />}
                   </>
                 );
               })}
+              </div>
+
               {/* <div className="collection-card card-container">
                 <div class="appointment-img-container">
                   <img
