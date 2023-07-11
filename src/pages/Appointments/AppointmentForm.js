@@ -245,7 +245,9 @@ const AppointmentForm = () => {
                     ]}
                   />
                   <Separator _gap={24} />
-                  <label>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <strong>Status Kedatangan:</strong>
+                  <label style={{display:"flex", alignItems: "center"}}>
                     <input
                       type="checkbox"
                       checked={isSelesai}
@@ -253,6 +255,7 @@ const AppointmentForm = () => {
                     />
                     Selesai
                   </label>
+                  </div>
                 </>
               ) : (
                 <></>

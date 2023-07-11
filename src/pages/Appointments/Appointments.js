@@ -10,7 +10,9 @@ import { getCustomers } from "../../services/customer";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import DetailButton from "../../components/DetailButton";
-import { FaRegCalendarCheck, FaAngleRight, FaAngleDoubleRight } from "react-icons/fa";
+import { FaRegCalendarCheck, FaAngleRight, FaAngleDoubleRight, FaRegClock, FaRegCheckCircle, FaCheckCircle, FaClock } from "react-icons/fa";
+import { TbProgressCheck, TbProgress } from "react-icons/tb";
+import { lightBlue } from "@mui/material/colors";
 
 const Appointments = () => {
   const navigate = useNavigate();
@@ -133,9 +135,14 @@ const Appointments = () => {
       flex: 0.5,
       renderCell: ({ row }) => {
         if (row.selesai === 1)
-          return <div style={{}}>SELESAI</div>;
+          return (
+            <div className="appointment-selesai-icon" style={{color:"green"}}><FaCheckCircle/></div>
+          )
         else if (row.selesai === 0)
-          return <div style={{}}>BELUM</div>;
+          return (
+          // <div style={{}}><TbProgress/> BELUM</div>
+          <div className="appointment-selesai-icon" style={{color:"orange"}}><FaClock/></div>
+          )
       },
     },
     {
