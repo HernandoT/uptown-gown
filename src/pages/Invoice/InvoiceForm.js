@@ -15,6 +15,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal, Flex, Text, Paper } from "@mantine/core";
 import CustomerForm from "../Customer/CustomerForm";
 import DateInputField from "../../components/field/date-input";
+import DateInputFieldBasic from "../../components/field/date-input-basic";
 import InvoiceTypeSelectInput from "../../components/Select/invoice-type-select-input";
 import Separator from "../../components/separator";
 import TextInputField from "../../components/field/text-input";
@@ -694,6 +695,10 @@ const IsolatedForm = ({
     onSubmit(updatedInvoice);
   };
 
+  function currencyFormat(num) {
+    return "Rp. " + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  }
+
   const columns = [
     {
       field: "tanggal",
@@ -817,33 +822,23 @@ const IsolatedForm = ({
               {/* <Separator _gap={12} /> */}
               {isEdit ? (
                 <>
-                  <p>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "24px",
-                      }}
-                    >
-                      <span>
-                        <strong style={{ marginRight: "8px" }}>
-                          Sisa Pembayaran:
-                        </strong>
-                        {defaultValues.harga_total - defaultValues.panjar}
-                      </span>
-                      <div style={{ flex: 1 }}>
-                        <DateInputField 
-                          name="waktu_lunas" 
-                          label="Tanggal Lunas"
-                          disabled={defaultValues.status_pelunasan === "Belum Lunas" ? false : true}/>
-                      </div>
-                      {isFinished ? 
-                        <div style={{ flex: 1 }}>
-                          <DateInputField name="waktu_ubah" label="Tanggal Selesai" disabled={true}/>
-                        </div>
+                  <div>
+                    <p><strong style={{ marginRight: "8px" }}>Sisa Pembayaran:</strong>
+                    {currencyFormat(defaultValues.harga_total - defaultValues.panjar)}</p>
+                    <p style={{display:"flex", alignItems:"center"}}><strong style={{marginRight:"8px"}}>Tanggal Lunas:</strong>
+                        {defaultValues.status_pelunasan ==="Belum Lunas" ? (
+                          <DateInputFieldBasic name="waktu_lunas" />
+                        ) : (
+                          <span>{dayjs(defaultValues.waktu_lunas).format("DD/MM/YYYY")}</span>
+                        )}
+                      </p>
+                    {isFinished ? 
+                      <p>
+                        <strong style={{marginRight:"8px"}}>Tanggal Selesai:</strong>
+                        {dayjs(defaultValues.waktu_ubah).format("DD/MM/YYYY")}
+                      </p>
                       : <></>}
-                    </div>
-                  </p>
+                  </div>
                 </>
               ) : (
                 <></>
