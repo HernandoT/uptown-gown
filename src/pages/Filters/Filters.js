@@ -12,11 +12,13 @@ import { getColors } from "../../services/color";
 import { getCategories } from "../../services/category";
 import { getTypes } from "../../services/type";
 import Separator from "../../components/separator";
-import { height } from "@mui/system";
+import { getSizes } from "../../services/size";
+import FilterSizeForm from "./FilterSizeForm";
 
 const defaultValueColor = { nama_warna: "", kode_hex: "" };
 const defaultValueCategory = { nama: "" };
 const defaultValueType = { name: "" };
+const defaultValueSize = { nama_ukuran: "" };
 
 const Filters = () => {
   const [openedColor, { open: openColor, close: closeColor }] =
@@ -25,11 +27,14 @@ const Filters = () => {
     useDisclosure(false);
   const [openedType, { open: openType, close: closeType }] =
     useDisclosure(false);
+  const [openedSize, { open: openSize, close: closeSize }] =
+    useDisclosure(false);
 
   const [currentColor, setCurrentColor] = React.useState(defaultValueColor);
   const [currentType, setCurrentType] = React.useState(defaultValueType);
   const [currentCategory, setCurrentCategory] =
     React.useState(defaultValueCategory);
+  const [currentSize, setCurrentSize] = React.useState(defaultValueSize);
   const [isEdit, setIsEdit] = React.useState(false);
 
   const { data: colorList } = useQuery(["get-colors"], () => getColors());
@@ -37,6 +42,7 @@ const Filters = () => {
     getCategories()
   );
   const { data: typeList } = useQuery(["get-types"], () => getTypes());
+  const { data: sizeList } = useQuery(["get-sizes"], () => getSizes());
 
   const onClickAddColor = React.useCallback(() => {
     setCurrentColor(defaultValueColor);
@@ -55,6 +61,12 @@ const Filters = () => {
     setIsEdit(false);
     openType();
   }, [openType]);
+
+  const onClickAddSize = React.useCallback(() => {
+    setCurrentSize(defaultValueSize);
+    setIsEdit(false);
+    openSize();
+  }, [openSize]);
 
   const onClickEditColor = (color) => {
     setCurrentColor({
@@ -81,6 +93,15 @@ const Filters = () => {
       id: type.id,
     });
     openType();
+    setIsEdit(true);
+  };
+
+  const onClickEditSize = (size) => {
+    setCurrentSize({
+      nama_ukuran: size.nama_ukuran,
+      id: size.id,
+    });
+    openSize();
     setIsEdit(true);
   };
 
@@ -181,6 +202,27 @@ const Filters = () => {
             })}
           </Stack>
         </div>
+        <Separator _gap={36} />
+        <div className="card-container">
+          <div className="filters-head">
+            <b>U K U R A N</b>
+            <button className="filters-button" onClick={onClickAddSize}>
+              +
+            </button>
+          </div>
+          <Stack direction="row" flexWrap="wrap">
+            {(sizeList?.data || []).map((size) => {
+              return (
+                <Chip
+                  label={size.nama_ukuran}
+                  variant="outlined"
+                  onClick={() => onClickEditSize(size)}
+                  className="filters-chip"
+                />
+              );
+            })}
+          </Stack>
+        </div>
       </div>
       <Modal
         opened={openedColor}
@@ -215,6 +257,18 @@ const Filters = () => {
         <FilterTypeForm
           data={currentType}
           onClose={closeType}
+          isEdit={isEdit}
+        />
+      </Modal>
+      <Modal
+        opened={openedSize}
+        centered
+        onClose={closeSize}
+        withCloseButton={false}
+      >
+        <FilterSizeForm
+          data={currentSize}
+          onClose={closeSize}
           isEdit={isEdit}
         />
       </Modal>

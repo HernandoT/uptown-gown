@@ -3,6 +3,7 @@ export const field = {
   color: "warna",
   category: "kategori",
   type: "jenis",
+  size: "ukuran",
   expense: "pengeluaran",
   appointment: "appointment",
   collection: "collection",

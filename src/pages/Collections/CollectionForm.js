@@ -18,6 +18,7 @@ import { v4 } from "uuid";
 import { createCollection, updateCollection } from "../../services/collection";
 import { notifications } from "@mantine/notifications";
 import { Timestamp } from "firebase/firestore";
+import SizeSelectInput from "../../components/Select/size-select-input";
 
 const defaultValues = {
   id: "",
@@ -96,7 +97,9 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
           popular_collection: data.popular_collection
             ? data.popular_collection
             : 0,
-          created_at: data.created_at ? data.created_at : Timestamp.fromDate(new Date()),
+          created_at: data.created_at
+            ? data.created_at
+            : Timestamp.fromDate(new Date()),
         };
 
         isEdit ? updateCollection(data.id, _data) : createCollection(_data);
@@ -129,9 +132,9 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
       <Form onSubmit={onSubmit} methods={methods}>
         <Separator _gap={24} />
         <Flex direction="row">
-          <TextInputField label="Nama" name="nama" style={{flex:1}}/>
+          <TextInputField label="Nama" name="nama" style={{ flex: 1 }} />
           <Separator _gap={24} />
-          <TextInputField label="Harga" name="harga" style={{flex:1}}/>
+          <TextInputField label="Harga" name="harga" style={{ flex: 1 }} />
         </Flex>
         <Separator _gap={24} />
         <Flex direction="row">
@@ -140,6 +143,8 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
           <CategorySelectInput label="Kategori" name="id_kategori" />
           <Separator _gap={24} />
           <TypeSelectInput label="Jenis" name="id_jenis" />
+          <Separator _gap={24} />
+          <SizeSelectInput label="Ukuran" name="id_ukuran" />
         </Flex>
         <Separator _gap={24} />
         <TextInputField
