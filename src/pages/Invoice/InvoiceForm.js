@@ -429,8 +429,8 @@ const IsolatedForm = ({
     useDisclosure(false);
 
   const [openConfirmationDialog, { open: openConfirm, close: closeConfirm }] =
-  useDisclosure(false);
-  
+    useDisclosure(false);
+
   const [currentDataExpense, setCurrentDataExpense] = React.useState({
     tanggal: new Date(),
     nominal: 0,
@@ -443,12 +443,12 @@ const IsolatedForm = ({
     async (values) => {
       const tanggal_acara = new Date(values.tanggal_acara);
       tanggal_acara.setHours(7, 0, 0, 0);
-      const waktu_buat = new Date(values.waktu_buat);
-      waktu_buat.setHours(7, 0, 0, 0);
       const waktu_ubah = new Date(values.waktu_ubah);
       waktu_ubah.setHours(7, 0, 0, 0);
-      const waktu_lunas = new Date(values.waktu_lunas);
-      waktu_lunas.setHours(7, 0, 0, 0);
+      const waktu_lunas = values.waktu_lunas
+        ? new Date(values.waktu_lunas)
+        : null;
+      if (waktu_lunas) waktu_lunas.setHours(7, 0, 0, 0);
       try {
         const invoice = {
           id_customer: values.id_customer,
@@ -460,7 +460,7 @@ const IsolatedForm = ({
           deposit: values.deposit,
           status_pelunasan: values.status_pelunasan,
           keterangan: values.keterangan,
-          waktu_buat: waktu_buat,
+          waktu_buat: defaultValues.waktu_buat,
           waktu_ubah: waktu_ubah,
           waktu_lunas: waktu_lunas,
         };
@@ -482,7 +482,7 @@ const IsolatedForm = ({
           const invoiceDoc = createInvoice({
             id_customer: invoice.id_customer,
             id_jenis_invoice: invoice.id_jenis_invoice,
-            tanggal_acara: Timestamp.fromDate(new Date(invoice.tanggal_acara)),
+            tanggal_acara: Timestamp.fromDate(invoice.tanggal_acara),
             biaya_tambahan: invoice.biaya_tambahan,
             harga_total: invoice.harga_total,
             panjar: invoice.panjar,
@@ -553,7 +553,7 @@ const IsolatedForm = ({
           updateInvoice(id, {
             id_customer: invoice.id_customer,
             id_jenis_invoice: invoice.id_jenis_invoice,
-            tanggal_acara: Timestamp.fromDate(new Date(invoice.tanggal_acara)),
+            tanggal_acara: Timestamp.fromDate(invoice.tanggal_acara),
             biaya_tambahan: invoice.biaya_tambahan,
             harga_total: invoice.harga_total,
             panjar: invoice.panjar,
@@ -570,7 +570,7 @@ const IsolatedForm = ({
             // waktu_lunas: Timestamp.fromDate(new Date(invoice.waktu_lunas)) ?? null,
             waktu_lunas:
               invoice.waktu_lunas !== null
-                ? Timestamp.fromDate(new Date(invoice.waktu_lunas))
+                ? Timestamp.fromDate(invoice.waktu_lunas)
                 : invoice.waktu_lunas,
           });
 
@@ -831,21 +831,38 @@ const IsolatedForm = ({
               {isEdit ? (
                 <>
                   <div>
-                    <p><strong style={{ marginRight: "8px" }}>Sisa Pembayaran:</strong>
-                    {currencyFormat(defaultValues.harga_total - defaultValues.panjar)}</p>
-                    <p style={{display:"flex", alignItems:"center"}}><strong style={{marginRight:"8px"}}>Tanggal Lunas:</strong>
-                        {defaultValues.status_pelunasan ==="Belum Lunas" ? (
-                          <DateInputFieldBasic name="waktu_lunas" />
-                        ) : (
-                          <span>{dayjs(defaultValues.waktu_lunas).format("DD/MM/YYYY")}</span>
-                        )}
-                      </p>
-                    {isFinished ? 
+                    <p>
+                      <strong style={{ marginRight: "8px" }}>
+                        Sisa Pembayaran:
+                      </strong>
+                      {currencyFormat(
+                        defaultValues.harga_total - defaultValues.panjar
+                      )}
+                    </p>
+                    <p style={{ display: "flex", alignItems: "center" }}>
+                      <strong style={{ marginRight: "8px" }}>
+                        Tanggal Lunas:
+                      </strong>
+                      {defaultValues.status_pelunasan === "Belum Lunas" ? (
+                        <DateInputFieldBasic name="waktu_lunas" />
+                      ) : (
+                        <span>
+                          {dayjs(defaultValues.waktu_lunas).format(
+                            "DD/MM/YYYY"
+                          )}
+                        </span>
+                      )}
+                    </p>
+                    {isFinished ? (
                       <p>
-                        <strong style={{marginRight:"8px"}}>Tanggal Selesai:</strong>
+                        <strong style={{ marginRight: "8px" }}>
+                          Tanggal Selesai:
+                        </strong>
                         {dayjs(defaultValues.waktu_ubah).format("DD/MM/YYYY")}
                       </p>
-                      : <></>}
+                    ) : (
+                      <></>
+                    )}
                   </div>
                 </>
               ) : (
@@ -920,7 +937,11 @@ const IsolatedForm = ({
                   }}
                 >
                   {defaultValues.status_pelunasan === "Lunas" ? (
-                    <button className="invoice-selesai" type="button" onClick={openConfirm}>
+                    <button
+                      className="invoice-selesai"
+                      type="button"
+                      onClick={openConfirm}
+                    >
                       SELESAI
                     </button>
                   ) : (
@@ -968,17 +989,16 @@ const IsolatedForm = ({
               </Text>
               <Separator _gap={24} />
               <Text>
-                Apakah kamu yakin ingin mengubah invoice ini menjadi <b>SELESAI</b>? Setelah selesai, invoice tidak dapat diganti lagi.
+                Apakah kamu yakin ingin mengubah invoice ini menjadi{" "}
+                <b>SELESAI</b>? Setelah selesai, invoice tidak dapat diganti
+                lagi.
               </Text>
               <Separator _gap={24} />
               <Flex justify="flex-end">
                 <Button variant="text" color="error" onClick={closeConfirm}>
                   Tidak
                 </Button>
-                <Button
-                  variant="text"
-                  onClick={onClickDoneInvoice}
-                >
+                <Button variant="text" onClick={onClickDoneInvoice}>
                   Ya
                 </Button>
               </Flex>
