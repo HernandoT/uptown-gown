@@ -71,17 +71,19 @@ const Appointment = () => {
 
   const addAppointment = (keterangan, selectedDate) => {
     let desc = "-";
-    const checkedValuesString = checkedValues.map((value, index) => {
-      if (index === 0 && checkedValues.length === 2) {
-        return value + " dan ";
-      } else if (index === checkedValues.length - 1) {
-        return value;
-      } else if (index === checkedValues.length - 2) {
-        return value + ", dan ";
-      } else {
-        return value + ", ";
-      }
-    }).join("");
+    const checkedValuesString = checkedValues
+      .map((value, index) => {
+        if (index === 0 && checkedValues.length === 2) {
+          return value + " dan ";
+        } else if (index === checkedValues.length - 1) {
+          return value;
+        } else if (index === checkedValues.length - 2) {
+          return value + ", dan ";
+        } else {
+          return value + ", ";
+        }
+      })
+      .join("");
     if (keterangan && checkedValuesString) {
       desc = `Keterangan tambahan "${keterangan}" serta berencana untuk melakukan "${checkedValuesString}"`;
     } else if (keterangan) {
@@ -196,7 +198,9 @@ const Appointment = () => {
     setCustomMade(checked ? value : "");
   };
 
-  const checkedValues = [rent, customRent, customMade].filter(value => value !== "");
+  const checkedValues = [rent, customRent, customMade].filter(
+    (value) => value !== ""
+  );
 
   return (
     <div className="content">
@@ -305,7 +309,7 @@ const Appointment = () => {
               </label>
             </div>
           </div>
-          {selectedCollection?.length !== 0 ? (
+          {selectedCollection?.length !== 0 && selectedCollection !== null ? (
             <>
               <p>
                 <b>Koleksi yang diinginkan: (Maksimal 5)</b>
@@ -422,8 +426,10 @@ const Appointment = () => {
             <Text>
               Apakah kamu yakin ingin mengajukan appointment untuk tanggal{" "}
               <b>{displayDate}</b> pada pukul <b>{displayTime}</b>
-              {selectedCollection.length === 0 ? "" : " untuk membahas mengenai koleksi "}
-              {selectedCollection.map((collection, index) => (
+              {selectedCollection?.length === 0
+                ? ""
+                : " untuk membahas mengenai koleksi "}
+              {selectedCollection?.map((collection, index) => (
                 <span>
                   <b>{collection?.nama}</b>
                   {index === 0 && selectedCollection.length === 2
@@ -432,13 +438,14 @@ const Appointment = () => {
                     ? ""
                     : index === selectedCollection.length - 2
                     ? ", dan "
-                    : ", "
-                  }
+                    : ", "}
                 </span>
               ))}
               {keterangan === "" ? "" : " dengan keterangan tambahan "}
               <b>{keterangan}</b>
-              {checkedValues.length === 0 ? "" : " serta berencana untuk melakukan "}
+              {checkedValues.length === 0
+                ? ""
+                : " serta berencana untuk melakukan "}
               {checkedValues.map((values, index) => (
                 <span>
                   <b>{values}</b>
@@ -448,10 +455,10 @@ const Appointment = () => {
                     ? ""
                     : index === checkedValues.length - 2
                     ? ", dan "
-                    : ", "
-                  }
+                    : ", "}
                 </span>
-              ))}?
+              ))}
+              ?
             </Text>
             <Separator _gap={24} />
             <Flex justify="flex-end">
