@@ -19,6 +19,9 @@ export const getInvoices = async () => {
     const data = result.docs.map((doc) => ({
       ...doc.data(),
       tanggal_acara: dayjs(doc.data().tanggal_acara.toDate()),
+      waktu_buat: dayjs(doc.data().waktu_buat.toDate()),
+      waktu_lunas: doc.data().waktu_lunas !== null ? dayjs(doc.data().waktu_lunas.toDate()) : doc.data().waktu_lunas,
+      waktu_ubah: dayjs(doc.data().waktu_ubah.toDate()),
       id: doc.id,
     }));
     return { data };

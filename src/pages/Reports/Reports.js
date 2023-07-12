@@ -10,12 +10,16 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DataGrid } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { getExpenses } from "../../services/expense";
-import { getInvoicesByStatusSelesai } from "../../services/invoice";
+import {
+  getInvoices,
+  getInvoicesByStatusSelesai,
+} from "../../services/invoice";
 import { getCustomers } from "../../services/customer";
 import { HiUserGroup } from "react-icons/hi";
 import { BsPersonFillDash, BsPersonFillCheck } from "react-icons/bs";
 import { FaWallet } from "react-icons/fa";
 import ExportExcel from "../../components/ExcelExport/ExcelExport";
+import { list } from "firebase/storage";
 
 const Reports = () => {
   const [startDate, setStartDate] = useState(dayjs().subtract(1, "month"));
@@ -28,7 +32,7 @@ const Reports = () => {
 
   const { data: dataInvoices, isFetching: isFetchingInvoices } = useQuery(
     ["get-invoices"],
-    () => getInvoicesByStatusSelesai()
+    () => getInvoices()
   );
   const { data: dataCustomers, isFetching: isFetchingCustomers } = useQuery(
     ["get-customers"],
@@ -44,106 +48,150 @@ const Reports = () => {
     else
       return "Rp. " + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   }
+  let reportsArr = [];
+  let excelArr = [];
+  let tempKredit = 0;
+  let tempDebit = 0;
 
-  React.useEffect(() => {
+  const reportsArrLunas = React.useMemo(() => {
+    const listReports = [];
+    const dataInvoicesLunas = dataInvoices?.data;
     if (!isFetchingExpenses && !isFetchingInvoices && !isFetchingCustomers) {
-      const reportsArr = [];
-      let excelArr = [];
-      let tempKredit = 0;
-      let tempDebit = 0;
-      dataInvoices.invoices
+      dataInvoicesLunas
         .filter(
           (invoice) =>
-            invoice.waktu_ubah >= startDate && invoice.waktu_ubah <= endDate
+            invoice.waktu_buat >= startDate && invoice.waktu_buat <= endDate
         )
         .map((invoice) => {
-          const dataCustomer = dataCustomers.data.find(
-            (customer) => customer.id === invoice.id_customer
-          );
-          const jenisInvoice =
-            invoice.id_jenis_invoice === "rent"
-              ? "Rent"
-              : invoice.id_jenis_invoice === "custom_rent"
-              ? "Custom Rent"
-              : "Custom Made";
-          const keterangan = `${invoice.id} - ${jenisInvoice} - ${dataCustomer.nomor_telepon} - ${dataCustomer.nama}`;
-          tempDebit += invoice.harga_total + invoice.biaya_tambahan;
-          reportsArr.push({
-            id: invoice.id,
-            tanggal: invoice.waktu_ubah,
-            keterangan: keterangan,
-            penerimaan: invoice.harga_total + invoice.biaya_tambahan,
-            pengeluaran: 0,
-          });
-          excelArr.push({
-            Tanggal: invoice.waktu_ubah,
-            Jenis: "Penerimaan",
-            Keterangan: invoice.keterangan,
-            Penerimaan: invoice.harga_total + invoice.biaya_tambahan,
-            Pengeluaran: "-",
-            IdInvoice: invoice.id,
-            Customer: `${dataCustomer.nama} - ${dataCustomer.nomor_telepon}`,
-          });
-        });
-      setTotalDebit(tempDebit);
-      dataExpenses.data
-        .filter(
-          (expense) =>
-            expense.tanggal >= startDate && expense.tanggal <= endDate
-        )
-        .map((expense) => {
-          const dataInvoice = dataInvoices.invoices.find(
-            (invoice) => invoice.id === expense.id_invoice
-          );
-          console.log(dataInvoice)
-          let dataCustomer = "";
-          if (dataInvoice) {
-            dataCustomer = dataCustomers.data.find(
-              (customer) => customer.id === dataInvoice.id_customer
+          if ((invoice.status_pelunasan = "Belum Lunas")) {
+            const dataCustomer = dataCustomers.data.find(
+              (customer) => customer.id === invoice.id_customer
             );
+            const jenisInvoice =
+              invoice.id_jenis_invoice === "rent"
+                ? "Rent"
+                : invoice.id_jenis_invoice === "custom_rent"
+                ? "Custom Rent"
+                : "Custom Made";
+            const keterangan = `Panjar Invoice ${invoice.id} - ${jenisInvoice} - ${dataCustomer.nomor_telepon} - ${dataCustomer.nama}`;
+            tempDebit += invoice.panjar;
+            listReports.push({
+              id: invoice.id,
+              tanggal: invoice.waktu_buat,
+              keterangan: keterangan,
+              penerimaan: invoice.panjar,
+              pengeluaran: 0,
+            });
+            excelArr.push({
+              Tanggal: invoice.waktu_ubah,
+              Jenis: "Penerimaan",
+              Keterangan: `Panjar Invoice ${invoice.id}`,
+              Penerimaan: invoice.panjar,
+              Pengeluaran: "-",
+              IdInvoice: invoice.id,
+              Customer: `${dataCustomer.nama} - ${dataCustomer.nomor_telepon}`,
+            });
           }
-          tempKredit += expense.nominal;
-          reportsArr.push({
-            id: expense.id,
-            tanggal: expense.tanggal,
-            keterangan: expense.keterangan,
-            penerimaan: 0,
-            pengeluaran: expense.nominal,
-          });
-          excelArr.push({
-            Tanggal: expense.tanggal,
-            Jenis: "Pengeluaran",
-            Keterangan: expense.keterangan,
-            Penerimaan: "-",
-            Pengeluaran: expense.nominal,
-            IdInvoice: expense.id_invoice ? expense.id_invoice : "-",
-            Customer: dataInvoice
-              ? `${dataCustomer.nama} - ${dataCustomer.nomor_telepon}`
-              : "-",
-          });
         });
-      reportsArr.sort((a, b) => {
-        return a.tanggal - b.tanggal;
-      });
-      excelArr.sort((a, b) => {
-        return a.Tanggal - b.Tanggal;
-      });
-      excelArr = excelArr.map((arr) => ({
-        ...arr,
-        Tanggal: dayjs(arr.Tanggal).format("DD/MM/YYYY"),
-      }));
-      setTotalKredit(tempKredit);
-      setReports(reportsArr);
-      setExcelReport(excelArr);
-      setIsInitiate(true);
+      return listReports;
     }
-  }, [
-    endDate,
-    isFetchingCustomers,
-    isFetchingExpenses,
-    isFetchingInvoices,
-    startDate,
-  ]);
+  }, [dataInvoices?.data]);
+
+  const reportsArrBelumLunas = React.useMemo(() => {
+    const listReports = [];
+    const dataInvoicesBelumLunas = dataInvoices?.data;
+    if (!isFetchingExpenses && !isFetchingInvoices && !isFetchingCustomers) {
+      dataInvoicesBelumLunas
+        .filter(
+          (invoice) =>
+            invoice.waktu_buat >= startDate && invoice.waktu_buat <= endDate
+        )
+        .map((invoice) => {
+          if ((invoice.status_pelunasan = "Belum Lunas")) {
+            const dataCustomer = dataCustomers.data.find(
+              (customer) => customer.id === invoice.id_customer
+            );
+            const jenisInvoice =
+              invoice.id_jenis_invoice === "rent"
+                ? "Rent"
+                : invoice.id_jenis_invoice === "custom_rent"
+                ? "Custom Rent"
+                : "Custom Made";
+            const keterangan = `Panjar Invoice ${invoice.id} - ${jenisInvoice} - ${dataCustomer.nomor_telepon} - ${dataCustomer.nama}`;
+            tempDebit += invoice.panjar;
+            listReports.push({
+              id: invoice.id,
+              tanggal: invoice.waktu_buat,
+              keterangan: keterangan,
+              penerimaan: invoice.panjar,
+              pengeluaran: 0,
+            });
+            excelArr.push({
+              Tanggal: invoice.waktu_ubah,
+              Jenis: "Penerimaan",
+              Keterangan: `Panjar Invoice ${invoice.id}`,
+              Penerimaan: invoice.panjar,
+              Pengeluaran: "-",
+              IdInvoice: invoice.id,
+              Customer: `${dataCustomer.nama} - ${dataCustomer.nomor_telepon}`,
+            });
+          }
+        });
+      return listReports;
+    }
+  }, [dataInvoices?.data]);
+
+  const reportsArrSelesai = React.useMemo(() => {
+    const listReports = [];
+    const dataInvoicesSelesai = dataInvoices?.data;
+    if (!isFetchingExpenses && !isFetchingInvoices && !isFetchingCustomers) {
+      dataInvoicesSelesai
+        .filter(
+          (invoice) =>
+            invoice.waktu_buat >= startDate && invoice.waktu_buat <= endDate
+        )
+        .map((invoice) => {
+          if ((invoice.status_pelunasan = "Belum Lunas")) {
+            const dataCustomer = dataCustomers.data.find(
+              (customer) => customer.id === invoice.id_customer
+            );
+            const jenisInvoice =
+              invoice.id_jenis_invoice === "rent"
+                ? "Rent"
+                : invoice.id_jenis_invoice === "custom_rent"
+                ? "Custom Rent"
+                : "Custom Made";
+            const keterangan = `Panjar Invoice ${invoice.id} - ${jenisInvoice} - ${dataCustomer.nomor_telepon} - ${dataCustomer.nama}`;
+            tempDebit += invoice.panjar;
+            listReports.push({
+              id: invoice.id,
+              tanggal: invoice.waktu_buat,
+              keterangan: keterangan,
+              penerimaan: invoice.panjar,
+              pengeluaran: 0,
+            });
+            excelArr.push({
+              Tanggal: invoice.waktu_ubah,
+              Jenis: "Penerimaan",
+              Keterangan: `Panjar Invoice ${invoice.id}`,
+              Penerimaan: invoice.panjar,
+              Pengeluaran: "-",
+              IdInvoice: invoice.id,
+              Customer: `${dataCustomer.nama} - ${dataCustomer.nomor_telepon}`,
+            });
+          }
+        });
+      return listReports;
+    }
+  }, [dataInvoices?.data, startDate, endDate]);
+
+  React.useEffect(() => {
+    if (reportsArrBelumLunas && reportsArrLunas && reportsArrSelesai) {
+      reportsArr = [...reportsArrBelumLunas, ...reportsArrLunas, ...reportsArrSelesai];
+      setIsInitiate(true);
+      console.log(reportsArr)
+    }
+  }, [reportsArrBelumLunas, reportsArrLunas, reportsArrSelesai]);
 
   const columns = [
     {
@@ -256,7 +304,7 @@ const Reports = () => {
         ) : (
           <div style={{ height: 300, width: "100%" }}>
             <DataGrid
-              rows={reports}
+              rows={reportsArr}
               columns={columns}
               initialState={{
                 pagination: {
