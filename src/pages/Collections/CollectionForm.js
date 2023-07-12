@@ -85,6 +85,8 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
 
   const onSubmit = React.useCallback(
     async (values) => {
+      const date = new Date();
+      date.setHours(7, 0, 0, 0);
       try {
         //if still url don't submit to firebase
         const fileUrl = urlPattern.test(values.gambar[0])
@@ -102,7 +104,7 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
             : 0,
           created_at: data.created_at
             ? data.created_at
-            : Timestamp.fromDate(new Date()),
+            : Timestamp.fromDate(date),
         };
 
         isEdit ? updateCollection(data.id, _data) : createCollection(_data);

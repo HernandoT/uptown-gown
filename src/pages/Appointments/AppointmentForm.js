@@ -89,12 +89,14 @@ const AppointmentForm = () => {
 
   const onSubmit = React.useCallback(
     async (values) => {
+      const date = new Date(values.tanggal);
+      date.setHours(7, 0, 0, 0);
       try {
         data?.appointment
           ? updateAppointment(id, {
               keterangan: values.keterangan,
               id_customer: values.customer,
-              tanggal: Timestamp.fromDate(new Date(values.tanggal)),
+              tanggal: Timestamp.fromDate(date),
               waktu: displayTime,
               status: parseInt(values.status),
               selesai: isSelesai ? 1 : 0,
@@ -103,7 +105,7 @@ const AppointmentForm = () => {
           : createAppointment({
               keterangan: values.keterangan,
               id_customer: values.customer,
-              tanggal: Timestamp.fromDate(new Date(values.tanggal)),
+              tanggal: Timestamp.fromDate(date),
               waktu: displayTime,
               status: 2,
               selesai: isSelesai ? 1 : 0,
@@ -117,6 +119,7 @@ const AppointmentForm = () => {
           color: "teal",
         });
       } catch (e) {
+        console.log(e);
         notifications.show({
           title: data?.appointment ? "Edit Appointment" : "Tambah Appointment",
           message: data?.appointment
@@ -178,8 +181,6 @@ const AppointmentForm = () => {
     return null;
   }
 
-  console.log(data?.appointment.koleksi);
-
   return (
     <div className="appointment-form-container">
       <div className="appointment-form">
@@ -211,7 +212,11 @@ const AppointmentForm = () => {
                 </div>
                 <Separator _gap={24} />
                 <div
-                  style={{ display: "flex", gap: "24px", alignItems: "flex-end" }}
+                  style={{
+                    display: "flex",
+                    gap: "24px",
+                    alignItems: "flex-end",
+                  }}
                 >
                   <DateInputField
                     shouldDisableDate={shouldDisableDate}
@@ -245,28 +250,52 @@ const AppointmentForm = () => {
                   <>
                     {data?.appointment.koleksi.length !== 0 ? (
                       <>
-                      <p style={{marginTop:0}}><strong>Koleksi:</strong></p>
-                      <div className="card-container" style={{ marginBottom: "8px", boxShadow:"none" }}>
-                        {data?.appointment.koleksi.map((collection, index) => {
-                          const isLastItem = index === data?.appointment.koleksi.length - 1;
-                          return (
-                            <>
-                              <div style={{ display: "flex" }}>
-                                <div style={{display: "flex", alignItems: "center", flex: 1}}>
-                                  <div class="appointment-img-container">
-                                    <img src={collection.gambar} alt="" class="appointment-img" />
+                        <p style={{ marginTop: 0 }}>
+                          <strong>Koleksi:</strong>
+                        </p>
+                        <div
+                          className="card-container"
+                          style={{ marginBottom: "8px", boxShadow: "none" }}
+                        >
+                          {data?.appointment.koleksi.map(
+                            (collection, index) => {
+                              const isLastItem =
+                                index === data?.appointment.koleksi.length - 1;
+                              return (
+                                <>
+                                  <div style={{ display: "flex" }}>
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        flex: 1,
+                                      }}
+                                    >
+                                      <div class="appointment-img-container">
+                                        <img
+                                          src={collection.gambar}
+                                          alt=""
+                                          class="appointment-img"
+                                        />
+                                      </div>
+                                      <div style={{ margin: "0 24px" }}>
+                                        {collection.nama}
+                                      </div>
+                                    </div>
                                   </div>
-                                  <div style={{ margin: "0 24px" }}>{collection.nama}</div>
-                                </div>
-                              </div>
-                              {isLastItem ? null : (<Divider style={{ margin: "8px 0" }} />)}
-                            </>
-                          );
-                        })}
-                      </div>
-                      <Separator _gap={24} />
-                    </>
-                    ) : (<></>)}
+                                  {isLastItem ? null : (
+                                    <Divider style={{ margin: "8px 0" }} />
+                                  )}
+                                </>
+                              );
+                            }
+                          )}
+                        </div>
+                        <Separator _gap={24} />
+                      </>
+                    ) : (
+                      <></>
+                    )}
                     <RadioInputField
                       name="status"
                       options={[

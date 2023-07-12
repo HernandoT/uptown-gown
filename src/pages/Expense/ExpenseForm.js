@@ -67,6 +67,8 @@ const ExpenseForm = ({
 
   const onSubmit = React.useCallback(
     async (values) => {
+      const tanggal = new Date(date);
+      tanggal.setHours(7, 0, 0, 0);
       try {
         const fileUrl = urlPattern.test(values.bukti[0])
           ? values.bukti[0]
@@ -79,14 +81,14 @@ const ExpenseForm = ({
           ? updateExpense(data.id, {
               keterangan: values.keterangan,
               nominal: values.nominal,
-              tanggal: Timestamp.fromDate(new Date(date)),
+              tanggal: Timestamp.fromDate(tanggal),
               id_invoice: values.invoice ?? "",
               bukti: fileUrl ?? ""
             })
           : createExpense({
               keterangan: values.keterangan,
               nominal: values.nominal,
-              tanggal: Timestamp.fromDate(new Date(date)),
+              tanggal: Timestamp.fromDate(tanggal),
               id_invoice: values.invoice ?? "",
               bukti: fileUrl ?? ""
             });

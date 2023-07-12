@@ -441,20 +441,28 @@ const IsolatedForm = ({
 
   const onSubmit = React.useCallback(
     async (values) => {
+      const tanggal_acara = new Date(values.tanggal_acara);
+      tanggal_acara.setHours(7, 0, 0, 0);
+      const waktu_buat = new Date(values.waktu_buat);
+      waktu_buat.setHours(7, 0, 0, 0);
+      const waktu_ubah = new Date(values.waktu_ubah);
+      waktu_ubah.setHours(7, 0, 0, 0);
+      const waktu_lunas = new Date(values.waktu_lunas);
+      waktu_lunas.setHours(7, 0, 0, 0);
       try {
         const invoice = {
           id_customer: values.id_customer,
           id_jenis_invoice: values.id_jenis_invoice,
-          tanggal_acara: values.tanggal_acara,
+          tanggal_acara: tanggal_acara,
           biaya_tambahan: values.biaya_tambahan,
           harga_total: values.harga_total,
           panjar: values.panjar,
           deposit: values.deposit,
           status_pelunasan: values.status_pelunasan,
           keterangan: values.keterangan,
-          waktu_buat: values.waktu_buat,
-          waktu_ubah: values.waktu_ubah,
-          waktu_lunas: values.waktu_lunas,
+          waktu_buat: waktu_buat,
+          waktu_ubah: waktu_ubah,
+          waktu_lunas: waktu_lunas,
         };
 
         const fittings = values.items.map((item) => {

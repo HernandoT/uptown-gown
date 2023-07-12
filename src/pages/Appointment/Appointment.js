@@ -92,10 +92,12 @@ const Appointment = () => {
       desc = `Berencana untuk melakukan "${checkedValuesString}"`;
     }
     try {
+      const date = new Date(selectedDate);
+      date.setHours(7, 0, 0, 0);
       createAppointment({
         keterangan: desc,
         id_customer: idCustomer,
-        tanggal: Timestamp.fromDate(new Date(selectedDate)),
+        tanggal: Timestamp.fromDate(date),
         waktu: displayTime,
         status: 1,
         koleksi: selectedCollection,

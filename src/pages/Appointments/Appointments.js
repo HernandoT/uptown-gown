@@ -10,9 +10,13 @@ import { getCustomers } from "../../services/customer";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import DetailButton from "../../components/DetailButton";
-import { FaRegCalendarCheck, FaAngleRight, FaAngleDoubleRight, FaRegClock, FaRegCheckCircle, FaCheckCircle, FaClock } from "react-icons/fa";
-import { TbProgressCheck, TbProgress } from "react-icons/tb";
-import { lightBlue } from "@mui/material/colors";
+import {
+  FaRegCalendarCheck,
+  FaAngleRight,
+  FaAngleDoubleRight,
+  FaCheckCircle,
+  FaClock,
+} from "react-icons/fa";
 
 const Appointments = () => {
   const navigate = useNavigate();
@@ -136,16 +140,23 @@ const Appointments = () => {
       renderCell: ({ row }) => {
         if (row.selesai === 1)
           return (
-            <div className="appointments-selesai-icon" style={{color:"green"}}><FaCheckCircle/></div>
-          )
+            <div
+              className="appointments-selesai-icon"
+              style={{ color: "green" }}
+            >
+              <FaCheckCircle />
+            </div>
+          );
         else if (row.selesai === 0)
           return (
-          <div className="appointments-selesai-icon" style={{color:"orange"}}><FaClock/></div>
-          )
-        else
-          return (
-            ""
-          )
+            <div
+              className="appointments-selesai-icon"
+              style={{ color: "orange" }}
+            >
+              <FaClock />
+            </div>
+          );
+        else return "";
       },
     },
     {
@@ -171,14 +182,14 @@ const Appointments = () => {
       <div className="appointments-content">
         <div className="appointments-card">
           <div className="card-container">
-            <FaRegCalendarCheck className="appointments-card-icon"/>
+            <FaRegCalendarCheck className="appointments-card-icon" />
             <div style={{ flex: 1 }}>
               <div>Appointment Hari Ini</div>
               <div className="appointments-card-value">{todayAppointment}</div>
             </div>
           </div>
           <div className="card-container">
-            <FaAngleRight className="appointments-card-icon"/>
+            <FaAngleRight className="appointments-card-icon" />
             <div style={{ flex: 1 }}>
               <div>Appointment Besok</div>
               <div className="appointments-card-value">
@@ -187,7 +198,7 @@ const Appointments = () => {
             </div>
           </div>
           <div className="card-container">
-            <FaAngleDoubleRight className="appointments-card-icon"/>
+            <FaAngleDoubleRight className="appointments-card-icon" />
             <div style={{ flex: 1 }}>
               <div>Appointment Lusa</div>
               <div className="appointments-card-value">
