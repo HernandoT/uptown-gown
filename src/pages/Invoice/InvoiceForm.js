@@ -12,7 +12,7 @@ import {
 } from "react-hook-form";
 import CustomerSelectInput from "../../components/Select/customer-select-input";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal } from "@mantine/core";
+import { Modal, Flex, Text, Paper } from "@mantine/core";
 import CustomerForm from "../Customer/CustomerForm";
 import DateInputField from "../../components/field/date-input";
 import InvoiceTypeSelectInput from "../../components/Select/invoice-type-select-input";
@@ -52,6 +52,7 @@ import dayjs from "dayjs";
 import DetailButton from "../../components/DetailButton";
 import ExpenseForm from "../Expense/ExpenseForm";
 import TextInputOnChangeField from "../../components/field/text-input-on-change";
+import { Button } from "@mui/material";
 
 const typeInvoice = {
   Rent: "rent",
@@ -379,8 +380,8 @@ const IsolatedForm = ({
       status_pelunasan: data?.invoice.status_pelunasan,
       keterangan: data?.invoice.keterangan,
       waktu_buat: data?.invoice.waktu_buat || new Date(),
-      waktu_ubah: data?.invoice.waktu_ubah || new Date(),
-      waktu_lunas: data?.invoice.waktu_lunas || null,
+      waktu_ubah: data?.invoice.waktu_ubah.toDate() || new Date(),
+      waktu_lunas: data?.invoice.waktu_lunas?.toDate() || null,
       items: items,
     }),
     [data, items]
@@ -426,6 +427,9 @@ const IsolatedForm = ({
   const [openedExpense, { open: openExpense, close: closeExpense }] =
     useDisclosure(false);
 
+  const [openConfirmationDialog, { open: openConfirm, close: closeConfirm }] =
+  useDisclosure(false);
+  
   const [currentDataExpense, setCurrentDataExpense] = React.useState({
     tanggal: new Date(),
     nominal: 0,
@@ -449,7 +453,7 @@ const IsolatedForm = ({
           keterangan: values.keterangan,
           waktu_buat: values.waktu_buat,
           waktu_ubah: values.waktu_ubah,
-          waktu_lunas: values.waktu_lunas
+          waktu_lunas: values.waktu_lunas,
         };
 
         const fittings = values.items.map((item) => {
@@ -474,11 +478,12 @@ const IsolatedForm = ({
             harga_total: invoice.harga_total,
             panjar: invoice.panjar,
             deposit: invoice.deposit,
-            status_pelunasan: invoice.status_pelunasan,
+            // status_pelunasan: invoice.status_pelunasan,
+            status_pelunasan: "Belum Lunas",
             keterangan: invoice.keterangan ?? "-",
             waktu_buat: invoice.waktu_buat,
             waktu_ubah: invoice.waktu_ubah,
-            waktu_lunas: invoice.waktu_lunas,
+            waktu_lunas: null,
           });
           invoiceDoc.then((idInvoice) => {
             fittings.map((fitting, index) => {
@@ -544,11 +549,20 @@ const IsolatedForm = ({
             harga_total: invoice.harga_total,
             panjar: invoice.panjar,
             deposit: invoice.deposit,
-            status_pelunasan: invoice.status_pelunasan,
+            // status_pelunasan: invoice.status_pelunasan,
+            status_pelunasan:
+              invoice.waktu_lunas !== null &&
+              invoice.status_pelunasan === "Belum Lunas"
+                ? "Lunas"
+                : invoice.status_pelunasan,
             keterangan: invoice.keterangan ?? "-",
             waktu_buat: invoice.waktu_buat,
             waktu_ubah: Timestamp.fromDate(new Date()),
-            waktu_lunas: invoice.status_pelunasan === "Lunas" ? new Date() : invoice.waktu_lunas,
+            // waktu_lunas: Timestamp.fromDate(new Date(invoice.waktu_lunas)) ?? null,
+            waktu_lunas:
+              invoice.waktu_lunas !== null
+                ? Timestamp.fromDate(new Date(invoice.waktu_lunas))
+                : invoice.waktu_lunas,
           });
 
           fittings.map(async (fitting, index) => {
@@ -642,9 +656,9 @@ const IsolatedForm = ({
           .required("Harap diisi (berikan 0 jika tidak ada biaya)")
           .integer()
           .typeError("Biaya Tambahan Wajib diisi dengan Angka"),
-        status_pelunasan: Yup.string().required(
-          "Harap pilih Status Pelunasan terlebih dahulu"
-        ),
+        // status_pelunasan: Yup.string().required(
+        //   "Harap pilih Status Pelunasan terlebih dahulu"
+        // ),
       }),
     []
   );
@@ -671,6 +685,14 @@ const IsolatedForm = ({
     setIsEditExpense(false);
     openExpense();
   }, [id, openExpense]);
+
+  const onClickDoneInvoice = () => {
+    const updatedInvoice = {
+      ...defaultValues,
+      status_pelunasan: "Selesai",
+    };
+    onSubmit(updatedInvoice);
+  };
 
   const columns = [
     {
@@ -792,25 +814,41 @@ const IsolatedForm = ({
                 label="Biaya Tambahan"
                 disabled={isFinished}
               />
-              <Separator _gap={12} />
+              {/* <Separator _gap={12} /> */}
               {isEdit ? (
                 <>
                   <p>
-                    <div><strong style={{marginRight:"8px"}}>Sisa Pembayaran:</strong>
-                    {defaultValues.harga_total - defaultValues.panjar}</div>
-                    <div><strong style={{marginRight:"8px"}}>Tanggal Lunas:</strong>
-                    {defaultValues.waktu_lunas === null ? "-" : dayjs(defaultValues.waktu_lunas.toDate()).format("DD/MM/YYYY HH:mm A")}
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "24px",
+                      }}
+                    >
+                      <span>
+                        <strong style={{ marginRight: "8px" }}>
+                          Sisa Pembayaran:
+                        </strong>
+                        {defaultValues.harga_total - defaultValues.panjar}
+                      </span>
+                      <div style={{ flex: 1 }}>
+                        <DateInputField 
+                          name="waktu_lunas" 
+                          label="Tanggal Lunas"
+                          disabled={defaultValues.status_pelunasan === "Belum Lunas" ? false : true}/>
+                      </div>
+                      {isFinished ? 
+                        <div style={{ flex: 1 }}>
+                          <DateInputField name="waktu_ubah" label="Tanggal Selesai" disabled={true}/>
+                        </div>
+                      : <></>}
                     </div>
-                  </p>
-                  <p>
-                    <strong style={{marginRight:"8px"}}>Tanggal Selesai:</strong>
-                    {}
                   </p>
                 </>
               ) : (
                 <></>
               )}
-              <Separator _gap={12} />
+              {/* <Separator _gap={12} />
               <p>
                 <strong>Status Pelunasan:</strong>
               </p>
@@ -823,8 +861,8 @@ const IsolatedForm = ({
                 name="status_pelunasan"
                 required
                 disabled={isFinished}
-              />
-              <Separator _gap={24} />
+              /> */}
+              {/* <Separator _gap={24} /> */}
               {id ? (
                 <>
                   <p>
@@ -870,9 +908,25 @@ const IsolatedForm = ({
               {isFinished ? (
                 <></>
               ) : (
-                <button className="invoice-simpan" type="submit">
-                  SIMPAN
-                </button>
+                <span
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    gap: "32px",
+                    justifyContent: "end",
+                  }}
+                >
+                  {defaultValues.status_pelunasan === "Lunas" ? (
+                    <button className="invoice-selesai" type="button" onClick={openConfirm}>
+                      SELESAI
+                    </button>
+                  ) : (
+                    <></>
+                  )}
+                  <button className="invoice-simpan" type="submit">
+                    SIMPAN
+                  </button>
+                </span>
               )}
             </Form>
           )}
@@ -897,6 +951,36 @@ const IsolatedForm = ({
             onClose={closeExpense}
             isEdit={isEditExpense}
           />
+        </Modal>
+        <Modal
+          onClose={closeConfirm}
+          opened={openConfirmationDialog}
+          withCloseButton={false}
+          centered
+        >
+          <Paper p={24} miw={400}>
+            <Flex direction="column">
+              <Text fz={20} fw={600}>
+                Confirm
+              </Text>
+              <Separator _gap={24} />
+              <Text>
+                Apakah kamu yakin ingin mengubah invoice ini menjadi <b>SELESAI</b>? Setelah selesai, invoice tidak dapat diganti lagi.
+              </Text>
+              <Separator _gap={24} />
+              <Flex justify="flex-end">
+                <Button variant="text" color="error" onClick={closeConfirm}>
+                  Tidak
+                </Button>
+                <Button
+                  variant="text"
+                  onClick={onClickDoneInvoice}
+                >
+                  Ya
+                </Button>
+              </Flex>
+            </Flex>
+          </Paper>
         </Modal>
       </div>
     </div>

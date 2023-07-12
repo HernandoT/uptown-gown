@@ -44,6 +44,17 @@
   background-color: black;
   color: white;
   border-radius: 5px;
+  cursor: pointer;
+}
+
+.invoice-selesai {
+  align-self: flex-end;
+  width: 15vw;
+  height: 5vh;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .add-collection-button {
