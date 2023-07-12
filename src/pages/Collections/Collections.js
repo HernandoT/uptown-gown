@@ -16,6 +16,7 @@ import { getTypes } from "../../services/type";
 import { TbHanger } from "react-icons/tb";
 import { CgUnavailable, CgCheckO } from "react-icons/cg";
 import { getDetailInvoiceItems } from "../../services/detail-invoice-item";
+import { getSizes } from "../../services/size";
 
 const defaultValues = {
   id: "",
@@ -61,6 +62,11 @@ const Collections = () => {
     () => getTypes()
   );
 
+  const { data: dataSizes, isFetching: isFetchingSizes } = useQuery(
+    ["get-sizes"],
+    () => getSizes()
+  );
+
   const { data: dataDetailItems, isFetching: isFetchingDetailItems } = useQuery(
     ["get-detail-invoice-items"],
     () => getDetailInvoiceItems()
@@ -72,6 +78,7 @@ const Collections = () => {
       !isFetchingCategories &&
       !isFetchingColors &&
       !isFetchingTypes &&
+      !isFetchingSizes &&
       !isFetchingDetailItems
     ) {
       let dataCollection = data?.data;
@@ -92,9 +99,13 @@ const Collections = () => {
         const type = dataTypes.data.find((type) => {
           return type.id === collection.id_jenis;
         });
+        const size = dataSizes.data.find((size) => {
+          return size.id === collection.id_ukuran;
+        });
         collection.warna = color.nama_warna;
         collection.kategori = category.nama_kategori;
         collection.jenis = type.nama_jenis;
+        collection.ukuran = size.nama_ukuran;
         collection.jumlah_tersewa = dataDetailItems?.data.filter(
           (detailItem) => detailItem.id_collection === collection.id
         ).length;
@@ -137,6 +148,7 @@ const Collections = () => {
     { field: "warna", headerName: "Warna", minWidth: 75, flex: 1 },
     { field: "kategori", headerName: "Kategori", minWidth: 75, flex: 1 },
     { field: "jenis", headerName: "Jenis", minWidth: 75, flex: 1 },
+    { field: "ukuran", headerName: "Ukuran", minWidth: 75, flex: 1 },
     { field: "deskripsi", headerName: "Deskripsi", minWidth: 150, flex: 2 },
     { field: "status", headerName: "Status", minWidth: 75, flex: 1 },
     {
@@ -169,6 +181,7 @@ const Collections = () => {
             id_warna: row.id_warna,
             id_kategori: row.id_kategori,
             id_jenis: row.id_jenis,
+            id_ukuran: row.id_ukuran,
             deskripsi: row.deskripsi,
             status: row.status,
             gambar: row.gambar,

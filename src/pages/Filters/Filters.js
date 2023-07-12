@@ -106,47 +106,48 @@ const Filters = () => {
   };
 
   return (
-    <div className="filters">
-      <AdminTitle props={"Filters"} />
-      <div className="filters-content">
-        <div className="card-container">
-          <div className="filters-head">
-            <b>W A R N A</b>
-            <button className="filters-button" onClick={onClickAddColor}>
-              +
-            </button>
-          </div>
-          <Stack direction="row" flexWrap="wrap">
-            {(colorList?.data || []).map((color) => {
-              const label = (
-                <>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    {color.nama_warna}
-                    <span
-                      style={{
-                        width: "15px",
-                        height: "15px",
-                        borderRadius: "50%",
-                        backgroundColor: color.kode_hex,
-                        border: "1px solid black",
-                        marginLeft: "8px",
-                      }}
-                    ></span>
-                  </div>
-                </>
-              );
-              // color.nama_warna + " " + color.kode_hex;
-              return (
-                <Chip
-                  label={label}
-                  variant="outlined"
-                  onClick={() => onClickEditColor(color)}
-                  className="filters-chip"
-                />
-              );
-            })}
-          </Stack>
-          {/* <Stack direction="row" flexWrap="wrap">
+    <div className="filters-container">
+      <div className="filters">
+        <AdminTitle props={"Filters"} />
+        <div className="filters-content">
+          <div className="card-container">
+            <div className="filters-head">
+              <b>W A R N A</b>
+              <button className="filters-button" onClick={onClickAddColor}>
+                +
+              </button>
+            </div>
+            <Stack direction="row" flexWrap="wrap">
+              {(colorList?.data || []).map((color) => {
+                const label = (
+                  <>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      {color.nama_warna}
+                      <span
+                        style={{
+                          width: "15px",
+                          height: "15px",
+                          borderRadius: "50%",
+                          backgroundColor: color.kode_hex,
+                          border: "1px solid black",
+                          marginLeft: "8px",
+                        }}
+                      ></span>
+                    </div>
+                  </>
+                );
+                // color.nama_warna + " " + color.kode_hex;
+                return (
+                  <Chip
+                    label={label}
+                    variant="outlined"
+                    onClick={() => onClickEditColor(color)}
+                    className="filters-chip"
+                  />
+                );
+              })}
+            </Stack>
+            {/* <Stack direction="row" flexWrap="wrap">
             {(colorList?.data || []).map((color) => {
               const label = color.nama_warna + " " + color.kode_hex;
               return (
@@ -159,69 +160,70 @@ const Filters = () => {
               );
             })}
           </Stack> */}
-        </div>
-        <Separator _gap={36} />
-        <div className="card-container">
-          <div className="filters-head">
-            <b>K A T E G O R I</b>
-            <button className="filters-button" onClick={onClickAddCategory}>
-              +
-            </button>
           </div>
-          <Stack direction="row" flexWrap="wrap">
-            {(categoryList?.data || []).map((category) => {
-              return (
-                <Chip
-                  label={category.nama_kategori}
-                  variant="outlined"
-                  onClick={() => onClickEditCategory(category)}
-                  className="filters-chip"
-                />
-              );
-            })}
-          </Stack>
-        </div>
-        <Separator _gap={36} />
-        <div className="card-container">
-          <div className="filters-head">
-            <b>J E N I S</b>
-            <button className="filters-button" onClick={onClickAddType}>
-              +
-            </button>
+          <Separator _gap={36} />
+          <div className="card-container">
+            <div className="filters-head">
+              <b>K A T E G O R I</b>
+              <button className="filters-button" onClick={onClickAddCategory}>
+                +
+              </button>
+            </div>
+            <Stack direction="row" flexWrap="wrap">
+              {(categoryList?.data || []).map((category) => {
+                return (
+                  <Chip
+                    label={category.nama_kategori}
+                    variant="outlined"
+                    onClick={() => onClickEditCategory(category)}
+                    className="filters-chip"
+                  />
+                );
+              })}
+            </Stack>
           </div>
-          <Stack direction="row" flexWrap="wrap">
-            {(typeList?.data || []).map((type) => {
-              return (
-                <Chip
-                  label={type.nama_jenis}
-                  variant="outlined"
-                  onClick={() => onClickEditType(type)}
-                  className="filters-chip"
-                />
-              );
-            })}
-          </Stack>
-        </div>
-        <Separator _gap={36} />
-        <div className="card-container">
-          <div className="filters-head">
-            <b>U K U R A N</b>
-            <button className="filters-button" onClick={onClickAddSize}>
-              +
-            </button>
+          <Separator _gap={36} />
+          <div className="card-container">
+            <div className="filters-head">
+              <b>J E N I S</b>
+              <button className="filters-button" onClick={onClickAddType}>
+                +
+              </button>
+            </div>
+            <Stack direction="row" flexWrap="wrap">
+              {(typeList?.data || []).map((type) => {
+                return (
+                  <Chip
+                    label={type.nama_jenis}
+                    variant="outlined"
+                    onClick={() => onClickEditType(type)}
+                    className="filters-chip"
+                  />
+                );
+              })}
+            </Stack>
           </div>
-          <Stack direction="row" flexWrap="wrap">
-            {(sizeList?.data || []).map((size) => {
-              return (
-                <Chip
-                  label={size.nama_ukuran}
-                  variant="outlined"
-                  onClick={() => onClickEditSize(size)}
-                  className="filters-chip"
-                />
-              );
-            })}
-          </Stack>
+          <Separator _gap={36} />
+          <div className="card-container">
+            <div className="filters-head">
+              <b>U K U R A N</b>
+              <button className="filters-button" onClick={onClickAddSize}>
+                +
+              </button>
+            </div>
+            <Stack direction="row" flexWrap="wrap">
+              {(sizeList?.data || []).map((size) => {
+                return (
+                  <Chip
+                    label={size.nama_ukuran}
+                    variant="outlined"
+                    onClick={() => onClickEditSize(size)}
+                    className="filters-chip"
+                  />
+                );
+              })}
+            </Stack>
+          </div>
         </div>
       </div>
       <Modal

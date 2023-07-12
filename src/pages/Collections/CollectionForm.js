@@ -27,6 +27,7 @@ const defaultValues = {
   id_warna: "",
   id_kategori: "",
   id_jenis: "",
+  id_ukuran: "",
   deskripsi: "",
   status: "",
   gambar: "",
@@ -40,6 +41,7 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
       id_warna: data.id_warna,
       id_kategori: data.id_kategori,
       id_jenis: data.id_jenis,
+      id_ukuran: data.id_ukuran,
       deskripsi: data.deskripsi,
       status: data.status,
       gambar: data.gambar ? [data.gambar] : [],
@@ -62,6 +64,7 @@ const CollectionForm = ({ onClose, data = defaultValues, isEdit = false }) => {
           "Harap pilih Kategori terlebih dahulu"
         ),
         id_jenis: Yup.string().required("Harap pilih Jenis terlebih dahulu"),
+        id_ukuran: Yup.string().required("Harap pilih Ukuran terlebih dahulu"),
         deskripsi: Yup.string().required("Deskripsi Wajib Diisi"),
         status: Yup.string().required(
           "Harap pilih Status Ketersediaan terlebih dahulu"
