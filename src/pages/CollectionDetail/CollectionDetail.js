@@ -16,6 +16,7 @@ import { getTypes } from "../../services/type";
 import Separator from "../../components/separator";
 import Divider from "@mui/material/Divider";
 import { notifications } from "@mantine/notifications";
+import { getSizes } from "../../services/size";
 
 const CollectionDetail = () => {
   const isLoged = localStorage.getItem("isLoged");
@@ -45,12 +46,18 @@ const CollectionDetail = () => {
     () => getTypes()
   );
 
+  const { data: dataSizes, isFetching: isFetchingSizes } = useQuery(
+    ["get-sizes"],
+    () => getSizes()
+  );
+
   React.useEffect(() => {
     if (
       !isFetching &&
       !isFetchingCategories &&
       !isFetchingColors &&
       !isFetchingTypes &&
+      !isFetchingSizes &&
       !isInitiate
     ) {
       let dataCollection = data?.collection;
@@ -63,9 +70,13 @@ const CollectionDetail = () => {
       const type = dataTypes.data.find((type) => {
         return type.id === dataCollection.id_jenis;
       });
+      const size = dataSizes.data.find((size) => {
+        return size.id === dataCollection.id_ukuran;
+      });
       dataCollection.warna = color.nama_warna;
       dataCollection.kategori = category.nama_kategori;
       dataCollection.jenis = type.nama_jenis;
+      dataCollection.ukuran = size.nama_ukuran;
       dataCollection.id = id;
       setIsInitiate(true);
       setCollection(dataCollection);
@@ -80,6 +91,9 @@ const CollectionDetail = () => {
     dataColors?.data,
     dataCategories?.data,
     dataTypes?.data,
+    isFetchingSizes,
+    dataSizes?.data,
+    id,
   ]);
 
   const { listEventDate } = useGetEventDate(id);
@@ -169,6 +183,7 @@ const CollectionDetail = () => {
               <div>Warna: {collection.warna}</div>
               <div>Kategori: {collection.kategori}</div>
               <div>Jenis: {collection.jenis}</div>
+              <div>Ukuran: {collection.ukuran}</div>
             </div>
             <div className="card-container detail-buttons">
               <div style={{ margin: "0 0 8px" }}>

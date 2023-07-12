@@ -42,6 +42,7 @@ const Navbar = () => {
                 localStorage.setItem("isLoged", false);
                 localStorage.setItem("email", "");
                 localStorage.setItem("idCustomer", "");
+                sessionStorage.setItem("items", JSON.stringify([]));
                 navigate("/");
               }}
               style={{ float: "right", marginRight: "5%", cursor:"pointer" }}

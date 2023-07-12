@@ -13,6 +13,7 @@ import FormLabel from "@mui/material/FormLabel";
 import { getColors } from "../../services/color";
 import { getCategories } from "../../services/category";
 import { getTypes } from "../../services/type";
+import { getSizes } from "../../services/size";
 import { useQuery } from "@tanstack/react-query";
 import { getAvailableCollections } from "../../services/collection";
 
@@ -22,6 +23,7 @@ const Rent = () => {
   const [color, setColor] = React.useState("");
   const [category, setCategory] = React.useState("");
   const [type, setType] = React.useState("");
+  const [size, setSize] = React.useState("");
   const [isFilter, setIsFilter] = React.useState(false);
   const isLoged = localStorage.getItem("isLoged");
 
@@ -34,6 +36,7 @@ const Rent = () => {
     getCategories()
   );
   const { data: typeList } = useQuery(["get-types"], () => getTypes());
+  const { data: sizeList } = useQuery(["get-sizes"], () => getSizes());
 
   React.useEffect(() => {
     if (!isFetching) {
@@ -43,7 +46,7 @@ const Rent = () => {
       setCollections(data.data);
       setIsInitiate(true);
     }
-  }, [isFetching]);
+  }, [data?.data, isFetching]);
 
   const handleSubmit = () => {
     let filteredCollections = data.data;
@@ -62,6 +65,11 @@ const Rent = () => {
         (collection) => collection.id_jenis === type
       );
     }
+    if (size) {
+      filteredCollections = filteredCollections.filter(
+        (collection) => collection.id_ukuran === size
+      );
+    }
 
     setCollections(filteredCollections);
     setIsFilter(true);
@@ -71,6 +79,7 @@ const Rent = () => {
     setColor("");
     setCategory("");
     setType("");
+    setSize("");
     setCollections(data.data);
     setIsFilter(false);
   };
@@ -196,6 +205,32 @@ const Rent = () => {
                           </span>
                         }
                         onClick={(e) => setType(e.target.value)}
+                      />
+                    );
+                  })}
+                </RadioGroup>
+              </FormControl>
+              <hr />
+              <FormControl style={{ marginBottom: "0.5rem" }}>
+                <FormLabel>
+                  <p className="rent-filter-title">Ukuran</p>
+                </FormLabel>
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  name="size"
+                  value={size}
+                >
+                  {(sizeList?.data || []).map((size) => {
+                    return (
+                      <FormControlLabel
+                        value={size.id}
+                        control={<Radio />}
+                        label={
+                          <span className="rent-radio-label">
+                            {size.nama_ukuran}
+                          </span>
+                        }
+                        onClick={(e) => setSize(e.target.value)}
                       />
                     );
                   })}
