@@ -4,11 +4,11 @@ const BackButton = ({ title = "Kembali" }) => {
   const navigate = useNavigate();
 
   return (
-    <div onClick={() => navigate(-1)} style={{ cursor: "pointer" }}>
+    <div onClick={() => navigate(-1)} style={{ cursor: "pointer", width:"fit-content" }}>
       <i
         className="fa fa-chevron-left"
         aria-hidden="true"
-        style={{ margin: "1%" }}
+        style={{ margin: "16px" }}
       ></i>
       {title}
     </div>

@@ -15,6 +15,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/id";
 import * as React from "react";
 import ReactDOM from "react-dom";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 const DetailItem = ({ invoice, dataCustomer }) => {
   function currencyFormat(num) {
@@ -81,9 +82,11 @@ const DetailItem = ({ invoice, dataCustomer }) => {
       <div style={{ display: "flex" }}>
         <div className="di-left">
           <p>Status Pelunasan:</p>
-          <p style={{ fontSize: "16px" }}>
+          <p style={{ fontSize: "16px", marginBottom:"16px" }}>
             <b>{invoice.status_pelunasan}</b>
           </p>
+          <p>Tanggal Lunas: {invoice.waktu_lunas === null ? "-" : dayjs(invoice.waktu_lunas.toDate()).format("DD/MM/YYYY")}</p>
+          <p>Tanggal Selesai: {invoice.status_pelunasan === "Selesai" ? dayjs(invoice.waktu_ubah.toDate()).format("DD/MM/YYYY") : "-"}</p>
         </div>
         <div className="di-mid">
           <p>

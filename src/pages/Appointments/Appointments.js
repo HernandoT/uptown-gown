@@ -147,7 +147,7 @@ const Appointments = () => {
               <FaCheckCircle />
             </div>
           );
-        else if (row.selesai === 0)
+        else if (row.selesai === 0 && row.status === 2)
           return (
             <div
               className="appointments-selesai-icon"

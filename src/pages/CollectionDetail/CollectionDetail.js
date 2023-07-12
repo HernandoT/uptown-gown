@@ -156,7 +156,7 @@ const CollectionDetail = () => {
         <></>
       ) : (
         <>
-          <div style={{ marginLeft: "5%", marginBottom: 0 }}>
+          <div style={{ marginLeft: "5%", marginBottom: 0, width:"fit-content"}}>
             <BackButton />
           </div>
           <div className="detail-content">
