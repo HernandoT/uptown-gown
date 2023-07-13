@@ -81,19 +81,26 @@ const DetailItem = ({ invoice, dataCustomer }) => {
       <Separator _gap={32} />
       <div style={{ display: "flex" }}>
         <div className="di-left">
-          <p>Status Pelunasan:</p>
-          <p style={{ fontSize: "16px", marginBottom:"16px" }}>
+          <p>Panjar: {currencyFormat(invoice.panjar)}</p>
+          <p>Deposit: {currencyFormat(invoice.deposit)}</p>
+          <p style={{marginTop:"24px"}}>Status Pelunasan:</p>
+          <p style={{ fontSize: "20px"}}>
             <b>{invoice.status_pelunasan}</b>
           </p>
-          <p>Tanggal Lunas: {invoice.waktu_lunas === null ? "-" : dayjs(invoice.waktu_lunas.toDate()).format("DD/MM/YYYY")}</p>
-          <p>Tanggal Selesai: {invoice.status_pelunasan === "Selesai" ? dayjs(invoice.waktu_ubah.toDate()).format("DD/MM/YYYY") : "-"}</p>
+          <p style={{marginBottom:"16px"}}>
+          { invoice.status_pelunasan === "Belum Lunas" ?
+            "(Sisa panjar belum dibayarkan)" :
+            invoice.status_pelunasan === "Lunas" ?
+            "(Pelunasan pada " + dayjs(invoice.waktu_lunas.toDate()).format("DD/MM/YYYY") + ")" :
+            ""
+          }</p>
+          {/* <p>Tanggal Lunas: {invoice.waktu_lunas === null ? "-" : dayjs(invoice.waktu_lunas.toDate()).format("DD/MM/YYYY")}</p>
+          <p>Tanggal Selesai: {invoice.status_pelunasan === "Selesai" ? dayjs(invoice.waktu_ubah.toDate()).format("DD/MM/YYYY") : "-"}</p> */}
         </div>
         <div className="di-mid">
           <p>
             <b>Subtotal</b>
           </p>
-          <p>Panjar</p>
-          <p>Deposit</p>
           <p>
             <b>Biaya Tambahan</b>
           </p>
@@ -106,8 +113,6 @@ const DetailItem = ({ invoice, dataCustomer }) => {
           <p>
             <b>{currencyFormat(invoice.harga_total)}</b>
           </p>
-          <p>{currencyFormat(invoice.panjar)}</p>
-          <p>{currencyFormat(invoice.deposit)}</p>
           <p>
             <b>{currencyFormat(invoice.biaya_tambahan)}</b>
           </p>
