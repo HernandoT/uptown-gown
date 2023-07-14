@@ -54,6 +54,7 @@ import DetailButton from "../../components/DetailButton";
 import ExpenseForm from "../Expense/ExpenseForm";
 import TextInputOnChangeField from "../../components/field/text-input-on-change";
 import { Button } from "@mui/material";
+import Divider from "@mui/material/Divider";
 
 const typeInvoice = {
   Rent: "rent",
@@ -62,11 +63,14 @@ const typeInvoice = {
 };
 
 const IsolatedTotal = () => {
-  const { control, setValue } = useFormContext();
+  const { control, setValue, watch } = useFormContext();
   const [items] = useWatch({
     control,
     name: ["items"],
   });
+  function currencyFormat(num) {
+    return "Rp. " + num?.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  }
   React.useEffect(() => {
     const total = items.reduce((prev, item) => {
       if (typeof item.harga === "number") {
@@ -77,25 +81,29 @@ const IsolatedTotal = () => {
         return prev + harga;
       }
     }, 0);
-    setValue("harga_total", total);
-  }, [items, setValue]);
+    const newTotalValue = total;
+    const currentTotalValue = watch("harga_total");
+    if (newTotalValue !== currentTotalValue) {
+      setValue("harga_total", newTotalValue);
+    }
+  }, [items, setValue, watch]);
+  //   setValue("harga_total", total);
+  // }, [items, setValue]);
 
-  return (
-    <TextInputField
-      name="harga_total"
-      label="Total"
-      style={{ flex: 1, marginRight: 20 }}
-      disabled
-    />
-  );
+  const totalValue = watch("harga_total");
+  return <span>{currencyFormat(totalValue)}</span>;
 };
 
 const IsolatedPanjar = () => {
-  const { control, setValue } = useFormContext();
+  const { control, setValue, watch } = useFormContext();
   const [items] = useWatch({
     control,
     name: ["items"],
   });
+  function currencyFormat(num) {
+    return "Rp. " + num?.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  }
+
   React.useEffect(() => {
     const total = items.reduce((prev, item) => {
       if (typeof item.harga === "number") {
@@ -106,17 +114,15 @@ const IsolatedPanjar = () => {
         return prev + harga;
       }
     }, 0);
-    setValue("panjar", total / 2);
-  }, [items, setValue]);
+    const newPanjarValue = total / 2;
+    const currentPanjarValue = watch("panjar");
+    if (newPanjarValue !== currentPanjarValue) {
+      setValue("panjar", newPanjarValue);
+    }
+  }, [items, setValue, watch]);
 
-  return (
-    <TextInputField
-      name="panjar"
-      label="Panjar"
-      style={{ flex: 1, marginRight: 20 }}
-      disabled
-    />
-  );
+  const panjarValue = watch("panjar");
+  return <span>Panjar: {currencyFormat(panjarValue)}</span>;
 };
 
 const IsolatedDeposit = () => {
@@ -817,9 +823,9 @@ const IsolatedForm = ({
               <Separator _gap={12} />
               <Items isEdit={isEdit} isFinished={isFinished} />
               <div style={{ display: "flex", height: "auto" }}>
-                <IsolatedTotal />
-                <IsolatedPanjar />
-                <IsolatedDeposit />
+                {/* <IsolatedTotal /> */}
+                {/* <IsolatedPanjar /> */}
+                {/* <IsolatedDeposit /> */}
                 {/* <TextInputField
                   name="deposit"
                   label="Deposit"
@@ -827,30 +833,29 @@ const IsolatedForm = ({
                   disabled={isFinished}
                 /> */}
               </div>
-              <Separator _gap={24} />
-              <TextInputField
-                name="biaya_tambahan"
-                label="Biaya Tambahan"
-                disabled={isFinished}
-              />
-              {/* <Separator _gap={12} /> */}
-              {isEdit ? (
-                <>
-                  <div>
-                    <p>
+              <Divider style={{margin: "8px 0 16px"}}/>
+              <div style={{display:"flex"}}>
+                <div style={{display:"flex", flex:3, flexDirection:"column", gap:"16px"}}>
+                  <div style={{display:"flex"}}>
+                    <span style={{flex:1}}><IsolatedPanjar /></span>
+                    <span style={{flex:1}}><IsolatedDeposit /></span>
+                  </div>
+                  {isEdit ? (
+                  <>
+                    <div>
                       <strong style={{ marginRight: "8px" }}>
-                        Sisa Pembayaran:
-                      </strong>
-                      {currencyFormat(
-                        defaultValues.harga_total - defaultValues.panjar
-                      )}
-                    </p>
-                    <p style={{ display: "flex", alignItems: "center" }}>
+                          Sisa Pembayaran:
+                        </strong>
+                        {currencyFormat(
+                          defaultValues.harga_total - defaultValues.panjar
+                        )}
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center" }}>
                       <strong style={{ marginRight: "8px" }}>
                         Tanggal Lunas:
                       </strong>
                       {defaultValues.status_pelunasan === "Belum Lunas" ? (
-                        <DateInputFieldBasic name="waktu_lunas" />
+                        <DateInputFieldBasic name="waktu_lunas"/>
                       ) : (
                         <span>
                           {dayjs(defaultValues.waktu_lunas).format(
@@ -858,22 +863,55 @@ const IsolatedForm = ({
                           )}
                         </span>
                       )}
-                    </p>
+                    </div>
                     {isFinished ? (
-                      <p>
+                      <div>
                         <strong style={{ marginRight: "8px" }}>
                           Tanggal Selesai:
                         </strong>
                         {dayjs(defaultValues.waktu_ubah).format("DD/MM/YYYY")}
-                      </p>
+                      </div>
                     ) : (
                       <></>
                     )}
+                  </>
+                  ) : (<></>)}
+                </div>
+                <div style={{display:"flex", flex:2, fontWeight:"bold", flexDirection:"column", gap:"8px"}}>
+                  <div style={{display:"flex"}}>
+                    <span>Subtotal:</span>
+                    <span style={{flex:1, textAlign:"right"}}><IsolatedTotal /></span>
                   </div>
-                </>
-              ) : (
-                <></>
-              )}
+                  <div style={{display:"flex"}}>
+                    <span>Diskon:</span>
+                    <span style={{flex:1, textAlign:"right"}}>input dsini</span>
+                  </div>
+                  <div style={{display:"flex", alignItems:"center"}}>
+                    <span>Biaya Tambahan:</span>
+                    <span style={{flex:1, textAlign:"right"}}>
+                      <TextInputField
+                      name="biaya_tambahan"
+                      // label="Biaya Tambahan"
+                      disabled={isFinished}
+                      size="small"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      /></span>
+                  </div>
+                  <Divider/>
+                  <div style={{display:"flex", fontSize:"18px"}}>
+                    <span>Total Pembayaran:</span>
+                    <span style={{flex:1, textAlign:"right"}}>rp dsini</span>
+                  </div>
+                </div>
+              </div>
+              <Separator _gap={24} />
+              {/* <TextInputField
+                name="biaya_tambahan"
+                label="Biaya Tambahan"
+                disabled={isFinished}
+              /> */}
               {/* <Separator _gap={12} />
               <p>
                 <strong>Status Pelunasan:</strong>
