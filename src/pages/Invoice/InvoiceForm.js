@@ -153,32 +153,6 @@ const IsolatedDeposit = () => {
   );
 };
 
-// const IsolatedHarga = ({ index, isEdit }) => {
-//   const { control, setValue } = useFormContext();
-//   const [items] = useWatch({
-//     control,
-//     name: [`items[${index}].harga`],
-//   });
-//   const [harga, setHarga] = React.useState();
-//   React.useEffect(() => {
-//     setValue(`items[${index}].harga`, harga);
-//   }, [harga, index, setValue]);
-
-//   return (
-//     <TextInputOnChangeField
-//       name={`items[${index}].harga`}
-//       label="Collection"
-//       style={{ flex: 5 }}
-//       disabled={isEdit}
-//       value={harga}
-//       onChange={(event) => {
-//         setHarga(event.target.value);
-//         setValue(`items[${index}].harga`, event.target.value);
-//       }}
-//     />
-//   );
-// };
-
 const Items = ({ isEdit, isFinished }) => {
   const { control, setValue } = useFormContext();
   const { fields, append, remove, update } = useFieldArray({
@@ -219,29 +193,29 @@ const Items = ({ isEdit, isFinished }) => {
       gambar_sketsa: "",
       fitting: {
         id_fitting: "",
-        lingkarLeher: "",
-        lingkarBadan: "",
-        lingkarBadanAtas: "",
-        lingkarPinggang: "",
-        lingkarPerut: "",
-        lingkarPinggul: "",
-        jarakDada: "",
-        tinggiDada: "",
-        panjangDada: "",
-        panjangPunggung: "",
-        panjangSisi: "",
-        lebarBahu: "",
-        lebarDada: "",
-        lebarPunggung: "",
-        tinggiPerut: "",
-        tinggiPinggul: "",
-        lenganPendek: "",
-        lebarLengan: "",
-        lenganPanjang: "",
-        lebarPergelanganLengan: "",
-        panjangSiku: "",
-        panjangRok: "",
-        lebarKerungLengan: "",
+        lingkar_leher: "",
+        lingkar_badan: "",
+        lingkar_badan_atas: "",
+        lingkar_pinggang: "",
+        lingkar_perut: "",
+        lingkar_pinggul: "",
+        jarak_dada: "",
+        tinggi_dada: "",
+        panjang_dada: "",
+        panjang_punggung: "",
+        panjang_sisi: "",
+        lebar_bahu: "",
+        lebar_dada: "",
+        lebar_punggung: "",
+        tinggi_perut: "",
+        tinggi_pinggul: "",
+        lengan_pendek: "",
+        lebar_lengan: "",
+        lengan_panjang: "",
+        lebar_pergelangan_lengan: "",
+        panjang_siku: "",
+        panjang_rok: "",
+        lebar_kerung_lengan: "",
       },
     });
   };
@@ -280,35 +254,66 @@ const Items = ({ isEdit, isFinished }) => {
           <>
             <div key={index} style={{ display: "flex", height: "auto" }}>
               {type === typeInvoice.Rent ? (
-                <CollectionSelectInput
-                  name={`items[${index}].id_collection`}
-                  style={{ flex: 5, marginRight: 20 }}
-                  disabled={isEdit}
-                  onAfterChangeDetail={(value) => {
-                    if (!field?.gambar_sketsa) {
-                      setValue(`items[${index}].gambar_sketsa`, [
-                        value?.extra?.gambar,
-                      ]);
-                    }
-                    setValue(`items[${index}].harga`, value?.extra?.harga);
-                    setValue(`items[${index}].id_collection`, value?.value);
-                  }}
-                />
+                <>
+                  <CollectionSelectInput
+                    name={`items[${index}].id_collection`}
+                    style={{ flex: 5, marginRight: 20 }}
+                    disabled={isEdit}
+                    onAfterChangeDetail={(value) => {
+                      if (!field?.gambar_sketsa) {
+                        setValue(`items[${index}].gambar_sketsa`, [
+                          value?.extra?.gambar,
+                        ]);
+                      }
+                      setValue(`items[${index}].harga`, value?.extra?.harga);
+                      setValue(`items[${index}].id_collection`, value?.value);
+                    }}
+                  />
+
+                  <TextInputField
+                    name={`items[${index}].harga`}
+                    label="Harga"
+                    style={{ flex: 5, marginRight: 20 }}
+                    disabled={true}
+                  />
+                </>
               ) : (
-                <TextInputField
-                  name={`items[${index}].nama_item`}
-                  label="Collection"
-                  style={{ flex: 5, marginRight: 20 }}
-                  disabled={isEdit}
-                />
+                <>
+                  <TextInputOnChangeField
+                    name={`items[${index}].nama_item`}
+                    label="Collection"
+                    style={{ flex: 5, marginRight: 20 }}
+                    disabled={isEdit}
+                    value={fields[index].nama_item}
+                    onChange={(e) => {
+                      update(index, { ...fields[index], nama_item: e.target.value });
+                    }}
+                  />
+                  <TextInputOnChangeField
+                    name={`items[${index}].harga`}
+                    label="Harga"
+                    style={{ flex: 5 }}
+                    disabled={isEdit}
+                    value={fields[index].harga !== "" ? fields[index].harga : 0}
+                    onChange={(e) => {
+                      const inputHarga = e.target.value;
+                      let newHarga = 0;
+
+                      if (inputHarga !== "") {
+                        newHarga = parseFloat(inputHarga);
+                        if (isNaN(newHarga)) {
+                          newHarga =
+                            fields[index].harga !== ""
+                              ? fields[index].harga
+                              : 0;
+                        }
+                      }
+
+                      update(index, { ...fields[index], harga: newHarga });
+                    }}
+                  />
+                </>
               )}
-              {/* <IsolatedHarga index={index} isEdit={isEdit} /> */}
-              <TextInputField
-                name={`items[${index}].harga`}
-                label="Harga"
-                style={{ flex: 5 }}
-                disabled={isEdit}
-              />
               {isFinished ? (
                 <></>
               ) : (
@@ -346,6 +351,7 @@ const Items = ({ isEdit, isFinished }) => {
           </>
         );
       })}
+      {/* </div> */}
     </>
   );
 };
@@ -374,7 +380,7 @@ const IsolatedForm = ({
       id_customer: data?.invoice.id_customer,
       id_jenis_invoice: data?.invoice.id_jenis_invoice,
       tanggal_acara: data?.invoice.tanggal_acara.toDate() || new Date(),
-      biaya_tambahan: data?.invoice.biaya_tambahan,
+      biaya_tambahan: data?.invoice.biaya_tambahan || 0,
       harga_total: data?.invoice.harga_total,
       panjar: data?.invoice.panjar,
       deposit: data?.invoice.deposit,
@@ -497,29 +503,29 @@ const IsolatedForm = ({
           invoiceDoc.then((idInvoice) => {
             fittings.map((fitting, index) => {
               const fittingDoc = createFitting({
-                lingkar_leher: fitting.lingkarLeher,
-                lingkar_badan: fitting.lingkarBadan,
-                lingkar_badan_atas: fitting.lingkarBadanAtas,
-                lingkar_pinggang: fitting.lingkarPinggang,
-                lingkar_perut: fitting.lingkarPerut,
-                lingkar_pinggul: fitting.lingkarPinggul,
-                jarak_dada: fitting.jarakDada,
-                tinggi_dada: fitting.tinggiDada,
-                panjang_dada: fitting.panjangDada,
-                panjang_punggung: fitting.panjangPunggung,
-                panjang_sisi: fitting.panjangSisi,
-                lebar_bahu: fitting.lebarBahu,
-                lebar_dada: fitting.lebarDada,
-                lebar_punggung: fitting.lebarPunggung,
-                tinggi_perut: fitting.tinggiPerut,
-                tinggi_pinggul: fitting.tinggiPinggul,
-                lengan_pendek: fitting.lenganPendek,
-                lebar_lengan: fitting.lebarLengan,
-                lengan_panjang: fitting.lenganPanjang,
-                lebar_pergelangan_lengan: fitting.lebarPergelanganLengan,
-                panjang_siku: fitting.panjangSiku,
-                panjang_rok: fitting.panjangRok,
-                lebar_kerung_lengan: fitting.lebarKerungLengan,
+                lingkar_leher: fitting.lingkar_leher,
+                lingkar_badan: fitting.lingkar_badan,
+                lingkar_badan_atas: fitting.lingkar_badan_atas,
+                lingkar_pinggang: fitting.lingkar_pinggang,
+                lingkar_perut: fitting.lingkar_perut,
+                lingkar_pinggul: fitting.lingkar_pinggul,
+                jarak_dada: fitting.jarak_dada,
+                tinggi_dada: fitting.tinggi_dada,
+                panjang_dada: fitting.panjang_dada,
+                panjang_punggung: fitting.panjang_punggung,
+                panjang_sisi: fitting.panjang_sisi,
+                lebar_bahu: fitting.lebar_bahu,
+                lebar_dada: fitting.lebar_dada,
+                lebar_punggung: fitting.lebar_punggung,
+                tinggi_perut: fitting.tinggi_perut,
+                tinggi_pinggul: fitting.tinggi_pinggul,
+                lengan_pendek: fitting.lengan_pendek,
+                lebar_lengan: fitting.lebar_lengan,
+                lengan_panjang: fitting.lengan_panjang,
+                lebar_pergelangan_lengan: fitting.lebar_pergelangan_lengan,
+                panjang_siku: fitting.panjang_siku,
+                panjang_rok: fitting.panjang_rok,
+                lebar_kerung_lengan: fitting.lebar_kerung_lengan,
               });
               fittingDoc.then(async (idFitting) => {
                 const fileUrl = urlPattern.test(
@@ -576,29 +582,29 @@ const IsolatedForm = ({
 
           fittings.map(async (fitting, index) => {
             updateFitting(defaultValues?.items[index].id_fitting, {
-              lingkar_leher: fitting.lingkarLeher,
-              lingkar_badan: fitting.lingkarBadan,
-              lingkar_badan_atas: fitting.lingkarBadanAtas,
-              lingkar_pinggang: fitting.lingkarPinggang,
-              lingkar_perut: fitting.lingkarPerut,
-              lingkar_pinggul: fitting.lingkarPinggul,
-              jarak_dada: fitting.jarakDada,
-              tinggi_dada: fitting.tinggiDada,
-              panjang_dada: fitting.panjangDada,
-              panjang_punggung: fitting.panjangPunggung,
-              panjang_sisi: fitting.panjangSisi,
-              lebar_bahu: fitting.lebarBahu,
-              lebar_dada: fitting.lebarDada,
-              lebar_punggung: fitting.lebarPunggung,
-              tinggi_perut: fitting.tinggiPerut,
-              tinggi_pinggul: fitting.tinggiPinggul,
-              lengan_pendek: fitting.lenganPendek,
-              lebar_lengan: fitting.lebarLengan,
-              lengan_panjang: fitting.lenganPanjang,
-              lebar_pergelangan_lengan: fitting.lebarPergelanganLengan,
-              panjang_siku: fitting.panjangSiku,
-              panjang_rok: fitting.panjangRok,
-              lebar_kerung_lengan: fitting.lebarKerungLengan,
+              lingkar_leher: fitting.lingkar_leher,
+              lingkar_badan: fitting.lingkar_badan,
+              lingkar_badan_atas: fitting.lingkar_badan_atas,
+              lingkar_pinggang: fitting.lingkar_pinggang,
+              lingkar_perut: fitting.lingkar_perut,
+              lingkar_pinggul: fitting.lingkar_pinggul,
+              jarak_dada: fitting.jarak_dada,
+              tinggi_dada: fitting.tinggi_dada,
+              panjang_dada: fitting.panjang_dada,
+              panjang_punggung: fitting.panjang_punggung,
+              panjang_sisi: fitting.panjang_sisi,
+              lebar_bahu: fitting.lebar_bahu,
+              lebar_dada: fitting.lebar_dada,
+              lebar_punggung: fitting.lebar_punggung,
+              tinggi_perut: fitting.tinggi_perut,
+              tinggi_pinggul: fitting.tinggi_pinggul,
+              lengan_pendek: fitting.lengan_pendek,
+              lebar_lengan: fitting.lebar_lengan,
+              lengan_panjang: fitting.lengan_panjang,
+              lebar_pergelangan_lengan: fitting.lebar_pergelangan_lengan,
+              panjang_siku: fitting.panjang_siku,
+              panjang_rok: fitting.panjang_rok,
+              lebar_kerung_lengan: fitting.lebar_kerung_lengan,
             });
 
             const fileUrl = urlPattern.test(
