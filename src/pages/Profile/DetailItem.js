@@ -21,7 +21,6 @@ const DetailItem = ({ invoice, dataCustomer }) => {
   function currencyFormat(num) {
     return "Rp. " + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   }
-  const jumlahtotal = invoice.harga_total + invoice.biaya_tambahan;
   const idnDayjs = dayjs().locale("id");
 
   const invoiceContent = (
@@ -102,6 +101,9 @@ const DetailItem = ({ invoice, dataCustomer }) => {
             <b>Subtotal</b>
           </p>
           <p>
+            <b>Diskon</b>
+          </p>
+          <p>
             <b>Biaya Tambahan</b>
           </p>
           <Divider />
@@ -114,11 +116,14 @@ const DetailItem = ({ invoice, dataCustomer }) => {
             <b>{currencyFormat(invoice.harga_total)}</b>
           </p>
           <p>
+            <b>- {currencyFormat(invoice.diskon)}</b>
+          </p>
+          <p>
             <b>{currencyFormat(invoice.biaya_tambahan)}</b>
           </p>
           <Divider />
           <p style={{ fontSize: "16px" }}>
-            <b>{currencyFormat(jumlahtotal)}</b>
+            <b>{currencyFormat(invoice.total_pembayaran)}</b>
           </p>
         </div>
       </div>

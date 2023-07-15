@@ -171,8 +171,8 @@ const Profile = () => {
                                 ).toLocaleDateString("en-GB")}
                               </p>
                               <p>
-                                <b>Harga Total:</b>{" "}
-                                {currencyFormat(invoice.harga_total)}
+                                <b>Total:</b>{" "}
+                                {currencyFormat(invoice.total_pembayaran)}
                               </p>
                               <p>
                                 <b>Jenis Inovoice:</b>{" "}
