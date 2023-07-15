@@ -79,17 +79,17 @@ const Invoice = () => {
       },
     },
     {
-      field: "harga_total",
-      headerName: "Harga Total",
+      field: "total_pembayaran",
+      headerName: "Total",
       minWidth: 120,
       flex: 1,
       renderCell: ({ row }) => {
         function currencyFormat(num) {
           return (
-            "Rp. " + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+            "Rp. " + num?.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
           );
         }
-        return <>{currencyFormat(row.harga_total)}</>;
+        return <>{currencyFormat(row.total_pembayaran)}</>;
       },
     },
     {

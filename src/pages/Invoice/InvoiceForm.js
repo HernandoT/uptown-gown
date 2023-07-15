@@ -53,6 +53,7 @@ import dayjs from "dayjs";
 import DetailButton from "../../components/DetailButton";
 import ExpenseForm from "../Expense/ExpenseForm";
 import TextInputOnChangeField from "../../components/field/text-input-on-change";
+import TextInputOnChangeFieldName from "../../components/field/text-input-on-change-name";
 import { Button } from "@mui/material";
 import Divider from "@mui/material/Divider";
 
@@ -180,6 +181,10 @@ const IsolatedTotalPembayaran = () => {
     control,
     name: ["items"],
   });
+  const [diskon] = useWatch({
+    control,
+    name: ["diskon"],
+  });
   const [biaya_tambahan] = useWatch({
     control,
     name: ["biaya_tambahan"],
@@ -197,14 +202,13 @@ const IsolatedTotalPembayaran = () => {
         return prev + harga;
       }
     }, 0);
-    const diskonValue = watch("diskon");
-    // const tambahValue = watch("biaya_tambahan");
-    const newTotalValue = total-parseFloat(diskonValue)+parseFloat(biaya_tambahan);;
+    // const diskonValue = watch("diskon");
+    const newTotalValue = total-parseFloat(diskon)+parseFloat(biaya_tambahan);;
     const currentTotalValue = watch("total_pembayaran");
     if (!isNaN(newTotalValue) && newTotalValue !== currentTotalValue) {
       setValue("total_pembayaran", newTotalValue);
     }
-  }, [biaya_tambahan, items, setValue, watch]);
+  }, [diskon, biaya_tambahan, items, setValue, watch]);
 
   const totalValue = watch("total_pembayaran");
   return <span>{currencyFormat(totalValue)}</span>;
@@ -336,7 +340,7 @@ const Items = ({ isEdit, isFinished }) => {
                 </>
               ) : (
                 <>
-                  <TextInputOnChangeField
+                  <TextInputOnChangeFieldName
                     name={`items[${index}].nama_item`}
                     label="Collection"
                     style={{ flex: 5, marginRight: 20 }}
@@ -924,7 +928,7 @@ const IsolatedForm = ({
                           Sisa Pembayaran:
                         </strong>
                         {currencyFormat(
-                          defaultValues.harga_total - defaultValues.panjar
+                          defaultValues.panjar
                         )}
                       </div>
                       <div style={{ display: "flex", alignItems: "center" }}>
