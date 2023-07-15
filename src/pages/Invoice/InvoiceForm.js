@@ -100,6 +100,10 @@ const IsolatedPanjar = () => {
     control,
     name: ["items"],
   });
+  const [diskon] = useWatch({
+    control,
+    name: ["diskon"],
+  });
   function currencyFormat(num) {
     return "Rp. " + num?.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   }
@@ -114,16 +118,16 @@ const IsolatedPanjar = () => {
         return prev + harga;
       }
     }, 0);
-    const diskonValue = watch("diskon");
-    const newPanjarValue = (total-diskonValue) / 2;
+    // const diskonValue = watch("diskon");
+    const newPanjarValue = (total-diskon) / 2;
     const currentPanjarValue = watch("panjar");
-    // if (newPanjarValue !== currentPanjarValue) {
-    //   setValue("panjar", newPanjarValue);
-    // }
+    if (newPanjarValue !== currentPanjarValue) {
+      setValue("panjar", newPanjarValue);
+    }
     if (!isNaN(newPanjarValue) && newPanjarValue !== currentPanjarValue) {
       setValue("panjar", newPanjarValue);
     }
-  }, [items, setValue, watch]);
+  }, [diskon, items, setValue, watch]);
 
   const panjarValue = watch("panjar");
   return <span>Panjar: {currencyFormat(panjarValue)}</span>;
@@ -134,6 +138,10 @@ const IsolatedDeposit = () => {
   const [items] = useWatch({
     control,
     name: ["items"],
+  });
+  const [diskon] = useWatch({
+    control,
+    name: ["diskon"],
   });
   const [type] = useWatch({
     control,
@@ -153,14 +161,14 @@ const IsolatedDeposit = () => {
         return prev + harga;
       }
     }, 0);
-    const diskonValue = watch("diskon");
-    const newDepositValue = total-diskonValue;
+    // const diskonValue = watch("diskon");
+    const newDepositValue = total-diskon;
     const currentDepositValue = watch("deposit");
     if (type === "custom_made") setValue("deposit", 0);
     else if (!isNaN(newDepositValue) && newDepositValue !== currentDepositValue) {
       setValue("deposit", newDepositValue);
     }
-  }, [items, setValue, watch, type]);
+  }, [items, setValue, watch, type, diskon]);
 
   const depositValue = watch("deposit");
   return <span>Deposit: {currencyFormat(depositValue)}</span>;
@@ -171,6 +179,10 @@ const IsolatedTotalPembayaran = () => {
   const [items] = useWatch({
     control,
     name: ["items"],
+  });
+  const [biaya_tambahan] = useWatch({
+    control,
+    name: ["biaya_tambahan"],
   });
   function currencyFormat(num) {
     return "Rp. " + num?.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
@@ -186,13 +198,13 @@ const IsolatedTotalPembayaran = () => {
       }
     }, 0);
     const diskonValue = watch("diskon");
-    const tambahValue = watch("biaya_tambahan");
-    const newTotalValue = total-parseFloat(diskonValue)+parseFloat(tambahValue);;
+    // const tambahValue = watch("biaya_tambahan");
+    const newTotalValue = total-parseFloat(diskonValue)+parseFloat(biaya_tambahan);;
     const currentTotalValue = watch("total_pembayaran");
     if (!isNaN(newTotalValue) && newTotalValue !== currentTotalValue) {
       setValue("total_pembayaran", newTotalValue);
     }
-  }, [items, setValue, watch]);
+  }, [biaya_tambahan, items, setValue, watch]);
 
   const totalValue = watch("total_pembayaran");
   return <span>{currencyFormat(totalValue)}</span>;
