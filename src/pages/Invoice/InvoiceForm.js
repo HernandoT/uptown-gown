@@ -195,6 +195,42 @@ const IsolatedDeposit = () => {
 //   );
 // };
 
+const IsolatedTotalPembayaran = () => {
+  const { control, setValue, watch } = useFormContext();
+  const [items] = useWatch({
+    control,
+    name: ["items"],
+  });
+  const [diskon] = useWatch({
+    control,
+    name: ["diskon"],
+  });
+  function currencyFormat(num) {
+    return "Rp. " + num?.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  }
+  React.useEffect(() => {
+    const total = items.reduce((prev, item) => {
+      if (typeof item.harga === "number") {
+        const harga = item.harga || 0;
+        return prev + harga;
+      } else {
+        const harga = parseFloat(item.harga || 0);
+        return prev + harga;
+      }
+    }, 0);
+    const newTotalPembayaranValue = total - diskon;
+    const currentTotalPembayaranValue = watch("harga_total");
+    // if (newTotalPembayaranValue !== currentTotalPembayaranValue) {
+    //   setValue("harga_total", newTotalPembayaranValue);
+    // }
+  }, [items, setValue, watch]);
+  //   setValue("harga_total", total);
+  // }, [items, setValue]);
+
+  const totalValue = watch("harga_total");
+  return <span>{currencyFormat(totalValue)}</span>;
+};
+
 const Items = ({ isEdit, isFinished }) => {
   const { control, setValue } = useFormContext();
   const { fields, append, remove, update } = useFieldArray({
@@ -425,6 +461,7 @@ const IsolatedForm = ({
       id_customer: data?.invoice.id_customer,
       id_jenis_invoice: data?.invoice.id_jenis_invoice,
       tanggal_acara: data?.invoice.tanggal_acara.toDate() || new Date(),
+      diskon: data?.invoice.diskon || 0,
       biaya_tambahan: data?.invoice.biaya_tambahan || 0,
       harga_total: data?.invoice.harga_total,
       panjar: data?.invoice.panjar,
@@ -505,6 +542,7 @@ const IsolatedForm = ({
           id_customer: values.id_customer,
           id_jenis_invoice: values.id_jenis_invoice,
           tanggal_acara: tanggal_acara,
+          diskon: values.diskon,
           biaya_tambahan: values.biaya_tambahan,
           harga_total: values.harga_total,
           panjar: values.panjar,
@@ -534,6 +572,7 @@ const IsolatedForm = ({
             id_customer: invoice.id_customer,
             id_jenis_invoice: invoice.id_jenis_invoice,
             tanggal_acara: Timestamp.fromDate(invoice.tanggal_acara),
+            diskon: values.diskon,
             biaya_tambahan: invoice.biaya_tambahan,
             harga_total: invoice.harga_total,
             panjar: invoice.panjar,
@@ -605,6 +644,7 @@ const IsolatedForm = ({
             id_customer: invoice.id_customer,
             id_jenis_invoice: invoice.id_jenis_invoice,
             tanggal_acara: Timestamp.fromDate(invoice.tanggal_acara),
+            diskon: values.diskon,
             biaya_tambahan: invoice.biaya_tambahan,
             harga_total: invoice.harga_total,
             panjar: invoice.panjar,
@@ -701,21 +741,25 @@ const IsolatedForm = ({
           "Harap isi Tanggal Acara terlebih dahulu"
         ),
         harga_total: Yup.number()
-          .required("Harap diisi (berikan 0 jika tidak ada biaya)")
+          .required("Harap diisi")
           .integer()
-          .typeError("Harga Total Wajib diisi dengan Angka"),
+          .typeError("Wajib diisi dengan Angka"),
         panjar: Yup.number()
-          .required("Harap diisi (berikan 0 jika tidak ada biaya)")
+          .required("Harap diisi")
           .integer()
-          .typeError("Panjar Wajib diisi dengan Angka"),
+          .typeError("Wajib diisi dengan Angka"),
         deposit: Yup.number()
-          .required("Harap diisi (berikan 0 jika tidak ada biaya)")
+          .required("Harap diisi")
           .integer()
-          .typeError("Deposit Wajib diisi dengan Angka"),
+          .typeError("Wajib diisi dengan Angka"),
+        diskon: Yup.number()
+          .required("Harap diisi")
+          .integer()
+          .typeError("Wajib diisi dengan Angka"),
         biaya_tambahan: Yup.number()
-          .required("Harap diisi (berikan 0 jika tidak ada biaya)")
+          .required("Harap diisi")
           .integer()
-          .typeError("Biaya Tambahan Wajib diisi dengan Angka"),
+          .typeError("Wajib diisi dengan Angka"),
         // status_pelunasan: Yup.string().required(
         //   "Harap pilih Status Pelunasan terlebih dahulu"
         // ),
@@ -944,10 +988,17 @@ const IsolatedForm = ({
                       <IsolatedTotal />
                     </span>
                   </div>
-                  <div style={{ display: "flex" }}>
+                  <div style={{ display: "flex", alignItems: "center"  }}>
                     <span>Diskon:</span>
                     <span style={{ flex: 1, textAlign: "right" }}>
-                      input dsini
+                      <TextInputField
+                        name="diskon"
+                        disabled={isFinished}
+                        size="small"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
                     </span>
                   </div>
                   <div style={{ display: "flex", alignItems: "center" }}>
@@ -968,7 +1019,7 @@ const IsolatedForm = ({
                   <div style={{ display: "flex", fontSize: "18px" }}>
                     <span>Total Pembayaran:</span>
                     <span style={{ flex: 1, textAlign: "right" }}>
-                      rp dsini
+                      <IsolatedTotalPembayaran />
                     </span>
                   </div>
                 </div>
