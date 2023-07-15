@@ -114,9 +114,13 @@ const IsolatedPanjar = () => {
         return prev + harga;
       }
     }, 0);
-    const newPanjarValue = total / 2;
+    const diskonValue = watch("diskon");
+    const newPanjarValue = (total-diskonValue) / 2;
     const currentPanjarValue = watch("panjar");
-    if (newPanjarValue !== currentPanjarValue) {
+    // if (newPanjarValue !== currentPanjarValue) {
+    //   setValue("panjar", newPanjarValue);
+    // }
+    if (!isNaN(newPanjarValue) && newPanjarValue !== currentPanjarValue) {
       setValue("panjar", newPanjarValue);
     }
   }, [items, setValue, watch]);
@@ -149,61 +153,24 @@ const IsolatedDeposit = () => {
         return prev + harga;
       }
     }, 0);
-    const newDepositValue = total;
+    const diskonValue = watch("diskon");
+    const newDepositValue = total-diskonValue;
     const currentDepositValue = watch("deposit");
     if (type === "custom_made") setValue("deposit", 0);
-    else if (newDepositValue !== currentDepositValue) {
+    else if (!isNaN(newDepositValue) && newDepositValue !== currentDepositValue) {
       setValue("deposit", newDepositValue);
     }
-  }, [items, setValue, watch]);
+  }, [items, setValue, watch, type]);
 
   const depositValue = watch("deposit");
   return <span>Deposit: {currencyFormat(depositValue)}</span>;
 };
-
-// const IsolatedDeposit = () => {
-//   const { control, setValue } = useFormContext();
-//   const [items] = useWatch({
-//     control,
-//     name: ["items"],
-//   });
-//   const [type] = useWatch({
-//     control,
-//     name: ["id_jenis_invoice"],
-//   });
-//   React.useEffect(() => {
-//     const total = items.reduce((prev, item) => {
-//       if (typeof item.harga === "number") {
-//         const harga = item.harga || 0;
-//         return prev + harga;
-//       } else {
-//         const harga = parseFloat(item.harga || 0);
-//         return prev + harga;
-//       }
-//     }, 0);
-//     if (type === "custom_made") setValue("deposit", 0);
-//     else setValue("deposit", total);
-//   }, [items, setValue, type]);
-
-//   return (
-//     <TextInputField
-//       name="deposit"
-//       label="Deposit"
-//       style={{ flex: 1, marginRight: 20 }}
-//       disabled
-//     />
-//   );
-// };
 
 const IsolatedTotalPembayaran = () => {
   const { control, setValue, watch } = useFormContext();
   const [items] = useWatch({
     control,
     name: ["items"],
-  });
-  const [diskon] = useWatch({
-    control,
-    name: ["diskon"],
   });
   function currencyFormat(num) {
     return "Rp. " + num?.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
@@ -218,16 +185,16 @@ const IsolatedTotalPembayaran = () => {
         return prev + harga;
       }
     }, 0);
-    const newTotalPembayaranValue = total - diskon;
-    const currentTotalPembayaranValue = watch("harga_total");
-    // if (newTotalPembayaranValue !== currentTotalPembayaranValue) {
-    //   setValue("harga_total", newTotalPembayaranValue);
-    // }
+    const diskonValue = watch("diskon");
+    const tambahValue = watch("biaya_tambahan");
+    const newTotalValue = total-parseFloat(diskonValue)+parseFloat(tambahValue);;
+    const currentTotalValue = watch("total_pembayaran");
+    if (!isNaN(newTotalValue) && newTotalValue !== currentTotalValue) {
+      setValue("total_pembayaran", newTotalValue);
+    }
   }, [items, setValue, watch]);
-  //   setValue("harga_total", total);
-  // }, [items, setValue]);
 
-  const totalValue = watch("harga_total");
+  const totalValue = watch("total_pembayaran");
   return <span>{currencyFormat(totalValue)}</span>;
 };
 
@@ -464,6 +431,7 @@ const IsolatedForm = ({
       diskon: data?.invoice.diskon || 0,
       biaya_tambahan: data?.invoice.biaya_tambahan || 0,
       harga_total: data?.invoice.harga_total,
+      total_pembayaran: data?.invoice.total_pembayaran,
       panjar: data?.invoice.panjar,
       deposit: data?.invoice.deposit,
       status_pelunasan: data?.invoice.status_pelunasan,
@@ -545,6 +513,7 @@ const IsolatedForm = ({
           diskon: values.diskon,
           biaya_tambahan: values.biaya_tambahan,
           harga_total: values.harga_total,
+          total_pembayaran: values.total_pembayaran,
           panjar: values.panjar,
           deposit: values.deposit,
           status_pelunasan: values.status_pelunasan,
@@ -575,6 +544,7 @@ const IsolatedForm = ({
             diskon: values.diskon,
             biaya_tambahan: invoice.biaya_tambahan,
             harga_total: invoice.harga_total,
+            total_pembayaran: invoice.total_pembayaran,
             panjar: invoice.panjar,
             deposit: invoice.deposit,
             // status_pelunasan: invoice.status_pelunasan,
@@ -647,6 +617,7 @@ const IsolatedForm = ({
             diskon: values.diskon,
             biaya_tambahan: invoice.biaya_tambahan,
             harga_total: invoice.harga_total,
+            total_pembayaran: invoice.total_pembayaran,
             panjar: invoice.panjar,
             deposit: invoice.deposit,
             // status_pelunasan: invoice.status_pelunasan,
@@ -990,15 +961,30 @@ const IsolatedForm = ({
                   </div>
                   <div style={{ display: "flex", alignItems: "center"  }}>
                     <span>Diskon:</span>
-                    <span style={{ flex: 1, textAlign: "right" }}>
-                      <TextInputField
+                    <span style={{ flex: 1, display:"flex", justifyContent:"right", alignItems:"center"}}>
+                      <span style={{marginRight:"8px"}}>-</span> 
+                      {!isEdit ? (
+                          <TextInputField
+                          name="diskon"
+                          disabled={isFinished}
+                          size="small"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          />
+                        ) : (
+                          <span style={{textAlign: "right" }}>
+                            {currencyFormat(defaultValues.diskon)}
+                          </span>
+                        )}
+                      {/* <TextInputField
                         name="diskon"
                         disabled={isFinished}
                         size="small"
                         InputLabelProps={{
                           shrink: true,
                         }}
-                      />
+                      /> */}
                     </span>
                   </div>
                   <div style={{ display: "flex", alignItems: "center" }}>
