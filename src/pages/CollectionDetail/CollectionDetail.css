@@ -35,9 +35,17 @@
   font-family: "Playfair Display", serif;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  height: 10vh;
+  align-items: flex-start;
+  /* height: 10vh; */
+  height: fit-content;
 }
+
+.detail-name {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.detail-name p {margin: 0;}
 
 .detail-strip {
   border: 2px solid #edbf52;
