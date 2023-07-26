@@ -873,7 +873,7 @@ const IsolatedForm = ({
                 <InvoiceTypeSelectInput
                   name="id_jenis_invoice"
                   style={{ marginTop: 8, marginRight: 20, flex: 1 }}
-                  // disabled={isEdit ? true : false}
+                  disabled={isFinished ? true : false}
                   onChangeExtend={
                     !isEdit
                       ? () => {
@@ -928,7 +928,7 @@ const IsolatedForm = ({
                           Sisa Pembayaran:
                         </strong>
                         {currencyFormat(
-                          defaultValues.panjar
+                          defaultValues.total_pembayaran - defaultValues.panjar
                         )}
                       </div>
                       <div style={{ display: "flex", alignItems: "center" }}>

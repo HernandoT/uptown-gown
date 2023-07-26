@@ -56,8 +56,11 @@ const ChangePassword = () => {
   const onSubmit = React.useCallback(async (values) => {
     try {
       updateAdmin(id, {
-        username: data?.admin.username,
+        main: data?.admin.main,
+        nama: data?.admin.nama,
+        email: data?.admin.email,
         password: values.password,
+        nomor_telepon: data?.admin.nomor_telepon,
       });
       notifications.show({
         title: "Ganti Password",

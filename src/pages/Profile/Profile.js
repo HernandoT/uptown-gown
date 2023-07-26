@@ -175,7 +175,7 @@ const Profile = () => {
                                 {currencyFormat(invoice.total_pembayaran)}
                               </p>
                               <p>
-                                <b>Jenis Inovoice:</b>{" "}
+                                <b>Jenis Invoice:</b>{" "}
                                 {invoice.id_jenis_invoice === "rent"
                                   ? "Rent"
                                   : invoice.id_jenis_invoice === "custom_rent"

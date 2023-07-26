@@ -100,7 +100,7 @@ const AppointmentForm = () => {
               waktu: displayTime,
               status: parseInt(values.status),
               selesai: isSelesai ? 1 : 0,
-              koleksi: values.koleksi,
+              koleksi: data?.appointment.koleksi,
             })
           : createAppointment({
               keterangan: values.keterangan,
