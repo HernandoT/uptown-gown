@@ -5,8 +5,38 @@
     align-items: center;
     text-align: left;
     background: transparent;
-    width: 90%;
+    width: 100%;
   }
+
+  .navbar-small {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navbar-menu-small {
+    display: flex;
+    flex-direction: column;
+    padding: 0 5% 2%;
+  }
+
+  .navbar-menu-small a {
+    padding: 16px 2%;
+  }
+
+  .navbar-menu-small .link:hover {
+    background-color: rgba(237, 191, 82, 0.4);
+  }
+
+  .solid-nav {
+    background-color: white;
+    position: fixed;
+    top: 0;
+    border-bottom: 1px solid lightgray;
+    z-index: 100;
+  }
+
+  .navbar-full {display: none;}
   
   .icon {
     height: 80px;
@@ -21,7 +51,7 @@
     text-decoration: none;
     padding: 2%;
     color: #181308;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
   }
   
   .linkActive {
@@ -29,8 +59,21 @@
     text-decoration: none;
     padding: 2%;
     color: #181308;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
   }
+
+  .login-button {
+    float: right;
+    border: 1px solid black;
+    padding: 4px 16px;
+    color: white;
+    background-color: #181308;
+    text-decoration: none;
+    border-radius: 5%;
+    margin-right: 5%;
+    font-size: 0.8rem;
+  }
+
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -40,8 +83,38 @@
     align-items: center;
     text-align: left;
     background: transparent;
-    width: 90%;
+    width: 100%;
   }
+
+  .navbar-small {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navbar-menu-small {
+    display: flex;
+    flex-direction: column;
+    padding: 0 5% 2%;
+  }
+
+  .navbar-menu-small a {
+    padding: 16px 2%;
+  }
+
+  .navbar-menu-small .link:hover {
+    background-color: rgba(237, 191, 82, 0.4);
+  }
+
+  .solid-nav {
+    background-color: white;
+    position: fixed;
+    top: 0;
+    border-bottom: 1px solid lightgray;
+    z-index: 100;
+  }
+
+  .navbar-full {display: none;}
   
   .icon {
     height: 80px;
@@ -56,7 +129,7 @@
     text-decoration: none;
     padding: 2%;
     color: #181308;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
   
   .linkActive {
@@ -64,7 +137,19 @@
     text-decoration: none;
     padding: 2%;
     color: #181308;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .login-button {
+    float: right;
+    border: 1px solid black;
+    padding: 5px 20px;
+    color: white;
+    background-color: #181308;
+    text-decoration: none;
+    border-radius: 5%;
+    margin-right: 5%;
+    font-size: 0.9rem;
   }
 }
 
@@ -75,8 +160,38 @@
     align-items: center;
     text-align: left;
     background: transparent;
-    width: 90%;
+    width: 100%;
   }
+
+  .navbar-small {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navbar-menu-small {
+    display: flex;
+    flex-direction: column;
+    padding: 0 5% 2%;
+  }
+
+  .navbar-menu-small a {
+    padding: 16px 2%;
+  }
+
+  .navbar-menu-small .link:hover {
+    background-color: rgba(237, 191, 82, 0.4);
+  }
+
+  .solid-nav {
+    background-color: white;
+    position: fixed;
+    top: 0;
+    border-bottom: 1px solid lightgray;
+    z-index: 100;
+  }
+
+  .navbar-full {display: none;}
   
   .icon {
     height: 90px;
@@ -101,6 +216,29 @@
     color: #181308;
     font-size: 0.9rem;
   }
+
+  .login-button {
+    float: right;
+    border: 1px solid black;
+    padding: 5px 20px;
+    color: white;
+    background-color: #181308;
+    text-decoration: none;
+    border-radius: 5%;
+    margin-right: 3%;
+    font-size: 0.9rem;
+  }
+
+  .profile-button.active {
+    background-color: transparent;
+  }
+
+  .navbar-email {
+    display: flex;
+    float: right;
+    margin-right: 16px;
+    line-height: 2em;
+  }
 } 
 
 /* Large devices (laptops/desktops, 992px and up) */
@@ -110,9 +248,20 @@
     align-items: center;
     text-align: left;
     background: transparent;
-    width: 90%;
+    width: 100%;
   }
   
+  .solid-nav {
+    background-color: white;
+    position: fixed;
+    top: 0;
+    border-bottom: 1px solid lightgray;
+    z-index: 100;
+  }
+
+  .navbar-full {display: flex;}
+  .navbar-small {display: none;}
+
   .icon {
     height: 100px;
     margin-left: 2%;
@@ -136,6 +285,29 @@
     color: #181308;
     font-size: 1rem;
   }
+
+  .login-button {
+    float: right;
+    border: 1px solid black;
+    padding: 5px 20px;
+    color: white;
+    background-color: #181308;
+    text-decoration: none;
+    border-radius: 5%;
+    margin-right: 5%;
+    font-size: 1rem;
+  }
+
+  .profile-button.active {
+    background-color: transparent;
+  }
+
+  .navbar-email {
+    display: flex;
+    float: right;
+    margin-right: 16px;
+    line-height: 2em;
+  }
 } 
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
@@ -155,7 +327,10 @@
     border-bottom: 1px solid lightgray;
     z-index: 100;
   }
-  
+
+  .navbar-full {display: flex;}
+  .navbar-small {display: none;}
+
   .icon {
     height: 100px;
     margin-left: 2%;
