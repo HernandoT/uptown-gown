@@ -46,8 +46,8 @@ const PopularCollections = ({ data }) => {
   return (
     <div className="popularCollections">
       <div className="popularCollectionsTitle">
-        <div className="popularCollectionstrip"></div>
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div className="popularCollectionstrip" />
+        <div className="popularCollectionTitleDesc">
           <p>
             Get Inspired by Our
             <br />

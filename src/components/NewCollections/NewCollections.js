@@ -11,14 +11,21 @@ const NewCollections = ({ data }) => {
 
   return (
     <div className="newCollections">
-      <div style={{display:"flex", marginBottom:"32px"}}>
-        <div className="newCollectionStrip"></div>
-        <div className="newCollectionsTitle">
-          <p>Explore Our Fresh</p>
-          <p>New Collections<PiShootingStarFill/></p>
+      <div className="newCollectionsContent">
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div className="newCollectionStrip"></div>
+          <div className="newCollectionsTitle">
+            <p>Explore Our Fresh</p>
+            <p>
+              New Collections
+              <PiShootingStarFill />
+            </p>
+          </div>
         </div>
         <div className="newCollectionsDesc">
-        Jelajahi koleksi terbaru kami sekarang dan temukan gaun yang memikat hati Anda. Jadilah yang pertama untuk tampil dengan gaya terbaru dan menjadi pusat perhatian dalam setiap acara yang Anda hadiri.
+          Jelajahi koleksi terbaru kami sekarang dan temukan gaun yang memikat
+          hati Anda. Jadilah yang pertama untuk tampil dengan gaya terbaru dan
+          menjadi pusat perhatian dalam setiap acara yang Anda hadiri.
         </div>
       </div>
       <Carousel
