@@ -65,8 +65,8 @@ const Navbar = () => {
           )}
         </nav>
       </div>
-      <span className={`navbar-small ${navClass}`}>
-        <div className={`navbar`}>
+      <span className={`navbar-small`}>
+        <div className={`navbar ${navClass}`}>
           <img src={logo} alt="logo" className="icon" />
           <nav className="nav"></nav>
           {isLoged === "true" ? (
@@ -101,7 +101,7 @@ const Navbar = () => {
               {isLoged === "true" ? (
               <>
                 <NavLink to="/profile" className={({ isActive }) => (isActive ? "linkActive" : "link")}>
-                  Profile
+                  {localStorage.getItem("email")}
                 </NavLink>
                 <NavLink 
                 to="/" 

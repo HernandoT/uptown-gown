@@ -17,11 +17,21 @@
   .navbar-menu-small {
     display: flex;
     flex-direction: column;
-    padding: 0 5% 2%;
+    /* padding: 0 5% 2%; */
+    padding: 2% 48px 2% 24px;
+    background-color: white;
+    position: fixed;
+    top: 80px;
+    right: 0;
+    border-bottom: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+    border-top: 1px solid lightgray;
+    z-index: 100;
   }
 
   .navbar-menu-small a {
-    padding: 16px 2%;
+    padding: 12px 16px;
+    width: 100%;
   }
 
   .navbar-menu-small .link:hover {
@@ -95,11 +105,20 @@
   .navbar-menu-small {
     display: flex;
     flex-direction: column;
-    padding: 0 5% 2%;
+    padding: 2% 48px 2% 24px;
+    background-color: white;
+    position: fixed;
+    top: 80px;
+    right: 0;
+    border-bottom: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+    border-top: 1px solid lightgray;
+    z-index: 100;
   }
 
   .navbar-menu-small a {
-    padding: 16px 2%;
+    padding: 12px 16px;
+    width: 100%;
   }
 
   .navbar-menu-small .link:hover {
@@ -163,35 +182,8 @@
     width: 100%;
   }
 
-  .navbar-small {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .navbar-menu-small {
-    display: flex;
-    flex-direction: column;
-    padding: 0 5% 2%;
-  }
-
-  .navbar-menu-small a {
-    padding: 16px 2%;
-  }
-
-  .navbar-menu-small .link:hover {
-    background-color: rgba(237, 191, 82, 0.4);
-  }
-
-  .solid-nav {
-    background-color: white;
-    position: fixed;
-    top: 0;
-    border-bottom: 1px solid lightgray;
-    z-index: 100;
-  }
-
-  .navbar-full {display: none;}
+  .navbar-full {display: flex;}
+  .navbar-small {display: none;}
   
   .icon {
     height: 90px;
@@ -204,7 +196,7 @@
   
   .link {
     text-decoration: none;
-    padding: 2%;
+    padding: 1%;
     color: #181308;
     font-size: 0.9rem;
   }
@@ -212,7 +204,7 @@
   .linkActive {
     font-weight: bold;
     text-decoration: none;
-    padding: 2%;
+    padding: 1%;
     color: #181308;
     font-size: 0.9rem;
   }
