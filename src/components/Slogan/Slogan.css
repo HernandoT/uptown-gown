@@ -2,8 +2,7 @@
 @media only screen and (max-width: 600px) {
   .slogan {
     z-index: 2;
-    height: 30vw;
-    margin: 40px 5% 15%;
+    margin: 0 5% 15%;
     display: flex;
   }
 
@@ -18,7 +17,7 @@
   }
 
   .sloganTitle {
-    font-size: 2, 5rem;
+    font-size: 2rem;
     font-family: "Playfair Display", serif;
     margin: 3px;
   }
@@ -48,8 +47,7 @@
 @media only screen and (min-width: 600px) {
   .slogan {
     z-index: 2;
-    height: 30vw;
-    margin: 40px 5% 15%;
+    margin: 0 5% 15%;
     display: flex;
   }
 
@@ -64,20 +62,20 @@
   }
 
   .sloganTitle {
-    font-size: 3rem;
+    font-size: 2rem;
     font-family: "Playfair Display", serif;
     margin: 3px;
   }
 
   .desc {
-    margin: 32px 0;
-    font-size: 0.9rem;
+    margin: 25px 0;
+    font-size: 0.7rem;
   }
 
   .img {
     display: none;
   }
-
+    
   .slogan-img {
     display: none;
   }
@@ -94,8 +92,7 @@
 @media only screen and (min-width: 768px) {
   .slogan {
     z-index: 2;
-    height: 30vw;
-    margin: 40px 5% 10%;
+    margin: 0 5% 15%;
     display: flex;
   }
 

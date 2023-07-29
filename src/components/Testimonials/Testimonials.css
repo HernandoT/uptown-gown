@@ -69,7 +69,8 @@
 @media only screen and (min-width: 600px) {
   .testimonials {
     height: 100%;
-    background-color: #FDF9EE;
+    background-color: rgba(237, 191, 82, 0.2);
+    background: linear-gradient(to bottom, rgba(237, 191, 82, 0.2) 60%, rgba(237, 191, 82, 0.4) 30%);
     padding: 5%;
   }
   
@@ -77,17 +78,23 @@
     flex: 1;
     font-size: 1.5rem;
     font-family: 'Playfair Display', serif;
-    margin-bottom: 2%;
+    margin-bottom: 4%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    height: 5vh;
+    height: fit-content;
+  }
+
+  .testimonialsTitle p {
+    text-align: center;
+    margin: 0;
   }
   
   .testimonialStrip {
-    border: 1px solid #EDBF52;
-    height: 2rem;
-    margin-right: 3%;
+    border: 2px solid #EDBF52;
+    width: 80vw;
+    height: 0;
+    margin-top: 2%;
   }
   
   .testimonialsContent {
@@ -98,7 +105,7 @@
   
   .testimonial {
     width: 32%;
-    height: 30vh;
+    height: 50vh;
     background-color: #FFFFFF;
     border-radius: 5%;
     box-sizing: border-box;
@@ -107,20 +114,20 @@
   
   .testimonialIcon {
     height: 20%;
-    font-size: 1.5rem;
+    font-size: 3rem;
     color: #EDBF52;
   }
   
   .testimonialText {
-    height: 60%;
     display: flex;
     align-items: center;
-    font-size: 0.7rem;
+    font-size: 1rem;
+    height: 60%;
   }
   
   .testimonialName {
     height: 20%;
-    font-size: 0.7rem;
+    font-size: 1rem;
     font-weight: bold;
   }
 }
@@ -129,25 +136,32 @@
 @media only screen and (min-width: 768px) {
   .testimonials {
     height: 100%;
-    background-color: #FDF9EE;
+    background-color: rgba(237, 191, 82, 0.2);
+    background: linear-gradient(to bottom, rgba(237, 191, 82, 0.2) 60%, rgba(237, 191, 82, 0.4) 30%);
     padding: 5%;
   }
   
   .testimonialsTitle {
     flex: 1;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-family: 'Playfair Display', serif;
-    margin-bottom: 5%;
+    margin-bottom: 4%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    height: 5vh;
+    height: fit-content;
+  }
+
+  .testimonialsTitle p {
+    text-align: center;
+    margin: 0;
   }
   
   .testimonialStrip {
-    border: 1px solid #EDBF52;
-    height: 2.5rem;
-    margin-right: 3%;
+    border: 2px solid #EDBF52;
+    width: 80vw;
+    height: 0;
+    margin-top: 2%;
   }
   
   .testimonialsContent {
@@ -158,7 +172,7 @@
   
   .testimonial {
     width: 32%;
-    height: 30vh;
+    height: 50vh;
     background-color: #FFFFFF;
     border-radius: 5%;
     box-sizing: border-box;
@@ -166,21 +180,21 @@
   }
   
   .testimonialIcon {
-    height: 10%;
-    font-size: 1.5rem;
+    height: 20%;
+    font-size: 3rem;
     color: #EDBF52;
   }
   
   .testimonialText {
     display: flex;
     align-items: center;
-    height: 70%;
-    font-size: 0.8rem;
+    font-size: 1rem;
+    height: 60%;
   }
   
   .testimonialName {
     height: 20%;
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: bold;
   }
 } 
@@ -189,25 +203,32 @@
 @media only screen and (min-width: 992px) {
   .testimonials {
     height: 100%;
-    background-color: #FDF9EE;
-    padding: 5%;
+    background-color: rgba(237, 191, 82, 0.2);
+    background: linear-gradient(to bottom, rgba(237, 191, 82, 0.2) 60%, rgba(237, 191, 82, 0.4) 30%);
+    padding: 0 5%;
   }
   
   .testimonialsTitle {
     flex: 1;
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-family: 'Playfair Display', serif;
-    margin-bottom: 5%;
+    margin-bottom: 4%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    height: 5vh;
+    height: fit-content;
+  }
+
+  .testimonialsTitle p {
+    text-align: center;
+    margin: 0;
   }
   
   .testimonialStrip {
-    border: 1px solid #EDBF52;
-    height: 3rem;
-    margin-right: 3%;
+    border: 2px solid #EDBF52;
+    width: 8rem;
+    height: 0;
+    margin-top: 2%;
   }
   
   .testimonialsContent {
@@ -218,7 +239,7 @@
   
   .testimonial {
     width: 32%;
-    height: 40vh;
+    height: 50vh;
     background-color: #FFFFFF;
     border-radius: 5%;
     box-sizing: border-box;
@@ -227,18 +248,20 @@
   
   .testimonialIcon {
     height: 20%;
-    font-size: 2rem;
+    font-size: 3rem;
     color: #EDBF52;
   }
   
   .testimonialText {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
     height: 60%;
-    font-size: 0.9rem;
   }
   
   .testimonialName {
     height: 20%;
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: bold;
   }
 } 

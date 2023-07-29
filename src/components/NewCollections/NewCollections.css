@@ -61,81 +61,180 @@
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
   .newCollections {
-    margin: 45% 5%;
+    padding: 5% 5% 15%;
+    background: linear-gradient(to bottom, transparent, rgba(237, 191, 82, 0.2));
+  }
+
+  .newCollectionsContent {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
   }
 
   .newCollectionsTitle {
     font-size: 1.5rem;
     font-family: 'Playfair Display', serif;
     margin: 5px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 5vh;
+    flex-direction: column;
+    align-items:flex-start;
+    height: fit-content;
+    display: inline-block; 
+    flex: 1;
+  }
+
+  .newCollectionsTitle svg {
+    color: #EDBF52;
+    margin-left: 10%;
+    opacity: 0.8;
   }
 
   .newCollectionStrip {
-    border: 1px solid #EDBF52;
-    height: 2rem;
+    border: 2px solid #EDBF52;
+    height: 4rem;
     margin-right: 3%;
+    align-self: center;
   }
 
-  .newCollectionsTitle>p {
+  .newCollectionsTitle p {
     margin: 0;
+  }
+
+  .newCollectionsDesc {
+    flex: 1;
+    align-self: center;
+    line-height: 1.8;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
+  .new-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2%;
+    box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
+    -webkit-box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
+    -moz-box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
   }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
   .newCollections {
-    margin: 45% 5%;
+    padding: 2% 5% 15%;
+    background: linear-gradient(to bottom, transparent, rgba(237, 191, 82, 0.2));
+  }
+
+  .newCollectionsContent {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
   }
 
   .newCollectionsTitle {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-family: 'Playfair Display', serif;
     margin: 5px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 5vh;
+    flex-direction: column;
+    align-items:flex-start;
+    height: fit-content;
+    display: inline-block; 
+    flex: 1;
+  }
+
+  .newCollectionsTitle svg {
+    color: #EDBF52;
+    margin-left: 10%;
+    opacity: 0.8;
   }
 
   .newCollectionStrip {
-    border: 1px solid #EDBF52;
-    height: 3rem;
+    border: 2px solid #EDBF52;
+    height: 4rem;
     margin-right: 3%;
+    align-self: center;
   }
 
-  .newCollectionsTitle>p {
+  .newCollectionsTitle p {
     margin: 0;
+  }
+
+  .newCollectionsDesc {
+    flex: 1;
+    align-self: center;
+    line-height: 1.8;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
+  .new-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2%;
+    box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
+    -webkit-box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
+    -moz-box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
   }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
   .newCollections {
-    margin: 30% 5%;
+    padding: 2% 5% 15%;
+    background: linear-gradient(to bottom, transparent, rgba(237, 191, 82, 0.2));
+  }
+
+  .newCollectionsContent {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
   }
 
   .newCollectionsTitle {
     font-size: 2.5rem;
     font-family: 'Playfair Display', serif;
     margin: 5px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 5vh;
+    flex-direction: column;
+    align-items:flex-start;
+    height: fit-content;
+    display: inline-block; 
+    flex: 1;
+  }
+
+  .newCollectionsTitle svg {
+    color: #EDBF52;
+    margin-left: 10%;
+    opacity: 0.8;
   }
 
   .newCollectionStrip {
-    border: 1px solid #EDBF52;
-    height: 3.5rem;
+    border: 2px solid #EDBF52;
+    height: 6rem;
     margin-right: 3%;
+    align-self: center;
   }
 
-  .newCollectionsTitle>p {
+  .newCollectionsTitle p {
     margin: 0;
+  }
+
+  .newCollectionsDesc {
+    flex: 1;
+    align-self: center;
+    line-height: 1.8;
+    font-size: 16px;
+    margin-top: 8px;
+  }
+
+  .new-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2%;
+    box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
+    -webkit-box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
+    -moz-box-shadow: 6px 4px 6px 1px rgba(200, 200, 200, 0.91);
   }
 }
 
