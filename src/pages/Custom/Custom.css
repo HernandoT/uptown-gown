@@ -1,112 +1,652 @@
-.custom {
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(to bottom, transparent, rgba(237, 191, 82, 0.1));
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .custom {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom, transparent, rgba(237, 191, 82, 0.1));
+  }
+
+  .customContent {
+    margin: 8px 5% 10% 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 3%;
+  }
+
+  .custom-desc {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 4%;
+  }
+
+  .custom-button {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .customBox {
+    width: 100%;
+    /* background-color: #FDF9EE; */
+    /* background-color: white; */
+    /* height: 70vh; */
+    height: 60vh;
+    /* padding: 5%; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2%;
+    border-radius: 2%;
+    overflow: hidden;
+  }
+
+  .customBox.card-container {
+    padding: 0;
+  }
+
+  .customBoxAccent1 {
+    background-color: #EDBF52;
+    height: 4%;
+    width: 100%;
+    opacity: 0.5;
+  }
+
+  .customBoxAccent2 {
+    background-color: #EDBF52;
+    height: 1%;
+    width: 100%;
+    opacity: 0.3;
+  }
+
+  .customLogo {
+    background-color: #FDF9EE;
+    width: 20vw;
+    height: 20vw;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+  }
+
+  .customIcon {
+    color: #EDBF52;
+    font-size: 2.5rem;
+  }
+
+  .customTitle {
+    flex: 1;
+    font-size: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    display: flex;
+    align-items: center;
+  }
+
+  .customText {
+    flex: 4;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 0 5%;
+  }
+
+  .customText>div {
+    margin: 10px 0;
+  }
+
+  .custom-text {
+    font-size: 12px;
+    padding: 0 4%;
+    text-align: justify;
+  }
+
+  .appointment-button {
+    width: 80vw;
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: black;
+    border: 1px solid black;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin: 16px 0px;
+    font-family: "Poppins";
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .appointment-wa {
+    font-size: 12px;
+    padding: 0 4%;
+    text-align: center;
+  }
 }
 
-.customContent {
-  margin: 8px 5% 10% 5%;
-  display: flex;
-  flex-direction: column;
-  gap: 3%;
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .custom {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom, transparent, rgba(237, 191, 82, 0.1));
+  }
+
+  .customContent {
+    margin: 8px 5% 10% 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 3%;
+  }
+
+  .custom-desc {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 4%;
+  }
+
+  .custom-button {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .customBox {
+    width: 100%;
+    /* background-color: #FDF9EE; */
+    /* background-color: white; */
+    /* height: 70vh; */
+    height: 60vh;
+    /* padding: 5%; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2%;
+    border-radius: 2%;
+    overflow: hidden;
+  }
+
+  .customBox.card-container {
+    padding: 0;
+  }
+
+  .customBoxAccent1 {
+    background-color: #EDBF52;
+    height: 4%;
+    width: 100%;
+    opacity: 0.5;
+  }
+
+  .customBoxAccent2 {
+    background-color: #EDBF52;
+    height: 1%;
+    width: 100%;
+    opacity: 0.3;
+  }
+
+  .customLogo {
+    background-color: #FDF9EE;
+    width: 20vw;
+    height: 20vw;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+  }
+
+  .customIcon {
+    color: #EDBF52;
+    font-size: 2.5rem;
+  }
+
+  .customTitle {
+    flex: 1;
+    font-size: 2rem;
+    font-family: 'Playfair Display', serif;
+    display: flex;
+    align-items: center;
+  }
+
+  .customText {
+    flex: 4;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 0 5%;
+  }
+
+  .customText>div {
+    margin: 10px 0;
+  }
+
+  .custom-text {
+    font-size: 14px;
+    padding: 0 4%;
+    text-align: justify;
+  }
+
+  .appointment-button {
+    width: 70vw;
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: black;
+    border: 1px solid black;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin: 16px 0px;
+    font-family: "Poppins";
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .appointment-wa {
+    font-size: 14px;
+    padding: 0 4%;
+    text-align: center;
+  }
 }
 
-.custom-desc {
-  display: flex;
-  gap: 5%;
-  padding: 0 8%;
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .custom {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom, transparent, rgba(237, 191, 82, 0.1));
+  }
+
+  .customContent {
+    margin: 8px 5% 10% 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 3%;
+  }
+
+  .custom-desc {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    padding: 0 4%;
+    height: auto;
+  }
+
+  .custom-button {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .customBox {
+    width: 100%;
+    /* background-color: #FDF9EE; */
+    /* background-color: white; */
+    /* height: 70vh; */
+    height: 600px;
+    /* padding: 5%; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2%;
+    border-radius: 2%;
+    overflow: hidden;
+  }
+
+  .customBox.card-container {
+    padding: 0;
+  }
+
+  .customBoxAccent1 {
+    background-color: #EDBF52;
+    height: 4%;
+    width: 100%;
+    opacity: 0.5;
+  }
+
+  .customBoxAccent2 {
+    background-color: #EDBF52;
+    height: 1%;
+    width: 100%;
+    opacity: 0.3;
+  }
+
+  .customLogo {
+    background-color: #FDF9EE;
+    width: 10vw;
+    height: 10vw;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+  }
+
+  .customIcon {
+    color: #EDBF52;
+    font-size: 2.5rem;
+  }
+
+  .customTitle {
+    flex: 1;
+    font-size: 2rem;
+    font-family: 'Playfair Display', serif;
+    display: flex;
+    align-items: center;
+  }
+
+  .customText {
+    flex: 4;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 0 5%;
+  }
+
+  .customText>div {
+    margin: 10px 0;
+  }
+
+  .custom-text {
+    font-size: 14px;
+    padding: 0 4%;
+    text-align: justify;
+  }
+
+  .appointment-button {
+    width: 70vw;
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: black;
+    border: 1px solid black;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin: 16px 0px;
+    font-family: "Poppins";
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .appointment-wa {
+    font-size: 14px;
+    padding: 0 4%;
+    text-align: center;
+  }
 }
 
-.custom-button {
-  display: flex;
-  flex-direction: column;
-  margin-top: 3%;
-  justify-content: center;
-  align-items: center;
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .custom {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom, transparent, rgba(237, 191, 82, 0.1));
+  }
+
+  .customContent {
+    margin: 8px 5% 10% 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 3%;
+  }
+
+  .custom-desc {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    padding: 0 4%;
+    height: auto;
+  }
+
+  .custom-button {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .customBox {
+    width: 100%;
+    /* background-color: #FDF9EE; */
+    /* background-color: white; */
+    /* height: 70vh; */
+    height: 700px;
+    /* padding: 5%; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2%;
+    border-radius: 2%;
+    overflow: hidden;
+  }
+
+  .customBox.card-container {
+    padding: 0;
+  }
+
+  .customBoxAccent1 {
+    background-color: #EDBF52;
+    height: 4%;
+    width: 100%;
+    opacity: 0.5;
+  }
+
+  .customBoxAccent2 {
+    background-color: #EDBF52;
+    height: 1%;
+    width: 100%;
+    opacity: 0.3;
+  }
+
+  .customLogo {
+    background-color: #FDF9EE;
+    width: 12vw;
+    height: 12vw;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+  }
+
+  .customIcon {
+    color: #EDBF52;
+    font-size: 2.5rem;
+  }
+
+  .customTitle {
+    flex: 1;
+    font-size: 2rem;
+    font-family: 'Playfair Display', serif;
+    display: flex;
+    align-items: center;
+  }
+
+  .customText {
+    flex: 4;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 0 5%;
+  }
+
+  .customText>div {
+    margin: 10px 0;
+  }
+
+  .custom-text {
+    font-size: 14px;
+    padding: 0 4%;
+    text-align: justify;
+  }
+
+  .appointment-button {
+    width: 60vw;
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: black;
+    border: 1px solid black;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin: 16px 0px;
+    font-family: "Poppins";
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .appointment-wa {
+    font-size: 14px;
+    padding: 0 4%;
+    text-align: center;
+  }
 }
 
-.customBox {
-  width: 100%;
-  /* background-color: #FDF9EE; */
-  /* background-color: white; */
-  /* height: 70vh; */
-  height: 80vh;
-  /* padding: 5%; */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2%;
-  border-radius: 2%;
-  overflow: hidden;
-}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .custom {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom, transparent, rgba(237, 191, 82, 0.1));
+  }
 
-.customBox.card-container {
-  padding: 0;
-}
+  .customContent {
+    margin: 8px 5% 10% 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 3%;
+  }
 
-.customBoxAccent1 {
-  background-color: #EDBF52;
-  height: 4%;
-  width: 100%;
-  opacity: 0.5;
-}
+  .custom-desc {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    padding: 0 4%;
+    height: auto;
+  }
 
-.customBoxAccent2 {
-  background-color: #EDBF52;
-  height: 1%;
-  width: 100%;
-  opacity: 0.3;
-}
+  .custom-button {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
+    justify-content: center;
+    align-items: center;
+  }
 
-.customLogo {
-  background-color: #FDF9EE;
-  width: 6vw;
-  height: 6vw;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 3%;
-}
+  .customBox {
+    width: 100%;
+    /* background-color: #FDF9EE; */
+    /* background-color: white; */
+    /* height: 70vh; */
+    height: 800px;
+    /* padding: 5%; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2%;
+    border-radius: 2%;
+    overflow: hidden;
+  }
 
-.customIcon {
-  color: #EDBF52;
-  font-size: 2.5rem;
-}
+  .customBox.card-container {
+    padding: 0;
+  }
 
-.customTitle {
-  flex: 1;
-  font-size: 2rem;
-  font-family: 'Playfair Display', serif;
-  display: flex;
-  align-items: center;
-}
+  .customBoxAccent1 {
+    background-color: #EDBF52;
+    height: 4%;
+    width: 100%;
+    opacity: 0.5;
+  }
 
-.customText {
-  flex: 4;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  text-align: center;
-  padding: 0 5%;
-}
+  .customBoxAccent2 {
+    background-color: #EDBF52;
+    height: 1%;
+    width: 100%;
+    opacity: 0.3;
+  }
 
-.customText > div {
-  margin: 10px 0;
-}
+  .customLogo {
+    background-color: #FDF9EE;
+    width: 12vw;
+    height: 12vw;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+  }
 
-.appointment-button {
-  width: 50%;
-  cursor: pointer;
-  font-size: 1rem;
-  background-color: black;
-  border: 1px solid black;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 4px;
-  margin-top: 16px;
-  font-family: "Poppins";
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  .customIcon {
+    color: #EDBF52;
+    font-size: 2.5rem;
+  }
+
+  .customTitle {
+    flex: 1;
+    font-size: 2.5rem;
+    font-family: 'Playfair Display', serif;
+    display: flex;
+    align-items: center;
+  }
+
+  .customText {
+    flex: 4;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 0 5%;
+  }
+
+  .customText>div {
+    margin: 10px 0;
+  }
+
+  .custom-text {
+    font-size: 16px;
+    padding: 0 4%;
+    text-align: justify;
+  }
+
+  .appointment-button {
+    width: 60vw;
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: black;
+    border: 1px solid black;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin: 16px 0px;
+    font-family: "Poppins";
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .appointment-wa {
+    font-size: 16px;
+    padding: 0 4%;
+    text-align: center;
+  }
 }

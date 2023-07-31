@@ -65,7 +65,7 @@ const Custom = () => {
           </div>
         </div>
         <div className="custom-button">
-          <div style={{ fontSize: "1rem" }}>
+          <div className="custom-text">
             <b>Tertarik untuk membuat gaun custom impian kamu? Ayo kunjungi kami dengan membuat appointment sekarang.</b>
           </div>
           <button
@@ -77,7 +77,7 @@ const Custom = () => {
           >
             BUAT APPOINTMENT SEKARANG!
           </button>
-          <div style={{ marginTop: "2rem", fontSize: "1rem" }}>
+          <div className="appointment-wa">
             Atau ada pertanyaan yang ingin ditanyakan terlebih dahulu?
             <a
               href="https://wa.me/+6282165828164"
