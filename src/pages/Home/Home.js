@@ -37,7 +37,7 @@ const Home = () => {
           <PopularCollections data={arrListRented} />
           <Testimonials />
           <Footer />
-          {isLoged === "true" ? <SupportEngine /> : ""};
+          {isLoged === "true" ? <SupportEngine /> : ""}
         </>
       )}
     </div>

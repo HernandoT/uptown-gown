@@ -133,11 +133,11 @@ const Login = () => {
   };
 
   const renderErrorMessageEmail = () =>
-    errorMessagesEmail && <div className="error">{errorMessagesEmail}</div>;
+    errorMessagesEmail && <div className="login-error">{errorMessagesEmail}</div>;
 
   const renderErrorMessagePassword = () =>
     errorMessagesPassword && (
-      <div className="error">{errorMessagesPassword}</div>
+      <div className="login-error">{errorMessagesPassword}</div>
     );
 
   return (
@@ -146,14 +146,14 @@ const Login = () => {
         <></>
       ) : (
         <div className="login-form">
-          <div className="logo">
-            <img src={logo} alt="logo" className="logoImage"></img>
+          <div className="login-logo">
+            <img src={logo} alt="logo" className="login-logo-image"></img>
           </div>
-          <div className="input">
-            <div className="title">Login</div>
+          <div className="login-input">
+            <div className="login-title">Login</div>
             <div className="form">
               <form onSubmit={handleSubmit}>
-                <div className="input-container">
+                <div className="login-input-container">
                   <TextField
                     onChange={handleChangeEmail}
                     id="outlined-basic"
@@ -164,7 +164,7 @@ const Login = () => {
                   />
                   {renderErrorMessageEmail()}
                 </div>
-                <div className="input-container">
+                <div className="login-input-container">
                   <FormControl variant="outlined">
                     <InputLabel
                       htmlFor="outlined-adornment-password"
@@ -204,7 +204,7 @@ const Login = () => {
                     </Link>
                   </div>
                 </div>
-                <div className="button-container">
+                <div className="login-button-container">
                   <input
                     type="submit"
                     value="LOGIN"
