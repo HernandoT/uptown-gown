@@ -197,30 +197,30 @@ const SignUp = () => {
   };
 
   const renderErrorMessageEmail = () =>
-    errorMessagesEmail && <div className="error">{errorMessagesEmail}</div>;
+    errorMessagesEmail && <div className="signup-error">{errorMessagesEmail}</div>;
 
   const renderErrorMessageNama = () =>
-    errorMessagesNama && <div className="error">{errorMessagesNama}</div>;
+    errorMessagesNama && <div className="signup-error">{errorMessagesNama}</div>;
 
   const renderErrorMessageNomor = () =>
-    errorMessagesNomor && <div className="error">{errorMessagesNomor}</div>;
+    errorMessagesNomor && <div className="signup-error">{errorMessagesNomor}</div>;
 
   const renderErrorMessagePassword = () =>
     errorMessagesPassword && (
-      <div className="error">{errorMessagesPassword}</div>
+      <div className="signup-error">{errorMessagesPassword}</div>
     );
 
   return (
     <div className="signup">
       <div className="signup-form">
-        <div className="logo">
-          <img src={logo} alt="logo" className="logoImage"></img>
+        <div className="signup-logo">
+          <img src={logo} alt="logo" className="signup-logo-image"></img>
         </div>
-        <div className="input">
-          <div className="title">Sign Up</div>
+        <div className="signup-input">
+          <div className="signup-title">Sign Up</div>
           <div className="form">
             <form onSubmit={handleSubmit}>
-              <div className="input-container">
+              <div className="signup-input-container">
                 <TextField
                   onChange={handleChangeEmail}
                   id="outlined-basic"
@@ -284,11 +284,11 @@ const SignUp = () => {
                 </FormControl>
                 {renderErrorMessagePassword()}
               </div>
-              <div className="button-container">
+              <div className="signup-button-container">
                 <input
                   type="submit"
                   value="BUAT AKUN"
-                  className="button-submit"
+                  className="signup-button-submit"
                 />
               </div>
             </form>

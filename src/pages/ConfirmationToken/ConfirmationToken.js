@@ -69,7 +69,7 @@ const ConfirmationToken = () => {
 
   const renderErrorMessage = (name) =>
     name === errorMessages.name && (
-      <div className="error">{errorMessages.message}</div>
+      <div className="confirmation-token-error">{errorMessages.message}</div>
     );
 
   const resendEmail = () => {
@@ -110,15 +110,15 @@ const ConfirmationToken = () => {
   return (
     <div className="confirmation-token">
       <div className="confirmation-token-form">
-        <div className="logo">
-          <img src={logo} alt="logo" className="logoImage"></img>
+        <div className="confirmation-token-logo">
+          <img src={logo} alt="logo" className="confirmation-token-logo-image"></img>
         </div>
-        <div className="input">
-          <div className="title">Confirmation Token</div>
+        <div className="confirmation-token-input">
+          <div className="confirmation-token-title">Confirmation Token</div>
           <div className="form">
             <div>Konfirmasi pembuatan akun untuk: {email}</div>
             <form onSubmit={handleSubmit}>
-              <div className="input-container">
+              <div className="confirmation-token-input-container">
                 <TextField
                   id="outlined-basic"
                   label="Token"
@@ -128,8 +128,8 @@ const ConfirmationToken = () => {
                 />
                 {renderErrorMessage("token")}
               </div>
-              <div className="button-container">
-                <input type="submit" value="SUBMIT" className="button-submit" />
+              <div className="confirmation-token-button-container">
+                <input type="submit" value="SUBMIT" className="confirmation-token-button-submit" />
               </div>
             </form>
           </div>

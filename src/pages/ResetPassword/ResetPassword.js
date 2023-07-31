@@ -208,16 +208,16 @@ const ResetPassword = () => {
   };
 
   const renderErrorMessageEmail = () =>
-    errorMessagesEmail && <div className="error">{errorMessagesEmail}</div>;
+    errorMessagesEmail && <div className="reset-password-error">{errorMessagesEmail}</div>;
 
   const renderErrorMessagePassword = () =>
     errorMessagesPassword && (
-      <div className="error">{errorMessagesPassword}</div>
+      <div className="reset-password-error">{errorMessagesPassword}</div>
     );
 
   const renderErrorMessageConfirmPassword = () =>
     errorMessagesConfirmPassword && (
-      <div className="error">{errorMessagesConfirmPassword}</div>
+      <div className="reset-password-error">{errorMessagesConfirmPassword}</div>
     );
 
   return (
@@ -226,16 +226,16 @@ const ResetPassword = () => {
         <></>
       ) : (
         <div className="reset-password-form">
-          <div className="logo">
-            <img src={logo} alt="logo" className="logoImage"></img>
+          <div className="reset-password-logo">
+            <img src={logo} alt="logo" className="reset-password-logo-image"></img>
           </div>
-          <div className="input">
-            <div className="title">Reset Password</div>
+          <div className="reset-password-input">
+            <div className="reset-password-title">Reset Password</div>
             <div className="form">
               {id ? (
                 <form onSubmit={handleSubmit}>
                   Masukkan Password baru untuk {data.user.email}
-                  <div className="input-container">
+                  <div className="reset-password-input-container">
                     <FormControl variant="outlined">
                       <InputLabel
                         htmlFor="outlined-adornment-password"
@@ -269,7 +269,7 @@ const ResetPassword = () => {
                       />
                     </FormControl>
                     {renderErrorMessagePassword()}
-                    <div className="input-container">
+                    <div className="reset-password-input-container">
                       <FormControl variant="outlined">
                         <InputLabel
                           htmlFor="outlined-adornment-password"
@@ -304,11 +304,11 @@ const ResetPassword = () => {
                       </FormControl>
                       {renderErrorMessageConfirmPassword()}
                     </div>
-                    <div className="button-container">
+                    <div className="reset-password-button-container">
                       <input
                         type="submit"
                         value="CONFIRM"
-                        className="button-submit"
+                        className="reset-password-button-submit"
                       />
                     </div>
                   </div>
@@ -341,11 +341,11 @@ const ResetPassword = () => {
                         />
                         {renderErrorMessageEmail()}
                       </div>
-                      <div className="button-container">
+                      <div className="reset-password-button-container">
                         <input
                           type="submit"
                           value="CONFIRM"
-                          className="button-submit"
+                          className="reset-password-button-submit"
                         />
                       </div>
                     </form>
