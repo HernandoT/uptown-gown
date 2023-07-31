@@ -182,6 +182,14 @@
     width: 100%;
   }
 
+  .solid-nav {
+    background-color: white;
+    position: fixed;
+    top: 0;
+    border-bottom: 1px solid lightgray;
+    z-index: 100;
+  }
+
   .navbar-full {display: flex;}
   .navbar-small {display: none;}
   
