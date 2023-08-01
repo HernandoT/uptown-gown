@@ -20,6 +20,28 @@ import { getCustomer } from "../../services/customer";
 import EditProfile from "../EditProfile/EditProfile";
 
 const Profile = () => {
+  const [viewportSize, setViewportSize] = React.useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  const handleResize = () => {
+    setViewportSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+
+  React.useEffect(() => {
+    // Add event listener to listen for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const isLoged = localStorage.getItem("isLoged");
   const idCustomer = localStorage.getItem("idCustomer");
   const [appointments, setAppointments] = React.useState([]);
@@ -106,9 +128,9 @@ const Profile = () => {
 
   const onClickDetailItem = (invoice, dataCustomer) => () => {
     modals.open({
-      size: "xl",
+      size: (viewportSize.width > 600) ? "xl" : 400,
       centered: true,
-      withCloseButton: false,
+      withCloseButton: (viewportSize.width < 800),
       children: <DetailItem invoice={invoice} dataCustomer={dataCustomer} />,
     });
   };

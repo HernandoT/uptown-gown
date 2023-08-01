@@ -11,6 +11,28 @@ import InputPasswordField from "../../components/field/input-password";
 import { notifications } from "@mantine/notifications";
 
 const ProfilePassword = ({onClose, data = { email: "", name: "", phoneNumber: "", password: "", id: "" },}) => {
+  const [viewportSize, setViewportSize] = React.useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  const handleResize = () => {
+    setViewportSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+
+  React.useEffect(() => {
+    // Add event listener to listen for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const defaultValues = React.useMemo(
     () => ({
       passwordNow: "",
@@ -73,7 +95,7 @@ const ProfilePassword = ({onClose, data = { email: "", name: "", phoneNumber: ""
   });
 
   return (
-    <Paper p={36} miw={400}>
+    <Paper p={(viewportSize.width > 600) ? 36 : 12} miw={300}>
       <Form methods={methods} onSubmit={onSubmit}>
         <Flex direction="column">
           <Text fz={20} fw={600}>

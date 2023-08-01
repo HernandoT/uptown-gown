@@ -13,6 +13,28 @@ import IconTextInputField from "../../components/field/icon-text-input";
 import Form from "../../components/field/form";
 
 const EditProfile = () => {
+  const [viewportSize, setViewportSize] = React.useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  const handleResize = () => {
+    setViewportSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+
+  React.useEffect(() => {
+    // Add event listener to listen for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const [opened, { open, close }] = useDisclosure(false);
 
   const idCustomer = localStorage.getItem("idCustomer");
@@ -143,7 +165,7 @@ const EditProfile = () => {
           </Form>
         </>
       </div>
-      <Modal opened={opened} centered onClose={close} withCloseButton={false}>
+      <Modal opened={opened} centered onClose={close} withCloseButton={false} size={(viewportSize.width > 600) ? 500 : 350}>
         <ProfilePassword onClose={close} data={currentData} />
       </Modal>
     </>

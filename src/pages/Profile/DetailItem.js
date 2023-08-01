@@ -18,6 +18,28 @@ import ReactDOM from "react-dom";
 import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 const DetailItem = ({ invoice, dataCustomer }) => {
+  const [viewportSize, setViewportSize] = React.useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  const handleResize = () => {
+    setViewportSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+
+  React.useEffect(() => {
+    // Add event listener to listen for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   function currencyFormat(num) {
     return "Rp. " + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   }
@@ -107,7 +129,7 @@ const DetailItem = ({ invoice, dataCustomer }) => {
             <b>Biaya Tambahan</b>
           </p>
           <Divider />
-          <p style={{ fontSize: "16px" }}>
+          <p className="detail-invoice-total">
             <b>Total</b>
           </p>
         </div>
@@ -122,7 +144,7 @@ const DetailItem = ({ invoice, dataCustomer }) => {
             <b>{currencyFormat(invoice.biaya_tambahan)}</b>
           </p>
           <Divider />
-          <p style={{ fontSize: "16px" }}>
+          <p className="detail-invoice-total">
             <b>{currencyFormat(invoice.total_pembayaran)}</b>
           </p>
         </div>
@@ -171,7 +193,7 @@ const DetailItem = ({ invoice, dataCustomer }) => {
   };
 
   return (
-    <Paper p={36} miw={400}>
+    <Paper p={(viewportSize.width > 600) ? 36 : 12} miw={(viewportSize.width > 600) ? 400 : 350}>
       <Flex direction="column">
         <Text fz={20} fw={600}>
           Detail Invoice
