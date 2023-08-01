@@ -1,109 +1,509 @@
-.collection-detail {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, transparent, rgba(237, 191, 82, 0.1));
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .collection-detail {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(237, 191, 82, 0.1));
+  }
+  
+  .detail-content {
+    margin: 8px 5% 5% 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .detail-img {
+    flex: 2;
+    width: auto;
+    height: 65vh;
+    padding: 0;
+  }
+  
+  .detail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2%;
+  }
+  
+  .detail-description {
+    flex: 3;
+    padding: 16px 32px 32px;
+    height: fit-content;
+  }
+
+  .detail-keterangan {
+    width: 100%;
+    margin-top: 16px;
+  }
+  
+  .detail-name {
+    font-size: 2.5rem;
+    font-family: "Playfair Display", serif;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    /* height: 10vh; */
+    height: fit-content;
+  }
+  
+  .detail-name {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .detail-name p {margin: 0;}
+  
+  .detail-strip {
+    border: 2px solid #edbf52;
+    height: 3rem;
+    margin-right: 3%;
+  }
+  
+  .detail-button-appointment {
+    padding: 8px 16px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: black;
+    border-radius: 4px;
+    font-family: "Poppins";
+    width: 100%;
+    margin-top: 16px;
+  }
+  
+  .detail-button-calendar {
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-family: "Poppins";
+    width: 100%;
+    margin-bottom: 24px;
+    margin-top: 16px;
+  }
+  
+  .calendar {
+    border: 20px solid rgba(237, 191, 82, 0.2);
+    border-top: 10px solid rgba(237, 191, 82, 0.2);
+    border-radius: 1rem;
+  }
+  
+  .detail-left {
+    flex: 2;
+  }
+  
+  .detail-right {
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .detail-buttons {
+    flex: 2;
+    height: fit-content;
+    padding: 24px;
+  }
+  
+  .detail-harga {
+    color: #c69738;
+    font-weight: 600;
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
 }
 
-.detail-content {
-  margin: 8px 5% 5% 5%;
-  display: flex;
-  gap: 32px;
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .collection-detail {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(237, 191, 82, 0.1));
+  }
+  
+  .detail-content {
+    margin: 8px 5% 5% 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .detail-img {
+    flex: 2;
+    width: auto;
+    height: 65vh;
+    padding: 0;
+  }
+  
+  .detail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2%;
+  }
+  
+  .detail-description {
+    flex: 3;
+    padding: 16px 32px 32px;
+    height: fit-content;
+  }
+
+  .detail-keterangan {
+    width: 100%;
+    margin-top: 16px;
+  }
+  
+  .detail-name {
+    font-size: 2.5rem;
+    font-family: "Playfair Display", serif;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    /* height: 10vh; */
+    height: fit-content;
+  }
+  
+  .detail-name {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .detail-name p {margin: 0;}
+  
+  .detail-strip {
+    border: 2px solid #edbf52;
+    height: 3rem;
+    margin-right: 3%;
+  }
+  
+  .detail-button-appointment {
+    padding: 8px 16px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: black;
+    border-radius: 4px;
+    font-family: "Poppins";
+    width: 100%;
+    margin-top: 16px;
+  }
+  
+  .detail-button-calendar {
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-family: "Poppins";
+    width: 100%;
+    margin-bottom: 24px;
+    margin-top: 16px;
+  }
+  
+  .calendar {
+    border: 20px solid rgba(237, 191, 82, 0.2);
+    border-top: 10px solid rgba(237, 191, 82, 0.2);
+    border-radius: 1rem;
+  }
+  
+  .detail-left {
+    flex: 2;
+  }
+  
+  .detail-right {
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .detail-buttons {
+    flex: 2;
+    height: fit-content;
+    padding: 24px;
+  }
+  
+  .detail-harga {
+    color: #c69738;
+    font-weight: 600;
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
 }
 
-.detail-img {
-  flex: 2;
-  width: auto;
-  height: 65vh;
-  padding: 0;
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .collection-detail {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(237, 191, 82, 0.1));
+  }
+  
+  .detail-content {
+    margin: 8px 5% 5% 5%;
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+  }
+  
+  .detail-img {
+    flex: 2;
+    width: auto;
+    height: 65vh;
+    padding: 0;
+  }
+  
+  .detail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2%;
+  }
+  
+  .detail-description {
+    flex: 3;
+    padding: 16px 32px 32px;
+    height: fit-content;
+  }
+
+  .detail-keterangan {
+    width: 100%;
+    margin-top: 16px;
+  }
+  
+  .detail-name {
+    font-size: 2.5rem;
+    font-family: "Playfair Display", serif;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    /* height: 10vh; */
+    height: fit-content;
+  }
+  
+  .detail-name {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .detail-name p {margin: 0;}
+  
+  .detail-strip {
+    border: 2px solid #edbf52;
+    height: 3rem;
+    margin-right: 3%;
+  }
+  
+  .detail-button-appointment {
+    padding: 8px 16px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: black;
+    border-radius: 4px;
+    font-family: "Poppins";
+    width: 100%;
+    margin-top: 16px;
+  }
+  
+  .detail-button-calendar {
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-family: "Poppins";
+    width: 100%;
+    margin-bottom: 24px;
+    margin-top: 16px;
+  }
+  
+  .calendar {
+    border: 20px solid rgba(237, 191, 82, 0.2);
+    border-top: 10px solid rgba(237, 191, 82, 0.2);
+    border-radius: 1rem;
+  }
+  
+  .detail-left {
+    flex: 2;
+  }
+  
+  .detail-right {
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .detail-buttons {
+    flex: 2;
+    height: fit-content;
+    padding: 24px;
+  }
+  
+  .detail-harga {
+    color: #c69738;
+    font-weight: 600;
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
 }
 
-.detail-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 2%;
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .aboutContent {
+      display: flex;
+      justify-content: center;
+      padding: 5%;
+      /* border-bottom: 5px solid #EDBF52; */
+  }
+
+  .aboutLogo {
+      width: 40%;
+  }
+
+  .aboutText {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 16px;
+  }
+
+  .aboutMap {
+      width: 100vw;
+  }
+
+  .faq-grid-container {
+      padding: 10% 5%;
+      display: grid;
+      grid-template-columns: auto auto;
+      grid-gap: 8px 40px;
+      border-bottom: 5px solid #EDBF52;
+      background-color: #FDF9EE;
+      font-size: 16px;
+  }
 }
 
-.detail-description {
-  flex: 3;
-  padding: 16px 32px 32px;
-  height: fit-content;
-}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .collection-detail {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(237, 191, 82, 0.1));
+  }
+  
+  .detail-content {
+    margin: 8px 5% 5% 5%;
+    display: flex;
+    gap: 32px;
+  }
+  
+  .detail-img {
+    flex: 2;
+    width: auto;
+    height: 65vh;
+    padding: 0;
+  }
+  
+  .detail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2%;
+  }
+  
+  .detail-description {
+    flex: 3;
+    padding: 16px 32px 32px;
+    height: fit-content;
+  }
 
-.detail-name {
-  font-size: 2.5rem;
-  font-family: "Playfair Display", serif;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  /* height: 10vh; */
-  height: fit-content;
-}
-
-.detail-name {
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
-
-.detail-name p {margin: 0;}
-
-.detail-strip {
-  border: 2px solid #edbf52;
-  height: 3rem;
-  margin-right: 3%;
-}
-
-.detail-button-appointment {
-  padding: 8px 16px;
-  color: white;
-  cursor: pointer;
-  font-size: 1rem;
-  background-color: black;
-  border-radius: 4px;
-  font-family: "Poppins";
-  width: 100%;
-  margin-top: 16px;
-}
-
-.detail-button-calendar {
-  cursor: pointer;
-  font-size: 1rem;
-  background-color: white;
-  border: 1px solid black;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-family: "Poppins";
-  width: 100%;
-  margin-bottom: 24px;
-  margin-top: 16px;
-}
-
-.calendar {
-  border: 20px solid rgba(237, 191, 82, 0.2);
-  border-top: 10px solid rgba(237, 191, 82, 0.2);
-  border-radius: 1rem;
-}
-
-.detail-left {
-  flex: 2;
-}
-
-.detail-right {
-  flex: 5;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-}
-
-.detail-buttons {
-  flex: 2;
-  height: fit-content;
-  padding: 24px;
-}
-
-.detail-harga {
-  color: #c69738;
-  font-weight: 600;
-  font-size: 32px;
-  margin-bottom: 16px;
+  .detail-keterangan {
+    width: 90%;
+    margin-top: 16px;
+  }
+  
+  .detail-name {
+    font-size: 2.5rem;
+    font-family: "Playfair Display", serif;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    /* height: 10vh; */
+    height: fit-content;
+  }
+  
+  .detail-name {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .detail-name p {margin: 0;}
+  
+  .detail-strip {
+    border: 2px solid #edbf52;
+    height: 3rem;
+    margin-right: 3%;
+  }
+  
+  .detail-button-appointment {
+    padding: 8px 16px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: black;
+    border-radius: 4px;
+    font-family: "Poppins";
+    width: 100%;
+    margin-top: 16px;
+  }
+  
+  .detail-button-calendar {
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-family: "Poppins";
+    width: 100%;
+    margin-bottom: 24px;
+    margin-top: 16px;
+  }
+  
+  .calendar {
+    border: 20px solid rgba(237, 191, 82, 0.2);
+    border-top: 10px solid rgba(237, 191, 82, 0.2);
+    border-radius: 1rem;
+  }
+  
+  .detail-left {
+    flex: 2;
+  }
+  
+  .detail-right {
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .detail-buttons {
+    flex: 2;
+    height: fit-content;
+    padding: 24px;
+  }
+  
+  .detail-harga {
+    color: #c69738;
+    font-weight: 600;
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
 }

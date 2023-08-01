@@ -176,7 +176,7 @@ const CollectionDetail = () => {
                 {currencyFormat(collection.harga)}
               </div>
               <Divider />
-              <div style={{ width: "90%", marginTop: "16px" }}>
+              <div className="detail-keterangan">
                 {collection.deskripsi}
               </div>
               <Separator _gap={16} />
