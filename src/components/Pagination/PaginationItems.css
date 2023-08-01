@@ -1,26 +1,209 @@
-.paginationItems {
-    display: grid;
-    grid-template-columns: auto auto auto auto;
-    gap: 24px;
-    padding: 0 10px;
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .paginationItems {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-columns: minmax(0, 1fr);
+        width: 100%;
+        gap: 2%;
+        row-gap: 2%;
+    }
+
+    .paginationItem{
+        cursor: pointer;
+        width: fit-content;
+        margin: 0 auto;
+        padding: 16px;
+    }
+
+    .imageItem-container{
+        position: relative;
+        width: 100%;
+        padding-top: 150%;
+        overflow: hidden;
+    }
+
+    .imageItem {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    .detailItem {
+        margin: 8px 0 0;
+        width: 33vw;
+        font-size: 12px;
+    }
 }
 
-.paginationItem{
-    cursor: pointer;
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .paginationItems {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-auto-columns: minmax(0, 1fr);
+        width: 100%;
+        gap: 2%;
+        row-gap: 3%;
+    }
+
+    .paginationItem{
+        cursor: pointer;
+        width: fit-content;
+        margin: 0 auto;
+        padding: 12px;
+    }
+
+    .imageItem-container{
+        position: relative;
+        width: 100%;
+        padding-top: 150%;
+        overflow: hidden;
+    }
+
+    .imageItem {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    .detailItem {
+        margin: 8px 0 0;
+        width: 16vw;
+        font-size: 14px;
+    }
 }
 
-.imageItem-container{
-    height: 35vh;
-    width: 13.125vw;
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .paginationItems {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-auto-columns: minmax(0, 1fr);
+        width: 100%;
+        gap: 2%;
+        row-gap: 3%;
+    }
+
+    .paginationItem{
+        cursor: pointer;
+        width: fit-content;
+        margin: 0 auto;
+        padding: 12px;
+    }
+
+    .imageItem-container{
+        position: relative;
+        width: 100%;
+        padding-top: 150%;
+        overflow: hidden;
+    }
+
+    .imageItem {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    .detailItem {
+        margin: 8px 0 0;
+        width: 12vw;
+        font-size: 12px;
+    }
 }
 
-.imageItem {
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
-    object-fit: cover;
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .paginationItems {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-auto-columns: minmax(0, 1fr);
+        width: 100%;
+        gap: 2%;
+        row-gap: 2%;
+    }
+
+    .paginationItem{
+        cursor: pointer;
+        width: fit-content;
+        margin: 0 auto;
+        padding: 16px;
+    }
+
+    .imageItem-container{
+        position: relative;
+        width: 100%;
+        padding-top: 150%;
+        overflow: hidden;
+    }
+
+    .imageItem {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    .detailItem {
+        margin: 8px 0 0;
+        width: 12vw;
+        font-size: 14px;
+    }
 }
 
-.detailItem {
-    margin: 8px 0 0;
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    .paginationItems {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-auto-columns: minmax(0, 1fr);
+        width: 100%;
+        gap: 2%;
+        row-gap: 2%;
+    }
+
+    .paginationItem{
+        cursor: pointer;
+        width: fit-content;
+        margin: 0 auto;
+        padding: 16px;
+    }
+
+    .imageItem-container{
+        position: relative;
+        width: 100%;
+        padding-top: 150%;
+        overflow: hidden;
+    }
+
+    .imageItem {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    .detailItem {
+        margin: 8px 0 0;
+        width: 13.125vw;
+        font-size: 16px;
+    }
 }
