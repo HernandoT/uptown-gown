@@ -208,7 +208,7 @@ const Appointment = () => {
     <div className="content">
       <Navbar />
       <div className="appointmentContent">
-        <div style={{ flex: 2, height: "fit-content" }}>
+        <div style={{ flex: 2, height: "fit-content", display:"flex", flexDirection:"column"}}>
           <div className="appointmentCalendar card-container">
             <DatePicker
               selected={selectedDate}
@@ -221,14 +221,14 @@ const Appointment = () => {
               excludeDates={disabledDate}
             />
           </div>
-          <div style={{ fontSize: "14px", color: "grey", marginTop: "24px" }}>
+          <div className="appointmentTooltip" style={{color: "grey", marginTop: "24px" }}>
             *tanda merah berarti jadwal appointment pada tanggal tersebut telah
             mencapai batas maksimal per hari
           </div>
         </div>
         <div className="appointmentText">
           <p className="appointmentTitle">Make an appointment</p>
-          <p>
+          <p className="appointmentDesc">
             Uptown Gown selalu memberikan yang terbaik untuk acara spesialmu.
             Kami memiliki layanan sewa gaun pesta dan custom terbaik dengan
             harga yang terjangkau dan kualitas yang bagus dari bahan yang
@@ -237,7 +237,7 @@ const Appointment = () => {
             merancang sekaligus membuat gaun pesta terbaik untukmu. Booking
             appointment sekarang dan wujudkan gaun impianmu!{" "}
           </p>
-          <p>
+          <p className="appointmentSubtitle">
             <b>Waktu appointment yang ingin diajukan:</b>
           </p>
           <div className="appointment-input-container">
@@ -260,7 +260,7 @@ const Appointment = () => {
                 disabled
               />
             </FormControl>
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: 1}}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <TimePicker
                   label="Waktu Appointment"
@@ -277,8 +277,28 @@ const Appointment = () => {
               {renderErrorMessageTime()}
             </div>
           </div>
+
+          <div style={{ flex: 2, width:"100%", height: "fit-content", display:"flex", flexDirection:"column"}}>
+            <div className="appointmentCalendarSmall card-container">
+              <DatePicker
+                selected={selectedDate}
+                onChange={(date) => {
+                  setSelectedDate(date);
+                  changeDisplayDate(date);
+                }}
+                inline
+                minDate={new Date()}
+                excludeDates={disabledDate}
+              />
+            </div>
+            <div className="appointmentTooltipSmall" style={{color: "grey", marginTop: "24px" }}>
+              *tanda merah berarti jadwal appointment pada tanggal tersebut telah
+              mencapai batas maksimal per hari
+            </div>
+          </div>
+
           <div>
-            <p>
+            <p className="appointmentSubtitle">
               <b>Apa yang anda ingin bahas terkait Appointment nantinya?</b>
             </p>
             <div className="appointment-checkbox">
@@ -289,7 +309,7 @@ const Appointment = () => {
                   checked={rent}
                   onChange={handleCheckboxChangeRent}
                 />
-                Rent
+                <span className="appointmentDesc">Rent</span>
               </label>
               <label>
                 <input
@@ -298,7 +318,7 @@ const Appointment = () => {
                   checked={customRent}
                   onChange={handleCheckboxChangeCustomRent}
                 />
-                Custom Rent
+                <span className="appointmentDesc">Custom Rent</span>
               </label>
               <label>
                 <input
@@ -307,7 +327,7 @@ const Appointment = () => {
                   checked={customMade}
                   onChange={handleCheckboxChangeCustomMade}
                 />
-                Custom Made
+                <span className="appointmentDesc">Custom Made</span>
               </label>
             </div>
           </div>
@@ -372,7 +392,7 @@ const Appointment = () => {
             </>
           ) : (
             <>
-              <p>
+              <p className="appointmentSubtitle">
                 <b>
                   Apakah anda memiliki koleksi yang ingin kami siapkan pada saat
                   appointment?
@@ -386,7 +406,7 @@ const Appointment = () => {
               </button>
             </>
           )}
-          <p>
+          <p className="appointmentSubtitle">
             <b>Keterangan tambahan jika ada hal lain yang diinginkan:</b>
           </p>
           <div className="appointment-input-container">
@@ -399,6 +419,7 @@ const Appointment = () => {
               multiline={true}
               rows={3}
               onChange={(e) => setKeterangan(e.target.value)}
+              className="appointmentSubtitle"
             />
           </div>
           {displayDate === "Pilih tanggal pada kalender" || !isValidTime ? (
