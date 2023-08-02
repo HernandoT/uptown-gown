@@ -29,6 +29,28 @@ import Divider from "@mui/material/Divider";
 import { FaTrashAlt } from "react-icons/fa";
 
 const Appointment = () => {
+  const [viewportSize, setViewportSize] = React.useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  const handleResize = () => {
+    setViewportSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+
+  React.useEffect(() => {
+    // Add event listener to listen for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const state = JSON.parse(sessionStorage.getItem("items"));
   const isLoged = localStorage.getItem("isLoged");
   const idCustomer = localStorage.getItem("idCustomer");
@@ -439,8 +461,9 @@ const Appointment = () => {
         opened={openConfirmationDialog}
         withCloseButton={false}
         centered
+        size={(viewportSize.width > 600) ? 500 : 350}
       >
-        <Paper p={24} miw={400}>
+        <Paper p={(viewportSize.width > 600) ? 24 : 12} miw={300}>
           <Flex direction="column">
             <Text fz={20} fw={600}>
               Confirm
@@ -498,8 +521,8 @@ const Appointment = () => {
           </Flex>
         </Paper>
       </Modal>
-      <Modal onClose={close} opened={opened} withCloseButton={false} centered>
-        <Paper p={24} miw={400}>
+      <Modal onClose={close} opened={opened} withCloseButton={false} centered size={(viewportSize.width > 600) ? 500 : 350}>
+        <Paper p={(viewportSize.width > 600) ? 24 : 12} miw={300}>
           <Flex direction="column">
             <Text fz={20} fw={600}>
               Not Loged In
