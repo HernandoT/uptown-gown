@@ -23,6 +23,28 @@ import { Modal, Flex, Text, Paper } from "@mantine/core";
 import Separator from "../../components/separator";
 
 const Rent = () => {
+  const [viewportSize, setViewportSize] = React.useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  const handleResize = () => {
+    setViewportSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+
+  React.useEffect(() => {
+    // Add event listener to listen for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const [isInitiate, setIsInitiate] = React.useState(false);
   const [collections, setCollections] = React.useState(null);
   const [color, setColor] = React.useState("");
@@ -104,7 +126,7 @@ const Rent = () => {
   const theme = createTheme({
     breakpoints: {
       values: {
-        xs: 0,
+        xs: 600,
         sm: 768,
         md: 992,
         lg: 1200,
@@ -301,21 +323,20 @@ const Rent = () => {
                   setIsFilter={setIsFilter}
                 />
               ) : (
-                <span style={{display:"flex", flexDirection:"column", alignItems:"center", gap:"24px"}}>
+                <span className="filterItems-none" style={{display:"flex", flexDirection:"column", alignItems:"center", gap:"24px"}}>
                   <img
                     src={nothing}
                     alt="Nothing Here"
-                    style={{ height: "50vh"}}
                   />
-                  <p style={{ fontSize: "1.5rem" }}>
+                  <p>
                     <b>Pencarian anda tidak ditemukan.</b>
                   </p>
                 </span>
               )}
             </div>
           </div>
-          <Modal onClose={closeModal} opened={opened} withCloseButton={false} centered>
-            <Paper p={24} miw={400}>
+          <Modal onClose={closeModal} opened={opened} withCloseButton={false} centered size={(viewportSize.width > 600) ? 500 : 350}>
+            <Paper p={(viewportSize.width > 600) ? 36 : 12} miw={300}>
               <Flex direction="column">
                 <Text fz={20} fw={600}>
                   Filters
@@ -346,6 +367,12 @@ const Rent = () => {
                               height: "2.5rem",
                               outline: "grey solid 2px",
                               margin: "0.6rem 0.7rem",
+                              [theme.breakpoints.down("xs")]: {
+                                width: "2.2rem",
+                                height: "2.2rem",
+                                outline: "grey solid 2px",
+                                margin: "0.6rem",
+                              },
                             }}
                           />
                         }

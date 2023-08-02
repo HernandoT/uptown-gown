@@ -132,6 +132,15 @@
     width: 100%;
     margin-top: 8px;
   }
+
+  .filterItems-none img{
+    height: 30vh;
+  }
+
+  .filterItems-none p{
+    font-size: 1rem;
+    margin-bottom: 100px;
+  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -268,6 +277,15 @@
     width: 100%;
     margin-top: 8px;
   }
+
+  .filterItems-none img{
+    height: 40vh;
+  }
+
+  .filterItems-none p{
+    font-size: 1.2rem;
+    margin-bottom: 100px;
+  }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -394,6 +412,14 @@
     width: 100%;
     margin-top: 8px;
   }
+
+  .filterItems-none img{
+    height: 35vh;
+  }
+
+  .filterItems-none p{
+    font-size: 1.2rem;
+  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
@@ -513,6 +539,14 @@
     width: 100%;
     margin-top: 16px;
   }
+
+  .filterItems-none img{
+    height: 40vh;
+  }
+
+  .filterItems-none p{
+    font-size: 1.2rem;
+  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
@@ -631,5 +665,13 @@
     font-family: "Poppins";
     width: 100%;
     margin-top: 16px;
+  }
+
+  .filterItems-none img{
+    height: 50vh;
+  }
+
+  .filterItems-none p{
+    font-size: 1.5rem;
   }
 }
