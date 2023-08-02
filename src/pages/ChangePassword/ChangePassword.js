@@ -21,11 +21,14 @@ const ChangePassword = () => {
 
   const defaultValues = React.useMemo(
     () => ({
-      passwordNow: "",
-      passwordNew: "",
-      password: "",
+      email: data?.admin.email,
+      password: data?.admin.password,
+      nomor_telepon: data?.admin.nomor_telepon,
+      nama: data?.admin.nama,
+      main: data?.admin.main,
+      id: id,
     }),
-    []
+    [data, id]
   );
 
   const yupSchema = React.useMemo(
@@ -35,7 +38,7 @@ const ChangePassword = () => {
           .required("Password Wajib Diisi")
           .matches(data?.admin.password, "Password yang diinput salah"),
         passwordNew: Yup.string().required("Password Baru Wajib Diisi"),
-        password: Yup.string()
+        passwordRep: Yup.string()
           .oneOf(
             [Yup.ref("passwordNew"), null],
             "Password yang dimasukkan tidak sama dengan Password Baru"
@@ -56,18 +59,20 @@ const ChangePassword = () => {
   const onSubmit = React.useCallback(async (values) => {
     try {
       updateAdmin(id, {
-        main: data?.admin.main,
-        nama: data?.admin.nama,
-        email: data?.admin.email,
-        password: values.password,
-        nomor_telepon: data?.admin.nomor_telepon,
+        main: defaultValues.main,
+        nama: defaultValues.nama,
+        email: defaultValues.email,
+        password: values.passwordRep,
+        nomor_telepon: defaultValues.nomor_telepon,
       });
       notifications.show({
         title: "Ganti Password",
         message: "Berhasil Ganti Password",
         color: "teal",
       });
-      methods.reset();
+      methods.setValue("passwordNow", "");
+      methods.setValue("passwordNew", "");
+      methods.setValue("passwordRep", "");
     } catch (e) {
       notifications.show({
         title: "Ganti Password",
@@ -96,7 +101,7 @@ const ChangePassword = () => {
               <InputPasswordField name="passwordNew" label="Kata Sandi baru" />
               <Separator _gap={12} />
               <InputPasswordField
-                name="password"
+                name="passwordRep"
                 label="Ulangi Kata Sandi baru"
               />
               <Separator _gap={12} />
