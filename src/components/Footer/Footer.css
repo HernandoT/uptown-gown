@@ -3,8 +3,9 @@
   .footer {
     display: flex;
     justify-content: space-between;
-    padding: 8px 16px;
+    padding: 5% 5%;
     border-top: 5px solid #EDBF52;
+    background-color: white;
     font-size: 0.7rem;
     align-items: center;
   }
@@ -65,8 +66,9 @@
   .footer {
     display: flex;
     justify-content: space-between;
-    padding: 5% 10%;
+    padding: 5% 5%;
     border-top: 5px solid #EDBF52;
+    background-color: white;
     font-size: 0.8rem;
   }
   
@@ -119,8 +121,9 @@
 @media only screen and (min-width: 768px) {
   .footer {
     display: flex;
-    padding: 5% 5%;
+    padding: 0 5%;
     border-top: 5px solid #EDBF52;
+    background-color: white;
   }
   
   .footer>p {
@@ -173,8 +176,9 @@
 @media only screen and (min-width: 992px) {
   .footer {
     display: flex;
-    padding: 5% 5%;
+    padding: 0 5%;
     border-top: 5px solid #EDBF52;
+    background-color: white;
   }
   
   .footer>p {
