@@ -53,7 +53,7 @@ const Navbar = () => {
               ></i>
               <NavLink to="/profile" className={({ isActive }) => (isActive ? "linkActive" : "link")}>
                 <div className="navbar-email">
-                  {localStorage.getItem("email")}
+                  {localStorage.getItem("nama")}
                   <i className="fa fa-user-circle-o fa-2x" aria-hidden="true" style={{marginLeft: 16}}/>
                 </div>
               </NavLink>
@@ -101,7 +101,7 @@ const Navbar = () => {
               {isLoged === "true" ? (
               <>
                 <NavLink to="/profile" className={({ isActive }) => (isActive ? "linkActive" : "link")}>
-                  {localStorage.getItem("email")}
+                  {localStorage.getItem("nama")}
                 </NavLink>
                 <NavLink 
                 to="/" 
@@ -110,6 +110,7 @@ const Navbar = () => {
                   localStorage.setItem("isLoged", false);
                   localStorage.setItem("email", "");
                   localStorage.setItem("idCustomer", "");
+                  localStorage.setItem("nama", "");
                   sessionStorage.setItem("items", JSON.stringify([]));
                 }}
                 >
