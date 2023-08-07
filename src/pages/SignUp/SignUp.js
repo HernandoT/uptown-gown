@@ -22,17 +22,24 @@ import { useQuery } from "@tanstack/react-query";
 const SignUp = () => {
   const navigate = useNavigate();
 
-  const [customer, setCustomer] = useState([]);
   const [account, setAccount] = useState([]);
   const [errorMessagesEmail, setErrorMessagesEmail] = useState("");
   const [errorMessagesNama, setErrorMessagesNama] = useState("");
   const [errorMessagesNomor, setErrorMessagesNomor] = useState("");
   const [errorMessagesPassword, setErrorMessagesPassword] = useState("");
+  const [errorMessagesRepPassword, setErrorMessagesRepPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showRepPassword, setShowRepPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+  const handleClickShowRepPassword = () => setShowRepPassword((show) => !show);
+
   const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleMouseDownRepPassword = (event) => {
     event.preventDefault();
   };
 
@@ -66,6 +73,7 @@ const SignUp = () => {
     nomorInvalid: "Nomor Tidak Valid",
     namaInvalid: "Nama Tidak Valid",
     passwordInvalid: "Password minimal 8 karakter dengan setidaknya satu huruf kapital, satu huruf kecil, satu angka, dan satu karakter khusus",
+    repPasswordInvalid: "Password yang diinput tidak sama",
     null: "Harap diisi",
   };
 
@@ -123,10 +131,20 @@ const SignUp = () => {
     }
   };
 
+  const handleChangeRepPassword = (event) => {
+    if (!isValidPassword(event.target.value)) {
+      setErrorMessagesRepPassword(errors.repPasswordInvalid);
+    } else {
+      setErrorMessagesRepPassword("");
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    var { email, nama, nomor, password } = document.forms[0];
+    var { email, nama, nomor, password, ulangiPassword } = document.forms[0];
+
+    console.log(ulangiPassword.value);
 
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     function generateString(length) {
@@ -158,7 +176,11 @@ const SignUp = () => {
     }
     else if (password.value === "") {
       setErrorMessagesPassword(errors.null);
-    } else {
+    } 
+    else if (password.value !== ulangiPassword.value) {
+      setErrorMessagesRepPassword(errors.repPasswordInvalid);
+    }
+    else {
       const token = generateString(20);
       var templateParams = {
         email: email.value,
@@ -208,6 +230,11 @@ const SignUp = () => {
   const renderErrorMessagePassword = () =>
     errorMessagesPassword && (
       <div className="signup-error">{errorMessagesPassword}</div>
+    );
+
+  const renderErrorMessageRepPassword = () =>
+    errorMessagesRepPassword && (
+      <div className="signup-error">{errorMessagesRepPassword}</div>
     );
 
   return (
@@ -283,6 +310,36 @@ const SignUp = () => {
                   />
                 </FormControl>
                 {renderErrorMessagePassword()}
+              </div>
+              <div className="input-container">
+                <FormControl variant="outlined">
+                  <InputLabel
+                    htmlFor="outlined-adornment-password"
+                    error={errorMessagesRepPassword}
+                  >
+                    Ulangi Password
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-rep-password"
+                    type={showRepPassword ? "text" : "password"}
+                    error={errorMessagesRepPassword}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowRepPassword}
+                          onMouseDown={handleMouseDownRepPassword}
+                          edge="end"
+                        >
+                          {showRepPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Ulangi Password"
+                    name="ulangiPassword"
+                  />
+                </FormControl>
+                {renderErrorMessageRepPassword()}
               </div>
               <div className="signup-button-container">
                 <input
